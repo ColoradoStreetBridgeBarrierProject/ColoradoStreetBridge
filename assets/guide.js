@@ -193,6 +193,18 @@ const searchForm = document.getElementById('search-form');
 const returnTools = document.getElementById('return-tools');
 const menuToggle = document.getElementById('menu-toggle');
 const mobileView = document.getElementById('mobile-view');
+const mobileHeader = document.querySelector('.topbar');
+let mobileHeaderHeight=null;
+function syncHeaderHeight() {
+  // Layout is unavailable during the static build. CSS supplies the fallback.
+  if(!mobileHeader?.getBoundingClientRect || !document.documentElement?.style)return;
+  const height=Math.ceil(mobileHeader.getBoundingClientRect().height);
+  if(height===mobileHeaderHeight)return;
+  mobileHeaderHeight=height;
+  document.documentElement.style.setProperty('--mobile-header-height',height+'px');
+}
+if(mobileHeader && typeof ResizeObserver!=='undefined')new ResizeObserver(syncHeaderHeight).observe(mobileHeader);
+addEventListener('resize',syncHeaderHeight);
 let menuOpen=false;
 function closeMenu(focus=false) {
   menuOpen=false;
@@ -201,6 +213,7 @@ function closeMenu(focus=false) {
   if(focus)menuToggle?.focus();
 }
 menuToggle?.addEventListener('click',()=>{
+  syncHeaderHeight();
   menuOpen=!menuOpen;
   document.documentElement.classList.toggle('menu-open',menuOpen);
   menuToggle.setAttribute('aria-expanded',String(menuOpen));
@@ -332,6 +345,8 @@ function readRoute() {
 function render(focus=false) {
   const {view,arg,detail,query,filter,year}=readRoute();
   if(mobileView)mobileView.textContent=({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives',evidence:'Evidence & limits',speakers:'Speakers',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'})[view];
+  // A longer section label can wrap. Measure it before scrolling to the target.
+  syncHeaderHeight();
   document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
     const on=b.dataset.view===view;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
   });
