@@ -2,17 +2,24 @@ const fs=require('fs'), vm=require('vm'), assert=require('assert'), path=require
 const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
-function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}};}
+function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;this.headerAtScroll=cssProperties['--mobile-header-height'];}};}
 const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
-const classes=new Set();
-doc.documentElement={classList:{remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
+const classes=new Set(),cssProperties={};
+let headerHeight=68,headerWrites=0,heightReadLabels=[];
+node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
+doc.documentElement={style:{setProperty(name,value){cssProperties[name]=value;headerWrites++;}},classList:{remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
 let intersectionCallback;
 class TestIntersectionObserver{constructor(callback){intersectionCallback=callback;}observe(){}}
-const context={document:doc,location:{hash:''},URLSearchParams,console,IntersectionObserver:TestIntersectionObserver,addEventListener(){},history:{pushState(_,__,hash){context.location.hash=hash;}}};
+let resizeCallback,resizeTarget;
+class TestResizeObserver{constructor(callback){resizeCallback=callback;}observe(target){resizeTarget=target;}}
+const context={document:doc,location:{hash:'',href:'https://coloradostreetbridgeproject.com/'},URL,URLSearchParams,console,IntersectionObserver:TestIntersectionObserver,addEventListener(type,fn){listeners['window:'+type]=fn;},history:{pushState(_,__,hash){context.location.hash=hash;}}};
+if(!process.argv.includes('--no-resize-observer'))context.ResizeObserver=TestResizeObserver;
 vm.createContext(context);
 const bundled=process.argv.includes('--bundle');
 for(const name of bundled?['assets/guide.js']:['search.js','speakers.js','other-speakers.js','resources.js','app.js']) vm.runInContext(fs.readFileSync(dir+'/'+name,'utf8'),context,{filename:name});
 const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.stringify('+code+')'));
+assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
+if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
 // Preserve the reviewed speaker and resource data during the hosting migration.
 const preserved={
@@ -59,8 +66,14 @@ listeners['document:change']({target:{id:'speaker-topic',value:'staffing'}});ass
 listeners['document:change']({target:{id:'meeting-year',value:'2024'}});assert.equal(context.location.hash,'#meetings?year=2024');
 context.location.hash='#search?q=%3Cscript%3E';run('render()');assert(!elements.content.innerHTML.includes('<script>'));
 const html=run('speakerView()+meetingsView()+newsView()');
+assert(html.includes('class="source-label"'));
 for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
 const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+const styles=fs.readFileSync(path.join(dir,'styles.css'),'utf8');
+const styleBlocks=[...styles.matchAll(/([^{}]+)\{([^}]*)\}/g)].map(([,selectors,body])=>({selectors,body}));
+const styleBlock=(...selectors)=>styleBlocks.find(block=>selectors.every(selector=>block.selectors.includes(selector)))?.body||'';
+assert(fs.existsSync(path.join(dir,'.nojekyll')));
+assert.strictEqual(fs.readFileSync(path.join(dir,'CNAME'),'utf8'),'coloradostreetbridgeproject.com','CNAME must preserve the configured custom domain');
 assert(page.includes('Independent guide'));
 assert(!page.includes('Private preview'));
 assert(!page.includes('noindex'));
@@ -68,19 +81,45 @@ assert(!page.includes('<iframe'));
 assert.equal((page.match(/<img /g)||[]).length,1);
 assert(page.includes('src="bridge-preview.webp"'));
 assert(!page.includes('src="bridge.jpeg"'));
+assert(page.includes('class="figure-links"'));
+assert(page.includes('class="footer-link"'));
+assert(page.includes('class="source-link"'));
 assert(page.includes('id="return-tools"'));
 assert(page.includes('aria-controls="site-sidebar"'));
 assert(page.includes('name="color-scheme" content="dark"'));
 assert(!page.includes('section-num'));
 assert(!run('head("01","Title","Description")').includes('01'));
+assert(styleBlock('.mobile-brand').includes('min-height: 44px'),'Mobile brand needs a 44px tap target');
+assert(styleBlock('.menu-toggle').includes('flex: 0 0 auto'),'Menu button must not shrink around enlarged text');
+assert(styleBlock('.menu-toggle').includes('white-space: nowrap'),'Menu label must stay on one line');
+const mobileSidebar=styleBlocks.find(b=>b.selectors.trim()==='.site-sidebar'&&b.body.includes('display: none')).body;
+assert(mobileSidebar.includes('top: var(--mobile-header-height,var(--mobile-header-fallback))'));
+assert(mobileSidebar.includes('100dvh - var(--mobile-header-height,var(--mobile-header-fallback))'));
+assert(styleBlock('.search-form','main','.scroll-focus').includes('scroll-margin-top: calc(var(--mobile-header-height,var(--mobile-header-fallback)) + 20px)'));
+headerHeight=132.98;
+(resizeCallback||listeners['window:resize'])();
+assert.equal(cssProperties['--mobile-header-height'],'133px','Larger text updates the sticky offset');
+const previousWrites=headerWrites;
+listeners['window:resize']();assert.equal(headerWrites,previousWrites,'Unchanged height must not cause repeated style writes');
+headerHeight=0;listeners['window:resize']();assert.equal(cssProperties['--mobile-header-height'],'0px','Desktop hidden header resets the measurement');
+headerHeight=68;listeners['window:resize']();assert.equal(cssProperties['--mobile-header-height'],'68px');
+headerHeight=133;
+assert(styleBlock('.figure-links a','.source-link','.entry-link').includes('min-height: 44px'),'Key guide links need 44px tap targets');
+assert(styleBlock('.footer-link').includes('min-height: 44px'),'The footer crisis link needs a 44px tap target');
 listeners['menu-toggle:click']();assert(classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'true');
+assert.equal(cssProperties['--mobile-header-height'],'133px','Opening the menu refreshes the offset synchronously');
 listeners['.view-nav:keydown']({key:'ArrowDown',target:{closest:()=>({dataset:{view:'overview'}})},preventDefault(){}});
 assert.equal(context.location.hash,'#timeline');assert(classes.has('menu-open'));assert(elements['tab-timeline'].focused);
 listeners['document:keydown']({key:'Escape'});assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements['menu-toggle'].focused);
-listeners['menu-toggle:click']();run('navigate("meetings")');assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements.content.focused);
+listeners['menu-toggle:click']();headerHeight=165;run('navigate("meetings")');assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements.content.focused);
 assert.equal(elements['mobile-view'].textContent,'Meetings & documents');
+assert.equal(heightReadLabels.at(-1),'Meetings & documents','Measure after updating the section label');
+assert.equal(elements.content.headerAtScroll,'165px','Section scrolling uses the new header height without waiting for ResizeObserver');
+headerHeight=166;run('navigate("meetings/meeting-2024-01-09")');
+assert.equal(elements['meeting-2024-01-09'].headerAtScroll,'166px','Deep links use the measured header offset');
+headerHeight=68;
 elements.content.scrolled=false;
-listeners['document:click']({target:{closest:()=>({dataset:{view:'news'},focus(){}})}});
+listeners['document:click']({target:{closest:selector=>selector==='[data-view]'?({dataset:{view:'news'},focus(){}}):null}});
 assert.equal(context.location.hash,'#news');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
 assert.equal(typeof intersectionCallback,'function');
 intersectionCallback([{boundingClientRect:{bottom:100}}]);assert.equal(elements['return-tools'].hidden,true);
@@ -101,10 +140,67 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
-const allowed=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
-assert.deepEqual(fs.readdirSync(dir).filter(name=>!allowed.has(name)),[],'Unexpected public files');
+const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets']);
+const allowedHiddenEntries=new Set(['.nojekyll']);
+const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
+const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
+const hiddenEntries=rootEntries.filter(entry=>entry.name.startsWith('.')).map(entry=>entry.name).filter(name=>!ignoredHiddenEntries.has(name));
+assert.deepEqual(visibleEntries.filter(name=>!allowedVisibleEntries.has(name)),[],'Unexpected public files');
+assert.deepEqual(hiddenEntries.filter(name=>!allowedHiddenEntries.has(name)),[],'Unexpected hidden public files');
 for(const name of ['index.html','app.js','search.js','speakers.js','other-speakers.js','resources.js','README.md']){
  const text=fs.readFileSync(path.join(dir,name),'utf8');
  assert(!/sandbox:|\/workspace\/|libfile_|file_000000|chatgpt\.site/.test(text),name+': internal reference');
 }
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,checks:'preserved data, chronology, filters, search, routes, escaping, URLs, static overview, cache versions, and return navigation passed'}));
+async function checkEntrySharing() {
+ const routes=[...html.matchAll(/data-copy-link="([^"]+)"/g)].map(m=>m[1]);
+ assert.equal(routes.length,116,'Every speaker, meeting, and article entry has a copy control');
+ assert.equal(new Set(routes).size,116);
+ for(const route of routes)assert(index.some(entry=>'#'+entry.route===route),'Copied route must be an existing searchable entry: '+route);
+ assert(!html.includes('>Link to this article entry<'));
+ const status={textContent:''},address={value:'',focus(){this.focused=true;},select(){this.selected=true;}};
+ const fallback={hidden:true,querySelector:()=>address};
+ const group={querySelector:selector=>selector==='.entry-copy-status'?status:fallback};
+ const button={dataset:{copyLink:''},attributes:{},getAttribute(name){return this.attributes[name];},setAttribute(name,value){this.attributes[name]=value;},closest:()=>group};
+ context.testCopyButton=button;
+ const originalHash=context.location.hash,originalContent=elements.content.innerHTML;
+ for(const pageUrl of ['https://coloradostreetbridgeproject.com/#news','https://example.org/ColoradoStreetBridge/#meetings?year=2024']) {
+  context.location.href=pageUrl;
+  for(const route of ['#news/lat-1989','#meetings/meeting-2024-01-09','#speakers/delgado/delgado-cacti']) {
+   let copied;
+   context.navigator={clipboard:{writeText:async value=>{copied=value;}}};
+   button.dataset.copyLink=route;
+   await run('copyEntryLink(testCopyButton)');
+   assert.equal(copied,new URL(route,pageUrl).href);
+   assert.equal(status.textContent,'Link copied');
+   assert(fallback.hidden);
+   assert.equal(button.getAttribute('aria-busy'),'false');
+   assert.equal(context.location.hash,originalHash,'Copying must preserve the current route and filters');
+   assert.equal(elements.content.innerHTML,originalContent,'Copying must not rerender the entry');
+  }
+ }
+ for(const clipboard of [undefined,{writeText:async()=>{throw new Error('Permission denied');}}]) {
+  context.navigator={clipboard};
+  await run('copyEntryLink(testCopyButton)');
+  assert.equal(status.textContent,'Select and copy the address below.');
+  assert(!fallback.hidden);
+  assert.equal(address.value,new URL(button.dataset.copyLink,context.location.href).href);
+  assert(address.focused&&address.selected);
+  assert.equal(button.getAttribute('aria-busy'),'false');
+ }
+ let finish,pendingWrites=0;
+ context.navigator={clipboard:{writeText:()=>{pendingWrites++;return new Promise(resolve=>{finish=resolve;});}}};
+ const pending=run('copyEntryLink(testCopyButton)');
+ assert.equal(button.getAttribute('aria-busy'),'true');
+ assert.equal(status.textContent,'Copying link…','Do not report success before the clipboard confirms');
+ await run('copyEntryLink(testCopyButton)');
+ assert.equal(pendingWrites,1,'Repeated taps must not start competing clipboard writes');
+ finish();await pending;
+ assert.equal(status.textContent,'Link copied');
+ let clickUrl;
+ context.navigator={clipboard:{writeText:async value=>{clickUrl=value;}}};
+ await listeners['document:click']({target:{closest:selector=>selector==='[data-copy-link]'?button:null}});
+ assert.equal(clickUrl,new URL(button.dataset.copyLink,context.location.href).href,'A real delegated click must invoke the copy action');
+ assert.equal(status.textContent,'Link copied');
+}
+checkEntrySharing().then(()=>console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:116,checks:'preserved data, chronology, filters, search, routes, escaping, URLs, static overview, cache versions, enlarged-header offsets, entry copying and fallback, and return navigation passed'}))).catch(error=>{console.error(error);process.exitCode=1;});
