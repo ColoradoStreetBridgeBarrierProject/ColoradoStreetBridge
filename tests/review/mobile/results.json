@@ -1,0 +1,5645 @@
+{
+  "tested_revision": "12e56019b1fd24bf9c1a1c8630d20110eabcc3c4",
+  "working_tree_dirty": true,
+  "working_tree_status": [
+    "?? tests/review/mobile/meeting-card-current-390.png",
+    "?? tests/review/mobile/menu-open-current-390.png",
+    "?? tests/review/mobile/overview-baseline-1440.png",
+    "?? tests/review/mobile/overview-baseline-390.png",
+    "?? tests/review/mobile/overview-baseline-768.png",
+    "?? tests/review/mobile/overview-current-1440.png",
+    "?? tests/review/mobile/overview-current-390.png",
+    "?? tests/review/mobile/overview-current-768.png",
+    "?? tests/review/mobile/results.json",
+    "?? tests/review/mobile/results.md",
+    "?? tests/review/mobile/run_selenium_audit.py",
+    "?? tests/review/mobile/speaker-entry-current-390.png",
+    "?? tests/review/mobile/text-enlarged-current-390.png"
+  ],
+  "audit_script": "tests/review/mobile/run_selenium_audit.py",
+  "audit_script_sha256": "f5b59ffb0c463e3e0049d6e0495caee7e9d2cddb4b0800571389d0ee3e4f685a",
+  "browser_version": "Chromium 152.0.7977.0",
+  "viewports": [
+    375,
+    390,
+    430,
+    768,
+    1440
+  ],
+  "current_audit": [
+    {
+      "width": 375,
+      "overview": {
+        "activeNav": "Overview",
+        "clientWidth": 375,
+        "figureGroup": {
+          "bottom": 496.046875,
+          "height": 103.96875,
+          "left": 18,
+          "right": 357,
+          "top": 392.078125,
+          "width": 339
+        },
+        "figureImage": {
+          "bottom": 441.65625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 357,
+          "top": 392.078125,
+          "width": 339
+        },
+        "figureLinks": {
+          "bottom": 496.046875,
+          "height": 44.390625,
+          "left": 18,
+          "right": 357,
+          "top": 451.65625,
+          "width": 339
+        },
+        "footerLink": {
+          "bottom": 3378.765625,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 3334.765625,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 372.078125,
+          "height": 277.078125,
+          "left": 18,
+          "right": 357,
+          "top": 95,
+          "width": 339
+        },
+        "mobileView": "Overview",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 372.078125,
+              "height": 277.078125,
+              "left": 18,
+              "right": 357,
+              "top": 95,
+              "width": 339
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 103.96875,
+              "left": 18,
+              "right": 357,
+              "top": 392.078125,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 441.65625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 357,
+              "top": 392.078125,
+              "width": 339
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 44.390625,
+              "left": 18,
+              "right": 357,
+              "top": 451.65625,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 34,
+              "right": 261.625,
+              "top": 564.640625,
+              "width": 227.625
+            },
+            "b": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 269.625,
+              "right": 341,
+              "top": 564.640625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 272.46875,
+              "right": 357,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 260.46875,
+              "top": 12,
+              "width": 242.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#overview",
+        "scrollWidth": 375,
+        "searchButton": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 269.625,
+          "right": 341,
+          "top": 564.640625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 34,
+          "right": 261.625,
+          "top": 564.640625,
+          "width": 227.625
+        },
+        "searchQuery": "",
+        "searchResultsCount": 0,
+        "targetEntryLink": null,
+        "targetSourceLink": {
+          "bottom": 1396.109375,
+          "height": 44,
+          "left": 38,
+          "right": 181.90625,
+          "top": 1352.109375,
+          "width": 143.90625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "topbarVisible": true,
+        "viewHeading": "Why is the fence still there?",
+        "width": 375
+      },
+      "search": {
+        "activeNav": null,
+        "clientWidth": 375,
+        "figureGroup": {
+          "bottom": 496.046875,
+          "height": 103.96875,
+          "left": 18,
+          "right": 357,
+          "top": 392.078125,
+          "width": 339
+        },
+        "figureImage": {
+          "bottom": 441.65625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 357,
+          "top": 392.078125,
+          "width": 339
+        },
+        "figureLinks": {
+          "bottom": 496.046875,
+          "height": 44.390625,
+          "left": 18,
+          "right": 357,
+          "top": 451.65625,
+          "width": 339
+        },
+        "footerLink": {
+          "bottom": 9495.8125,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 9451.8125,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 372.078125,
+          "height": 277.078125,
+          "left": 18,
+          "right": 357,
+          "top": 95,
+          "width": 339
+        },
+        "mobileView": "Search results",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 372.078125,
+              "height": 277.078125,
+              "left": 18,
+              "right": 357,
+              "top": 95,
+              "width": 339
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 103.96875,
+              "left": 18,
+              "right": 357,
+              "top": 392.078125,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 441.65625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 357,
+              "top": 392.078125,
+              "width": 339
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 44.390625,
+              "left": 18,
+              "right": 357,
+              "top": 451.65625,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 34,
+              "right": 261.625,
+              "top": 564.640625,
+              "width": 227.625
+            },
+            "b": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 269.625,
+              "right": 341,
+              "top": 564.640625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 272.46875,
+              "right": 357,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 260.46875,
+              "top": 12,
+              "width": 242.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#search?q=Madison",
+        "scrollWidth": 375,
+        "searchButton": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 269.625,
+          "right": 341,
+          "top": 564.640625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 34,
+          "right": 261.625,
+          "top": 564.640625,
+          "width": 227.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 28,
+        "targetEntryLink": null,
+        "targetSourceLink": null,
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Search",
+        "topbarVisible": true,
+        "viewHeading": "Search the highlights",
+        "width": 375
+      },
+      "speakers": {
+        "activeNav": "Speakers",
+        "clientWidth": 375,
+        "figureGroup": {
+          "bottom": -27485.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 357,
+          "top": -27589.921875,
+          "width": 339
+        },
+        "figureImage": {
+          "bottom": -27540.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 357,
+          "top": -27589.921875,
+          "width": 339
+        },
+        "figureLinks": {
+          "bottom": -27485.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 357,
+          "top": -27530.34375,
+          "width": 339
+        },
+        "footerLink": {
+          "bottom": 9556.625,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 9512.625,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -27609.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 357,
+          "top": -27887,
+          "width": 339
+        },
+        "mobileView": "Speakers",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -27609.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 357,
+              "top": -27887,
+              "width": 339
+            },
+            "b": {
+              "bottom": -27485.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 357,
+              "top": -27589.921875,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -27540.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 357,
+              "top": -27589.921875,
+              "width": 339
+            },
+            "b": {
+              "bottom": -27485.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 357,
+              "top": -27530.34375,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -27366.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 261.625,
+              "top": -27417.359375,
+              "width": 227.625
+            },
+            "b": {
+              "bottom": -27366.96875,
+              "height": 50.390625,
+              "left": 269.625,
+              "right": 341,
+              "top": -27417.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 272.46875,
+              "right": 357,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 260.46875,
+              "top": 12,
+              "width": 242.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -26821.375,
+              "height": 75.4375,
+              "left": 18,
+              "right": 357,
+              "top": -26896.8125,
+              "width": 339
+            },
+            "b": {
+              "bottom": -26550.84375,
+              "height": 57.59375,
+              "left": 18,
+              "right": 357,
+              "top": -26608.4375,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 452.65625,
+              "height": 44,
+              "left": 38,
+              "right": 292.5625,
+              "top": 408.65625,
+              "width": 254.5625
+            },
+            "b": {
+              "bottom": 1168.75,
+              "height": 44,
+              "left": 38,
+              "right": 160.6875,
+              "top": 1124.75,
+              "width": 122.6875
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#speakers/other/delgado-cacti",
+        "scrollWidth": 375,
+        "searchButton": {
+          "bottom": -27366.96875,
+          "height": 50.390625,
+          "left": 269.625,
+          "right": 341,
+          "top": -27417.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -27366.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 261.625,
+          "top": -27417.359375,
+          "width": 227.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 1168.75,
+          "height": 44,
+          "left": 38,
+          "right": 160.6875,
+          "top": 1124.75,
+          "width": 122.6875
+        },
+        "targetSourceLink": {
+          "bottom": 452.65625,
+          "height": 44,
+          "left": 38,
+          "right": 292.5625,
+          "top": 408.65625,
+          "width": 254.5625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Other speakers",
+        "topbarVisible": true,
+        "viewHeading": "Questions, answers, and decisions",
+        "width": 375
+      },
+      "meetings": {
+        "activeNav": "Meetings & documents",
+        "clientWidth": 375,
+        "figureGroup": {
+          "bottom": -10994.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 357,
+          "top": -11098.921875,
+          "width": 339
+        },
+        "figureImage": {
+          "bottom": -11049.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 357,
+          "top": -11098.921875,
+          "width": 339
+        },
+        "figureLinks": {
+          "bottom": -10994.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 357,
+          "top": -11039.34375,
+          "width": 339
+        },
+        "footerLink": {
+          "bottom": 4491.921875,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 4447.921875,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -11118.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 357,
+          "top": -11396,
+          "width": 339
+        },
+        "mobileView": "Meetings & documents",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -11118.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 357,
+              "top": -11396,
+              "width": 339
+            },
+            "b": {
+              "bottom": -10994.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 357,
+              "top": -11098.921875,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -11049.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 357,
+              "top": -11098.921875,
+              "width": 339
+            },
+            "b": {
+              "bottom": -10994.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 357,
+              "top": -11039.34375,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -10875.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 261.625,
+              "top": -10926.359375,
+              "width": 227.625
+            },
+            "b": {
+              "bottom": -10875.96875,
+              "height": 50.390625,
+              "left": 269.625,
+              "right": 341,
+              "top": -10926.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 272.46875,
+              "right": 357,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 260.46875,
+              "top": 12,
+              "width": 242.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 296.734375,
+              "height": 50.59375,
+              "left": 38,
+              "right": 337,
+              "top": 246.140625,
+              "width": 299
+            },
+            "b": {
+              "bottom": 638.703125,
+              "height": 44,
+              "left": 38,
+              "right": 177.34375,
+              "top": 594.703125,
+              "width": 139.34375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#meetings/meeting-2024-01-09",
+        "scrollWidth": 375,
+        "searchButton": {
+          "bottom": -10875.96875,
+          "height": 50.390625,
+          "left": 269.625,
+          "right": 341,
+          "top": -10926.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -10875.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 261.625,
+          "top": -10926.359375,
+          "width": 227.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 638.703125,
+          "height": 44,
+          "left": 38,
+          "right": 177.34375,
+          "top": 594.703125,
+          "width": 139.34375
+        },
+        "targetSourceLink": {
+          "bottom": 296.734375,
+          "height": 50.59375,
+          "left": 38,
+          "right": 337,
+          "top": 246.140625,
+          "width": 299
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "topbarVisible": true,
+        "viewHeading": "Meetings & documents",
+        "width": 375
+      },
+      "news": {
+        "activeNav": "News & commentary",
+        "clientWidth": 375,
+        "figureGroup": {
+          "bottom": -1313.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 357,
+          "top": -1417.921875,
+          "width": 339
+        },
+        "figureImage": {
+          "bottom": -1368.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 357,
+          "top": -1417.921875,
+          "width": 339
+        },
+        "figureLinks": {
+          "bottom": -1313.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 357,
+          "top": -1358.34375,
+          "width": 339
+        },
+        "footerLink": {
+          "bottom": 3760.140625,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 3716.140625,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -1437.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 357,
+          "top": -1715,
+          "width": 339
+        },
+        "mobileView": "News & commentary",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -1437.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 357,
+              "top": -1715,
+              "width": 339
+            },
+            "b": {
+              "bottom": -1313.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 357,
+              "top": -1417.921875,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1368.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 357,
+              "top": -1417.921875,
+              "width": 339
+            },
+            "b": {
+              "bottom": -1313.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 357,
+              "top": -1358.34375,
+              "width": 339
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1194.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 261.625,
+              "top": -1245.359375,
+              "width": 227.625
+            },
+            "b": {
+              "bottom": -1194.96875,
+              "height": 50.390625,
+              "left": 269.625,
+              "right": 341,
+              "top": -1245.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 272.46875,
+              "right": 357,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 260.46875,
+              "top": 12,
+              "width": 242.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 316.625,
+              "height": 44,
+              "left": 38,
+              "right": 224.09375,
+              "top": 272.625,
+              "width": 186.09375
+            },
+            "b": {
+              "bottom": 390.625,
+              "height": 44,
+              "left": 38,
+              "right": 199.375,
+              "top": 346.625,
+              "width": 161.375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#news/lat-2017",
+        "scrollWidth": 375,
+        "searchButton": {
+          "bottom": -1194.96875,
+          "height": 50.390625,
+          "left": 269.625,
+          "right": 341,
+          "top": -1245.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -1194.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 261.625,
+          "top": -1245.359375,
+          "width": 227.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 390.625,
+          "height": 44,
+          "left": 38,
+          "right": 199.375,
+          "top": 346.625,
+          "width": 161.375
+        },
+        "targetSourceLink": {
+          "bottom": 316.625,
+          "height": 44,
+          "left": 38,
+          "right": 224.09375,
+          "top": 272.625,
+          "width": 186.09375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | News and commentary",
+        "topbarVisible": true,
+        "viewHeading": "News & commentary",
+        "width": 375
+      },
+      "menu": {
+        "expanded": "true",
+        "sidebar": "block",
+        "afterEscape": {
+          "activeId": "menu-toggle",
+          "expanded": "false"
+        }
+      },
+      "navigation": {
+        "topbarVisible": true,
+        "navigated": {
+          "active": "Meetings & documents",
+          "hash": "#meetings",
+          "menuExpanded": "false"
+        },
+        "returned": {
+          "active": "Overview",
+          "hash": "#overview",
+          "mobileView": "Overview"
+        }
+      },
+      "overview_status": "ok",
+      "search_status": "ok",
+      "speakers_status": "ok",
+      "meetings_status": "ok",
+      "news_status": "ok",
+      "nav_status": "ok",
+      "menu_status": "ok",
+      "overflow_status": "none",
+      "overlap_status": "none"
+    },
+    {
+      "width": 390,
+      "overview": {
+        "activeNav": "Overview",
+        "clientWidth": 390,
+        "figureGroup": {
+          "bottom": 496.046875,
+          "height": 103.96875,
+          "left": 18,
+          "right": 372,
+          "top": 392.078125,
+          "width": 354
+        },
+        "figureImage": {
+          "bottom": 441.65625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 372,
+          "top": 392.078125,
+          "width": 354
+        },
+        "figureLinks": {
+          "bottom": 496.046875,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": 451.65625,
+          "width": 354
+        },
+        "footerLink": {
+          "bottom": 3332.03125,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 3288.03125,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 372.078125,
+          "height": 277.078125,
+          "left": 18,
+          "right": 372,
+          "top": 95,
+          "width": 354
+        },
+        "mobileView": "Overview",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 372.078125,
+              "height": 277.078125,
+              "left": 18,
+              "right": 372,
+              "top": 95,
+              "width": 354
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 103.96875,
+              "left": 18,
+              "right": 372,
+              "top": 392.078125,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 441.65625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 372,
+              "top": 392.078125,
+              "width": 354
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 44.390625,
+              "left": 18,
+              "right": 372,
+              "top": 451.65625,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 34,
+              "right": 276.625,
+              "top": 564.640625,
+              "width": 242.625
+            },
+            "b": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 284.625,
+              "right": 356,
+              "top": 564.640625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 287.46875,
+              "right": 372,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 275.46875,
+              "top": 12,
+              "width": 257.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#overview",
+        "scrollWidth": 390,
+        "searchButton": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 284.625,
+          "right": 356,
+          "top": 564.640625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 34,
+          "right": 276.625,
+          "top": 564.640625,
+          "width": 242.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": null,
+        "targetSourceLink": {
+          "bottom": 1396.109375,
+          "height": 44,
+          "left": 38,
+          "right": 181.90625,
+          "top": 1352.109375,
+          "width": 143.90625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "topbarVisible": true,
+        "viewHeading": "Why is the fence still there?",
+        "width": 390
+      },
+      "search": {
+        "activeNav": null,
+        "clientWidth": 390,
+        "figureGroup": {
+          "bottom": 496.046875,
+          "height": 103.96875,
+          "left": 18,
+          "right": 372,
+          "top": 392.078125,
+          "width": 354
+        },
+        "figureImage": {
+          "bottom": 441.65625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 372,
+          "top": 392.078125,
+          "width": 354
+        },
+        "figureLinks": {
+          "bottom": 496.046875,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": 451.65625,
+          "width": 354
+        },
+        "footerLink": {
+          "bottom": 9215.59375,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 9171.59375,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 372.078125,
+          "height": 277.078125,
+          "left": 18,
+          "right": 372,
+          "top": 95,
+          "width": 354
+        },
+        "mobileView": "Search results",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 372.078125,
+              "height": 277.078125,
+              "left": 18,
+              "right": 372,
+              "top": 95,
+              "width": 354
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 103.96875,
+              "left": 18,
+              "right": 372,
+              "top": 392.078125,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 441.65625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 372,
+              "top": 392.078125,
+              "width": 354
+            },
+            "b": {
+              "bottom": 496.046875,
+              "height": 44.390625,
+              "left": 18,
+              "right": 372,
+              "top": 451.65625,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 34,
+              "right": 276.625,
+              "top": 564.640625,
+              "width": 242.625
+            },
+            "b": {
+              "bottom": 615.03125,
+              "height": 50.390625,
+              "left": 284.625,
+              "right": 356,
+              "top": 564.640625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 287.46875,
+              "right": 372,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 275.46875,
+              "top": 12,
+              "width": 257.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#search?q=Madison",
+        "scrollWidth": 390,
+        "searchButton": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 284.625,
+          "right": 356,
+          "top": 564.640625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 615.03125,
+          "height": 50.390625,
+          "left": 34,
+          "right": 276.625,
+          "top": 564.640625,
+          "width": 242.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 28,
+        "targetEntryLink": null,
+        "targetSourceLink": null,
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Search",
+        "topbarVisible": true,
+        "viewHeading": "Search the highlights",
+        "width": 390
+      },
+      "speakers": {
+        "activeNav": "Speakers",
+        "clientWidth": 390,
+        "figureGroup": {
+          "bottom": -26396.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 372,
+          "top": -26500.921875,
+          "width": 354
+        },
+        "figureImage": {
+          "bottom": -26451.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 372,
+          "top": -26500.921875,
+          "width": 354
+        },
+        "figureLinks": {
+          "bottom": -26396.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": -26441.34375,
+          "width": 354
+        },
+        "footerLink": {
+          "bottom": 9272.46875,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 9228.46875,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -26520.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 372,
+          "top": -26798,
+          "width": 354
+        },
+        "mobileView": "Speakers",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -26520.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 372,
+              "top": -26798,
+              "width": 354
+            },
+            "b": {
+              "bottom": -26396.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 372,
+              "top": -26500.921875,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -26451.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 372,
+              "top": -26500.921875,
+              "width": 354
+            },
+            "b": {
+              "bottom": -26396.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 372,
+              "top": -26441.34375,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -26277.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 276.625,
+              "top": -26328.359375,
+              "width": 242.625
+            },
+            "b": {
+              "bottom": -26277.96875,
+              "height": 50.390625,
+              "left": 284.625,
+              "right": 356,
+              "top": -26328.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 287.46875,
+              "right": 372,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 275.46875,
+              "top": 12,
+              "width": 257.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -25732.375,
+              "height": 75.4375,
+              "left": 18,
+              "right": 372,
+              "top": -25807.8125,
+              "width": 354
+            },
+            "b": {
+              "bottom": -25461.84375,
+              "height": 57.59375,
+              "left": 18,
+              "right": 372,
+              "top": -25519.4375,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 453.265625,
+              "height": 44,
+              "left": 38,
+              "right": 292.5625,
+              "top": 409.265625,
+              "width": 254.5625
+            },
+            "b": {
+              "bottom": 1123.984375,
+              "height": 44,
+              "left": 38,
+              "right": 160.6875,
+              "top": 1079.984375,
+              "width": 122.6875
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#speakers/other/delgado-cacti",
+        "scrollWidth": 390,
+        "searchButton": {
+          "bottom": -26277.96875,
+          "height": 50.390625,
+          "left": 284.625,
+          "right": 356,
+          "top": -26328.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -26277.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 276.625,
+          "top": -26328.359375,
+          "width": 242.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 1123.984375,
+          "height": 44,
+          "left": 38,
+          "right": 160.6875,
+          "top": 1079.984375,
+          "width": 122.6875
+        },
+        "targetSourceLink": {
+          "bottom": 453.265625,
+          "height": 44,
+          "left": 38,
+          "right": 292.5625,
+          "top": 409.265625,
+          "width": 254.5625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Other speakers",
+        "topbarVisible": true,
+        "viewHeading": "Questions, answers, and decisions",
+        "width": 390
+      },
+      "meetings": {
+        "activeNav": "Meetings & documents",
+        "clientWidth": 390,
+        "figureGroup": {
+          "bottom": -10871.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 372,
+          "top": -10975.921875,
+          "width": 354
+        },
+        "figureImage": {
+          "bottom": -10926.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 372,
+          "top": -10975.921875,
+          "width": 354
+        },
+        "figureLinks": {
+          "bottom": -10871.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": -10916.34375,
+          "width": 354
+        },
+        "footerLink": {
+          "bottom": 4388.171875,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 4344.171875,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -10995.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 372,
+          "top": -11273,
+          "width": 354
+        },
+        "mobileView": "Meetings & documents",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -10995.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 372,
+              "top": -11273,
+              "width": 354
+            },
+            "b": {
+              "bottom": -10871.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 372,
+              "top": -10975.921875,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -10926.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 372,
+              "top": -10975.921875,
+              "width": 354
+            },
+            "b": {
+              "bottom": -10871.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 372,
+              "top": -10916.34375,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -10752.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 276.625,
+              "top": -10803.359375,
+              "width": 242.625
+            },
+            "b": {
+              "bottom": -10752.96875,
+              "height": 50.390625,
+              "left": 284.625,
+              "right": 356,
+              "top": -10803.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 287.46875,
+              "right": 372,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 275.46875,
+              "top": 12,
+              "width": 257.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 296.703125,
+              "height": 50.59375,
+              "left": 38,
+              "right": 352,
+              "top": 246.109375,
+              "width": 314
+            },
+            "b": {
+              "bottom": 638.671875,
+              "height": 44,
+              "left": 38,
+              "right": 177.34375,
+              "top": 594.671875,
+              "width": 139.34375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#meetings/meeting-2024-01-09",
+        "scrollWidth": 390,
+        "searchButton": {
+          "bottom": -10752.96875,
+          "height": 50.390625,
+          "left": 284.625,
+          "right": 356,
+          "top": -10803.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -10752.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 276.625,
+          "top": -10803.359375,
+          "width": 242.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 638.671875,
+          "height": 44,
+          "left": 38,
+          "right": 177.34375,
+          "top": 594.671875,
+          "width": 139.34375
+        },
+        "targetSourceLink": {
+          "bottom": 296.703125,
+          "height": 50.59375,
+          "left": 38,
+          "right": 352,
+          "top": 246.109375,
+          "width": 314
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "topbarVisible": true,
+        "viewHeading": "Meetings & documents",
+        "width": 390
+      },
+      "news": {
+        "activeNav": "News & commentary",
+        "clientWidth": 390,
+        "figureGroup": {
+          "bottom": -1295.953125,
+          "height": 103.96875,
+          "left": 18,
+          "right": 372,
+          "top": -1399.921875,
+          "width": 354
+        },
+        "figureImage": {
+          "bottom": -1350.34375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 372,
+          "top": -1399.921875,
+          "width": 354
+        },
+        "figureLinks": {
+          "bottom": -1295.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": -1340.34375,
+          "width": 354
+        },
+        "footerLink": {
+          "bottom": 3760,
+          "height": 44,
+          "left": 18,
+          "right": 62,
+          "top": 3716,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -1419.921875,
+          "height": 277.078125,
+          "left": 18,
+          "right": 372,
+          "top": -1697,
+          "width": 354
+        },
+        "mobileView": "News & commentary",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -1419.921875,
+              "height": 277.078125,
+              "left": 18,
+              "right": 372,
+              "top": -1697,
+              "width": 354
+            },
+            "b": {
+              "bottom": -1295.953125,
+              "height": 103.96875,
+              "left": 18,
+              "right": 372,
+              "top": -1399.921875,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1350.34375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 372,
+              "top": -1399.921875,
+              "width": 354
+            },
+            "b": {
+              "bottom": -1295.953125,
+              "height": 44.390625,
+              "left": 18,
+              "right": 372,
+              "top": -1340.34375,
+              "width": 354
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1176.96875,
+              "height": 50.390625,
+              "left": 34,
+              "right": 276.625,
+              "top": -1227.359375,
+              "width": 242.625
+            },
+            "b": {
+              "bottom": -1176.96875,
+              "height": 50.390625,
+              "left": 284.625,
+              "right": 356,
+              "top": -1227.359375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 287.46875,
+              "right": 372,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 275.46875,
+              "top": 12,
+              "width": 257.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 316.484375,
+              "height": 44,
+              "left": 38,
+              "right": 224.09375,
+              "top": 272.484375,
+              "width": 186.09375
+            },
+            "b": {
+              "bottom": 390.484375,
+              "height": 44,
+              "left": 38,
+              "right": 199.375,
+              "top": 346.484375,
+              "width": 161.375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#news/lat-2017",
+        "scrollWidth": 390,
+        "searchButton": {
+          "bottom": -1176.96875,
+          "height": 50.390625,
+          "left": 284.625,
+          "right": 356,
+          "top": -1227.359375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -1176.96875,
+          "height": 50.390625,
+          "left": 34,
+          "right": 276.625,
+          "top": -1227.359375,
+          "width": 242.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 390.484375,
+          "height": 44,
+          "left": 38,
+          "right": 199.375,
+          "top": 346.484375,
+          "width": 161.375
+        },
+        "targetSourceLink": {
+          "bottom": 316.484375,
+          "height": 44,
+          "left": 38,
+          "right": 224.09375,
+          "top": 272.484375,
+          "width": 186.09375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | News and commentary",
+        "topbarVisible": true,
+        "viewHeading": "News & commentary",
+        "width": 390
+      },
+      "menu": {
+        "expanded": "true",
+        "sidebar": "block",
+        "afterEscape": {
+          "activeId": "menu-toggle",
+          "expanded": "false"
+        }
+      },
+      "navigation": {
+        "topbarVisible": true,
+        "navigated": {
+          "active": "Meetings & documents",
+          "hash": "#meetings",
+          "menuExpanded": "false"
+        },
+        "returned": {
+          "active": "Overview",
+          "hash": "#overview",
+          "mobileView": "Overview"
+        }
+      },
+      "overview_status": "ok",
+      "search_status": "ok",
+      "speakers_status": "ok",
+      "meetings_status": "ok",
+      "news_status": "ok",
+      "nav_status": "ok",
+      "menu_status": "ok",
+      "overflow_status": "none",
+      "overlap_status": "none"
+    },
+    {
+      "width": 430,
+      "overview": {
+        "activeNav": "Overview",
+        "clientWidth": 430,
+        "figureGroup": {
+          "bottom": 472.25,
+          "height": 103.96875,
+          "left": 18,
+          "right": 412,
+          "top": 368.28125,
+          "width": 394
+        },
+        "figureImage": {
+          "bottom": 417.859375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 412,
+          "top": 368.28125,
+          "width": 394
+        },
+        "figureLinks": {
+          "bottom": 472.25,
+          "height": 44.390625,
+          "left": 18,
+          "right": 412,
+          "top": 427.859375,
+          "width": 394
+        },
+        "footerLink": {
+          "bottom": 3208.859375,
+          "height": 44,
+          "left": 343.34375,
+          "right": 387.34375,
+          "top": 3164.859375,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 348.28125,
+          "height": 253.28125,
+          "left": 18,
+          "right": 412,
+          "top": 95,
+          "width": 394
+        },
+        "mobileView": "Overview",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 348.28125,
+              "height": 253.28125,
+              "left": 18,
+              "right": 412,
+              "top": 95,
+              "width": 394
+            },
+            "b": {
+              "bottom": 472.25,
+              "height": 103.96875,
+              "left": 18,
+              "right": 412,
+              "top": 368.28125,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 417.859375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 412,
+              "top": 368.28125,
+              "width": 394
+            },
+            "b": {
+              "bottom": 472.25,
+              "height": 44.390625,
+              "left": 18,
+              "right": 412,
+              "top": 427.859375,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 591.234375,
+              "height": 50.390625,
+              "left": 34,
+              "right": 316.625,
+              "top": 540.84375,
+              "width": 282.625
+            },
+            "b": {
+              "bottom": 591.234375,
+              "height": 50.390625,
+              "left": 324.625,
+              "right": 396,
+              "top": 540.84375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 327.46875,
+              "right": 412,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 315.46875,
+              "top": 12,
+              "width": 297.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#overview",
+        "scrollWidth": 430,
+        "searchButton": {
+          "bottom": 591.234375,
+          "height": 50.390625,
+          "left": 324.625,
+          "right": 396,
+          "top": 540.84375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 591.234375,
+          "height": 50.390625,
+          "left": 34,
+          "right": 316.625,
+          "top": 540.84375,
+          "width": 282.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": null,
+        "targetSourceLink": {
+          "bottom": 1293.0625,
+          "height": 44,
+          "left": 38,
+          "right": 181.90625,
+          "top": 1249.0625,
+          "width": 143.90625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "topbarVisible": true,
+        "viewHeading": "Why is the fence still there?",
+        "width": 430
+      },
+      "search": {
+        "activeNav": null,
+        "clientWidth": 430,
+        "figureGroup": {
+          "bottom": 472.25,
+          "height": 103.96875,
+          "left": 18,
+          "right": 412,
+          "top": 368.28125,
+          "width": 394
+        },
+        "figureImage": {
+          "bottom": 417.859375,
+          "height": 49.578125,
+          "left": 18,
+          "right": 412,
+          "top": 368.28125,
+          "width": 394
+        },
+        "figureLinks": {
+          "bottom": 472.25,
+          "height": 44.390625,
+          "left": 18,
+          "right": 412,
+          "top": 427.859375,
+          "width": 394
+        },
+        "footerLink": {
+          "bottom": 8685.15625,
+          "height": 44,
+          "left": 343.34375,
+          "right": 387.34375,
+          "top": 8641.15625,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 348.28125,
+          "height": 253.28125,
+          "left": 18,
+          "right": 412,
+          "top": 95,
+          "width": 394
+        },
+        "mobileView": "Search results",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 348.28125,
+              "height": 253.28125,
+              "left": 18,
+              "right": 412,
+              "top": 95,
+              "width": 394
+            },
+            "b": {
+              "bottom": 472.25,
+              "height": 103.96875,
+              "left": 18,
+              "right": 412,
+              "top": 368.28125,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 417.859375,
+              "height": 49.578125,
+              "left": 18,
+              "right": 412,
+              "top": 368.28125,
+              "width": 394
+            },
+            "b": {
+              "bottom": 472.25,
+              "height": 44.390625,
+              "left": 18,
+              "right": 412,
+              "top": 427.859375,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 591.234375,
+              "height": 50.390625,
+              "left": 34,
+              "right": 316.625,
+              "top": 540.84375,
+              "width": 282.625
+            },
+            "b": {
+              "bottom": 591.234375,
+              "height": 50.390625,
+              "left": 324.625,
+              "right": 396,
+              "top": 540.84375,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 327.46875,
+              "right": 412,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 315.46875,
+              "top": 12,
+              "width": 297.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#search?q=Madison",
+        "scrollWidth": 430,
+        "searchButton": {
+          "bottom": 591.234375,
+          "height": 50.390625,
+          "left": 324.625,
+          "right": 396,
+          "top": 540.84375,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": 591.234375,
+          "height": 50.390625,
+          "left": 34,
+          "right": 316.625,
+          "top": 540.84375,
+          "width": 282.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 28,
+        "targetEntryLink": null,
+        "targetSourceLink": null,
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Search",
+        "topbarVisible": true,
+        "viewHeading": "Search the highlights",
+        "width": 430
+      },
+      "speakers": {
+        "activeNav": "Speakers",
+        "clientWidth": 430,
+        "figureGroup": {
+          "bottom": -25078.75,
+          "height": 103.96875,
+          "left": 18,
+          "right": 412,
+          "top": -25182.71875,
+          "width": 394
+        },
+        "figureImage": {
+          "bottom": -25133.140625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 412,
+          "top": -25182.71875,
+          "width": 394
+        },
+        "figureLinks": {
+          "bottom": -25078.75,
+          "height": 44.390625,
+          "left": 18,
+          "right": 412,
+          "top": -25123.140625,
+          "width": 394
+        },
+        "footerLink": {
+          "bottom": 8861.953125,
+          "height": 44,
+          "left": 343.34375,
+          "right": 387.34375,
+          "top": 8817.953125,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -25202.71875,
+          "height": 253.28125,
+          "left": 18,
+          "right": 412,
+          "top": -25456,
+          "width": 394
+        },
+        "mobileView": "Speakers",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -25202.71875,
+              "height": 253.28125,
+              "left": 18,
+              "right": 412,
+              "top": -25456,
+              "width": 394
+            },
+            "b": {
+              "bottom": -25078.75,
+              "height": 103.96875,
+              "left": 18,
+              "right": 412,
+              "top": -25182.71875,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -25133.140625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 412,
+              "top": -25182.71875,
+              "width": 394
+            },
+            "b": {
+              "bottom": -25078.75,
+              "height": 44.390625,
+              "left": 18,
+              "right": 412,
+              "top": -25123.140625,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -24959.765625,
+              "height": 50.390625,
+              "left": 34,
+              "right": 316.625,
+              "top": -25010.15625,
+              "width": 282.625
+            },
+            "b": {
+              "bottom": -24959.765625,
+              "height": 50.390625,
+              "left": 324.625,
+              "right": 396,
+              "top": -25010.15625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 327.46875,
+              "right": 412,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 315.46875,
+              "top": 12,
+              "width": 297.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -24414.171875,
+              "height": 75.4375,
+              "left": 18,
+              "right": 412,
+              "top": -24489.609375,
+              "width": 394
+            },
+            "b": {
+              "bottom": -24143.640625,
+              "height": 57.59375,
+              "left": 18,
+              "right": 412,
+              "top": -24201.234375,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 430.390625,
+              "height": 44,
+              "left": 38,
+              "right": 292.5625,
+              "top": 386.390625,
+              "width": 254.5625
+            },
+            "b": {
+              "bottom": 1052.109375,
+              "height": 44,
+              "left": 38,
+              "right": 160.6875,
+              "top": 1008.109375,
+              "width": 122.6875
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#speakers/other/delgado-cacti",
+        "scrollWidth": 430,
+        "searchButton": {
+          "bottom": -24959.765625,
+          "height": 50.390625,
+          "left": 324.625,
+          "right": 396,
+          "top": -25010.15625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -24959.765625,
+          "height": 50.390625,
+          "left": 34,
+          "right": 316.625,
+          "top": -25010.15625,
+          "width": 282.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 1052.109375,
+          "height": 44,
+          "left": 38,
+          "right": 160.6875,
+          "top": 1008.109375,
+          "width": 122.6875
+        },
+        "targetSourceLink": {
+          "bottom": 430.390625,
+          "height": 44,
+          "left": 38,
+          "right": 292.5625,
+          "top": 386.390625,
+          "width": 254.5625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Other speakers",
+        "topbarVisible": true,
+        "viewHeading": "Questions, answers, and decisions",
+        "width": 430
+      },
+      "meetings": {
+        "activeNav": "Meetings & documents",
+        "clientWidth": 430,
+        "figureGroup": {
+          "bottom": -10636.75,
+          "height": 103.96875,
+          "left": 18,
+          "right": 412,
+          "top": -10740.71875,
+          "width": 394
+        },
+        "figureImage": {
+          "bottom": -10691.140625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 412,
+          "top": -10740.71875,
+          "width": 394
+        },
+        "figureLinks": {
+          "bottom": -10636.75,
+          "height": 44.390625,
+          "left": 18,
+          "right": 412,
+          "top": -10681.140625,
+          "width": 394
+        },
+        "footerLink": {
+          "bottom": 4313.78125,
+          "height": 44,
+          "left": 343.34375,
+          "right": 387.34375,
+          "top": 4269.78125,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -10760.71875,
+          "height": 253.28125,
+          "left": 18,
+          "right": 412,
+          "top": -11014,
+          "width": 394
+        },
+        "mobileView": "Meetings & documents",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -10760.71875,
+              "height": 253.28125,
+              "left": 18,
+              "right": 412,
+              "top": -11014,
+              "width": 394
+            },
+            "b": {
+              "bottom": -10636.75,
+              "height": 103.96875,
+              "left": 18,
+              "right": 412,
+              "top": -10740.71875,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -10691.140625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 412,
+              "top": -10740.71875,
+              "width": 394
+            },
+            "b": {
+              "bottom": -10636.75,
+              "height": 44.390625,
+              "left": 18,
+              "right": 412,
+              "top": -10681.140625,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -10517.765625,
+              "height": 50.390625,
+              "left": 34,
+              "right": 316.625,
+              "top": -10568.15625,
+              "width": 282.625
+            },
+            "b": {
+              "bottom": -10517.765625,
+              "height": 50.390625,
+              "left": 324.625,
+              "right": 396,
+              "top": -10568.15625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 327.46875,
+              "right": 412,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 315.46875,
+              "top": 12,
+              "width": 297.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 296.1875,
+              "height": 50.59375,
+              "left": 38,
+              "right": 392,
+              "top": 245.59375,
+              "width": 354
+            },
+            "b": {
+              "bottom": 638.15625,
+              "height": 44,
+              "left": 38,
+              "right": 177.34375,
+              "top": 594.15625,
+              "width": 139.34375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#meetings/meeting-2024-01-09",
+        "scrollWidth": 430,
+        "searchButton": {
+          "bottom": -10517.765625,
+          "height": 50.390625,
+          "left": 324.625,
+          "right": 396,
+          "top": -10568.15625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -10517.765625,
+          "height": 50.390625,
+          "left": 34,
+          "right": 316.625,
+          "top": -10568.15625,
+          "width": 282.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 638.15625,
+          "height": 44,
+          "left": 38,
+          "right": 177.34375,
+          "top": 594.15625,
+          "width": 139.34375
+        },
+        "targetSourceLink": {
+          "bottom": 296.1875,
+          "height": 50.59375,
+          "left": 38,
+          "right": 392,
+          "top": 245.59375,
+          "width": 354
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "topbarVisible": true,
+        "viewHeading": "Meetings & documents",
+        "width": 430
+      },
+      "news": {
+        "activeNav": "News & commentary",
+        "clientWidth": 430,
+        "figureGroup": {
+          "bottom": -1271.75,
+          "height": 103.96875,
+          "left": 18,
+          "right": 412,
+          "top": -1375.71875,
+          "width": 394
+        },
+        "figureImage": {
+          "bottom": -1326.140625,
+          "height": 49.578125,
+          "left": 18,
+          "right": 412,
+          "top": -1375.71875,
+          "width": 394
+        },
+        "figureLinks": {
+          "bottom": -1271.75,
+          "height": 44.390625,
+          "left": 18,
+          "right": 412,
+          "top": -1316.140625,
+          "width": 394
+        },
+        "footerLink": {
+          "bottom": 3692.515625,
+          "height": 44,
+          "left": 343.34375,
+          "right": 387.34375,
+          "top": 3648.515625,
+          "width": 44
+        },
+        "height": 957,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -1395.71875,
+          "height": 253.28125,
+          "left": 18,
+          "right": 412,
+          "top": -1649,
+          "width": 394
+        },
+        "mobileView": "News & commentary",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -1395.71875,
+              "height": 253.28125,
+              "left": 18,
+              "right": 412,
+              "top": -1649,
+              "width": 394
+            },
+            "b": {
+              "bottom": -1271.75,
+              "height": 103.96875,
+              "left": 18,
+              "right": 412,
+              "top": -1375.71875,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1326.140625,
+              "height": 49.578125,
+              "left": 18,
+              "right": 412,
+              "top": -1375.71875,
+              "width": 394
+            },
+            "b": {
+              "bottom": -1271.75,
+              "height": 44.390625,
+              "left": 18,
+              "right": 412,
+              "top": -1316.140625,
+              "width": 394
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -1152.765625,
+              "height": 50.390625,
+              "left": 34,
+              "right": 316.625,
+              "top": -1203.15625,
+              "width": 282.625
+            },
+            "b": {
+              "bottom": -1152.765625,
+              "height": 50.390625,
+              "left": 324.625,
+              "right": 396,
+              "top": -1203.15625,
+              "width": 71.375
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 56,
+              "height": 44,
+              "left": 327.46875,
+              "right": 412,
+              "top": 12,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 56,
+              "height": 44,
+              "left": 18,
+              "right": 315.46875,
+              "top": 12,
+              "width": 297.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 316.1875,
+              "height": 44,
+              "left": 38,
+              "right": 224.09375,
+              "top": 272.1875,
+              "width": 186.09375
+            },
+            "b": {
+              "bottom": 390.1875,
+              "height": 44,
+              "left": 38,
+              "right": 199.375,
+              "top": 346.1875,
+              "width": 161.375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#news/lat-2017",
+        "scrollWidth": 430,
+        "searchButton": {
+          "bottom": -1152.765625,
+          "height": 50.390625,
+          "left": 324.625,
+          "right": 396,
+          "top": -1203.15625,
+          "width": 71.375
+        },
+        "searchInput": {
+          "bottom": -1152.765625,
+          "height": 50.390625,
+          "left": 34,
+          "right": 316.625,
+          "top": -1203.15625,
+          "width": 282.625
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 390.1875,
+          "height": 44,
+          "left": 38,
+          "right": 199.375,
+          "top": 346.1875,
+          "width": 161.375
+        },
+        "targetSourceLink": {
+          "bottom": 316.1875,
+          "height": 44,
+          "left": 38,
+          "right": 224.09375,
+          "top": 272.1875,
+          "width": 186.09375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | News and commentary",
+        "topbarVisible": true,
+        "viewHeading": "News & commentary",
+        "width": 430
+      },
+      "menu": {
+        "expanded": "true",
+        "sidebar": "block",
+        "afterEscape": {
+          "activeId": "menu-toggle",
+          "expanded": "false"
+        }
+      },
+      "navigation": {
+        "topbarVisible": true,
+        "navigated": {
+          "active": "Meetings & documents",
+          "hash": "#meetings",
+          "menuExpanded": "false"
+        },
+        "returned": {
+          "active": "Overview",
+          "hash": "#overview",
+          "mobileView": "Overview"
+        }
+      },
+      "overview_status": "ok",
+      "search_status": "ok",
+      "speakers_status": "ok",
+      "meetings_status": "ok",
+      "news_status": "ok",
+      "nav_status": "ok",
+      "menu_status": "ok",
+      "overflow_status": "none",
+      "overlap_status": "none"
+    },
+    {
+      "width": 768,
+      "overview": {
+        "activeNav": "Overview",
+        "clientWidth": 768,
+        "figureGroup": {
+          "bottom": 323.8125,
+          "height": 224.8125,
+          "left": 524,
+          "right": 744,
+          "top": 99,
+          "width": 220
+        },
+        "figureImage": {
+          "bottom": 217.03125,
+          "height": 118.03125,
+          "left": 524,
+          "right": 744,
+          "top": 99,
+          "width": 220
+        },
+        "figureLinks": {
+          "bottom": 323.8125,
+          "height": 96.78125,
+          "left": 524,
+          "right": 744,
+          "top": 227.03125,
+          "width": 220
+        },
+        "footerLink": {
+          "bottom": 2287.421875,
+          "height": 44,
+          "left": 363.484375,
+          "right": 407.484375,
+          "top": 2243.421875,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 318.640625,
+          "height": 214.46875,
+          "left": 24,
+          "right": 498,
+          "top": 104.171875,
+          "width": 474
+        },
+        "mobileView": "Overview",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 318.640625,
+              "height": 214.46875,
+              "left": 24,
+              "right": 498,
+              "top": 104.171875,
+              "width": 474
+            },
+            "b": {
+              "bottom": 323.8125,
+              "height": 224.8125,
+              "left": 524,
+              "right": 744,
+              "top": 99,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 217.03125,
+              "height": 118.03125,
+              "left": 524,
+              "right": 744,
+              "top": 99,
+              "width": 220
+            },
+            "b": {
+              "bottom": 323.8125,
+              "height": 96.78125,
+              "left": 524,
+              "right": 744,
+              "top": 227.03125,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 456.640625,
+              "height": 50.390625,
+              "left": 45,
+              "right": 618.296875,
+              "top": 406.25,
+              "width": 573.296875
+            },
+            "b": {
+              "bottom": 456.640625,
+              "height": 50.390625,
+              "left": 628.296875,
+              "right": 723,
+              "top": 406.25,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 57,
+              "height": 44,
+              "left": 659.46875,
+              "right": 744,
+              "top": 13,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 57,
+              "height": 44,
+              "left": 24,
+              "right": 647.46875,
+              "top": 13,
+              "width": 623.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#overview",
+        "scrollWidth": 768,
+        "searchButton": {
+          "bottom": 456.640625,
+          "height": 50.390625,
+          "left": 628.296875,
+          "right": 723,
+          "top": 406.25,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": 456.640625,
+          "height": 50.390625,
+          "left": 45,
+          "right": 618.296875,
+          "top": 406.25,
+          "width": 573.296875
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": null,
+        "targetSourceLink": {
+          "bottom": 1265.515625,
+          "height": 44,
+          "left": 51,
+          "right": 199.375,
+          "top": 1221.515625,
+          "width": 148.375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "topbarVisible": true,
+        "viewHeading": "Why is the fence still there?",
+        "width": 768
+      },
+      "search": {
+        "activeNav": null,
+        "clientWidth": 768,
+        "figureGroup": {
+          "bottom": 323.8125,
+          "height": 224.8125,
+          "left": 524,
+          "right": 744,
+          "top": 99,
+          "width": 220
+        },
+        "figureImage": {
+          "bottom": 217.03125,
+          "height": 118.03125,
+          "left": 524,
+          "right": 744,
+          "top": 99,
+          "width": 220
+        },
+        "figureLinks": {
+          "bottom": 323.8125,
+          "height": 96.78125,
+          "left": 524,
+          "right": 744,
+          "top": 227.03125,
+          "width": 220
+        },
+        "footerLink": {
+          "bottom": 6615.28125,
+          "height": 44,
+          "left": 363.484375,
+          "right": 407.484375,
+          "top": 6571.28125,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 318.640625,
+          "height": 214.46875,
+          "left": 24,
+          "right": 498,
+          "top": 104.171875,
+          "width": 474
+        },
+        "mobileView": "Search results",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 318.640625,
+              "height": 214.46875,
+              "left": 24,
+              "right": 498,
+              "top": 104.171875,
+              "width": 474
+            },
+            "b": {
+              "bottom": 323.8125,
+              "height": 224.8125,
+              "left": 524,
+              "right": 744,
+              "top": 99,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 217.03125,
+              "height": 118.03125,
+              "left": 524,
+              "right": 744,
+              "top": 99,
+              "width": 220
+            },
+            "b": {
+              "bottom": 323.8125,
+              "height": 96.78125,
+              "left": 524,
+              "right": 744,
+              "top": 227.03125,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 456.640625,
+              "height": 50.390625,
+              "left": 45,
+              "right": 618.296875,
+              "top": 406.25,
+              "width": 573.296875
+            },
+            "b": {
+              "bottom": 456.640625,
+              "height": 50.390625,
+              "left": 628.296875,
+              "right": 723,
+              "top": 406.25,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 57,
+              "height": 44,
+              "left": 659.46875,
+              "right": 744,
+              "top": 13,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 57,
+              "height": 44,
+              "left": 24,
+              "right": 647.46875,
+              "top": 13,
+              "width": 623.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#search?q=Madison",
+        "scrollWidth": 768,
+        "searchButton": {
+          "bottom": 456.640625,
+          "height": 50.390625,
+          "left": 628.296875,
+          "right": 723,
+          "top": 406.25,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": 456.640625,
+          "height": 50.390625,
+          "left": 45,
+          "right": 618.296875,
+          "top": 406.25,
+          "width": 573.296875
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 28,
+        "targetEntryLink": null,
+        "targetSourceLink": null,
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Search",
+        "topbarVisible": true,
+        "viewHeading": "Search the highlights",
+        "width": 768
+      },
+      "speakers": {
+        "activeNav": "Speakers",
+        "clientWidth": 768,
+        "figureGroup": {
+          "bottom": -20606.1875,
+          "height": 224.8125,
+          "left": 524,
+          "right": 744,
+          "top": -20831,
+          "width": 220
+        },
+        "figureImage": {
+          "bottom": -20712.96875,
+          "height": 118.03125,
+          "left": 524,
+          "right": 744,
+          "top": -20831,
+          "width": 220
+        },
+        "figureLinks": {
+          "bottom": -20606.1875,
+          "height": 96.78125,
+          "left": 524,
+          "right": 744,
+          "top": -20702.96875,
+          "width": 220
+        },
+        "footerLink": {
+          "bottom": 7320.703125,
+          "height": 44,
+          "left": 363.484375,
+          "right": 407.484375,
+          "top": 7276.703125,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -20611.359375,
+          "height": 214.46875,
+          "left": 24,
+          "right": 498,
+          "top": -20825.828125,
+          "width": 474
+        },
+        "mobileView": "Speakers",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -20611.359375,
+              "height": 214.46875,
+              "left": 24,
+              "right": 498,
+              "top": -20825.828125,
+              "width": 474
+            },
+            "b": {
+              "bottom": -20606.1875,
+              "height": 224.8125,
+              "left": 524,
+              "right": 744,
+              "top": -20831,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -20712.96875,
+              "height": 118.03125,
+              "left": 524,
+              "right": 744,
+              "top": -20831,
+              "width": 220
+            },
+            "b": {
+              "bottom": -20606.1875,
+              "height": 96.78125,
+              "left": 524,
+              "right": 744,
+              "top": -20702.96875,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -20473.359375,
+              "height": 50.390625,
+              "left": 45,
+              "right": 618.296875,
+              "top": -20523.75,
+              "width": 573.296875
+            },
+            "b": {
+              "bottom": -20473.359375,
+              "height": 50.390625,
+              "left": 628.296875,
+              "right": 723,
+              "top": -20523.75,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 57,
+              "height": 44,
+              "left": 659.46875,
+              "right": 744,
+              "top": 13,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 57,
+              "height": 44,
+              "left": 24,
+              "right": 647.46875,
+              "top": 13,
+              "width": 623.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -20101.53125,
+              "height": 46,
+              "left": 24,
+              "right": 744,
+              "top": -20147.53125,
+              "width": 720
+            },
+            "b": {
+              "bottom": -19912.375,
+              "height": 30.15625,
+              "left": 24,
+              "right": 744,
+              "top": -19942.53125,
+              "width": 720
+            },
+            "overlap": false,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 395.78125,
+              "height": 44,
+              "left": 53,
+              "right": 307.5625,
+              "top": 351.78125,
+              "width": 254.5625
+            },
+            "b": {
+              "bottom": 896.078125,
+              "height": 44,
+              "left": 53,
+              "right": 175.6875,
+              "top": 852.078125,
+              "width": 122.6875
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#speakers/other/delgado-cacti",
+        "scrollWidth": 768,
+        "searchButton": {
+          "bottom": -20473.359375,
+          "height": 50.390625,
+          "left": 628.296875,
+          "right": 723,
+          "top": -20523.75,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -20473.359375,
+          "height": 50.390625,
+          "left": 45,
+          "right": 618.296875,
+          "top": -20523.75,
+          "width": 573.296875
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 896.078125,
+          "height": 44,
+          "left": 53,
+          "right": 175.6875,
+          "top": 852.078125,
+          "width": 122.6875
+        },
+        "targetSourceLink": {
+          "bottom": 395.78125,
+          "height": 44,
+          "left": 53,
+          "right": 307.5625,
+          "top": 351.78125,
+          "width": 254.5625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Other speakers",
+        "topbarVisible": true,
+        "viewHeading": "Questions, answers, and decisions",
+        "width": 768
+      },
+      "meetings": {
+        "activeNav": "Meetings & documents",
+        "clientWidth": 768,
+        "figureGroup": {
+          "bottom": -6337.1875,
+          "height": 224.8125,
+          "left": 524,
+          "right": 744,
+          "top": -6562,
+          "width": 220
+        },
+        "figureImage": {
+          "bottom": -6443.96875,
+          "height": 118.03125,
+          "left": 524,
+          "right": 744,
+          "top": -6562,
+          "width": 220
+        },
+        "figureLinks": {
+          "bottom": -6337.1875,
+          "height": 96.78125,
+          "left": 524,
+          "right": 744,
+          "top": -6433.96875,
+          "width": 220
+        },
+        "footerLink": {
+          "bottom": 2692.734375,
+          "height": 44,
+          "left": 363.484375,
+          "right": 407.484375,
+          "top": 2648.734375,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -6342.359375,
+          "height": 214.46875,
+          "left": 24,
+          "right": 498,
+          "top": -6556.828125,
+          "width": 474
+        },
+        "mobileView": "Meetings & documents",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -6342.359375,
+              "height": 214.46875,
+              "left": 24,
+              "right": 498,
+              "top": -6556.828125,
+              "width": 474
+            },
+            "b": {
+              "bottom": -6337.1875,
+              "height": 224.8125,
+              "left": 524,
+              "right": 744,
+              "top": -6562,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -6443.96875,
+              "height": 118.03125,
+              "left": 524,
+              "right": 744,
+              "top": -6562,
+              "width": 220
+            },
+            "b": {
+              "bottom": -6337.1875,
+              "height": 96.78125,
+              "left": 524,
+              "right": 744,
+              "top": -6433.96875,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -6204.359375,
+              "height": 50.390625,
+              "left": 45,
+              "right": 618.296875,
+              "top": -6254.75,
+              "width": 573.296875
+            },
+            "b": {
+              "bottom": -6204.359375,
+              "height": 50.390625,
+              "left": 628.296875,
+              "right": 723,
+              "top": -6254.75,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 57,
+              "height": 44,
+              "left": 659.46875,
+              "right": 744,
+              "top": 13,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 57,
+              "height": 44,
+              "left": 24,
+              "right": 647.46875,
+              "top": 13,
+              "width": 623.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 298.984375,
+              "height": 50.59375,
+              "left": 49,
+              "right": 349,
+              "top": 248.390625,
+              "width": 300
+            },
+            "b": {
+              "bottom": 640.953125,
+              "height": 44,
+              "left": 49,
+              "right": 188.34375,
+              "top": 596.953125,
+              "width": 139.34375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#meetings/meeting-2024-01-09",
+        "scrollWidth": 768,
+        "searchButton": {
+          "bottom": -6204.359375,
+          "height": 50.390625,
+          "left": 628.296875,
+          "right": 723,
+          "top": -6254.75,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -6204.359375,
+          "height": 50.390625,
+          "left": 45,
+          "right": 618.296875,
+          "top": -6254.75,
+          "width": 573.296875
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 640.953125,
+          "height": 44,
+          "left": 49,
+          "right": 188.34375,
+          "top": 596.953125,
+          "width": 139.34375
+        },
+        "targetSourceLink": {
+          "bottom": 298.984375,
+          "height": 50.59375,
+          "left": 49,
+          "right": 349,
+          "top": 248.390625,
+          "width": 300
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "topbarVisible": true,
+        "viewHeading": "Meetings & documents",
+        "width": 768
+      },
+      "news": {
+        "activeNav": "News & commentary",
+        "clientWidth": 768,
+        "figureGroup": {
+          "bottom": -607.1875,
+          "height": 224.8125,
+          "left": 524,
+          "right": 744,
+          "top": -832,
+          "width": 220
+        },
+        "figureImage": {
+          "bottom": -713.96875,
+          "height": 118.03125,
+          "left": 524,
+          "right": 744,
+          "top": -832,
+          "width": 220
+        },
+        "figureLinks": {
+          "bottom": -607.1875,
+          "height": 96.78125,
+          "left": 524,
+          "right": 744,
+          "top": -703.96875,
+          "width": 220
+        },
+        "footerLink": {
+          "bottom": 2631.625,
+          "height": 44,
+          "left": 363.484375,
+          "right": 407.484375,
+          "top": 2587.625,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -612.359375,
+          "height": 214.46875,
+          "left": 24,
+          "right": 498,
+          "top": -826.828125,
+          "width": 474
+        },
+        "mobileView": "News & commentary",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -612.359375,
+              "height": 214.46875,
+              "left": 24,
+              "right": 498,
+              "top": -826.828125,
+              "width": 474
+            },
+            "b": {
+              "bottom": -607.1875,
+              "height": 224.8125,
+              "left": 524,
+              "right": 744,
+              "top": -832,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -713.96875,
+              "height": 118.03125,
+              "left": 524,
+              "right": 744,
+              "top": -832,
+              "width": 220
+            },
+            "b": {
+              "bottom": -607.1875,
+              "height": 96.78125,
+              "left": 524,
+              "right": 744,
+              "top": -703.96875,
+              "width": 220
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -474.359375,
+              "height": 50.390625,
+              "left": 45,
+              "right": 618.296875,
+              "top": -524.75,
+              "width": 573.296875
+            },
+            "b": {
+              "bottom": -474.359375,
+              "height": 50.390625,
+              "left": 628.296875,
+              "right": 723,
+              "top": -524.75,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 57,
+              "height": 44,
+              "left": 659.46875,
+              "right": 744,
+              "top": 13,
+              "width": 84.53125
+            },
+            "b": {
+              "bottom": 57,
+              "height": 44,
+              "left": 24,
+              "right": 647.46875,
+              "top": 13,
+              "width": 623.46875
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 319.46875,
+              "height": 44,
+              "left": 419,
+              "right": 605.09375,
+              "top": 275.46875,
+              "width": 186.09375
+            },
+            "b": {
+              "bottom": 393.46875,
+              "height": 44,
+              "left": 419,
+              "right": 580.375,
+              "top": 349.46875,
+              "width": 161.375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#news/lat-2017",
+        "scrollWidth": 768,
+        "searchButton": {
+          "bottom": -474.359375,
+          "height": 50.390625,
+          "left": 628.296875,
+          "right": 723,
+          "top": -524.75,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -474.359375,
+          "height": 50.390625,
+          "left": 45,
+          "right": 618.296875,
+          "top": -524.75,
+          "width": 573.296875
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 393.46875,
+          "height": 44,
+          "left": 419,
+          "right": 580.375,
+          "top": 349.46875,
+          "width": 161.375
+        },
+        "targetSourceLink": {
+          "bottom": 319.46875,
+          "height": 44,
+          "left": 419,
+          "right": 605.09375,
+          "top": 275.46875,
+          "width": 186.09375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | News and commentary",
+        "topbarVisible": true,
+        "viewHeading": "News & commentary",
+        "width": 768
+      },
+      "menu": {
+        "expanded": "true",
+        "sidebar": "block",
+        "afterEscape": {
+          "activeId": "menu-toggle",
+          "expanded": "false"
+        }
+      },
+      "navigation": {
+        "topbarVisible": true,
+        "navigated": {
+          "active": "Meetings & documents",
+          "hash": "#meetings",
+          "menuExpanded": "false"
+        },
+        "returned": {
+          "active": "Overview",
+          "hash": "#overview",
+          "mobileView": "Overview"
+        }
+      },
+      "overview_status": "ok",
+      "search_status": "ok",
+      "speakers_status": "ok",
+      "meetings_status": "ok",
+      "news_status": "ok",
+      "nav_status": "ok",
+      "menu_status": "ok",
+      "overflow_status": "none",
+      "overlap_status": "none"
+    },
+    {
+      "width": 1440,
+      "overview": {
+        "activeNav": "Overview",
+        "clientWidth": 1440,
+        "figureGroup": {
+          "bottom": 278.53125,
+          "height": 238.53125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 40,
+          "width": 254
+        },
+        "figureImage": {
+          "bottom": 171.75,
+          "height": 131.75,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 40,
+          "width": 254
+        },
+        "figureLinks": {
+          "bottom": 278.53125,
+          "height": 96.78125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 181.75,
+          "width": 254
+        },
+        "footerLink": {
+          "bottom": 1857.15625,
+          "height": 44,
+          "left": 633.078125,
+          "right": 677.078125,
+          "top": 1813.15625,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 277.984375,
+          "height": 237.4375,
+          "left": 293.59375,
+          "right": 1094.40625,
+          "top": 40.546875,
+          "width": 800.8125
+        },
+        "mobileView": "Overview",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 277.984375,
+              "height": 237.4375,
+              "left": 293.59375,
+              "right": 1094.40625,
+              "top": 40.546875,
+              "width": 800.8125
+            },
+            "b": {
+              "bottom": 278.53125,
+              "height": 238.53125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 40,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 171.75,
+              "height": 131.75,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 40,
+              "width": 254
+            },
+            "b": {
+              "bottom": 278.53125,
+              "height": 96.78125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 181.75,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 411.359375,
+              "height": 50.390625,
+              "left": 314.59375,
+              "right": 1256.703125,
+              "top": 360.96875,
+              "width": 942.109375
+            },
+            "b": {
+              "bottom": 411.359375,
+              "height": 50.390625,
+              "left": 1266.703125,
+              "right": 1361.40625,
+              "top": 360.96875,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "b": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#overview",
+        "scrollWidth": 1440,
+        "searchButton": {
+          "bottom": 411.359375,
+          "height": 50.390625,
+          "left": 1266.703125,
+          "right": 1361.40625,
+          "top": 360.96875,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": 411.359375,
+          "height": 50.390625,
+          "left": 314.59375,
+          "right": 1256.703125,
+          "top": 360.96875,
+          "width": 942.109375
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": null,
+        "targetSourceLink": {
+          "bottom": 1058.015625,
+          "height": 44,
+          "left": 320.59375,
+          "right": 468.96875,
+          "top": 1014.015625,
+          "width": 148.375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "topbarVisible": false,
+        "viewHeading": "Why is the fence still there?",
+        "width": 1440
+      },
+      "search": {
+        "activeNav": null,
+        "clientWidth": 1440,
+        "figureGroup": {
+          "bottom": 278.53125,
+          "height": 238.53125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 40,
+          "width": 254
+        },
+        "figureImage": {
+          "bottom": 171.75,
+          "height": 131.75,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 40,
+          "width": 254
+        },
+        "figureLinks": {
+          "bottom": 278.53125,
+          "height": 96.78125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": 181.75,
+          "width": 254
+        },
+        "footerLink": {
+          "bottom": 5929.71875,
+          "height": 44,
+          "left": 633.078125,
+          "right": 677.078125,
+          "top": 5885.71875,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": 277.984375,
+          "height": 237.4375,
+          "left": 293.59375,
+          "right": 1094.40625,
+          "top": 40.546875,
+          "width": 800.8125
+        },
+        "mobileView": "Search results",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": 277.984375,
+              "height": 237.4375,
+              "left": 293.59375,
+              "right": 1094.40625,
+              "top": 40.546875,
+              "width": 800.8125
+            },
+            "b": {
+              "bottom": 278.53125,
+              "height": 238.53125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 40,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 171.75,
+              "height": 131.75,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 40,
+              "width": 254
+            },
+            "b": {
+              "bottom": 278.53125,
+              "height": 96.78125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": 181.75,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 411.359375,
+              "height": 50.390625,
+              "left": 314.59375,
+              "right": 1256.703125,
+              "top": 360.96875,
+              "width": 942.109375
+            },
+            "b": {
+              "bottom": 411.359375,
+              "height": 50.390625,
+              "left": 1266.703125,
+              "right": 1361.40625,
+              "top": 360.96875,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "b": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#search?q=Madison",
+        "scrollWidth": 1440,
+        "searchButton": {
+          "bottom": 411.359375,
+          "height": 50.390625,
+          "left": 1266.703125,
+          "right": 1361.40625,
+          "top": 360.96875,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": 411.359375,
+          "height": 50.390625,
+          "left": 314.59375,
+          "right": 1256.703125,
+          "top": 360.96875,
+          "width": 942.109375
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 28,
+        "targetEntryLink": null,
+        "targetSourceLink": null,
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Search",
+        "topbarVisible": false,
+        "viewHeading": "Search the highlights",
+        "width": 1440
+      },
+      "speakers": {
+        "activeNav": "Speakers",
+        "clientWidth": 1440,
+        "figureGroup": {
+          "bottom": -18705.46875,
+          "height": 238.53125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -18944,
+          "width": 254
+        },
+        "figureImage": {
+          "bottom": -18812.25,
+          "height": 131.75,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -18944,
+          "width": 254
+        },
+        "figureLinks": {
+          "bottom": -18705.46875,
+          "height": 96.78125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -18802.25,
+          "width": 254
+        },
+        "footerLink": {
+          "bottom": 6566.875,
+          "height": 44,
+          "left": 633.078125,
+          "right": 677.078125,
+          "top": 6522.875,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -18706.015625,
+          "height": 237.4375,
+          "left": 293.59375,
+          "right": 1094.40625,
+          "top": -18943.453125,
+          "width": 800.8125
+        },
+        "mobileView": "Speakers",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -18706.015625,
+              "height": 237.4375,
+              "left": 293.59375,
+              "right": 1094.40625,
+              "top": -18943.453125,
+              "width": 800.8125
+            },
+            "b": {
+              "bottom": -18705.46875,
+              "height": 238.53125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -18944,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -18812.25,
+              "height": 131.75,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -18944,
+              "width": 254
+            },
+            "b": {
+              "bottom": -18705.46875,
+              "height": 96.78125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -18802.25,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -18572.640625,
+              "height": 50.390625,
+              "left": 314.59375,
+              "right": 1256.703125,
+              "top": -18623.03125,
+              "width": 942.109375
+            },
+            "b": {
+              "bottom": -18572.640625,
+              "height": 50.390625,
+              "left": 1266.703125,
+              "right": 1361.40625,
+              "top": -18623.03125,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "b": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -18245.46875,
+              "height": 46,
+              "left": 293.59375,
+              "right": 1382.40625,
+              "top": -18291.46875,
+              "width": 1088.8125
+            },
+            "b": {
+              "bottom": -18080.8125,
+              "height": 30.15625,
+              "left": 293.59375,
+              "right": 1382.40625,
+              "top": -18110.96875,
+              "width": 1088.8125
+            },
+            "overlap": false,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 329.203125,
+              "height": 44,
+              "left": 322.59375,
+              "right": 577.15625,
+              "top": 285.203125,
+              "width": 254.5625
+            },
+            "b": {
+              "bottom": 756,
+              "height": 44,
+              "left": 322.59375,
+              "right": 445.28125,
+              "top": 712,
+              "width": 122.6875
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#speakers/other/delgado-cacti",
+        "scrollWidth": 1440,
+        "searchButton": {
+          "bottom": -18572.640625,
+          "height": 50.390625,
+          "left": 1266.703125,
+          "right": 1361.40625,
+          "top": -18623.03125,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -18572.640625,
+          "height": 50.390625,
+          "left": 314.59375,
+          "right": 1256.703125,
+          "top": -18623.03125,
+          "width": 942.109375
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 756,
+          "height": 44,
+          "left": 322.59375,
+          "right": 445.28125,
+          "top": 712,
+          "width": 122.6875
+        },
+        "targetSourceLink": {
+          "bottom": 329.203125,
+          "height": 44,
+          "left": 322.59375,
+          "right": 577.15625,
+          "top": 285.203125,
+          "width": 254.5625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Other speakers",
+        "topbarVisible": false,
+        "viewHeading": "Questions, answers, and decisions",
+        "width": 1440
+      },
+      "meetings": {
+        "activeNav": "Meetings & documents",
+        "clientWidth": 1440,
+        "figureGroup": {
+          "bottom": -5841.46875,
+          "height": 238.53125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -6080,
+          "width": 254
+        },
+        "figureImage": {
+          "bottom": -5948.25,
+          "height": 131.75,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -6080,
+          "width": 254
+        },
+        "figureLinks": {
+          "bottom": -5841.46875,
+          "height": 96.78125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -5938.25,
+          "width": 254
+        },
+        "footerLink": {
+          "bottom": 2380.734375,
+          "height": 44,
+          "left": 633.078125,
+          "right": 677.078125,
+          "top": 2336.734375,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -5842.015625,
+          "height": 237.4375,
+          "left": 293.59375,
+          "right": 1094.40625,
+          "top": -6079.453125,
+          "width": 800.8125
+        },
+        "mobileView": "Meetings & documents",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -5842.015625,
+              "height": 237.4375,
+              "left": 293.59375,
+              "right": 1094.40625,
+              "top": -6079.453125,
+              "width": 800.8125
+            },
+            "b": {
+              "bottom": -5841.46875,
+              "height": 238.53125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -6080,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -5948.25,
+              "height": 131.75,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -6080,
+              "width": 254
+            },
+            "b": {
+              "bottom": -5841.46875,
+              "height": 96.78125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -5938.25,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -5708.640625,
+              "height": 50.390625,
+              "left": 314.59375,
+              "right": 1256.703125,
+              "top": -5759.03125,
+              "width": 942.109375
+            },
+            "b": {
+              "bottom": -5708.640625,
+              "height": 50.390625,
+              "left": 1266.703125,
+              "right": 1361.40625,
+              "top": -5759.03125,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "b": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 206.65625,
+              "height": 50.59375,
+              "left": 318.59375,
+              "right": 803,
+              "top": 156.0625,
+              "width": 484.40625
+            },
+            "b": {
+              "bottom": 528.828125,
+              "height": 44,
+              "left": 318.59375,
+              "right": 457.9375,
+              "top": 484.828125,
+              "width": 139.34375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#meetings/meeting-2024-01-09",
+        "scrollWidth": 1440,
+        "searchButton": {
+          "bottom": -5708.640625,
+          "height": 50.390625,
+          "left": 1266.703125,
+          "right": 1361.40625,
+          "top": -5759.03125,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -5708.640625,
+          "height": 50.390625,
+          "left": 314.59375,
+          "right": 1256.703125,
+          "top": -5759.03125,
+          "width": 942.109375
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 528.828125,
+          "height": 44,
+          "left": 318.59375,
+          "right": 457.9375,
+          "top": 484.828125,
+          "width": 139.34375
+        },
+        "targetSourceLink": {
+          "bottom": 206.65625,
+          "height": 50.59375,
+          "left": 318.59375,
+          "right": 803,
+          "top": 156.0625,
+          "width": 484.40625
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "topbarVisible": false,
+        "viewHeading": "Meetings & documents",
+        "width": 1440
+      },
+      "news": {
+        "activeNav": "News & commentary",
+        "clientWidth": 1440,
+        "figureGroup": {
+          "bottom": -655.46875,
+          "height": 238.53125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -894,
+          "width": 254
+        },
+        "figureImage": {
+          "bottom": -762.25,
+          "height": 131.75,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -894,
+          "width": 254
+        },
+        "figureLinks": {
+          "bottom": -655.46875,
+          "height": 96.78125,
+          "left": 1128.40625,
+          "right": 1382.40625,
+          "top": -752.25,
+          "width": 254
+        },
+        "footerLink": {
+          "bottom": 2342.171875,
+          "height": 44,
+          "left": 633.078125,
+          "right": 677.078125,
+          "top": 2298.171875,
+          "width": 44
+        },
+        "height": 1257,
+        "introChildren": [
+          "intro-copy",
+          "bridge-figure-group"
+        ],
+        "introCopy": {
+          "bottom": -656.015625,
+          "height": 237.4375,
+          "left": 293.59375,
+          "right": 1094.40625,
+          "top": -893.453125,
+          "width": 800.8125
+        },
+        "mobileView": "News & commentary",
+        "overflow": [],
+        "overlaps": [
+          {
+            "a": {
+              "bottom": -656.015625,
+              "height": 237.4375,
+              "left": 293.59375,
+              "right": 1094.40625,
+              "top": -893.453125,
+              "width": 800.8125
+            },
+            "b": {
+              "bottom": -655.46875,
+              "height": 238.53125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -894,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".intro-copy",
+              ".bridge-figure-group"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -762.25,
+              "height": 131.75,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -894,
+              "width": 254
+            },
+            "b": {
+              "bottom": -655.46875,
+              "height": 96.78125,
+              "left": 1128.40625,
+              "right": 1382.40625,
+              "top": -752.25,
+              "width": 254
+            },
+            "overlap": false,
+            "pair": [
+              ".bridge-image",
+              ".figure-links"
+            ]
+          },
+          {
+            "a": {
+              "bottom": -522.640625,
+              "height": 50.390625,
+              "left": 314.59375,
+              "right": 1256.703125,
+              "top": -573.03125,
+              "width": 942.109375
+            },
+            "b": {
+              "bottom": -522.640625,
+              "height": 50.390625,
+              "left": 1266.703125,
+              "right": 1361.40625,
+              "top": -573.03125,
+              "width": 94.703125
+            },
+            "overlap": false,
+            "pair": [
+              "#search-input",
+              "#search-form button"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "b": {
+              "bottom": 0,
+              "height": 0,
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "width": 0
+            },
+            "overlap": false,
+            "pair": [
+              "#menu-toggle",
+              ".mobile-brand"
+            ]
+          },
+          {
+            "missing": true,
+            "pair": [
+              ".speaker-filter",
+              ".speaker-heading"
+            ]
+          },
+          {
+            "a": {
+              "bottom": 226.78125,
+              "height": 44,
+              "left": 873,
+              "right": 1059.09375,
+              "top": 182.78125,
+              "width": 186.09375
+            },
+            "b": {
+              "bottom": 300.78125,
+              "height": 44,
+              "left": 873,
+              "right": 1034.375,
+              "top": 256.78125,
+              "width": 161.375
+            },
+            "overlap": false,
+            "pair": [
+              ".source-link",
+              ".entry-link"
+            ]
+          }
+        ],
+        "route": "#news/lat-2017",
+        "scrollWidth": 1440,
+        "searchButton": {
+          "bottom": -522.640625,
+          "height": 50.390625,
+          "left": 1266.703125,
+          "right": 1361.40625,
+          "top": -573.03125,
+          "width": 94.703125
+        },
+        "searchInput": {
+          "bottom": -522.640625,
+          "height": 50.390625,
+          "left": 314.59375,
+          "right": 1256.703125,
+          "top": -573.03125,
+          "width": 942.109375
+        },
+        "searchQuery": "Madison",
+        "searchResultsCount": 0,
+        "targetEntryLink": {
+          "bottom": 300.78125,
+          "height": 44,
+          "left": 873,
+          "right": 1034.375,
+          "top": 256.78125,
+          "width": 161.375
+        },
+        "targetSourceLink": {
+          "bottom": 226.78125,
+          "height": 44,
+          "left": 873,
+          "right": 1059.09375,
+          "top": 182.78125,
+          "width": 186.09375
+        },
+        "title": "Colorado Street Bridge Barrier Enhancements Project | News and commentary",
+        "topbarVisible": false,
+        "viewHeading": "News & commentary",
+        "width": 1440
+      },
+      "menu": {
+        "expanded": "n/a",
+        "afterEscape": {
+          "expanded": "n/a"
+        }
+      },
+      "navigation": {
+        "topbarVisible": false,
+        "navigated": {
+          "active": "Meetings & documents",
+          "hash": "#meetings",
+          "menuExpanded": "false"
+        },
+        "returned": {
+          "active": "Overview",
+          "hash": "#overview",
+          "mobileView": "Overview"
+        }
+      },
+      "overview_status": "ok",
+      "search_status": "ok",
+      "speakers_status": "ok",
+      "meetings_status": "ok",
+      "news_status": "ok",
+      "nav_status": "ok",
+      "menu_status": "n/a",
+      "overflow_status": "none",
+      "overlap_status": "none"
+    }
+  ],
+  "screenshots": [
+    "overview-current-390.png",
+    "overview-current-768.png",
+    "overview-current-1440.png",
+    "menu-open-current-390.png",
+    "speaker-entry-current-390.png",
+    "meeting-card-current-390.png",
+    "text-enlarged-current-390.png",
+    "overview-baseline-390.png",
+    "overview-baseline-768.png",
+    "overview-baseline-1440.png"
+  ],
+  "baseline": {
+    "status": "captured",
+    "revision": "679a0c9069e51abd82b8f974ca72c4365ca9e4f5",
+    "screenshots": [
+      "overview-baseline-390.png",
+      "overview-baseline-768.png",
+      "overview-baseline-1440.png"
+    ]
+  },
+  "findings": [
+    "No concrete layout or interaction issues were detected across the audited current-branch routes at 375, 390, 430, 768, and 1440 CSS pixels.",
+    "The simulated 200% text-size case at 390px did not trigger the audit overflow or overlap checks."
+  ],
+  "gaps": [
+    "No physical iPhone or Safari run was available in this environment."
+  ],
+  "browser_capabilities": {
+    "acceptInsecureCerts": false,
+    "browserName": "chrome",
+    "browserVersion": "152.0.7977.0",
+    "chrome": {
+      "chromedriverVersion": "152.0.7977.82 (d04cdb24d67b081f6cf80200ffc5233f44b61109-refs/branch-heads/7977@{#2322})",
+      "userDataDir": "/tmp/org.chromium.Chromium.scoped_dir.pWCs0m"
+    },
+    "fedcm:accounts": true,
+    "goog:chromeOptions": {
+      "debuggerAddress": "localhost:42775"
+    },
+    "goog:processID": 8471,
+    "networkConnectionEnabled": false,
+    "pageLoadStrategy": "normal",
+    "platformName": "linux",
+    "proxy": {},
+    "setWindowRect": true,
+    "strictFileInteractability": false,
+    "timeouts": {
+      "implicit": 0,
+      "pageLoad": 300000,
+      "script": 30000
+    },
+    "unhandledPromptBehavior": "dismiss and notify",
+    "webauthn:extension:credBlob": true,
+    "webauthn:extension:largeBlob": true,
+    "webauthn:extension:minPinLength": true,
+    "webauthn:extension:prf": true,
+    "webauthn:virtualAuthenticators": true
+  },
+  "menu_open_390": {
+    "expanded": "true",
+    "sidebar": "block",
+    "topbarTop": 0,
+    "afterEscape": {
+      "activeId": "menu-toggle",
+      "expanded": "false"
+    },
+    "screenshot": "menu-open-current-390.png"
+  },
+  "text_enlargement": {
+    "activeNav": "Overview",
+    "clientWidth": 390,
+    "figureGroup": {
+      "bottom": 1241.953125,
+      "height": 163.28125,
+      "left": 18,
+      "right": 372,
+      "top": 1078.671875,
+      "width": 354
+    },
+    "figureImage": {
+      "bottom": 1187.5625,
+      "height": 108.890625,
+      "left": 18,
+      "right": 372,
+      "top": 1078.671875,
+      "width": 354
+    },
+    "figureLinks": {
+      "bottom": 1241.953125,
+      "height": 44.390625,
+      "left": 18,
+      "right": 372,
+      "top": 1197.5625,
+      "width": 354
+    },
+    "footerLink": {
+      "bottom": 8380.265625,
+      "height": 44,
+      "left": 18,
+      "right": 72.375,
+      "top": 8336.265625,
+      "width": 54.375
+    },
+    "height": 957,
+    "introChildren": [
+      "intro-copy",
+      "bridge-figure-group"
+    ],
+    "introCopy": {
+      "bottom": 1058.671875,
+      "height": 899.6875,
+      "left": 18,
+      "right": 372,
+      "top": 158.984375,
+      "width": 354
+    },
+    "mobileView": "Overview",
+    "overflow": [],
+    "overlaps": [
+      {
+        "a": {
+          "bottom": 1058.671875,
+          "height": 899.6875,
+          "left": 18,
+          "right": 372,
+          "top": 158.984375,
+          "width": 354
+        },
+        "b": {
+          "bottom": 1241.953125,
+          "height": 163.28125,
+          "left": 18,
+          "right": 372,
+          "top": 1078.671875,
+          "width": 354
+        },
+        "overlap": false,
+        "pair": [
+          ".intro-copy",
+          ".bridge-figure-group"
+        ]
+      },
+      {
+        "a": {
+          "bottom": 1187.5625,
+          "height": 108.890625,
+          "left": 18,
+          "right": 372,
+          "top": 1078.671875,
+          "width": 354
+        },
+        "b": {
+          "bottom": 1241.953125,
+          "height": 44.390625,
+          "left": 18,
+          "right": 372,
+          "top": 1197.5625,
+          "width": 354
+        },
+        "overlap": false,
+        "pair": [
+          ".bridge-image",
+          ".figure-links"
+        ]
+      },
+      {
+        "a": {
+          "bottom": 1468.40625,
+          "height": 64.890625,
+          "left": 34,
+          "right": 233.265625,
+          "top": 1403.515625,
+          "width": 199.265625
+        },
+        "b": {
+          "bottom": 1468.40625,
+          "height": 64.890625,
+          "left": 241.265625,
+          "right": 356,
+          "top": 1403.515625,
+          "width": 114.734375
+        },
+        "overlap": false,
+        "pair": [
+          "#search-input",
+          "#search-form button"
+        ]
+      },
+      {
+        "a": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 273.625,
+          "right": 372,
+          "top": 34.546875,
+          "width": 98.375
+        },
+        "b": {
+          "bottom": 121.984375,
+          "height": 111.984375,
+          "left": 18,
+          "right": 261.625,
+          "top": 10,
+          "width": 243.625
+        },
+        "overlap": false,
+        "pair": [
+          "#menu-toggle",
+          ".mobile-brand"
+        ]
+      },
+      {
+        "missing": true,
+        "pair": [
+          ".speaker-filter",
+          ".speaker-heading"
+        ]
+      },
+      {
+        "missing": true,
+        "pair": [
+          ".source-link",
+          ".entry-link"
+        ]
+      }
+    ],
+    "route": "#overview",
+    "scrollWidth": 390,
+    "searchButton": {
+      "bottom": 1468.40625,
+      "height": 64.890625,
+      "left": 241.265625,
+      "right": 356,
+      "top": 1403.515625,
+      "width": 114.734375
+    },
+    "searchInput": {
+      "bottom": 1468.40625,
+      "height": 64.890625,
+      "left": 34,
+      "right": 233.265625,
+      "top": 1403.515625,
+      "width": 199.265625
+    },
+    "searchQuery": "",
+    "searchResultsCount": 0,
+    "targetEntryLink": null,
+    "targetSourceLink": {
+      "bottom": 3935.78125,
+      "height": 60.5,
+      "left": 38,
+      "right": 293.78125,
+      "top": 3875.28125,
+      "width": 255.78125
+    },
+    "title": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+    "topbarVisible": true,
+    "viewHeading": "Why is the fence still there?",
+    "width": 390
+  }
+}
