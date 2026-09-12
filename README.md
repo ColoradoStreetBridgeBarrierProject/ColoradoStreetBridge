@@ -27,7 +27,9 @@ In repository **Settings → Pages**, select **Deploy from a branch**, choose **
 
 The site uses relative asset links and hash-based navigation so it can run under this repository’s project address. Edit `index.template.html`, `styles.css`, or the readable root JavaScript sources, then run the build and checks below. Commit the generated `index.html` and `assets/guide.js` alongside the source changes. Keep private research files out of this public repository.
 
-The opening explanation and its source links are rendered into HTML so they do not wait for JavaScript. The same overview function supplies both versions. The five script files are combined into one download, with data formatting compacted without changing the source records. A return shortcut appears on long pages after the menus scroll out of view. Versioned asset URLs help readers receive matching updates.
+The interface uses a dark charcoal palette, teal accents, and system fonts. A persistent sidebar serves larger screens. On phones, a compact header opens the section menu, and forms and cards adapt to the available width. Keyboard navigation, visible focus, and reduced-motion preferences are supported.
+
+The opening explanation and its source links are rendered into HTML so they do not wait for JavaScript. The same overview function supplies both versions. The five script files are combined into one download, with data formatting compacted without changing the source records. A return shortcut appears on long pages after search scrolls out of view. Versioned asset URLs help readers receive matching updates.
 
 ## Local checks
 
@@ -39,4 +41,4 @@ node tests/site.test.cjs
 node tests/site.test.cjs --bundle
 ```
 
-The checks cover both readable sources and the production bundle, including data, routing, links, search, preservation, the static overview, and return navigation. They are not a substitute for browser or physical-device testing.
+The checks cover both readable sources and the production bundle, including data, routing, links, search, preservation, the static overview, menu interactions, and return navigation. They are not a substitute for browser or physical-device testing.

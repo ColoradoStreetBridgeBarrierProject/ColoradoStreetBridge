@@ -64,7 +64,7 @@ function citations(page, numbers, supplied=[]) {
   const rest=unique.slice(3).map(item=>link(...item)).join('');
   return `<div class="evidence-links">${primary}</div>${rest?`<details class="more-records"><summary>More supporting records</summary><div class="evidence-links">${rest}</div></details>`:''}`;
 }
-const head = (n,title,description) => `<div class="section-head"><div><h2>${title}</h2><p>${description}</p></div><span class="section-num" aria-hidden="true">${n}</span></div>`;
+const head = (_n,title,description) => `<div class="section-head"><div><h2>${title}</h2><p>${description}</p></div></div>`;
 
 const topics = {
   netting: {
@@ -159,6 +159,21 @@ const content = document.getElementById('content');
 const searchInput = document.getElementById('search-input');
 const searchForm = document.getElementById('search-form');
 const returnTools = document.getElementById('return-tools');
+const menuToggle = document.getElementById('menu-toggle');
+const mobileView = document.getElementById('mobile-view');
+let menuOpen=false;
+function closeMenu(focus=false) {
+  menuOpen=false;
+  document.documentElement.classList.remove('menu-open');
+  menuToggle?.setAttribute('aria-expanded','false');
+  if(focus)menuToggle?.focus();
+}
+menuToggle?.addEventListener('click',()=>{
+  menuOpen=!menuOpen;
+  document.documentElement.classList.toggle('menu-open',menuOpen);
+  menuToggle.setAttribute('aria-expanded',String(menuOpen));
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menuOpen)closeMenu(true);});
 
 function remarkLinks(remark) {
   return (remark.links || []).map(item => {
@@ -281,6 +296,7 @@ function readRoute() {
 }
 function render(focus=false) {
   const {view,arg,detail,query,filter,year}=readRoute();
+  if(mobileView)mobileView.textContent=({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives',evidence:'Evidence & limits',speakers:'Speakers',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'})[view];
   document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
     const on=b.dataset.view===view;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
   });
@@ -306,7 +322,8 @@ function render(focus=false) {
   if(target) {target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
   else if(focus) {content.focus({preventScroll:true});content.scrollIntoView({block:'start'});}
 }
-function navigate(path,focus=true) {
+function navigate(path,focus=true,keepMenu=false) {
+  if(menuOpen&&!keepMenu){closeMenu();focus=true;}
   const next='#'+path;
   if(location.hash!==next)history.pushState(null,'',next);
   render(focus);
@@ -321,11 +338,11 @@ if(returnTools) {
   if(typeof IntersectionObserver==='function') {
     new IntersectionObserver(entries=>{
       returnTools.hidden=entries[0].boundingClientRect.bottom>=0;
-    }).observe(document.querySelector('.view-nav'));
+    }).observe(searchForm);
   }
 }
 document.addEventListener('click',e=>{
-  const tab=e.target.closest('[data-view]');if(tab){navigate(tab.dataset.view,false);tab.focus();return;}
+  const tab=e.target.closest('[data-view]');if(tab){const wasOpen=menuOpen;navigate(tab.dataset.view,false);if(!wasOpen)tab.focus();return;}
   const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}
   const topic=e.target.closest('[data-topic]');if(topic){navigate('alternatives/'+topic.dataset.topic);return;}
   const person=e.target.closest('[data-speaker]');if(person){const filter=readRoute().filter;navigate('speakers/'+person.dataset.speaker+(filter==='all'?'':'?topic='+filter));return;}
@@ -349,10 +366,10 @@ document.addEventListener('change',e=>{
   document.getElementById('speaker-topic').focus();
 });
 document.querySelector('.view-nav').addEventListener('keydown',e=>{
-  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
   const current=e.target.closest('[data-view]');if(!current)return;e.preventDefault();
-  let i=views.indexOf(current.dataset.view);i=e.key==='Home'?0:e.key==='End'?views.length-1:(i+(e.key==='ArrowRight'?1:-1)+views.length)%views.length;
-  navigate(views[i],false);document.getElementById('tab-'+views[i]).focus();
+  let i=views.indexOf(current.dataset.view);i=e.key==='Home'?0:e.key==='End'?views.length-1:(i+(['ArrowRight','ArrowDown'].includes(e.key)?1:-1)+views.length)%views.length;
+  navigate(views[i],false,true);document.getElementById('tab-'+views[i]).focus();
 });
 addEventListener('hashchange',()=>render(true));
 addEventListener('popstate',()=>render(true));

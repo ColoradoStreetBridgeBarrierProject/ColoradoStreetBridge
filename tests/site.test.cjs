@@ -2,8 +2,10 @@ const fs=require('fs'), vm=require('vm'), assert=require('assert'), path=require
 const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
-function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},setAttribute(){},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}};}
+function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}};}
 const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
+const classes=new Set();
+doc.documentElement={classList:{remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
 let intersectionCallback;
 class TestIntersectionObserver{constructor(callback){intersectionCallback=callback;}observe(){}}
 const context={document:doc,location:{hash:''},URLSearchParams,console,IntersectionObserver:TestIntersectionObserver,addEventListener(){},history:{pushState(_,__,hash){context.location.hash=hash;}}};
@@ -67,6 +69,16 @@ assert.equal((page.match(/<img /g)||[]).length,1);
 assert(page.includes('src="bridge-preview.webp"'));
 assert(!page.includes('src="bridge.jpeg"'));
 assert(page.includes('id="return-tools"'));
+assert(page.includes('aria-controls="site-sidebar"'));
+assert(page.includes('name="color-scheme" content="dark"'));
+assert(!page.includes('section-num'));
+assert(!run('head("01","Title","Description")').includes('01'));
+listeners['menu-toggle:click']();assert(classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'true');
+listeners['.view-nav:keydown']({key:'ArrowDown',target:{closest:()=>({dataset:{view:'overview'}})},preventDefault(){}});
+assert.equal(context.location.hash,'#timeline');assert(classes.has('menu-open'));assert(elements['tab-timeline'].focused);
+listeners['document:keydown']({key:'Escape'});assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements['menu-toggle'].focused);
+listeners['menu-toggle:click']();run('navigate("meetings")');assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements.content.focused);
+assert.equal(elements['mobile-view'].textContent,'Meetings & documents');
 assert.equal(typeof intersectionCallback,'function');
 intersectionCallback([{boundingClientRect:{bottom:100}}]);assert.equal(elements['return-tools'].hidden,true);
 intersectionCallback([{boundingClientRect:{bottom:-20}}]);assert.equal(elements['return-tools'].hidden,false);
