@@ -113,13 +113,13 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
-const allowedEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
-const ignoredHiddenFiles=new Set(['.DS_Store']);
-const checkedEntries=rootEntries
- .filter(entry=>!entry.isDirectory()||!entry.name.startsWith('.'))
- .map(entry=>entry.name)
- .filter(name=>!ignoredHiddenFiles.has(name));
-assert.deepEqual(checkedEntries.filter(name=>!allowedEntries.has(name)),[],'Unexpected public files');
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','tests','scripts','assets']);
+const allowedHiddenEntries=new Set(['.nojekyll']);
+const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
+const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
+const hiddenEntries=rootEntries.filter(entry=>entry.name.startsWith('.')).map(entry=>entry.name).filter(name=>!ignoredHiddenEntries.has(name));
+assert.deepEqual(visibleEntries.filter(name=>!allowedVisibleEntries.has(name)),[],'Unexpected public files');
+assert.deepEqual(hiddenEntries.filter(name=>!allowedHiddenEntries.has(name)),[],'Unexpected hidden public files');
 for(const name of ['index.html','app.js','search.js','speakers.js','other-speakers.js','resources.js','README.md']){
  const text=fs.readFileSync(path.join(dir,name),'utf8');
  assert(!/sandbox:|\/workspace\/|libfile_|file_000000|chatgpt\.site/.test(text),name+': internal reference');
