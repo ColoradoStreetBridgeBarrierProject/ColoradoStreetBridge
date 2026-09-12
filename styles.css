@@ -193,7 +193,7 @@ details[open] > summary { margin-bottom: 7px; }
 .remark-card blockquote { margin: 18px 0 22px; padding-left: 20px; border-left: 3px solid var(--accent); font: 400 1.35rem/1.5 Georgia, serif; color: var(--ink); max-width: 800px; }
 .remark-card blockquote p { margin: 0; }
 .recording-link { display: grid; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid var(--line); font-size: .875rem; }
-.recording-link a { justify-content: center; justify-self: start; }
+.recording-link .source-link { justify-content: center; justify-self: start; }
 .approx-label { display: block; color: var(--dim); font-size: .75rem; margin-top: 0; }
 .remark-sequence { margin: 22px 0; }
 .remark-sequence > div { display: grid; grid-template-columns: 145px minmax(0,1fr); gap: 20px; padding-bottom: 18px; }
@@ -214,7 +214,7 @@ details[open] > summary { margin-bottom: 7px; }
 .directory-card .eyebrow { color: var(--accent); font-size: .6875rem; }
 .directory-date { color: var(--dim); font-size: .75rem !important; margin-bottom: 8px; }
 .directory-links { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; font-size: .875rem; }
-.directory-links a { justify-content: center; min-height: 44px; line-height: 1.55; }
+.directory-links .source-link { justify-content: center; min-height: 44px; line-height: 1.55; }
 .directory-links small { display: block; font-size: .75rem; color: var(--dim); line-height: 1.65; margin: 0 0 8px; }
 .source-folder { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-width: 0; padding: 24px; border: 1px solid #3d6869; border-radius: var(--radius); background: var(--accent-wash); margin-bottom: 22px; scroll-margin-top: 24px; }
 .source-folder h3 { font-size: 1.125rem; margin-bottom: 8px; }
