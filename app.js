@@ -1,0 +1,346 @@
+'use strict';
+
+// Summaries and locators follow the authenticated sent baseline and preserved City records.
+const urls = {
+  ...resourceUrls,
+  p2017: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2017-07-19-Public-Safety-Committee-Suicide-Mitigation-Proposals.pdf',
+  p2018: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2018-04-18-Colorado-Bridge-Safety-Comm.pdf',
+  r2018: 'https://ww2.cityofpasadena.net/2018%20Agendas/Apr_23_18/AR%208.pdf',
+  m2018: 'https://ww2.cityofpasadena.net/2018%20Agendas/May_07_18/2018%2004%2023%20CC%20MIN.pdf',
+  v2018: 'https://pasadena.granicus.com/MediaPlayer.php?view_id=25&clip_id=4287',
+  r2019: 'https://ww2.cityofpasadena.net/2019%20Agendas/May_20_19/AR%207.pdf',
+  r2021: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-08-18-Public-Safety-Committee-Agenda.pdf',
+  v2021: 'https://pasadena.granicus.com/MediaPlayer.php?view_id=35&clip_id=5742',
+  r2022: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2022-09-21-Public-Safety-Committee-Agenda.pdf',
+  p2023: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2023-11-15-Public-Safety-Committee-Presentation.pdf',
+  v2023: 'https://pasadena.granicus.com/MediaPlayer.php?view_id=35&clip_id=7033',
+  vjan24: 'https://pasadena.granicus.com/MediaPlayer.php?view_id=35&clip_id=7088',
+  mjan24: 'https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2024-01-09-Design-Commission-Minutes.pdf',
+  p2024: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2024-07-17-Public-Safety-Committee-Presentation.pdf',
+  v2024: 'https://pasadena.granicus.com/MediaPlayer.php?view_id=35&clip_id=7415',
+  m2024: 'https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2024-07-17-PSC-MIN.pdf',
+  q426: 'https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-08-24-Finance-Audit-Committee-Agenda.pdf#page=184',
+  v2026: 'https://pasadena.granicus.com/MediaPlayer.php?clip_id=8492&view_id=35',
+  project: 'https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/',
+  rfp: 'https://www.cityofpasadena.net/city-manager/wp-content/uploads/sites/2/2023-02-09-CM-Weekly-Newsletter.pdf#page=2',
+  hemmer: 'https://doi.org/10.1371/journal.pone.0169625',
+  review: 'https://www.cochrane.org/evidence/CD013543_means-restriction-prevent-suicide-jumping',
+  too: 'https://doi.org/10.1017/S0033291725100792',
+  clifton: 'https://academic.oup.com/eurpub/article/21/2/204/498489',
+  grafton: 'https://pubmed.ncbi.nlm.nih.gov/19440879/',
+  house: 'https://www.govinfo.gov/content/pkg/CRPT-119hrpt686/pdf/CRPT-119hrpt686.pdf#page=207'
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const link = (label, url) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
+
+const sourceRecords = {
+  2:['July 2017 City presentation', urls.p2017], 3:['2021 staff report · p. 2', urls.r2021+'#page=2'],
+  4:['September 2022 project report', urls.r2022], 5:['2018 task-force recommendation', urls.r2018],
+  6:['April 2018 Council minutes', urls.m2018], 7:['April 2018 Council recording', urls.v2018],
+  8:['May 2019 staff report', urls.r2019], 9:['August 2021 agenda and report', urls.r2021],
+  11:['August 2021 recording', urls.v2021], 13:['November 2023 design presentation', urls.p2023],
+  14:['November 2023 recording', urls.v2023], 15:['November 2023 recording', urls.v2023],
+  16:['July 2024 staff presentation', urls.p2024], 17:['2018 comparison · p. 29', urls.p2018+'#page=29'],
+  18:['July 2024 recording', urls.v2024], 19:['July 2024 presentation', urls.p2024],
+  20:['July 2024 minutes', urls.m2024], 21:['July 2024 recording', urls.v2024], 22:['July 2024 recording', urls.v2024],
+  24:['2023 account of the first RFP', urls.rfp], 26:['Year-end project report · p. 184', urls.q426],
+  28:['City project page', urls.project], 29:['Clifton study', urls.clifton], 30:['2025 systematic review', urls.too],
+  31:['April 2026 Finance recording', urls.v2026], 33:['January 2024 Design Commission recording', urls.vjan24],
+  34:['House committee report · p. 203', urls.house]
+};
+function sourceNumbers(value) {
+  return String(value).split(',').flatMap(part => {
+    const [a,b] = part.trim().split(/[–-]/).map(Number);
+    if (!a) return [];
+    return b ? Array.from({length:b-a+1},(_,i)=>a+i) : [a];
+  });
+}
+function citations(page, numbers, supplied=[]) {
+  const entries = [...supplied, ...sourceNumbers(numbers).map(n=>sourceRecords[n]).filter(Boolean)];
+  const seen = new Set();
+  const unique = entries.filter(item=>{if(seen.has(item[1])) return false; seen.add(item[1]); return true;});
+  if (!unique.length) return '';
+  const primary=unique.slice(0,3).map(item=>link(...item)).join('');
+  const rest=unique.slice(3).map(item=>link(...item)).join('');
+  return `<div class="evidence-links">${primary}</div>${rest?`<details class="more-records"><summary>More supporting records</summary><div class="evidence-links">${rest}</div></details>`:''}`;
+}
+const head = (n,title,description) => `<div class="section-head"><div><h2>${title}</h2><p>${description}</p></div><span class="section-num" aria-hidden="true">${n}</span></div>`;
+
+const topics = {
+  netting: {
+    name:'Horizontal netting',sub:'Engineering & rescue',tag:'Studied, then recommended against locally',
+    title:'Yes. Netting was considered more than once.',
+    answer:'The record does not say that nets never work. It describes why Pasadena’s reviewers recommended against a net at this particular bridge, while some engineering work remained preliminary.',
+    steps:[
+      {date:'2017–2018',title:'Netting was part of the original comparison',text:'The City presented a safety-netting concept in 2017. The 2018 task-force matrix rated horizontal netting relatively highly for effectiveness, but poorly for aesthetics and its impact on emergency services.',result:'The Council’s adopted direction centered on a physical barrier that kept people from reaching the edge.',page:16,refs:'2, 5–7, 17',links:[['2018 comparison · p. 29',urls.p2018+'#page=29']]},
+      {date:'Nov 2023',title:'The question returned with new vertical designs',text:'Steve Madison asked about horizontal netting and landscaping. Staff said both had been studied and described difficulties involving the bridge’s geometry, structural demands, remaining fall distance, and the appearance of a net beneath its arches.',result:'No permanent design was selected. Further reviews and a survey continued.',page:13,refs:'14–15',links:[['November 2023 recording',urls.v2023]]},
+      {date:'Jan 2024',title:'The Design Commission revisited the alternative',text:'Chair Julianna Delgado asked whether a horizontal net or another measure could be used. An off-camera respondent described the earlier review and the Council’s vertical-barrier direction. The reviewed record does not establish that respondent’s name or role.',result:'The commission did not reach consensus on a design.',page:15,refs:'33',links:[['January 2024 minutes',urls.mjan24],['Recording · go to ~00:41:27',urls.vjan24]]},
+      {date:'Jul 2024',title:'A fuller local review came back',text:'Staff presented preliminary engineering work, Golden Gate consultation, and rescue concerns. Fire Chief Chad Augustin could not recommend netting from a public-safety standpoint. Staff reported that the expert-review recommendation against it was unanimous.',result:'Staff recommended against netting, but it remained in the committee’s discussion. No permanent design was sent to the full Council.',page:16,refs:'16, 18, 20–22',links:[['2024 presentation · p. 48',urls.p2024+'#page=48'],['Recording · Fire at ~00:34:00',urls.v2024]]}
+    ],
+    limit:'The 2024 engineering assessment was preliminary. Connections had not been designed, and further work was needed to determine whether structural changes would be required. A recommendation against netting is not proof that a completed engineering design established impossibility.',limitPage:29,limitRefs:'16–17'
+  },
+  landscaping: {
+    name:'Trees & landscaping',sub:'Supplement or replacement?',tag:'Considered as a possible supplement',
+    title:'Yes. The task force had examined planting below the bridge.',
+    answer:'The 2018 report found no verifying scientific data for using trees below the bridge to cushion a landing or discourage an attempt. It treated trees as a possible addition to a vertical barrier, not a replacement.',
+    steps:[
+      {date:'2017–2018',title:'Trees were proposed and assessed',text:'Public speakers and Councilmember Tyron Hampton supported planting below the bridge. The task force reviewed the idea alongside fencing, netting, patrols, and technology.',result:'The 2018 report identified both an evidence gap and areas where planting could not occur.',page:5,refs:'2, 5, 7',links:[['Task-force report · p. 3',urls.r2018+'#page=3']]},
+      {date:'Nov 2023',title:'Madison asked about landscaping again',text:'During review of three new barrier concepts, Madison asked about horizontal netting and landscaping below the bridge. Staff said both approaches had already been studied.',result:'The new design process continued without selection of a permanent design.',page:13,refs:'5, 14',links:[['Recording · trees at ~00:33:24',urls.v2023]]},
+      {date:'Jan 2024',title:'Below-bridge suggestions returned at design review',text:'Delgado asked about landscaping, suggested cacti, and relayed a public suggestion for apartment buildings below the bridge. The responding speakers discussed existing buildings and the safety rationale for keeping people on the bridge deck.',result:'The commission reached no consensus on the presented designs. These suggestions were discussion, not adopted safety measures.',page:15,refs:'33',links:[['Recording · cacti at ~00:47:03',urls.vjan24],['Design Commission minutes',urls.mjan24]]},
+      {date:'Jul 2024',title:'Ground cover and layered netting came back',text:'Madison asked about ground cover, physical impediments, and layered netting. Staff and consultants again discussed limits involving fall distance, structure, cost, and appearance.',result:'The below-bridge alternatives remained part of the discussion while the permanent design was unresolved.',page:19,refs:'18, 22',links:[['Recording · ground cover at ~01:06:01',urls.v2024]]}
+    ],
+    limit:'The report’s statement that it found no verifying data is not a finding that every possible landscape intervention has been experimentally tested. The narrower finding is that the reviewed proposal lacked support as a substitute for a barrier.',limitPage:26,limitRefs:'5'
+  },
+  staffing: {
+    name:'Staffing & patrols',sub:'Coverage, cost & response',tag:'Staff advised against use as a substitute',
+    title:'Yes. Staffing returned across several meetings.',
+    answer:'City staff examined cost and practical coverage. They treated human presence as something that could accompany a physical barrier, while repeatedly advising against relying on staffing to replace it.',
+    steps:[
+      {date:'2017–2018',title:'Patrol was among the alternatives',text:'The task force’s review included police presence, patrols, technology, and physical barriers. It distinguished measures that restrict access from measures that make intervention more likely.',result:'The Council adopted a direction centered on a physical barrier.',page:5,refs:'2, 5–7',links:[['2018 task-force report',urls.r2018]]},
+      {date:'Aug 2021',title:'Around-the-clock staffing was proposed',text:'Hampton proposed staffing the bridge 24 hours a day. City Manager Steve Mermell said it had been suggested before, would likely cost several hundred thousand dollars annually, and was not feasible as a replacement. Gordo developed a Host/Guide-style idea.',result:'Further examination of staffing alongside a barrier remained in the discussion.',page:10,refs:'11, 15',links:[['Recording · staffing at ~01:26:44',urls.v2021]]},
+      {date:'Nov 2023',title:'Staff explained the coverage problem',text:'Kris Markarian described continuous coverage, multiple personnel, liability concerns, and incidents outside ordinary working hours. Gordo asked for more work on trained security and a daytime human presence. Madison questioned response speed.',result:'The committee requested additional staffing analysis.',page:14,refs:'15',links:[['Recording · response at ~00:47:01',urls.v2023]]},
+      {date:'Jul 2024',title:'Annual cost estimates were presented',text:'The requested estimates were roughly $600,000 a year for private security and $1.16 million a year for law-enforcement coverage. Justin Jones asked whether staffing was being ruled out because of cost, effectiveness, or both. Staff answered both.',result:'Staff continued to recommend a physical barrier as the primary measure.',page:17,refs:'16, 18',links:[['July 2024 presentation',urls.p2024],['Recording · Jones at ~01:16:54',urls.v2024]]}
+    ],
+    limit:'These are the City’s coverage estimates and staff assessments, not a controlled trial establishing that every staffing arrangement would fail. The research distinguishes an additional opportunity to intervene from a substitute for restricting access.',limitPage:29,limitRefs:'15–18'
+  },
+  technology: {
+    name:'Cameras & technology',sub:'Detection & intervention',tag:'Discussed as complementary measures',
+    title:'Yes. Technology was part of the review from the beginning.',
+    answer:'Cameras, sensors, phones, and later remote intervention were considered as ways to detect a crisis or help someone respond. The City’s reviewed approach continued to treat these tools as additions to physical protection.',
+    steps:[
+      {date:'2017–2018',title:'The task force reviewed detection and communication',text:'The reviewed options included cameras, motion sensors, crisis phones, signs, and lighting, alongside physical barriers and patrols.',result:'The adopted direction centered on a physical barrier, with other measures potentially playing a supporting role.',page:5,refs:'2, 5–7',links:[['2018 safety presentation',urls.p2018]]},
+      {date:'Jul 2024',title:'Staff returned with technology analysis',text:'The July presentation included technology analysis in the requested work. Hampton raised cameras and motion detection as possible supplements to a barrier.',result:'The technology discussion continued alongside the two remaining staff design options.',page:18,refs:'16, 20–21',links:[['July 2024 presentation',urls.p2024],['July 2024 minutes',urls.m2024]]},
+      {date:'Jul 2024',title:'Gordo proposed real-time remote intervention',text:'Gordo asked about cameras and a way to communicate remotely with a person in crisis. Staff continued to treat those tools as possible supplements to a physical barrier.',result:'This was a proposal under discussion. The passage does not document approval or installation of that system.',page:19,refs:'18',links:[['Recording · proposal at ~01:14:21',urls.v2024]]}
+    ],
+    limit:'A question, presentation, or request for study does not establish that a system was funded, installed, staffed, or evaluated. This companion makes no claim about a currently operating remote-intervention system.',limitPage:19,limitRefs:'16, 18, 20–21'
+  }
+};
+
+const timeline = [
+  {date:'Jul 2017',title:'Emergency alcove fencing',text:'Pasadena fenced the restored seating alcoves. A multidisciplinary task force subsequently studied longer-term measures.',result:'An emergency response began while a permanent approach was being developed.',page:4,refs:'2, 4–5',links:[['2017 City presentation',urls.p2017]]},
+  {date:'Apr 2018',title:'The Council agreed on a physical barrier',text:'On April 23, the Council unanimously adopted the task force’s direction toward a permanent physical deterrent. Steve Madison moved approval, and Tyron Hampton seconded it.',result:'Policy direction was approved. A finished permanent design was not.',page:7,refs:'5–7',links:[['Council minutes',urls.m2018],['Task-force report',urls.r2018]]},
+  {date:'Sep 2018',title:'The emergency fence extended along the bridge',text:'After a prolonged intervention over Labor Day weekend, the City Manager issued an emergency purchase order for full-length temporary fencing.',result:'The emergency measure remained while the design process continued.',page:5,refs:'4, 28',links:[['City’s 2022 account',urls.r2022]]},
+  {date:'May 2019',title:'The first design contract was approved',text:'The Council approved the Donald MacDonald Architects contract after a revised proposal shortened the design schedule by ten months and reduced the proposed contract from $700,000 to $500,000.',result:'Construction was then expected to begin around August 2020. That was an expectation, not the eventual outcome.',page:8,refs:'8',links:[['May 2019 staff report',urls.r2019]]},
+  {date:'Aug 2021',title:'Mockups reached the committee, but no design was selected',text:'After full-scale mockups and advisory reviews, the Public Safety Committee requested further design work, community input, and analysis.',result:'The committee did not recommend a permanent design.',page:8,refs:'9, 11',links:[['August 2021 staff report',urls.r2021],['Meeting recording',urls.v2021]]},
+  {date:'2022–2023',title:'The design process restarted with another consultant',text:'The September 2022 reset proposed a new consultant and another design schedule. The first request for proposals drew none. The City reissued it and awarded the Apexx Architecture contract on April 14, 2023.',result:'A new set of concepts followed, several months after the earlier procurement schedule.',page:12,refs:'4, 13, 24',links:[['Reset report',urls.r2022],['City account of the first RFP',urls.rfp]]},
+  {date:'Nov 2023',title:'Three new concepts, more questions, and further review',text:'Canted webmesh, vertical webmesh, and metal pickets were presented. Netting, landscaping, staffing, and substitution questions returned.',result:'Commission reviews and a survey continued. No permanent design was selected.',page:13,refs:'13–15',links:[['November 2023 concepts',urls.p2023],['Meeting recording',urls.v2023]]},
+  {date:'Jan–Jul 2024',title:'Review narrowed the options without a final selection',text:'The Design Commission reached no consensus in January. By July, staff’s options had narrowed to vertical webmesh and metal pickets, and staff returned with patrol costs, netting analysis, rescue concerns, and survey results.',result:'No permanent design was sent to the full Council. Further design work, feedback, and reviews were scheduled.',page:15,refs:'16–22, 33',links:[['January minutes',urls.mjan24],['July minutes',urls.m2024]]},
+  {date:'2025–2026',title:'The design schedule moved again',text:'Capital-project reports moved the design-phase target to June 30, 2028. The report covering work through June 30, 2026 listed continued concept evaluation and an ongoing design phase.',result:'June 2028 was a design-phase target. It was not a funded construction-completion commitment.',page:19,refs:'26',links:[['Year-end project row · p. 184',urls.q426]]},
+  {date:'Reviewed record',title:'Design and construction remained separate decisions',text:'The reviewed records showed no final permanent-design approval or construction award. The City project page said design was funded and construction funding remained to be identified.',result:'This describes the reviewed records. It is not a new live-status check.',page:20,refs:'26–28, 31, 34',links:[['City project page',urls.project],['April 2026 funding discussion',urls.v2026]]}
+];
+
+function steps(items, year=false){return `<div class="timeline ${year?'year-timeline':''}">${items.map(s=>`<article class="timeline-item"><div class="timeline-date">${esc(s.date)}</div><div class="timeline-entry"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><p class="outcome"><strong>What followed</strong> ${esc(s.result)}</p><details><summary>Read the supporting record</summary>${citations(s.page,s.refs,s.links)}</details></div></article>`).join('')}</div>`;}
+
+function overview(){return head('01','Why is the fence still there?','The research describes a gap between agreeing on protection and agreeing on the permanent design and how to build it.')+`
+  <div class="overview-grid">
+    <article class="feature-card lead"><p class="eyebrow">THE SHORT VERSION</p><p class="large">Pasadena chose a physical barrier in 2018. The years that followed did not produce an approved permanent design in the records reviewed for this account.</p><p>The temporary fence stayed while designs went through mockups, commission reviews, public input, a change of consultant, and further study. Construction also required funding separate from the design budget.</p><p>The record contains both practical delays and repeated reconsideration of alternatives. It does not support treating every delay as the same, or assigning one motive to everyone involved.</p>${citations(21,'4, 6, 8–11, 16, 24, 26, 28',[['City project page',urls.project]])}</article>
+    <aside class="feature-card"><h3>Three different decisions</h3><ol class="status-list"><li><b>POLICY DIRECTION</b><strong>Agreed in April 2018</strong><span>The Council adopted a direction toward a permanent physical deterrent.</span></li><li><b>PERMANENT DESIGN</b><strong>Still unresolved in the reviewed records</strong><span>Concepts and mockups are not final design approval.</span></li><li><b>CONSTRUCTION</b><strong>Separate funding still needed</strong><span>Money for design did not mean the finished barrier was funded.</span></li></ol>${citations(20,'6, 26, 28, 31, 34')}</aside>
+  </div>
+  <div class="next-cards"><button class="next-card" data-go="timeline"><strong>How did the schedule move?</strong><span>Follow decisions, resets, and the distinction between planned dates and actual outcomes.</span><span class="action">Explore the timeline →</span></button><button class="next-card" data-go="alternatives"><strong>Has anyone looked at the alternatives?</strong><span>Trace netting, landscaping, staffing, and technology across the meetings.</span><span class="action">Explore the questions →</span></button><button class="next-card" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read the prevention rationale, the research qualifications, and the record’s gaps.</span><span class="action">Examine the evidence →</span></button></div>
+  <div class="note"><p><strong>A useful distinction</strong> Repeated questions are documented. Exactly how much delay each one caused is not quantified. The account’s interpretation of the pattern should remain distinguishable from the meeting record.</p></div>`;}
+
+function alternatives(key='netting'){const t=topics[key]||topics.netting;return head('03','Has anyone looked at this?','Select an approach to follow what was studied, the answers that came back, and what remained unresolved.')+`
+  <div class="topic-layout"><nav class="topic-menu" aria-label="Approaches considered">${Object.entries(topics).map(([id,x])=>`<button data-topic="${id}" aria-pressed="${t===x}">${esc(x.name)}<small>${esc(x.sub)}</small></button>`).join('')}</nav><div class="topic-main"><article class="topic-answer"><span class="pill">${esc(t.tag)}</span><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title)}</h3><p>${esc(t.answer)}</p></article>${steps(t.steps)}<div class="note"><p><strong>Keep this qualification</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div></div></div>`;}
+
+function evidence(){return head('04','What does the evidence establish?','The case for protection and the limits of what can be concluded belong together.')+`
+  <div class="evidence-grid">
+    <article class="feature-card lead"><span class="pill">Prevention rationale</span><h3>A barrier can create time</h3><p>The research describes how interrupting access can allow an immediate crisis to ease or create an opportunity for intervention. The Clifton Suspension Bridge study reported fewer deaths and staff accounts of more time to intervene, even without fewer incidents.</p><p class="quiet">Clifton also used cameras and patrols. That study does not isolate extra time as the sole mechanism, and crisis-duration research does not establish one timeline for every person.</p>${citations(18,'19, 29',[['Clifton study',urls.clifton],['2024 presentation · p. 43',urls.p2024+'#page=43']])}</article>
+    <article class="feature-card"><span class="pill">Substitution</span><h3>Another location is not an inevitable outcome</h3><p>The research summarized here challenges the assumption that restricting one site simply moves every death elsewhere. Longer follow-up can also change an initial finding, as it did at Toronto’s Bloor Viaduct.</p><p class="quiet">The 2025 meta-analysis found no clear increase at other sites and fewer deaths using the same method overall. It did not detect a reduction across all suicide methods combined, and some comparison-site data were limited.</p>${citations(32,'30',[['2025 review',urls.too]])}</article>
+    <article class="feature-card"><span class="pill">Local design choice</span><h3>Evidence for barriers is not a universal ranking of designs</h3><p>The Swiss study cited in the early City presentations grouped complete vertical barriers and nets together. It did not establish that one type was more effective than the other.</p><p class="quiet">Pasadena’s preference also reflected its own assessment of architecture, engineering, and emergency-services concerns. The 2024 netting assessment still had unfinished engineering work.</p>${citations(26,'5, 16–17',[['Swiss study',urls.hemmer],['Preliminary assessment · p. 37',urls.p2024+'#page=37']])}</article>
+    <article class="feature-card"><span class="pill">Public understanding</span><h3>The survey showed doubt among its respondents</h3><p>Of 678 respondents, 40% said a vertical barrier would help prevent suicides, 33% said it would not, and 27% did not know. Staff and a suicide-prevention specialist described a need for public education.</p><p class="quiet">Participation was self-selected. These results cannot be treated as a representative poll of all Pasadena residents.</p>${citations(17,'19',[['July 2024 presentation',urls.p2024]])}</article>
+    <article class="feature-card wide"><h3>What the record leaves open</h3><ul class="limit-list"><li><strong>A complete recent annual death series</strong><span>Police tables cover an earlier period. Later oral updates are identified separately. The reviewed record does not establish a complete series for 2024–2026. It also records an unexplained disagreement between two 2017 counts.</span> ${link('2021 staff report · p. 2',urls.r2021+'#page=2')}</li><li><strong>How every interval of delay should be attributed</strong><span>Pandemic procurement and mockup-fabrication delays and an unsuccessful first consultant solicitation are documented. The bridge records reviewed do not attribute a specific delay to the Eaton Fire. Repeated reconsideration is not a calculation of months lost.</span> ${link('August 2021 recording · 00:14:14',urls.v2021)}</li><li><strong>Construction funding</strong><span>A federal request and a House committee recommendation were not an award. The April 2026 “shortlist” discussion did not resolve which funding program or request the figure referred to.</span> ${link('April 2026 Finance recording',urls.v2026)} · ${link('House committee report',urls.house)}</li><li><strong>Missing recordings and unnamed speakers</strong><span>Some early meetings are supported by written City records because recordings were unavailable. The January 2024 off-camera respondent remains unidentified. Those limits should survive any shorter retelling.</span> ${link('January 2024 recording',urls.vjan24)}</li></ul></article>
+    <article class="feature-card wide"><p class="eyebrow">READING THE MONEY AND DATES</p><h3>Design funding is not construction funding</h3><div class="stat-pair"><div><b>$1.48 million</b><span>Design-phase spending through June 30, 2026, rounded from $1,475,508.</span></div><div><b>June 2028</b><span>The reported design-phase target, not a promised opening date for a completed barrier.</span></div></div><p>The year-end report listed $2,874,000 appropriated to the design-phase project. At the April 2026 meeting, staff separately estimated construction at roughly $4 million. These figures describe different parts of the project and should not be added or substituted without context.</p>${citations(20,'26, 31, 34',[['Year-end design row',urls.q426],['Recording · construction estimate at ~02:00:54',urls.v2026]])}</article>
+    <article class="feature-card wide"><h3>How to use the source links</h3><p>Source links open the underlying City records, original studies, and official recordings. Recording times are approximate passage locators. Open the recording and use its player to go to the displayed time.</p><p class="quiet">This guide draws on a completed research account. Selected remarks distinguish quotations, caption excerpts, and transcript excerpts. Verification details appear with each selection. Search covers the material shown here, including remarks, but does not search inside linked reports or recordings.</p></article>
+  </div>`;}
+
+
+const views = ['overview','timeline','alternatives','evidence','speakers','meetings','news'];
+const content = document.getElementById('content');
+const searchInput = document.getElementById('search-input');
+const searchForm = document.getElementById('search-form');
+
+function remarkLinks(remark) {
+  return (remark.links || []).map(item => {
+    let url = item.url || urls[item.source];
+    if (item.page) url = url.split('#')[0] + '#page=' + item.page;
+    const label = item.label + (item.time ? ' · ' + item.time : item.page ? ' · p. ' + item.page : '');
+    return '<li>' + link(label,url) + '</li>';
+  }).join('');
+}
+function remarkCard(key, person, remark) {
+  return `<article class="remark-card" id="${esc(remark.id)}" tabindex="-1">
+    <div class="remark-top"><p class="remark-person">${esc(person.name)}</p><time class="remark-date" datetime="${esc(remark.sortDate)}">${esc(remark.date)}</time><span class="remark-topic">${esc(speakerTopics[remark.topic])}</span></div>
+    <h4>${esc(remark.title)}</h4>
+    <p class="remark-kind">${esc(remark.kind)}</p>
+    ${remark.quote ? `<blockquote><p>“${esc(remark.quote)}”</p></blockquote>` : ''}
+    <p>${esc(remark.context)}</p>
+    ${remark.meeting ? `<div class="recording-link">${link('Open recording · go to '+remark.time,urls[remark.meeting])}<span class="approx-label">Approximate passage start</span></div>` : '<p class="recording-link">Written source. Open the supporting records below.</p>'}
+    <dl class="remark-sequence">
+      <div><dt>Earlier answer or work</dt><dd>${esc(remark.earlier)}</dd></div>
+      <div><dt>Response and context</dt><dd>${esc(remark.response)}</dd></div>
+      <div><dt>What followed</dt><dd>${esc(remark.outcome)}</dd></div>
+    </dl>
+    <details class="exchange-records"><summary>Follow the earlier record and response timestamps</summary><ul>${remarkLinks(remark)}</ul></details>
+    <details class="source-detail"><summary>About this selection and its source</summary><p>${esc(remark.basis)}</p></details>
+    <a class="entry-link" href="#speakers/${esc(key)}/${esc(remark.id)}">Link to this entry</a>
+  </article>`;
+}
+function speakerEntries(key='all', topic='all') {
+  return Object.entries(speakerDirectory).filter(([id])=>key==='all'||key===id||(key==='other'&&Object.hasOwn(otherSpeakers,id)))
+    .flatMap(([id,person])=>person.remarks.map(remark=>({id,person,remark})))
+    .filter(({remark})=>topic==='all'||remark.topic===topic)
+    .sort((a,b)=>(a.remark.sortDate+' '+(a.remark.time||'00:00:00')).localeCompare(b.remark.sortDate+' '+(b.remark.time||'00:00:00'))||(a.remark.sortOrder||0)-(b.remark.sortOrder||0)||a.id.localeCompare(b.id));
+}
+function speakerView(key='all', topic='all') {
+  const entries=speakerEntries(key,topic);
+  const name=key==='all'?'All speakers':key==='other'?'Other speakers':speakerDirectory[key].name;
+  const isOther=key==='other'||Object.hasOwn(otherSpeakers,key);
+  const total=speakerEntries(key).length;
+  const groups=[];
+  for (const item of entries) {
+    let group=groups[groups.length-1];
+    if (!group||group.date!==item.remark.date||group.body!==item.remark.body) {group={meeting:item.remark.meeting,date:item.remark.date,body:item.remark.body,items:[]};groups.push(group);}
+    group.items.push(item);
+  }
+  return head('05','Questions, answers, and decisions','Follow the selected exchanges in date order. Read what had already been studied, what was asked next, and how staff or other speakers responded.') +
+    `<nav class="speaker-menu" aria-label="Select a speaker"><button data-speaker="all" aria-pressed="${key==='all'}">All speakers</button>${Object.entries(speakers).map(([id,p])=>`<button data-speaker="${id}" aria-pressed="${key===id}">${esc(p.name)} <span>${p.remarks.length}</span></button>`).join('')}<button data-speaker="other" aria-pressed="${isOther}">Other speakers <span>${Object.keys(otherSpeakers).length}</span></button></nav>
+    ${isOther?`<div class="speaker-filter"><label for="other-speaker">Choose another speaker</label><select id="other-speaker"><option value="other">All other speakers</option>${Object.entries(otherSpeakers).map(([id,p])=>`<option value="${id}" ${id===key?'selected':''}>${esc(p.name)} · ${esc(p.role)}</option>`).join('')}</select></div><p class="locator-note">Roles describe the period of these selections. Staff, consultants, and community representatives are included alongside elected officials.</p>`:''}
+    <div class="speaker-filter"><label for="speaker-topic">Follow a topic</label><select id="speaker-topic">${Object.entries(speakerTopics).map(([id,label])=>`<option value="${id}" ${id===topic?'selected':''}>${esc(label)}</option>`).join('')}</select></div>
+    <div class="speaker-heading"><h3>${esc(name)}</h3><p role="status">${entries.length}${topic==='all'?'':' of '+total} entries · oldest first</p></div>
+    <p class="locator-note">Open a recording and go to the displayed time. Expand the supporting links to follow the earlier answer or response. Written records and interviews are labeled separately. These are selected exchanges, not a complete record of anyone’s contributions.</p>
+    <p class="chronology-note">A recurring question does not establish that a whole study was repeated. The entries distinguish requests for more information, objections to designs, support for action, and useful refinement.</p>
+    ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p></div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div></section>`).join(''):'<p class="search-empty">No selected entries for this speaker and topic. Choose another topic or All speakers.</p>'}`;
+}
+
+function formatDate(date) {
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return date;
+  return new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
+}
+function directoryLinks(items) {
+  return '<ul class="directory-links">'+items.map(item=>'<li>'+link(item.label,item.url||urls[item.source])+(item.note?'<small>'+esc(item.note)+'</small>':'')+'</li>').join('')+'</ul>';
+}
+function meetingsView(year='all') {
+  const selected=meetingRecords.filter(m=>year==='all'||m.date.startsWith(year));
+  const years=[...new Set(meetingRecords.map(m=>m.date.slice(0,4)))];
+  return head('06','Meetings & documents','Open the meetings in the project record, with the corresponding recordings, agendas, presentations, minutes, and related funding documents.')+
+    `<aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>The Dropbox folder holds preserved copies of official records, including minutes for early meetings where recordings were unavailable.</p></div>${link('Open the Dropbox source folder',urls.dropbox)}</aside>
+    <p class="locator-note">This directory brings together links from the City’s project page and the reviewed source records. A listed link does not mean its full document or recording was reviewed in this update. Some presentations open through the City’s link list.</p>
+    <div class="speaker-filter"><label for="meeting-year">Choose a year</label><select id="meeting-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><span role="status">${selected.length} meeting records · oldest first</span></div>
+    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links)}<a class="entry-link" href="#meetings/${esc(m.id)}">Link to this meeting</a></article>`).join('')}</div>
+    <p class="directory-tail">${link('City project page and meeting list',urls.project)} · ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')}</p>`;
+}
+function newsView() {
+  return head('07','News & commentary','Browse reporting, interviews, historical coverage, and preservation commentary about the bridge.')+
+    `<p class="locator-note">Links open the original publisher sites. Some require a subscription. Reports and columns reflect their publication dates. They are not current project-status updates or independent verification of every claim they contain.</p>
+    <div class="directory-grid">${newsRecords.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${n.note?'<p class="locator-note">'+esc(n.note)+'</p>':''}<p>${link('Read at the publisher',n.url)}</p><a class="entry-link" href="#news/${esc(n.id)}">Link to this article entry</a></article>`).join('')}</div>
+    <aside class="directory-tail"><h3>More regional coverage</h3><p>${link('San Gabriel Valley Tribune · publisher homepage','https://www.sgvtribune.com/')}</p><p class="locator-note">A specific Tribune article link has not been established for this directory. The Pasadena Star-News entries above link directly to the identified articles.</p></aside>`;
+}
+
+let indexCache;
+function searchIndex() {
+  if (indexCache) return indexCache;
+  const result=[];
+  for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text,s.result]),t.limit].join(' '),route:'alternatives/'+key});
+  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,text:t.text+' '+t.result,route:'timeline/'+i}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,text:[r.date,r.time,r.body,speakerTopics[r.topic],r.quote,r.context,r.earlier,r.response,r.outcome,...(r.links||[]).flatMap(l=>[l.label,l.time]),r.basis].join(' '),route:'speakers/'+key+'/'+r.id}));
+  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,text:[m.title,m.kind,m.note,...m.links.map(l=>l.label)].join(' '),route:'meetings/'+m.id}));
+  newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,n.note].join(' '),route:'news/'+n.id}));
+  result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
+  for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
+    const div=document.createElement('div');div.innerHTML=html;
+    div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
+      const h=a.querySelector('h3,.eyebrow');
+      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:h?h.textContent:'Project overview',text:a.textContent,route:view+'/'+i});
+    });
+  }
+  indexCache=result;return result;
+}
+function highlight(text, words) {
+  if (!words.length) return esc(text);
+  const escaped=words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).sort((a,b)=>b.length-a.length);
+  const re=new RegExp('('+escaped.join('|')+')','gi');
+  return String(text).split(re).map((part,i)=>i%2?'<mark>'+esc(part)+'</mark>':esc(part)).join('');
+}
+function searchView(query) {
+  const words=SearchText.terms(query);
+  const heading=head('','Search the highlights','Search topics, decisions, evidence notes, names, earlier answers, responses, selected remarks, meeting documents, and news links. Linked reports, articles, and recordings are not searched.');
+  if (!words.length) return heading+'<p class="search-empty">Enter a word or phrase above. You can start with <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
+  const matches=searchIndex().map(item=>({item,score:SearchText.score(item,words)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+  const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
+  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>`<li><p class="result-type">${esc(item.type)}</p><h3><a href="#${esc(item.route)}">${highlight(item.title,words)}</a></h3><p>${highlight(SearchText.excerpt(item.text,words),words)}</p></li>`).join('')}</ol>`:'<p class="search-empty">No matching highlights were found. Try fewer words, a surname, or a broader topic.</p>');
+}
+function readRoute() {
+  const [path,queryString='']=location.hash.slice(1).split('?');
+  const [raw,arg,detail]=path.split('/');
+  const view=views.includes(raw)||raw==='search'?raw:'overview';
+  const params=new URLSearchParams(queryString);
+  const filter=Object.hasOwn(speakerTopics,params.get('topic'))?params.get('topic'):'all';
+  const year=meetingRecords.some(m=>m.date.slice(0,4)===params.get('year'))?params.get('year'):'all';
+  return {view,arg,detail,filter,year,query:(params.get('q')||'').slice(0,200)};
+}
+function render(focus=false) {
+  const {view,arg,detail,query,filter,year}=readRoute();
+  document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
+    const on=b.dataset.view===view;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
+  });
+  if (view==='search') {
+    document.querySelector('.view-nav [data-view]').tabIndex=0;
+    searchInput.value=query;
+  }
+  const topic=Object.hasOwn(topics,arg)?arg:'netting';
+  const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
+  content.innerHTML=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project.','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry separates what happened from what followed. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():searchView(query);
+  const heading=content.querySelector('h2');if(heading)heading.id='view-heading';
+  content.setAttribute('aria-labelledby','view-heading');content.setAttribute('role',view==='search'?'region':'tabpanel');
+  document.title='Colorado Street Bridge Barrier Enhancements Project | '+({overview:'Project highlights',timeline:'Decisions over time',alternatives:topics[topic].name,evidence:'Evidence and limits',speakers:person==='all'?'Questions, answers, and decisions':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search'}[view]);
+  let target=null;
+  if (['timeline','evidence','overview'].includes(view) && /^\d+$/.test(arg||'')) {
+    const items=content.querySelectorAll(view==='timeline'?'.timeline-item':'article.feature-card,aside.feature-card');
+    target=items[Number(arg)];
+    if(target && view==='timeline') {const d=target.querySelector('details');if(d)d.open=true;}
+  }
+  if(view==='speakers' && detail && speakerEntries(person,filter).some(({remark})=>remark.id===detail)) target=document.getElementById(detail);
+  if(view==='meetings'&&(arg==='source-folder'||meetingRecords.some(m=>m.id===arg)))target=document.getElementById(arg);
+  if(view==='news'&&newsRecords.some(n=>n.id===arg))target=document.getElementById(arg);
+  if(target) {target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
+  else if(focus) {content.focus({preventScroll:true});content.scrollIntoView({block:'start'});}
+}
+function navigate(path,focus=true) {
+  const next='#'+path;
+  if(location.hash!==next)history.pushState(null,'',next);
+  render(focus);
+}
+searchForm.addEventListener('submit',e=>{e.preventDefault();navigate('search?q='+encodeURIComponent(searchInput.value.trim()));});
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-view]');if(tab){navigate(tab.dataset.view,false);tab.focus();return;}
+  const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}
+  const topic=e.target.closest('[data-topic]');if(topic){navigate('alternatives/'+topic.dataset.topic);return;}
+  const person=e.target.closest('[data-speaker]');if(person){const filter=readRoute().filter;navigate('speakers/'+person.dataset.speaker+(filter==='all'?'':'?topic='+filter));return;}
+  const query=e.target.closest('[data-query]');if(query){navigate('search?q='+encodeURIComponent(query.dataset.query));return;}
+  const a=e.target.closest('a[href^="#"]');
+  if(a && a.getAttribute('href')!=='#content' && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && e.button===0){e.preventDefault();navigate(a.getAttribute('href').slice(1));}
+});
+document.addEventListener('change',e=>{
+  const route=readRoute();
+  if(e.target.id==='meeting-year'){
+    navigate('meetings'+(e.target.value==='all'?'':'?year='+encodeURIComponent(e.target.value)),false);
+    document.getElementById('meeting-year').focus();return;
+  }
+  if(e.target.id==='other-speaker'){
+    navigate('speakers/'+e.target.value+(route.filter==='all'?'':'?topic='+route.filter),false);
+    document.getElementById('other-speaker').focus();return;
+  }
+  if(e.target.id!=='speaker-topic')return;
+  const person=route.arg==='other'||Object.hasOwn(speakerDirectory,route.arg)?route.arg:'all';
+  navigate('speakers/'+person+(e.target.value==='all'?'':'?topic='+encodeURIComponent(e.target.value)),false);
+  document.getElementById('speaker-topic').focus();
+});
+document.querySelector('.view-nav').addEventListener('keydown',e=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  const current=e.target.closest('[data-view]');if(!current)return;e.preventDefault();
+  let i=views.indexOf(current.dataset.view);i=e.key==='Home'?0:e.key==='End'?views.length-1:(i+(e.key==='ArrowRight'?1:-1)+views.length)%views.length;
+  navigate(views[i],false);document.getElementById('tab-'+views[i]).focus();
+});
+addEventListener('hashchange',()=>render(true));
+addEventListener('popstate',()=>render(true));
+render();
