@@ -1,0 +1,1919 @@
+{
+  "tested_revision": "146b16a9e066db1ec7852195d718e7ce007ad53c",
+  "target_revision_requested": "146b16a9e066db1ec7852195d718e7ce007ad53c",
+  "audit_script_sha256": "622e4f2ad7a0cd59e93cf8a2e223928ecdd679632f2b2df8addf5a2ae4232120",
+  "browser_version": "Chromium 152.0.7977.0",
+  "working_tree_entries_at_start": [
+    "?? tests/review/mobile/header-enlarged/run_header_enlarged_audit.py"
+  ],
+  "derived_speaker_route": "#speakers/delgado/delgado-cacti",
+  "normal_390": {
+    "viewportActual": {
+      "innerHeight": 1200,
+      "innerWidth": 390,
+      "outerHeight": 1343,
+      "outerWidth": 500
+    },
+    "overview": {
+      "activeNav": "Overview",
+      "bodyScrollWidth": 390,
+      "buttonRect": {
+        "bottom": 56,
+        "height": 44,
+        "left": 287.46875,
+        "right": 372,
+        "top": 12,
+        "width": 84.53125
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [
+        {
+          "bottom": 41.28125,
+          "height": 15,
+          "left": 326.46875,
+          "right": 359,
+          "top": 26.28125,
+          "width": 32.53125
+        }
+      ],
+      "buttonTextRect": {
+        "bottom": 44.71875,
+        "height": 21.4375,
+        "left": 326.46875,
+        "right": 359,
+        "top": 23.28125,
+        "width": 32.53125
+      },
+      "clientWidth": 390,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+      "cssHeaderHeight": "69px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 69,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 43,
+        "height": 18,
+        "left": 300.46875,
+        "right": 318.46875,
+        "top": 25,
+        "width": 18
+      },
+      "lastNavRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "locationHash": "#overview",
+      "menuExpanded": "false",
+      "mobileView": "Overview",
+      "navCount": 7,
+      "rootFontSize": "16px",
+      "sidebarDisplay": "none",
+      "sidebarMaxHeightCss": "1131px",
+      "sidebarRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "sidebarTopCss": "69px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Why is the fence still there?",
+      "viewport": {
+        "height": 1200,
+        "width": 390
+      }
+    },
+    "meetings": {
+      "activeNav": "Meetings & documents",
+      "bodyScrollWidth": 390,
+      "buttonRect": {
+        "bottom": 56,
+        "height": 44,
+        "left": 287.46875,
+        "right": 372,
+        "top": 12,
+        "width": 84.53125
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [
+        {
+          "bottom": 41.28125,
+          "height": 15,
+          "left": 326.46875,
+          "right": 359,
+          "top": 26.28125,
+          "width": 32.53125
+        }
+      ],
+      "buttonTextRect": {
+        "bottom": 44.71875,
+        "height": 21.4375,
+        "left": 326.46875,
+        "right": 359,
+        "top": 23.28125,
+        "width": 32.53125
+      },
+      "clientWidth": 390,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+      "cssHeaderHeight": "69px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 69,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 43,
+        "height": 18,
+        "left": 300.46875,
+        "right": 318.46875,
+        "top": 25,
+        "width": 18
+      },
+      "lastNavRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "locationHash": "#meetings",
+      "menuExpanded": "false",
+      "mobileView": "Meetings & documents",
+      "navCount": 7,
+      "rootFontSize": "16px",
+      "sidebarDisplay": "none",
+      "sidebarMaxHeightCss": "1131px",
+      "sidebarRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "sidebarTopCss": "69px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Meetings & documents",
+      "viewport": {
+        "height": 1200,
+        "width": 390
+      }
+    }
+  },
+  "desktop_1440": {
+    "viewportActual": {
+      "innerHeight": 1200,
+      "innerWidth": 1440,
+      "outerHeight": 1343,
+      "outerWidth": 1440
+    },
+    "overview": {
+      "activeNav": "Overview",
+      "bodyScrollWidth": 1440,
+      "buttonRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [],
+      "buttonTextRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "clientWidth": 1440,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+      "cssHeaderHeight": "0px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 0,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "lastNavRect": {
+        "bottom": 560.9375,
+        "height": 48,
+        "left": 18,
+        "right": 217,
+        "top": 512.9375,
+        "width": 199
+      },
+      "locationHash": "#overview",
+      "menuExpanded": "false",
+      "mobileView": "Overview",
+      "navCount": 7,
+      "rootFontSize": "16px",
+      "sidebarDisplay": "flex",
+      "sidebarMaxHeightCss": "none",
+      "sidebarRect": {
+        "bottom": 1200,
+        "height": 1200,
+        "left": 0,
+        "right": 236,
+        "top": 0,
+        "width": 236
+      },
+      "sidebarTopCss": "0px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Why is the fence still there?",
+      "viewport": {
+        "height": 1200,
+        "width": 1440
+      }
+    },
+    "desktopSidebar": {
+      "activeNav": "Overview",
+      "sidebarDisplay": "flex",
+      "topbarVisible": false
+    }
+  },
+  "resize_observer_probe": {
+    "before": {
+      "activeNav": "Overview",
+      "bodyScrollWidth": 390,
+      "buttonRect": {
+        "bottom": 56,
+        "height": 44,
+        "left": 287.46875,
+        "right": 372,
+        "top": 12,
+        "width": 84.53125
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [
+        {
+          "bottom": 41.28125,
+          "height": 15,
+          "left": 326.46875,
+          "right": 359,
+          "top": 26.28125,
+          "width": 32.53125
+        }
+      ],
+      "buttonTextRect": {
+        "bottom": 44.71875,
+        "height": 21.4375,
+        "left": 326.46875,
+        "right": 359,
+        "top": 23.28125,
+        "width": 32.53125
+      },
+      "clientWidth": 390,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+      "cssHeaderHeight": "69px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 69,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 43,
+        "height": 18,
+        "left": 300.46875,
+        "right": 318.46875,
+        "top": 25,
+        "width": 18
+      },
+      "lastNavRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "locationHash": "#overview",
+      "menuExpanded": "false",
+      "mobileView": "Overview",
+      "navCount": 7,
+      "rootFontSize": "16px",
+      "sidebarDisplay": "none",
+      "sidebarMaxHeightCss": "1131px",
+      "sidebarRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "sidebarTopCss": "69px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Why is the fence still there?",
+      "viewport": {
+        "height": 1200,
+        "width": 390
+      }
+    },
+    "afterRootFontChange": {
+      "activeNav": "Overview",
+      "bodyScrollWidth": 390,
+      "buttonRect": {
+        "bottom": 57.40625,
+        "height": 46.8125,
+        "left": 279.34375,
+        "right": 372,
+        "top": 10.59375,
+        "width": 92.65625
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [
+        {
+          "bottom": 42.59375,
+          "height": 18,
+          "left": 318.34375,
+          "right": 359,
+          "top": 24.59375,
+          "width": 40.65625
+        }
+      ],
+      "buttonTextRect": {
+        "bottom": 47.40625,
+        "height": 26.8125,
+        "left": 318.34375,
+        "right": 359,
+        "top": 20.59375,
+        "width": 40.65625
+      },
+      "clientWidth": 390,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+      "cssHeaderHeight": "69px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 69,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 43,
+        "height": 18,
+        "left": 292.34375,
+        "right": 310.34375,
+        "top": 25,
+        "width": 18
+      },
+      "lastNavRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "locationHash": "#overview",
+      "menuExpanded": "false",
+      "mobileView": "Overview",
+      "navCount": 7,
+      "rootFontSize": "20px",
+      "sidebarDisplay": "none",
+      "sidebarMaxHeightCss": "1131px",
+      "sidebarRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "sidebarTopCss": "69px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Why is the fence still there?",
+      "viewport": {
+        "height": 1200,
+        "width": 390
+      }
+    },
+    "restored": {
+      "activeNav": "Overview",
+      "bodyScrollWidth": 390,
+      "buttonRect": {
+        "bottom": 56,
+        "height": 44,
+        "left": 287.46875,
+        "right": 372,
+        "top": 12,
+        "width": 84.53125
+      },
+      "buttonTextInside": true,
+      "buttonTextRangeRects": [
+        {
+          "bottom": 41.28125,
+          "height": 15,
+          "left": 326.46875,
+          "right": 359,
+          "top": 26.28125,
+          "width": 32.53125
+        }
+      ],
+      "buttonTextRect": {
+        "bottom": 44.71875,
+        "height": 21.4375,
+        "left": 326.46875,
+        "right": 359,
+        "top": 23.28125,
+        "width": 32.53125
+      },
+      "clientWidth": 390,
+      "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+      "cssHeaderHeight": "69px",
+      "hasHorizontalOverflow": false,
+      "headerHeight": 69,
+      "iconInside": true,
+      "iconRect": {
+        "bottom": 43,
+        "height": 18,
+        "left": 300.46875,
+        "right": 318.46875,
+        "top": 25,
+        "width": 18
+      },
+      "lastNavRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "locationHash": "#overview",
+      "menuExpanded": "false",
+      "mobileView": "Overview",
+      "navCount": 7,
+      "rootFontSize": "16px",
+      "sidebarDisplay": "none",
+      "sidebarMaxHeightCss": "1131px",
+      "sidebarRect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0
+      },
+      "sidebarTopCss": "69px",
+      "targetId": null,
+      "targetRect": null,
+      "viewHeading": "Why is the fence still there?",
+      "viewport": {
+        "height": 1200,
+        "width": 390
+      }
+    },
+    "headerChanged": false,
+    "headerRestored": true
+  },
+  "enlarged_cases": [
+    {
+      "viewportRequested": 375,
+      "viewportActual": {
+        "innerHeight": 1200,
+        "innerWidth": 375,
+        "outerHeight": 1343,
+        "outerWidth": 500
+      },
+      "closedOverview": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "false",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        }
+      },
+      "openOverview": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 480,
+          "height": 61,
+          "left": 18,
+          "right": 357,
+          "top": 419,
+          "width": 339
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "true",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 497,
+          "height": 364,
+          "left": 0,
+          "right": 375,
+          "top": 133,
+          "width": 375
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        },
+        "lastNavReachable": true
+      },
+      "openOverviewScrolled": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 480,
+          "height": 61,
+          "left": 18,
+          "right": 357,
+          "top": 419,
+          "width": 339
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "true",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 497,
+          "height": 364,
+          "left": 0,
+          "right": 375,
+          "top": 133,
+          "width": 375
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        },
+        "menuStillBelowHeader": true
+      },
+      "escapeState": {
+        "activeId": "menu-toggle",
+        "expanded": "false"
+      },
+      "meetingsOverview": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        }
+      },
+      "openMeetings": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 513,
+          "height": 61,
+          "left": 18,
+          "right": 357,
+          "top": 452,
+          "width": 339
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "true",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 530,
+          "height": 364,
+          "left": 0,
+          "right": 375,
+          "top": 166,
+          "width": 375
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        }
+      },
+      "openMeetingsScrolled": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 513,
+          "height": 61,
+          "left": 18,
+          "right": 357,
+          "top": 452,
+          "width": 339
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "true",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 530,
+          "height": 364,
+          "left": 0,
+          "right": 375,
+          "top": 166,
+          "width": 375
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        },
+        "lastNavReachableAfterScroll": true
+      },
+      "meetingDestination": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings/meeting-2024-01-09",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": "meeting-2024-01-09",
+        "targetRect": {
+          "bottom": 1257.71875,
+          "height": 1071.640625,
+          "left": 18,
+          "right": 357,
+          "top": 186.078125,
+          "width": 339
+        },
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        }
+      },
+      "backFromMeeting": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 375,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 239.953125,
+          "right": 357,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 278.953125,
+            "right": 344,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 278.953125,
+          "right": 344,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 375,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 252.953125,
+          "right": 270.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 375
+        }
+      },
+      "speakerNavigation": {
+        "route": "#speakers/delgado/delgado-cacti",
+        "target": {
+          "activeNav": "Speakers",
+          "bodyScrollWidth": 375,
+          "buttonRect": {
+            "bottom": 97.4375,
+            "height": 62.890625,
+            "left": 239.953125,
+            "right": 357,
+            "top": 34.546875,
+            "width": 117.046875
+          },
+          "buttonTextInside": true,
+          "buttonTextRangeRects": [
+            {
+              "bottom": 80.546875,
+              "height": 30,
+              "left": 278.953125,
+              "right": 344,
+              "top": 50.546875,
+              "width": 65.046875
+            }
+          ],
+          "buttonTextRect": {
+            "bottom": 87.4375,
+            "height": 42.890625,
+            "left": 278.953125,
+            "right": 344,
+            "top": 44.546875,
+            "width": 65.046875
+          },
+          "clientWidth": 375,
+          "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | J. Delgado",
+          "cssHeaderHeight": "133px",
+          "hasHorizontalOverflow": false,
+          "headerHeight": 132.984375,
+          "iconInside": true,
+          "iconRect": {
+            "bottom": 74.984375,
+            "height": 18,
+            "left": 252.953125,
+            "right": 270.953125,
+            "top": 56.984375,
+            "width": 18
+          },
+          "lastNavRect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0
+          },
+          "locationHash": "#speakers/delgado/delgado-cacti",
+          "menuExpanded": "false",
+          "mobileView": "Speakers",
+          "navCount": 7,
+          "rootFontSize": "32px",
+          "sidebarDisplay": "none",
+          "sidebarMaxHeightCss": "1067px",
+          "sidebarRect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0
+          },
+          "sidebarTopCss": "133px",
+          "targetId": "delgado-cacti",
+          "targetRect": {
+            "bottom": 3396.671875,
+            "height": 3243.75,
+            "left": 18,
+            "right": 357,
+            "top": 152.921875,
+            "width": 339
+          },
+          "viewHeading": "Questions, answers, and decisions",
+          "viewport": {
+            "height": 1200,
+            "width": 375
+          }
+        }
+      }
+    },
+    {
+      "viewportRequested": 390,
+      "viewportActual": {
+        "innerHeight": 1200,
+        "innerWidth": 390,
+        "outerHeight": 1343,
+        "outerWidth": 500
+      },
+      "closedOverview": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "false",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        }
+      },
+      "openOverview": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 480,
+          "height": 61,
+          "left": 18,
+          "right": 372,
+          "top": 419,
+          "width": 354
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "true",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 497,
+          "height": 364,
+          "left": 0,
+          "right": 390,
+          "top": 133,
+          "width": 390
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        },
+        "lastNavReachable": true
+      },
+      "openOverviewScrolled": {
+        "activeNav": "Overview",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 97.4375,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 34.546875,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 80.546875,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 50.546875,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 87.4375,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 44.546875,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Project highlights",
+        "cssHeaderHeight": "133px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 132.984375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 74.984375,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 56.984375,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 480,
+          "height": 61,
+          "left": 18,
+          "right": 372,
+          "top": 419,
+          "width": 354
+        },
+        "locationHash": "#overview",
+        "menuExpanded": "true",
+        "mobileView": "Overview",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1067px",
+        "sidebarRect": {
+          "bottom": 497,
+          "height": 364,
+          "left": 0,
+          "right": 390,
+          "top": 133,
+          "width": 390
+        },
+        "sidebarTopCss": "133px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Why is the fence still there?",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        },
+        "menuStillBelowHeader": true
+      },
+      "escapeState": {
+        "activeId": "menu-toggle",
+        "expanded": "false"
+      },
+      "meetingsOverview": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        }
+      },
+      "openMeetings": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 513,
+          "height": 61,
+          "left": 18,
+          "right": 372,
+          "top": 452,
+          "width": 354
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "true",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 530,
+          "height": 364,
+          "left": 0,
+          "right": 390,
+          "top": 166,
+          "width": 390
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        }
+      },
+      "openMeetingsScrolled": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 513,
+          "height": 61,
+          "left": 18,
+          "right": 372,
+          "top": 452,
+          "width": 354
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "true",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "block",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 530,
+          "height": 364,
+          "left": 0,
+          "right": 390,
+          "top": 166,
+          "width": 390
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        },
+        "lastNavReachableAfterScroll": true
+      },
+      "meetingDestination": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings/meeting-2024-01-09",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": "meeting-2024-01-09",
+        "targetRect": {
+          "bottom": 1257.96875,
+          "height": 1071.640625,
+          "left": 18,
+          "right": 372,
+          "top": 186.328125,
+          "width": 354
+        },
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        }
+      },
+      "backFromMeeting": {
+        "activeNav": "Meetings & documents",
+        "bodyScrollWidth": 390,
+        "buttonRect": {
+          "bottom": 113.625,
+          "height": 62.890625,
+          "left": 254.953125,
+          "right": 372,
+          "top": 50.734375,
+          "width": 117.046875
+        },
+        "buttonTextInside": true,
+        "buttonTextRangeRects": [
+          {
+            "bottom": 96.734375,
+            "height": 30,
+            "left": 293.953125,
+            "right": 359,
+            "top": 66.734375,
+            "width": 65.046875
+          }
+        ],
+        "buttonTextRect": {
+          "bottom": 103.625,
+          "height": 42.890625,
+          "left": 293.953125,
+          "right": 359,
+          "top": 60.734375,
+          "width": 65.046875
+        },
+        "clientWidth": 390,
+        "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | Meetings and documents",
+        "cssHeaderHeight": "166px",
+        "hasHorizontalOverflow": false,
+        "headerHeight": 165.375,
+        "iconInside": true,
+        "iconRect": {
+          "bottom": 91.171875,
+          "height": 18,
+          "left": 267.953125,
+          "right": 285.953125,
+          "top": 73.171875,
+          "width": 18
+        },
+        "lastNavRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "locationHash": "#meetings",
+        "menuExpanded": "false",
+        "mobileView": "Meetings & documents",
+        "navCount": 7,
+        "rootFontSize": "32px",
+        "sidebarDisplay": "none",
+        "sidebarMaxHeightCss": "1034px",
+        "sidebarRect": {
+          "bottom": 0,
+          "height": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "width": 0
+        },
+        "sidebarTopCss": "166px",
+        "targetId": null,
+        "targetRect": null,
+        "viewHeading": "Meetings & documents",
+        "viewport": {
+          "height": 1200,
+          "width": 390
+        }
+      },
+      "speakerNavigation": {
+        "route": "#speakers/delgado/delgado-cacti",
+        "target": {
+          "activeNav": "Speakers",
+          "bodyScrollWidth": 390,
+          "buttonRect": {
+            "bottom": 97.4375,
+            "height": 62.890625,
+            "left": 254.953125,
+            "right": 372,
+            "top": 34.546875,
+            "width": 117.046875
+          },
+          "buttonTextInside": true,
+          "buttonTextRangeRects": [
+            {
+              "bottom": 80.546875,
+              "height": 30,
+              "left": 293.953125,
+              "right": 359,
+              "top": 50.546875,
+              "width": 65.046875
+            }
+          ],
+          "buttonTextRect": {
+            "bottom": 87.4375,
+            "height": 42.890625,
+            "left": 293.953125,
+            "right": 359,
+            "top": 44.546875,
+            "width": 65.046875
+          },
+          "clientWidth": 390,
+          "consoleTitle": "Colorado Street Bridge Barrier Enhancements Project | J. Delgado",
+          "cssHeaderHeight": "133px",
+          "hasHorizontalOverflow": false,
+          "headerHeight": 132.984375,
+          "iconInside": true,
+          "iconRect": {
+            "bottom": 74.984375,
+            "height": 18,
+            "left": 267.953125,
+            "right": 285.953125,
+            "top": 56.984375,
+            "width": 18
+          },
+          "lastNavRect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0
+          },
+          "locationHash": "#speakers/delgado/delgado-cacti",
+          "menuExpanded": "false",
+          "mobileView": "Speakers",
+          "navCount": 7,
+          "rootFontSize": "32px",
+          "sidebarDisplay": "none",
+          "sidebarMaxHeightCss": "1067px",
+          "sidebarRect": {
+            "bottom": 0,
+            "height": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "width": 0
+          },
+          "sidebarTopCss": "133px",
+          "targetId": "delgado-cacti",
+          "targetRect": {
+            "bottom": 3173.4375,
+            "height": 3020.375,
+            "left": 18,
+            "right": 372,
+            "top": 153.0625,
+            "width": 354
+          },
+          "viewHeading": "Questions, answers, and decisions",
+          "viewport": {
+            "height": 1200,
+            "width": 390
+          }
+        }
+      }
+    }
+  ],
+  "console_errors": []
+}
