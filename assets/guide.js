@@ -63,7 +63,7 @@ const urls = {
   house: 'https://www.govinfo.gov/content/pkg/CRPT-119hrpt686/pdf/CRPT-119hrpt686.pdf#page=207'
 };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const link = (label, url) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
+const link = (label, url) => `<a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
 
 const sourceRecords = {
   2:['July 2017 City presentation', urls.p2017], 3:['2021 staff report · p. 2', urls.r2021+'#page=2'],

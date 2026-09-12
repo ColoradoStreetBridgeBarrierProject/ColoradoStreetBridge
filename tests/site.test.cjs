@@ -61,6 +61,7 @@ context.location.hash='#search?q=%3Cscript%3E';run('render()');assert(!elements.
 const html=run('speakerView()+meetingsView()+newsView()');
 for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
 const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');
+const styles=fs.readFileSync(path.join(dir,'styles.css'),'utf8');
 assert(page.includes('Independent guide'));
 assert(!page.includes('Private preview'));
 assert(!page.includes('noindex'));
@@ -68,11 +69,15 @@ assert(!page.includes('<iframe'));
 assert.equal((page.match(/<img /g)||[]).length,1);
 assert(page.includes('src="bridge-preview.webp"'));
 assert(!page.includes('src="bridge.jpeg"'));
+assert(page.includes('class="figure-links"'));
+assert(page.includes('class="source-link"'));
 assert(page.includes('id="return-tools"'));
 assert(page.includes('aria-controls="site-sidebar"'));
 assert(page.includes('name="color-scheme" content="dark"'));
 assert(!page.includes('section-num'));
 assert(!run('head("01","Title","Description")').includes('01'));
+assert(/\.mobile-brand\s*\{[^}]*min-height:\s*44px/.test(styles),'Mobile brand needs a 44px tap target');
+assert(/\.figure-links a,\s*\.source-link,\s*\.entry-link,\s*\.footer a\s*\{[^}]*min-height:\s*44px/.test(styles),'Key guide links need 44px tap targets');
 listeners['menu-toggle:click']();assert(classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'true');
 listeners['.view-nav:keydown']({key:'ArrowDown',target:{closest:()=>({dataset:{view:'overview'}})},preventDefault(){}});
 assert.equal(context.location.hash,'#timeline');assert(classes.has('menu-open'));assert(elements['tab-timeline'].focused);
@@ -101,7 +106,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
-const allowed=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
+const allowed=new Set(['.git','index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
 assert.deepEqual(fs.readdirSync(dir).filter(name=>!allowed.has(name)),[],'Unexpected public files');
 for(const name of ['index.html','app.js','search.js','speakers.js','other-speakers.js','resources.js','README.md']){
  const text=fs.readFileSync(path.join(dir,name),'utf8');

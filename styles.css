@@ -65,6 +65,15 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .bridge-image img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
 .bridge-image figcaption { margin-top: 10px; font-size: .6875rem; line-height: 1.65; color: var(--dim); }
 .bridge-image figcaption a { color: var(--muted); }
+.figure-links { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 10px; }
+.figure-links a,
+.source-link,
+.entry-link,
+.footer a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-weight: 600; text-decoration: none; }
+.figure-links a:hover,
+.source-link:hover,
+.entry-link:hover,
+.footer a:hover { background: var(--raised); border-color: #537885; color: var(--accent); }
 .search-form { margin-bottom: 34px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); scroll-margin-top: 24px; }
 .search-form label { display: block; margin-bottom: 10px; font-size: .8125rem; font-weight: 600; color: var(--muted); }
 .search-controls { display: flex; gap: 10px; }
@@ -93,7 +102,7 @@ main { min-width: 0; padding-bottom: 40px; scroll-margin-top: 24px; }
 .note strong { color: var(--ink); font-weight: 600; }
 .quiet { font-size: .875rem; }
 .evidence-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: .8125rem; line-height: 1.7; }
-.evidence-links a { display: inline-block; padding: 3px 0; }
+.evidence-links a { justify-content: center; }
 .more-records { margin-top: 12px; font-size: .8125rem; }
 summary { cursor: pointer; color: var(--link); min-height: 42px; padding: 10px 0; line-height: 1.65; }
 summary::marker { color: var(--accent); }
@@ -183,8 +192,9 @@ details[open] > summary { margin-bottom: 7px; }
 .remark-card > p:not(.remark-kind) { color: var(--muted); font-size: .9375rem; }
 .remark-card blockquote { margin: 18px 0 22px; padding-left: 20px; border-left: 3px solid var(--accent); font: 400 1.35rem/1.5 Georgia, serif; color: var(--ink); max-width: 800px; }
 .remark-card blockquote p { margin: 0; }
-.recording-link { padding-bottom: 18px; border-bottom: 1px solid var(--line); font-size: .875rem; }
-.approx-label { display: block; color: var(--dim); font-size: .75rem; margin-top: 4px; }
+.recording-link { display: grid; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid var(--line); font-size: .875rem; }
+.recording-link a { justify-content: center; justify-self: start; }
+.approx-label { display: block; color: var(--dim); font-size: .75rem; margin-top: 0; }
 .remark-sequence { margin: 22px 0; }
 .remark-sequence > div { display: grid; grid-template-columns: 145px minmax(0,1fr); gap: 20px; padding-bottom: 18px; }
 .remark-sequence > div:last-child { padding-bottom: 0; }
@@ -194,7 +204,7 @@ details[open] > summary { margin-bottom: 7px; }
 .exchange-records ul { list-style: none; margin: 8px 0 16px; padding: 0; display: grid; gap: 12px; }
 .source-detail { color: var(--muted); font-size: .8125rem; }
 .source-detail p { margin: 8px 0 15px; padding: 14px; background: var(--bg); border-radius: 8px; }
-.entry-link { display: inline-block; padding: 7px 0; margin-top: 12px; font-size: .75rem; }
+.entry-link { margin-top: 14px; font-size: .75rem; }
 
 /* Meetings and articles link out instead of loading embedded documents. */
 .directory-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; align-items: start; }
@@ -204,12 +214,12 @@ details[open] > summary { margin-bottom: 7px; }
 .directory-card .eyebrow { color: var(--accent); font-size: .6875rem; }
 .directory-date { color: var(--dim); font-size: .75rem !important; margin-bottom: 8px; }
 .directory-links { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; font-size: .875rem; }
-.directory-links a { display: inline-block; min-height: 36px; padding: 5px 0; line-height: 1.65; }
+.directory-links a { justify-content: center; min-height: 44px; line-height: 1.55; }
 .directory-links small { display: block; font-size: .75rem; color: var(--dim); line-height: 1.65; margin: 0 0 8px; }
 .source-folder { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-width: 0; padding: 24px; border: 1px solid #3d6869; border-radius: var(--radius); background: var(--accent-wash); margin-bottom: 22px; scroll-margin-top: 24px; }
 .source-folder h3 { font-size: 1.125rem; margin-bottom: 8px; }
 .source-folder p { max-width: 670px; font-size: .875rem; color: var(--muted); }
-.source-folder > a { flex-shrink: 0; font-size: .8125rem; font-weight: 600; color: var(--accent); }
+.source-folder > a { flex-shrink: 0; font-size: .8125rem; color: var(--accent); }
 .directory-tail { margin: 28px 0 12px; font-size: .875rem; }
 .directory-tail h3 { font-size: 1.125rem; }
 .news-card .eyebrow { color: var(--link); }
@@ -245,7 +255,8 @@ mark { color: #f0f7d9; background: #40542e; border-radius: 2px; padding: 0 2px; 
 @media (max-width: 900px) {
   .topbar { display: block; position: sticky; top: 0; z-index: 12; background: var(--sidebar); border-bottom: 1px solid var(--line); }
   .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 10px 24px; }
-  .mobile-brand { font-size: .875rem; font-weight: 650; text-decoration: none; line-height: 1.35; color: var(--ink); }
+  .topbar-inner > * { min-width: 0; }
+  .mobile-brand { display: inline-flex; flex-direction: column; justify-content: center; min-height: 44px; max-width: calc(100% - 118px); font-size: .875rem; font-weight: 650; text-decoration: none; line-height: 1.35; color: var(--ink); }
   .mobile-brand span { display: block; margin-top: 4px; font-size: .75rem; font-weight: 450; color: var(--accent); }
   .menu-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: .8125rem; }
   .menu-toggle svg { width: 18px; height: 18px; }
