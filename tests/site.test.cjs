@@ -59,6 +59,7 @@ listeners['document:change']({target:{id:'speaker-topic',value:'staffing'}});ass
 listeners['document:change']({target:{id:'meeting-year',value:'2024'}});assert.equal(context.location.hash,'#meetings?year=2024');
 context.location.hash='#search?q=%3Cscript%3E';run('render()');assert(!elements.content.innerHTML.includes('<script>'));
 const html=run('speakerView()+meetingsView()+newsView()');
+assert(html.includes('class="source-label"'));
 for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
 const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');
 const styles=fs.readFileSync(path.join(dir,'styles.css'),'utf8');

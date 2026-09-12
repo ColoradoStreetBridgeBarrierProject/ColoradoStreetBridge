@@ -233,7 +233,10 @@ function formatDate(date) {
   return new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
 }
 function directoryLinks(items) {
-  return '<ul class="directory-links">'+items.map(item=>'<li>'+link(item.label,item.url||urls[item.source])+(item.note?'<small>'+esc(item.note)+'</small>':'')+'</li>').join('')+'</ul>';
+  return '<ul class="directory-links">'+items.map(item=>{
+    const url=esc(item.url||urls[item.source]);
+    return `<li><a class="source-link" href="${url}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(item.label)} <span aria-hidden="true">↗</span></span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a></li>`;
+  }).join('')+'</ul>';
 }
 function meetingsView(year='all') {
   const selected=meetingRecords.filter(m=>year==='all'||m.date.startsWith(year));
