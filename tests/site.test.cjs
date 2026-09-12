@@ -73,6 +73,7 @@ const styles=fs.readFileSync(path.join(dir,'styles.css'),'utf8');
 const styleBlocks=[...styles.matchAll(/([^{}]+)\{([^}]*)\}/g)].map(([,selectors,body])=>({selectors,body}));
 const styleBlock=(...selectors)=>styleBlocks.find(block=>selectors.every(selector=>block.selectors.includes(selector)))?.body||'';
 assert(fs.existsSync(path.join(dir,'.nojekyll')));
+assert.strictEqual(fs.readFileSync(path.join(dir,'CNAME'),'utf8'),'coloradostreetbridgeproject.com','CNAME must preserve the configured custom domain');
 assert(page.includes('Independent guide'));
 assert(!page.includes('Private preview'));
 assert(!page.includes('noindex'));
@@ -140,7 +141,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
-const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','tests','scripts','assets']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
