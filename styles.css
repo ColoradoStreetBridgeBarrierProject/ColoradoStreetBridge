@@ -261,7 +261,7 @@ mark { color: #f0f7d9; background: #40542e; border-radius: 2px; padding: 0 2px; 
   .topbar { display: block; position: sticky; top: 0; z-index: 12; background: var(--sidebar); border-bottom: 1px solid var(--line); }
   .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 10px 24px; }
   .topbar-inner > * { min-width: 0; }
-  .mobile-brand { display: inline-flex; flex-direction: column; justify-content: center; min-height: 44px; max-width: calc(100% - 118px); font-size: .875rem; font-weight: 650; text-decoration: none; line-height: 1.35; color: var(--ink); }
+  .mobile-brand { display: inline-flex; flex: 1 1 auto; flex-direction: column; justify-content: center; min-height: 44px; font-size: .875rem; font-weight: 650; text-decoration: none; line-height: 1.35; color: var(--ink); }
   .mobile-brand span { display: block; margin-top: 4px; font-size: .75rem; font-weight: 450; color: var(--accent); }
   .menu-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: .8125rem; }
   .menu-toggle svg { width: 18px; height: 18px; }
