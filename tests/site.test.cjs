@@ -55,6 +55,9 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,11);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
+assert.equal(index.length,139,'Removing the overview card removes exactly one search record');
+assert.equal(index.filter(x=>x.type==='Overview').length,1,'Only the retained short-version card is indexed');
+assert(!index.some(x=>x.title.includes('Three different decisions')),'Removed overview card must not appear in search');
 assert.equal(index.filter(x=>x.type==='Meeting & documents').length,34);
 for(const [q,want] of [['Delgado cacti','delgado-cacti'],['Kennedy','kennedy-review'],['Mermell three months','mermell-return'],['2019 minutes','meeting-2019-05-15'],['Dropbox','source-folder'],['Los Angeles Times','lat-2017'],['Kris','markarian-exhausted']]){
  const routes=json(`searchIndex().filter(i=>SearchText.score(i,SearchText.terms(${JSON.stringify(q)}))>0).map(i=>i.route)`);assert(routes.some(r=>r.endsWith('/'+want)),q);
@@ -128,6 +131,14 @@ listeners['return-tools:click']();assert(elements['search-form'].scrolled);asser
 intersectionCallback([{boundingClientRect:{bottom:0}}]);assert.equal(elements['return-tools'].hidden,true);
 assert.equal((page.match(/<script src=/g)||[]).length,1);
 assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">')),'Static overview diverges from the interactive overview');
+for(const html of [page,run('overview()')]){
+ assert(!html.includes('Three different decisions'),'Removed card must not appear in either overview');
+ assert(!html.includes('class="status-list"'),'Removed policy/design/construction list must not remain');
+ assert(html.includes('THE SHORT VERSION'),'Keep the opening explanation');
+ assert(html.includes('A useful distinction'),'Keep the overview qualification');
+}
+const overviewColumns=styleBlocks.filter(block=>block.selectors.includes('.overview-grid')&&block.body.includes('grid-template-columns')).map(block=>block.body.match(/grid-template-columns:\s*([^;]+)/)[1].trim());
+assert(overviewColumns.length>0&&overviewColumns.every(value=>value==='minmax(0,1fr)'),'Overview must use one column at every breakpoint');
 for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css']]){
  const version=crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,file))).digest('hex').slice(0,12);
  assert(page.includes(file+'?v='+version),name+': cache version mismatch');
