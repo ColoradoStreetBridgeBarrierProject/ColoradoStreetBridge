@@ -107,7 +107,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
 const allowed=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
-const publicEntries=fs.readdirSync(dir).filter(name=>name!=='.git'||!fs.statSync(path.join(dir,name)).isDirectory());
+const publicEntries=fs.readdirSync(dir).filter(name=>!(name==='.git'&&fs.statSync(path.join(dir,name)).isDirectory()));
 assert.deepEqual(publicEntries.filter(name=>!allowed.has(name)),[],'Unexpected public files');
 for(const name of ['index.html','app.js','search.js','speakers.js','other-speakers.js','resources.js','README.md']){
  const text=fs.readFileSync(path.join(dir,name),'utf8');
