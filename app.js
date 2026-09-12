@@ -158,6 +158,7 @@ const views = ['overview','timeline','alternatives','evidence','speakers','meeti
 const content = document.getElementById('content');
 const searchInput = document.getElementById('search-input');
 const searchForm = document.getElementById('search-form');
+const returnTools = document.getElementById('return-tools');
 
 function remarkLinks(remark) {
   return (remark.links || []).map(item => {
@@ -311,6 +312,18 @@ function navigate(path,focus=true) {
   render(focus);
 }
 searchForm.addEventListener('submit',e=>{e.preventDefault();navigate('search?q='+encodeURIComponent(searchInput.value.trim()));});
+if(returnTools) {
+  returnTools.addEventListener('click',()=>{
+    searchForm.scrollIntoView({block:'start'});
+    searchForm.focus({preventScroll:true});
+  });
+  // The shortcut is shown only after the search and navigation area is above view.
+  if(typeof IntersectionObserver==='function') {
+    new IntersectionObserver(entries=>{
+      returnTools.hidden=entries[0].boundingClientRect.bottom>=0;
+    }).observe(document.querySelector('.view-nav'));
+  }
+}
 document.addEventListener('click',e=>{
   const tab=e.target.closest('[data-view]');if(tab){navigate(tab.dataset.view,false);tab.focus();return;}
   const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}

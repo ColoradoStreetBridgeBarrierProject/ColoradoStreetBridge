@@ -23,10 +23,20 @@ Links open original City records, recordings, publishers, or the existing preser
 
 ## GitHub Pages setup
 
-In repository **Settings → Pages**, select **Deploy from a branch**, choose **main** and **/(root)**, and save. The root `index.html` is the website entry point. No package installation or build step is required. See [GitHub’s publishing instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+In repository **Settings → Pages**, select **Deploy from a branch**, choose **main** and **/(root)**, and save. The root `index.html` is the website entry point. GitHub serves the committed build files without an additional deployment build. See [GitHub’s publishing instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
-The site uses relative asset links and hash-based navigation so it can run under this repository’s project address. Future website edits belong in the root HTML, CSS, and JavaScript files. Keep private research files out of this public repository.
+The site uses relative asset links and hash-based navigation so it can run under this repository’s project address. Edit `index.template.html`, `styles.css`, or the readable root JavaScript sources, then run the build and checks below. Commit the generated `index.html` and `assets/guide.js` alongside the source changes. Keep private research files out of this public repository.
+
+The opening explanation and its source links are rendered into HTML so they do not wait for JavaScript. The same overview function supplies both versions. The five script files are combined into one download, with data formatting compacted without changing the source records. A return shortcut appears on long pages after the menus scroll out of view. Versioned asset URLs help readers receive matching updates.
 
 ## Local checks
 
-Run `node tests/site.test.cjs` for data, routing, link, search, preservation, and public-file checks.
+Run these with Node.js. No external packages are required:
+
+```sh
+node scripts/build.cjs
+node tests/site.test.cjs
+node tests/site.test.cjs --bundle
+```
+
+The checks cover both readable sources and the production bundle, including data, routing, links, search, preservation, the static overview, and return navigation. They are not a substitute for browser or physical-device testing.
