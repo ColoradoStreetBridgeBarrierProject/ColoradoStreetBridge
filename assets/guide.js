@@ -63,7 +63,7 @@ const urls = {
   house: 'https://www.govinfo.gov/content/pkg/CRPT-119hrpt686/pdf/CRPT-119hrpt686.pdf#page=207'
 };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const link = (label, url) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
+const link = (label, url) => `<a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
 
 const sourceRecords = {
   2:['July 2017 City presentation', urls.p2017], 3:['2021 staff report · p. 2', urls.r2021+'#page=2'],
@@ -193,6 +193,18 @@ const searchForm = document.getElementById('search-form');
 const returnTools = document.getElementById('return-tools');
 const menuToggle = document.getElementById('menu-toggle');
 const mobileView = document.getElementById('mobile-view');
+const mobileHeader = document.querySelector('.topbar');
+let mobileHeaderHeight=null;
+function syncHeaderHeight() {
+  // Layout is unavailable during the static build. CSS supplies the fallback.
+  if(!mobileHeader?.getBoundingClientRect || !document.documentElement?.style)return;
+  const height=Math.ceil(mobileHeader.getBoundingClientRect().height);
+  if(height===mobileHeaderHeight)return;
+  mobileHeaderHeight=height;
+  document.documentElement.style.setProperty('--mobile-header-height',height+'px');
+}
+if(mobileHeader && typeof ResizeObserver!=='undefined')new ResizeObserver(syncHeaderHeight).observe(mobileHeader);
+addEventListener('resize',syncHeaderHeight);
 let menuOpen=false;
 function closeMenu(focus=false) {
   menuOpen=false;
@@ -201,6 +213,7 @@ function closeMenu(focus=false) {
   if(focus)menuToggle?.focus();
 }
 menuToggle?.addEventListener('click',()=>{
+  syncHeaderHeight();
   menuOpen=!menuOpen;
   document.documentElement.classList.toggle('menu-open',menuOpen);
   menuToggle.setAttribute('aria-expanded',String(menuOpen));
@@ -214,6 +227,33 @@ function remarkLinks(remark) {
     const label = item.label + (item.time ? ' · ' + item.time : item.page ? ' · p. ' + item.page : '');
     return '<li>' + link(label,url) + '</li>';
   }).join('');
+}
+function entryShare(route) {
+  return `<div class="entry-sharing"><button class="entry-link" type="button" data-copy-link="#${esc(route)}">Copy link to this entry</button><span class="entry-copy-status" role="status" aria-live="polite"></span><label class="entry-address" hidden>Copy this address to share the entry<input type="text" readonly aria-label="Link to this guide entry"></label></div>`;
+}
+async function copyEntryLink(button) {
+  if(button.getAttribute('aria-busy')==='true')return;
+  const group=button.closest('.entry-sharing');
+  const status=group.querySelector('.entry-copy-status');
+  const fallback=group.querySelector('.entry-address');
+  const address=fallback.querySelector('input');
+  const url=new URL(button.dataset.copyLink,location.href).href;
+  button.setAttribute('aria-busy','true');
+  status.textContent='Copying link…';
+  fallback.hidden=true;
+  try {
+    if(typeof navigator==='undefined'||!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+    await navigator.clipboard.writeText(url);
+    status.textContent='Link copied';
+  } catch {
+    status.textContent='Select and copy the address below.';
+    address.value=url;
+    fallback.hidden=false;
+    address.focus({preventScroll:true});
+    address.select();
+  } finally {
+    button.setAttribute('aria-busy','false');
+  }
 }
 function remarkCard(key, person, remark) {
   return `<article class="remark-card" id="${esc(remark.id)}" tabindex="-1">
@@ -230,7 +270,7 @@ function remarkCard(key, person, remark) {
     </dl>
     <details class="exchange-records"><summary>Follow the earlier record and response timestamps</summary><ul>${remarkLinks(remark)}</ul></details>
     <details class="source-detail"><summary>About this selection and its source</summary><p>${esc(remark.basis)}</p></details>
-    <a class="entry-link" href="#speakers/${esc(key)}/${esc(remark.id)}">Link to this entry</a>
+    ${entryShare('speakers/'+key+'/'+remark.id)}
   </article>`;
 }
 function speakerEntries(key='all', topic='all') {
@@ -265,7 +305,10 @@ function formatDate(date) {
   return new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
 }
 function directoryLinks(items) {
-  return '<ul class="directory-links">'+items.map(item=>'<li>'+link(item.label,item.url||urls[item.source])+(item.note?'<small>'+esc(item.note)+'</small>':'')+'</li>').join('')+'</ul>';
+  return '<ul class="directory-links">'+items.map(item=>{
+    const url=esc(item.url||urls[item.source]);
+    return `<li><a class="source-link" href="${url}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(item.label)} <span aria-hidden="true">↗</span></span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a></li>`;
+  }).join('')+'</ul>';
 }
 function meetingsView(year='all') {
   const selected=meetingRecords.filter(m=>year==='all'||m.date.startsWith(year));
@@ -274,13 +317,13 @@ function meetingsView(year='all') {
     `<aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>The Dropbox folder holds preserved copies of official records, including minutes for early meetings where recordings were unavailable.</p></div>${link('Open the Dropbox source folder',urls.dropbox)}</aside>
     <p class="locator-note">This directory brings together links from the City’s project page and the reviewed source records. A listed link does not mean its full document or recording was reviewed in this update. Some presentations open through the City’s link list.</p>
     <div class="speaker-filter"><label for="meeting-year">Choose a year</label><select id="meeting-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><span role="status">${selected.length} meeting records · oldest first</span></div>
-    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links)}<a class="entry-link" href="#meetings/${esc(m.id)}">Link to this meeting</a></article>`).join('')}</div>
+    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links)}${entryShare('meetings/'+m.id)}</article>`).join('')}</div>
     <p class="directory-tail">${link('City project page and meeting list',urls.project)} · ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')}</p>`;
 }
 function newsView() {
   return head('07','News & commentary','Browse reporting, interviews, historical coverage, and preservation commentary about the bridge.')+
     `<p class="locator-note">Links open the original publisher sites. Some require a subscription. Reports and columns reflect their publication dates. They are not current project-status updates or independent verification of every claim they contain.</p>
-    <div class="directory-grid">${newsRecords.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${n.note?'<p class="locator-note">'+esc(n.note)+'</p>':''}<p>${link('Read at the publisher',n.url)}</p><a class="entry-link" href="#news/${esc(n.id)}">Link to this article entry</a></article>`).join('')}</div>
+    <div class="directory-grid">${newsRecords.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${n.note?'<p class="locator-note">'+esc(n.note)+'</p>':''}<p>${link('Read at the publisher',n.url)}</p>${entryShare('news/'+n.id)}</article>`).join('')}</div>
     <aside class="directory-tail"><h3>More regional coverage</h3><p>${link('San Gabriel Valley Tribune · publisher homepage','https://www.sgvtribune.com/')}</p><p class="locator-note">A specific Tribune article link has not been established for this directory. The Pasadena Star-News entries above link directly to the identified articles.</p></aside>`;
 }
 
@@ -329,6 +372,8 @@ function readRoute() {
 function render(focus=false) {
   const {view,arg,detail,query,filter,year}=readRoute();
   if(mobileView)mobileView.textContent=({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives',evidence:'Evidence & limits',speakers:'Speakers',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'})[view];
+  // A longer section label can wrap. Measure it before scrolling to the target.
+  syncHeaderHeight();
   document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
     const on=b.dataset.view===view;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
   });
@@ -374,6 +419,7 @@ if(returnTools) {
   }
 }
 document.addEventListener('click',e=>{
+  const copy=e.target.closest('[data-copy-link]');if(copy)return copyEntryLink(copy);
   const tab=e.target.closest('[data-view]');if(tab){const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
   const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}
   const topic=e.target.closest('[data-topic]');if(topic){navigate('alternatives/'+topic.dataset.topic);return;}
