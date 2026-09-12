@@ -374,7 +374,7 @@ if(returnTools) {
   }
 }
 document.addEventListener('click',e=>{
-  const tab=e.target.closest('[data-view]');if(tab){const wasOpen=menuOpen;navigate(tab.dataset.view,false);if(!wasOpen)tab.focus();return;}
+  const tab=e.target.closest('[data-view]');if(tab){const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
   const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}
   const topic=e.target.closest('[data-topic]');if(topic){navigate('alternatives/'+topic.dataset.topic);return;}
   const person=e.target.closest('[data-speaker]');if(person){const filter=readRoute().filter;navigate('speakers/'+person.dataset.speaker+(filter==='all'?'':'?topic='+filter));return;}
@@ -401,7 +401,7 @@ document.querySelector('.view-nav').addEventListener('keydown',e=>{
   if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key))return;
   const current=e.target.closest('[data-view]');if(!current)return;e.preventDefault();
   let i=views.indexOf(current.dataset.view);i=e.key==='Home'?0:e.key==='End'?views.length-1:(i+(['ArrowRight','ArrowDown'].includes(e.key)?1:-1)+views.length)%views.length;
-  navigate(views[i],false,true);document.getElementById('tab-'+views[i]).focus();
+  navigate(views[i],true,true);document.getElementById('tab-'+views[i]).focus({preventScroll:true});
 });
 addEventListener('hashchange',()=>render(true));
 addEventListener('popstate',()=>render(true));
