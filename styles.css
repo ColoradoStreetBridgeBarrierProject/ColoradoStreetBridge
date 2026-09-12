@@ -61,7 +61,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .intro h1 { font-size: clamp(1.8rem, 3.15vw, 2.9rem); font-weight: 720; line-height: 1.13; letter-spacing: -.045em; margin-bottom: 20px; }
 .dek { color: var(--muted); font-size: .9375rem; max-width: 660px; margin-bottom: 12px; line-height: 1.7; }
 .edition { color: var(--dim); font-size: .75rem; max-width: 640px; }
-.bridge-image { min-width: 0; }
+.bridge-figure-group, .bridge-image { min-width: 0; }
 .bridge-image img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
 .bridge-image figcaption { margin-top: 10px; font-size: .6875rem; line-height: 1.65; color: var(--dim); }
 .bridge-image figcaption a { color: var(--muted); }
