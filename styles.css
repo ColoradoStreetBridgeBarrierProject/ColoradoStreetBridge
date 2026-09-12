@@ -69,7 +69,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .figure-links a,
 .source-link,
 .entry-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-weight: 600; text-decoration: none; }
-.footer-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; vertical-align: middle; }
+.footer-link { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 8px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; vertical-align: middle; }
 .figure-links a:hover,
 .figure-links a:focus-visible,
 .source-link:hover,
