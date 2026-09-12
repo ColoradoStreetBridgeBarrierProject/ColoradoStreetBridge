@@ -79,6 +79,9 @@ assert.equal(context.location.hash,'#timeline');assert(classes.has('menu-open'))
 listeners['document:keydown']({key:'Escape'});assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements['menu-toggle'].focused);
 listeners['menu-toggle:click']();run('navigate("meetings")');assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements.content.focused);
 assert.equal(elements['mobile-view'].textContent,'Meetings & documents');
+elements.content.scrolled=false;
+listeners['document:click']({target:{closest:()=>({dataset:{view:'news'},focus(){}})}});
+assert.equal(context.location.hash,'#news');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
 assert.equal(typeof intersectionCallback,'function');
 intersectionCallback([{boundingClientRect:{bottom:100}}]);assert.equal(elements['return-tools'].hidden,true);
 intersectionCallback([{boundingClientRect:{bottom:-20}}]);assert.equal(elements['return-tools'].hidden,false);
