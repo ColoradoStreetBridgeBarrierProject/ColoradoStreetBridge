@@ -67,15 +67,12 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .bridge-image figcaption a { color: var(--muted); }
 .figure-links { display: flex; flex-wrap: wrap; gap: 8px 10px; margin-top: 10px; }
 .figure-links a,
-.source-link,
-.entry-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-weight: 600; text-decoration: none; }
+.source-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-weight: 600; text-decoration: none; }
 .footer-link { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 8px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; vertical-align: middle; }
 .figure-links a:hover,
 .figure-links a:focus-visible,
 .source-link:hover,
-.source-link:focus-visible,
-.entry-link:hover,
-.entry-link:focus-visible { background: var(--raised); border-color: #537885; color: var(--accent); }
+.source-link:focus-visible { background: var(--raised); border-color: #537885; color: var(--accent); }
 .footer-link:hover,
 .footer-link:focus-visible { color: var(--accent); }
 .search-form { margin-bottom: 34px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); scroll-margin-top: 24px; }
@@ -208,11 +205,6 @@ details[open] > summary { margin-bottom: 7px; }
 .exchange-records ul { list-style: none; margin: 8px 0 16px; padding: 0; display: grid; gap: 12px; }
 .source-detail { color: var(--muted); font-size: .8125rem; }
 .source-detail p { margin: 8px 0 15px; padding: 14px; background: var(--bg); border-radius: 8px; }
-.entry-sharing { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 14px; }
-.entry-link { font-size: .75rem; text-align: left; }
-.entry-copy-status { color: var(--accent); font-size: .75rem; }
-.entry-address { flex-basis: 100%; min-width: 0; color: var(--muted); font-size: .8125rem; }
-.entry-address input { display: block; width: 100%; min-width: 0; margin-top: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font-size: 16px; }
 
 /* Meetings and articles link out instead of loading embedded documents. */
 .directory-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; align-items: start; }
