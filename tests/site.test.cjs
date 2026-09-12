@@ -2,11 +2,14 @@ const fs=require('fs'), vm=require('vm'), assert=require('assert'), path=require
 const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
-function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},setAttribute(){},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){},scrollIntoView(){}};}
+function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},setAttribute(){},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}};}
 const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
-const context={document:doc,location:{hash:''},URLSearchParams,console,addEventListener(){},history:{pushState(_,__,hash){context.location.hash=hash;}}};
+let intersectionCallback;
+class TestIntersectionObserver{constructor(callback){intersectionCallback=callback;}observe(){}}
+const context={document:doc,location:{hash:''},URLSearchParams,console,IntersectionObserver:TestIntersectionObserver,addEventListener(){},history:{pushState(_,__,hash){context.location.hash=hash;}}};
 vm.createContext(context);
-for(const name of ['search.js','speakers.js','other-speakers.js','resources.js','app.js']) vm.runInContext(fs.readFileSync(dir+'/'+name,'utf8'),context,{filename:name});
+const bundled=process.argv.includes('--bundle');
+for(const name of bundled?['assets/guide.js']:['search.js','speakers.js','other-speakers.js','resources.js','app.js']) vm.runInContext(fs.readFileSync(dir+'/'+name,'utf8'),context,{filename:name});
 const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.stringify('+code+')'));
 assert.equal(run('Object.keys(speakers).length'),4);
 // Preserve the reviewed speaker and resource data during the hosting migration.
@@ -63,18 +66,30 @@ assert(!page.includes('<iframe'));
 assert.equal((page.match(/<img /g)||[]).length,1);
 assert(page.includes('src="bridge-preview.webp"'));
 assert(!page.includes('src="bridge.jpeg"'));
+assert(page.includes('id="return-tools"'));
+assert.equal(typeof intersectionCallback,'function');
+intersectionCallback([{boundingClientRect:{bottom:100}}]);assert.equal(elements['return-tools'].hidden,true);
+intersectionCallback([{boundingClientRect:{bottom:-20}}]);assert.equal(elements['return-tools'].hidden,false);
+listeners['return-tools:click']();assert(elements['search-form'].scrolled);assert(elements['search-form'].focused);
+intersectionCallback([{boundingClientRect:{bottom:0}}]);assert.equal(elements['return-tools'].hidden,true);
+assert.equal((page.match(/<script src=/g)||[]).length,1);
+assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">')),'Static overview diverges from the interactive overview');
+for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css']]){
+ const version=crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,file))).digest('hex').slice(0,12);
+ assert(page.includes(file+'?v='+version),name+': cache version mismatch');
+}
 const base='https://example.org/ColoradoStreetBridge/';
 for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  const value=match[1];
  if(value.startsWith('#')||/^(https:|data:|tel:)/.test(value))continue;
  assert(!value.startsWith('/'),'Asset must work under the project path: '+value);
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
- assert(fs.existsSync(path.join(dir,value)),value);
+ assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
-const allowed=new Set(['index.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests']);
+const allowed=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','.nojekyll','tests','scripts','assets']);
 assert.deepEqual(fs.readdirSync(dir).filter(name=>!allowed.has(name)),[],'Unexpected public files');
 for(const name of ['index.html','app.js','search.js','speakers.js','other-speakers.js','resources.js','README.md']){
  const text=fs.readFileSync(path.join(dir,name),'utf8');
  assert(!/sandbox:|\/workspace\/|libfile_|file_000000|chatgpt\.site/.test(text),name+': internal reference');
 }
-console.log(JSON.stringify({speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,checks:'existing selections unchanged, data, source keys, chronological order, filters, search, all routes, selection events, escaping, and URLs passed'}));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,checks:'preserved data, chronology, filters, search, routes, escaping, URLs, static overview, cache versions, and return navigation passed'}));

@@ -23,3 +23,8 @@
 @media(max-width:850px){.directory-grid{grid-template-columns:1fr}.source-folder{display:block}.source-folder>a{display:inline-block;margin-top:14px}}
 @media(max-width:600px){.directory-card{padding:20px}.speaker-menu button:last-child{grid-column:1/-1}.source-folder{padding:20px}.view-nav button:last-child{grid-column:1/-1}}
 @media print{.directory-grid{display:block}.directory-card{break-inside:avoid;margin-bottom:18px}}
+
+/* Compact return control for long meeting and speaker lists. */
+.return-tools{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));z-index:3;min-height:44px;max-width:calc(100vw - 36px);padding:10px 16px;border:1px solid #3e6874;border-radius:24px;background:var(--navy);color:#fff;box-shadow:0 3px 12px #13213526;font-size:.875rem;font-weight:650}.return-tools:hover{background:#23405d}.search-form{scroll-margin-top:18px}.footer{padding-bottom:90px}
+@media(max-width:600px){.topbar-inner{flex-wrap:wrap;gap:8px}.intro h1{overflow-wrap:anywhere}.speaker-filter select{min-width:0}.remark-card,.directory-card,.source-folder{min-width:0}}
+@media print{.return-tools{display:none!important}.footer{padding-bottom:0}}
