@@ -71,9 +71,13 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .entry-link,
 .footer-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-weight: 600; text-decoration: none; }
 .figure-links a:hover,
+.figure-links a:focus-visible,
 .source-link:hover,
+.source-link:focus-visible,
 .entry-link:hover,
-.footer-link:hover { background: var(--raised); border-color: #537885; color: var(--accent); }
+.entry-link:focus-visible,
+.footer-link:hover,
+.footer-link:focus-visible { background: var(--raised); border-color: #537885; color: var(--accent); }
 .search-form { margin-bottom: 34px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); scroll-margin-top: 24px; }
 .search-form label { display: block; margin-bottom: 10px; font-size: .8125rem; font-weight: 600; color: var(--muted); }
 .search-controls { display: flex; gap: 10px; }
