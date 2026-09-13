@@ -151,7 +151,8 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('Three different decisions'),'Removed card must not appear in either overview');
  assert(!html.includes('class="status-list"'),'Removed policy/design/construction list must not remain');
  assert(html.includes('THE SHORT VERSION'),'Keep the opening explanation');
- assert(html.includes('A useful distinction'),'Keep the overview qualification');
+ assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
+ assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
 const overviewColumns=styleBlocks.filter(block=>block.selectors.includes('.overview-grid')&&block.body.includes('grid-template-columns')).map(block=>block.body.match(/grid-template-columns:\s*([^;]+)/)[1].trim());
 assert(overviewColumns.length>0&&overviewColumns.every(value=>value==='minmax(0,1fr)'),'Overview must use one column at every breakpoint');
