@@ -16,8 +16,8 @@ const node=()=>({innerHTML:'',value:'',dataset:{view:'overview'},setAttribute:no
 const ctx=vm.createContext({document:{getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener:noop},location:{hash:''},history:{pushState:noop},URLSearchParams,addEventListener:noop});
 vm.runInContext(script,ctx,{filename:'guide.js'});
 const overview=vm.runInContext('overview()',ctx).replace('<h2>','<h2 id="view-heading">');
-const html=read('index.template.html').replace('__STYLE_VERSION__',hash(read('styles.css'))).replace('__SCRIPT_VERSION__',hash(script)).replace('__OVERVIEW__',overview);
-if(/__(STYLE_VERSION|SCRIPT_VERSION|OVERVIEW)__/.test(html))throw new Error('Unresolved build placeholder');
+const html=read('index.template.html').replace('__STYLE_VERSION__',hash(read('styles.css'))).replace('__SCRIPT_VERSION__',hash(script)).replace('__OVERVIEW__',overview).replaceAll('__BASELINE_DATE__',vm.runInContext('formatDate(reviewDates.baseline)',ctx)).replaceAll('__SITE_UPDATE_DATE__',vm.runInContext('formatDate(reviewDates.siteUpdated)',ctx));
+if(/__[A-Z_]+__/.test(html))throw new Error('Unresolved build placeholder');
 fs.mkdirSync(path.join(root,'assets'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets/guide.js'),script);
 fs.writeFileSync(path.join(root,'index.html'),html);
