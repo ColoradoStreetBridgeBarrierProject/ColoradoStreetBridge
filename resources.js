@@ -101,6 +101,10 @@ const meetingRecords = [
         "source": "m2018"
       },
       {
+        "label": "Minutes · Public Works copy",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2018-04-23-City-Council-Meeting-Minutes.pdf"
+      },
+      {
         "label": "Task-force presentation",
         "source": "p2018"
       }
@@ -175,6 +179,10 @@ const meetingRecords = [
       {
         "label": "Bridge agenda report",
         "source": "r2019"
+      },
+      {
+        "label": "Bridge agenda report · Public Works copy",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2019-05-20-City-Council-Meeting-Agenda.pdf"
       },
       {
         "label": "Approved minutes",
