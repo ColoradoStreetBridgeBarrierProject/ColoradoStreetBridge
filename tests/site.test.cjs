@@ -25,7 +25,7 @@ assert.equal(run('Object.keys(speakers).length'),4);
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'653ca6fbdd6a3cb0efc87981d07ca4ca1a02f369533ece0782c68315b6cdb61e'
+ 'resources.js':'1286c27e566d5ec73b95348a4111c83806e5015904cc510a6b845bb3c44c9008'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
@@ -55,7 +55,8 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,11);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
-assert.equal(index.length,139,'Removing the overview card removes exactly one search record');
+assert.equal(index.length,140,'The height-comparison evidence card adds one search record');
+assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert.equal(index.filter(x=>x.type==='Overview').length,1,'Only the retained short-version card is indexed');
 assert(!index.some(x=>x.title.includes('Three different decisions')),'Removed overview card must not appear in search');
 assert.equal(index.filter(x=>x.type==='Meeting & documents').length,34);
