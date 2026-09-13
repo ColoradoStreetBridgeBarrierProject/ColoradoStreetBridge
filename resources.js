@@ -371,8 +371,16 @@ const meetingRecords = [
         "source": "v2021"
       },
       {
-        "label": "Agenda and staff report",
+        "label": "Staff report and attachments · Scanned PDF · 28 pages",
         "source": "r2021"
+      },
+      {
+        "label": "Searchable copy, unverified text layer",
+        "source": "ocr2021"
+      },
+      {
+        "label": "Hand-checked survey, police, and fiscal tables",
+        "source": "transcriptions"
       },
       {
         "label": "Minutes",
@@ -389,8 +397,16 @@ const meetingRecords = [
     "title": "Project status and next design phase",
     "links": [
       {
-        "label": "Agenda and report",
+        "label": "Staff report · Scanned PDF · 4 pages",
         "source": "r2022"
+      },
+      {
+        "label": "Searchable copy, unverified text layer",
+        "source": "ocr2022"
+      },
+      {
+        "label": "Hand-checked schedule and fiscal transcription",
+        "url": "https://coloradostreetbridgeproject.com/preserved-records/tables.html#schedule-2022"
       }
     ],
     "note": "",
@@ -653,11 +669,19 @@ const meetingRecords = [
     "title": "FY2026 fourth-quarter project report",
     "links": [
       {
-        "label": "Agenda packet · Bridge row, p. 184",
+        "label": "Full agenda packet · Bridge row · PDF p. 184 (report p. 4)",
         "source": "q426"
+      },
+      {
+        "label": "Single-page excerpt · PDF p. 184",
+        "source": "financeExcerpt"
+      },
+      {
+        "label": "Hand-checked project 73324 row",
+        "url": "https://coloradostreetbridgeproject.com/preserved-records/tables.html#finance-2026"
       }
     ],
-    "note": "",
+    "note": "The report covers activity through June 30, 2026. The excerpt preserves the entire source page and adds the packet date, page locator, and capture date outside the original page.",
     "kind": "Funding and milestone record"
   },
   {

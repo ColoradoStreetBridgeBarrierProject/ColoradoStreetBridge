@@ -1,0 +1,32 @@
+[
+  {
+    "file": "2021-08-18-searchable.pdf",
+    "source_url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-08-18-Public-Safety-Committee-Agenda.pdf",
+    "source_sha256": "aee6cc1eff3e61f4928e52e7b211a7b30175506691ae4c6b4d7175cb5d4eb8c9",
+    "derivative_sha256": "e9e0c3e0feb07e8fa694cb78b750bac0f0d1fbfd91accf8c7f787c95c6583e59",
+    "captured": "2026-09-13",
+    "source": "User-supplied copy of the City document",
+    "derivative": "OCRmyPDF searchable copy, unverified text layer. Original page images retained.",
+    "verification": "Selected cited tables checked against visible source pages. OCR text layer is not a fully verified transcription."
+  },
+  {
+    "file": "2022-09-21-searchable.pdf",
+    "source_url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2022-09-21-Public-Safety-Committee-Agenda.pdf",
+    "source_sha256": "1c79fc7ceeb7acd1973d7474ef764d5b557ddf2e85d810f1244d930a6a4db24a",
+    "derivative_sha256": "a0dc4e2732f5c57c724c99486e926c3d25a478c024cc32701fb0a177c53dff1c",
+    "captured": "2026-09-13",
+    "source": "User-supplied copy of the City document",
+    "derivative": "OCRmyPDF searchable copy, unverified text layer. Original page images retained.",
+    "verification": "Selected cited tables checked against visible source pages. OCR text layer is not a fully verified transcription."
+  },
+  {
+    "file": "2026-08-24-finance-p184.pdf",
+    "source_url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-08-24-Finance-Audit-Committee-Agenda.pdf",
+    "source_sha256": "acd37ca4c1b1dcdbb6f3b290e73fb462b169ee02946c02b5b66a07a5575aa26b",
+    "derivative_sha256": "d0b8138fe3f185926778f75a5700e61ab4de361d7b4038f59680ad24e92125be",
+    "captured": "2026-09-13",
+    "source": "User-supplied copy of the City document",
+    "derivative": "Labeled single-page excerpt of PDF p. 184, no page content changed",
+    "verification": "Selected cited tables checked against visible source pages. OCR text layer is not a fully verified transcription."
+  }
+]

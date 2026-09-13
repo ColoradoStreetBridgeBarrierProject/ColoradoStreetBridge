@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#0c1420">
   <meta name="color-scheme" content="dark">
   <meta name="referrer" content="no-referrer">
-  <meta name="description" content="Explore Colorado Street Bridge project highlights, a decision timeline, and selected remarks with links to City records and recordings.">
-  <title>Colorado Street Bridge Barrier Enhancements Project | Highlights</title>
+  <meta name="description" content="An independent guide to Pasadena’s Colorado Street Bridge barrier project, with a decision timeline and links to City records and recordings.">
+  <title>Colorado Street Bridge Project Guide | Overview</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23132135'/%3E%3Cpath d='M7 6v20M16 6v20M25 6v20M5 12h22M5 21h22' stroke='%237edce0' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css?v=__STYLE_VERSION__">
   <script src="assets/guide.js?v=__SCRIPT_VERSION__" defer></script>
@@ -21,40 +21,40 @@
   <div class="app-layout">
   <aside class="site-sidebar" id="site-sidebar" aria-label="Project navigation">
     <a class="sidebar-brand" href="#overview"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 17h38M8 17v22m32-22v22M8 32c4-15 10-15 16 0 6-15 12-15 16 0M5 39h38M14 17v-5m10 5v-5m10 5v-5"/></svg><span>Colorado<br>Street Bridge<small>PROJECT GUIDE</small></span></a>
-    <p class="nav-label">Explore the record</p>
-    <nav class="view-nav" aria-label="Explore the project history" role="tablist" aria-orientation="vertical">
+    <p class="nav-label">In this guide</p>
+    <nav class="view-nav" aria-label="Guide sections" role="tablist" aria-orientation="vertical">
       <button id="tab-overview" role="tab" aria-controls="content" aria-selected="true" data-view="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg><span>Overview</span></button>
       <button id="tab-timeline" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="timeline"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16M11 6h9M11 12h6M11 18h9"/><circle cx="6" cy="6" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="6" cy="18" r="1.5"/></svg><span>Timeline</span></button>
-      <button id="tab-alternatives" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="alternatives"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v6M5 20v-5a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v5M2 17l3 3 3-3m8 0 3 3 3-3"/></svg><span>Alternatives</span></button>
+      <button id="tab-alternatives" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="alternatives"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v6M5 20v-5a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v5M2 17l3 3 3-3m8 0 3 3 3-3"/></svg><span>Alternatives studied</span></button>
       <button id="tab-evidence" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="evidence"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM14 3v5h5M9 12h6m-6 4h6"/></svg><span>Evidence &amp; limits</span></button>
-      <button id="tab-speakers" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="speakers"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Speakers</span></button>
+      <button id="tab-speakers" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="speakers"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Who said what</span></button>
       <button id="tab-meetings" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="meetings"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4m8-4v4M4 11h16m-12 4h3m2 0h3m-8 3h3"/></svg><span>Meetings &amp; documents</span></button>
       <button id="tab-news" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="news"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13v16H5a2 2 0 0 1-2-2V7m14 1h4v10a2 2 0 0 1-4 0M7 8h6m-6 4h6m-6 4h6"/></svg><span>News &amp; commentary</span></button>
     </nav>
+    <form id="search-form" class="search-form sidebar-search" role="search" aria-label="Search this guide" tabindex="-1">
+      <label for="search-input">Search this guide</label>
+      <div class="search-controls"><input id="search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search"><button type="submit">Search</button></div>
+    </form>
     <div class="sidebar-bottom"><span class="independent-badge"><i aria-hidden="true"></i>Independent guide</span><p>A source-linked history of Pasadena’s permanent protection project.</p><a href="#meetings/source-folder">Preserved City records <span aria-hidden="true">↗</span></a></div>
   </aside>
   <div class="shell">
     <section class="intro" aria-labelledby="site-title">
       <div class="intro-copy">
-        <p class="eyebrow">PROJECT HISTORY &amp; MEETING HIGHLIGHTS</p>
+        <p class="eyebrow">INDEPENDENT PROJECT GUIDE</p>
         <h1 id="site-title">Colorado Street Bridge<br>Barrier Enhancements Project</h1>
-        <p class="dek">Explore Pasadena’s work since 2017 toward permanent suicide prevention protection at the Colorado Street Bridge.</p>
-        <p class="edition">Research baseline: September 1, 2026. Limited later checks are identified below.</p>
+        <p class="dek">Pasadena’s work since 2017 on a permanent suicide prevention barrier, documented through City reports, meetings, and recordings.</p>
+        <p class="edition">Research baseline: __BASELINE_DATE__. Guide updated __SITE_UPDATE_DATE__. Later source checks are identified with the material they support.</p>
       </div>
       <div class="bridge-figure-group">
         <figure class="bridge-image"><a href="bridge.jpeg" target="_blank" rel="noopener noreferrer" aria-label="Open the larger bridge photograph"><img src="bridge-preview.webp" alt="The Colorado Street Bridge after its 1993 restoration, with concrete arches following the curve across the Arroyo Seco." width="620" height="250"></a><figcaption>After the 1993 restoration. BCA Associates.</figcaption></figure>
         <div class="figure-links"><a href="bridge.jpeg" target="_blank" rel="noopener noreferrer">Enlarge photograph</a><a href="https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/HRTR-Colorado-Street-Bridge_11072019.pdf#page=20" target="_blank" rel="noopener noreferrer">Image source</a></div>
       </div>
     </section>
-    <form id="search-form" class="search-form" role="search" aria-label="Search this research guide" tabindex="-1">
-      <label for="search-input">Search highlights, speakers, meetings, and articles</label>
-      <div class="search-controls"><input id="search-input" name="q" type="search" maxlength="200" placeholder="Try netting, funding, or a name" enterkeyhint="search"><button type="submit">Search</button></div>
-    </form>
     <main id="content" role="tabpanel" aria-labelledby="view-heading" tabindex="-1">__OVERVIEW__</main>
     <noscript><p>The opening explanation and its source links are available without JavaScript. Enable JavaScript to use search, speaker filters, and the other sections. You can also visit the <a href="https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/">City’s project page</a>.</p></noscript>
     <button class="return-tools" id="return-tools" type="button" hidden aria-label="Back to search and navigation menus">↑ Search &amp; menus</button>
     <footer class="footer">
-      <p>This independent research guide covers the record reviewed through September 1, 2026, with a September 9 records update and limited September 10 source checks. Speaker and link-directory additions dated September 12, 2026, identify their source limits. This remains a historical research guide, not an official City website or a comprehensive current-status check.</p>
+      <p>This independent guide uses a research baseline of __BASELINE_DATE__, a September 9 records update, and limited September 10 source checks. Selected remarks and directory additions dated September 12 identify their source limits. September 13 additions cover the reviewed 2021 and 2022 reports, fiscal row, and editorial clarifications. The guide’s update date does not advance the verification date of every claim. This is not an official City website or a comprehensive current-status check.</p>
       <p class="memorial">In memory of the people who died by suicide at the Colorado Street Bridge.</p>
       <p>If you or someone you know is struggling or in crisis, call or text <a class="footer-link" href="tel:988">988</a></p>
     </footer>

@@ -7,7 +7,7 @@ const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEve
 const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
-doc.documentElement={style:{setProperty(name,value){cssProperties[name]=value;headerWrites++;}},classList:{remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
+doc.documentElement={style:{setProperty(name,value){cssProperties[name]=value;headerWrites++;}},classList:{add(name){classes.add(name);},remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
 let intersectionCallback;
 class TestIntersectionObserver{constructor(callback){intersectionCallback=callback;}observe(){}}
 let resizeCallback,resizeTarget;
@@ -25,7 +25,7 @@ assert.equal(run('Object.keys(speakers).length'),4);
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'1286c27e566d5ec73b95348a4111c83806e5015904cc510a6b845bb3c44c9008'
+ 'resources.js':'6f6827d51d2f04a68c14788ec6bbc91b47a9cc195dd0b8ae6c9f3e7615af9d95'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
@@ -55,8 +55,23 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,11);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
-assert.equal(index.length,140,'The height-comparison evidence card adds one search record');
+assert.equal(index.length,141,'The separate 2021 survey adds one search record without changing existing routes');
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
+assert(index.some(x=>x.title==='Option B led among respondents who ranked the mockups'));
+assert(run('evidence()').includes('73324'));
+assert(!run('evidence()').includes('Of 678 respondents'));
+assert(run('overview()').includes('p. 184 excerpt'));
+assert(run('overview()').includes('What alternatives were studied?'));
+assert(run('speakerView()').includes('whether they support or challenge'));
+assert(!run('timeline[6].result').includes('meeting that timing milestone'));
+assert.notEqual(run('reviewDates.baseline'),run('reviewDates.siteUpdated'));
+const tablePage=fs.readFileSync(path.join(dir,'preserved-records/tables.html'),'utf8');
+for(const id of ['survey-2021','police-2021','fiscal-2021','schedule-2022','finance-2026'])assert(tablePage.includes('id="'+id+'"'));
+for(const item of JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/manifest.json'),'utf8'))){
+ const file=path.join(dir,'preserved-records',item.file);
+ assert.equal(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),item.derivative_sha256,item.file+': preserved derivative changed');
+ assert(item.source_url.startsWith('https://www.cityofpasadena.net/'));
+}
 assert.equal(index.filter(x=>x.type==='Overview').length,1,'Only the retained short-version card is indexed');
 assert(!index.some(x=>x.title.includes('Three different decisions')),'Removed overview card must not appear in search');
 assert.equal(index.filter(x=>x.type==='Meeting & documents').length,34);
@@ -153,7 +168,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
-const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);

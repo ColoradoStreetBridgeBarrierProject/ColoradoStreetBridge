@@ -82,6 +82,10 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .search-controls input::placeholder { color: var(--dim); opacity: 1; }
 .search-controls button { min-height: 48px; padding: 10px 23px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: #0c2424; font-size: .875rem; font-weight: 700; }
 .search-controls button:hover { background: #a0efdf; }
+.sidebar-search { margin: 24px 0 0; padding: 12px; background: transparent; }
+.sidebar-search .search-controls { flex-direction: column; gap: 8px; }
+.sidebar-search .search-controls input { width: 100%; padding: 10px; }
+.sidebar-search .search-controls button { width: 100%; }
 main { min-width: 0; padding-bottom: 40px; scroll-margin-top: 24px; }
 .section-head { padding-bottom: 25px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
 .section-head h2 { margin-bottom: 12px; }
