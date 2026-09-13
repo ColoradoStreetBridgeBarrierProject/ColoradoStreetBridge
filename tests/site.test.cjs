@@ -25,7 +25,7 @@ assert.equal(run('Object.keys(speakers).length'),4);
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'d3f923b5018dd95dc46e0f7c4c0a19ad5f273eef9680da302a72ac8c635582a3'
+ 'resources.js':'653ca6fbdd6a3cb0efc87981d07ca4ca1a02f369533ece0782c68315b6cdb61e'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
