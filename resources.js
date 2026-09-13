@@ -2,7 +2,7 @@
 // Directory additions checked at their stated scope on September 12, 2026.
 const resourceUrls = {
   "dropbox": "https://www.dropbox.com/scl/fo/fulazr7h1pcj6tgpkbeoi/ANjuObtxDwDhjr9IU5Wv-M0?rlkey=f4t0ypr91hr7o0cimhcdb1773&dl=0",
-  "v2019": "https://pasadena.granicus.com/MediaPlayer.php?clip_id=4579&view_id=25",
+  "v2019": "https://pasadena.granicus.com/MediaPlayer.php?clip_id=4580&view_id=25",
   "m2021": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-08-18-Public-Safety-Committee-Minutes.pdf",
   "jan24memo": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2024-01-09-Design-Commission-4A-Colorado-St.-Bridge-Barrier-Memo.pdf",
   "fire2026": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-05-20-Public-Safety-Committee-Meeting-Agenda.pdf#page=22",
