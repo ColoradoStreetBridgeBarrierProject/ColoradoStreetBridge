@@ -8,11 +8,9 @@ const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
 doc.documentElement={style:{setProperty(name,value){cssProperties[name]=value;headerWrites++;}},classList:{add(name){classes.add(name);},remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
-let intersectionCallback;
-class TestIntersectionObserver{constructor(callback){intersectionCallback=callback;}observe(){}}
 let resizeCallback,resizeTarget;
 class TestResizeObserver{constructor(callback){resizeCallback=callback;}observe(target){resizeTarget=target;}}
-const context={document:doc,location:{hash:''},URLSearchParams,console,IntersectionObserver:TestIntersectionObserver,addEventListener(type,fn){listeners['window:'+type]=fn;},history:{pushState(_,__,hash){context.location.hash=hash;}}};
+const context={document:doc,location:{hash:''},URL,URLSearchParams,console,addEventListener(type,fn){listeners['window:'+type]=fn;},history:{pushState(_,__,hash){context.location.hash=hash;}}};
 if(!process.argv.includes('--no-resize-observer'))context.ResizeObserver=TestResizeObserver;
 vm.createContext(context);
 const bundled=process.argv.includes('--bundle');
@@ -111,7 +109,7 @@ assert(!page.includes('src="bridge.jpeg"'));
 assert(page.includes('class="figure-links"'));
 assert(page.includes('class="footer-link"'));
 assert(page.includes('class="source-link"'));
-assert(page.includes('id="return-tools"'));
+assert(!page.includes('return-tools'),'Floating control must not cover reading content');
 assert(page.includes('aria-controls="site-sidebar"'));
 assert(page.includes('name="color-scheme" content="dark"'));
 assert(!page.includes('section-num'));
@@ -148,11 +146,7 @@ headerHeight=68;
 elements.content.scrolled=false;
 listeners['document:click']({target:{closest:selector=>selector==='[data-view]'?({dataset:{view:'news'},focus(){}}):null}});
 assert.equal(context.location.hash,'#news');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
-assert.equal(typeof intersectionCallback,'function');
-intersectionCallback([{boundingClientRect:{bottom:100}}]);assert.equal(elements['return-tools'].hidden,true);
-intersectionCallback([{boundingClientRect:{bottom:-20}}]);assert.equal(elements['return-tools'].hidden,false);
-listeners['return-tools:click']();assert(elements['search-form'].scrolled);assert(elements['search-form'].focused);
-intersectionCallback([{boundingClientRect:{bottom:0}}]);assert.equal(elements['return-tools'].hidden,true);
+assert(!listeners['return-tools:click']);
 assert.equal((page.match(/<script src=/g)||[]).length,1);
 assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">')),'Static overview diverges from the interactive overview');
 for(const html of [page,run('overview()')]){
@@ -198,4 +192,41 @@ for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01
  run('navigate('+JSON.stringify(route)+')');
  assert(elements[id].focused&&elements[id].scrolled,'Existing entry route must still work: '+route);
 }
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:0,checks:'preserved data, chronology, filters, search, routes, escaping, URLs, static overview, cache versions, enlarged-header offsets, removed sharing controls, and return navigation passed'}));
+// Editorial cleanup: retain the evidence while changing its presentation.
+for(const view of ['overview','timeline','alternatives','evidence','speakers','meetings','news','search']){
+ run('navigate('+JSON.stringify(view)+')');
+ assert.equal(elements['.intro'].hidden,view!=='overview',view+': hero visibility');
+ assert(elements.content.innerHTML.includes(view==='overview'?'<h2>':'<h1>'),view+': section heading');
+}
+assert(styleBlock('[hidden]').includes('display: none !important'),'Responsive display rules must not unhide the hero');
+assert(run('speakerView()').includes('Other speakers <span>35 entries</span>'));
+assert(run('speakerView("other")').includes('35 entries from 15 people'));
+assert(!run('speakerView("madison")').includes('class="chronology-note"'));
+assert(!run('speakerView("other")').includes('Remarks are included when'));
+assert(run('speakerView()').includes('Remarks are included when'));
+assert(run('searchView("final mesh type")').includes('timeline/2020-02-03'),'Search includes the February source note');
+for(const r of metadata){
+ const parts=json(`outcomeParts(${JSON.stringify(r)})`);
+ const preservedText=[parts.event,parts.note].filter(Boolean).join(' ');
+ assert.equal([...preservedText].sort().join(''),[...r.outcome].sort().join(''),r.id+': outcome text lost');
+ if(parts.event)assert(/20\d\d/.test(parts.event),r.id+': What followed needs an explicit date');
+ if(r.quote){
+  const excerpt=run(`remarkExcerpt(${JSON.stringify(r)})`);
+  assert(excerpt.includes(run(`esc(${JSON.stringify(r.quote)})`)),r.id+': excerpt changed');
+  assert.equal(excerpt.includes('<blockquote>'),['Author-confirmed excerpt','Author-checked quotation'].includes(r.kind));
+  assert(excerpt.includes('excerpt-verification'));
+ }
+}
+assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('author checked the speaker, passage, and locator'));
+const aprilLinks=run('citations(7,"5–7",[["Council minutes",urls.m2018],["Task-force report",urls.r2018]])');
+assert(!aprilLinks.includes('href="'+run('urls.m2018')+'"'));
+assert(aprilLinks.includes('href="'+run('urls.m2018')+'#page=4"'));
+const distinctPages=run('citations(1,"",[["Survey",urls.p2024+"#page=18"],["Commission feedback",urls.p2024+"#page=16"]])');
+assert(distinctPages.includes('#page=18')&&distinctPages.includes('#page=16'),'Keep distinct cited page locators');
+for(const url of ['#overview','bridge.jpeg','https://coloradostreetbridgeproject.com/preserved-records/tables.html'])assert(!run(`link("Test",${JSON.stringify(url)})`).includes('↗'));
+assert(run('link("Test",urls.project)').includes('↗'));
+assert(!run('overview()').includes('More supporting records'),'A single extra source stays visible');
+assert(!run('overview()').includes('stands in the record'));
+assert(run('overview()').includes('September 2018'));
+assert(run('overview()').includes('records reviewed for this guide'));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:0,checks:'preserved data, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
