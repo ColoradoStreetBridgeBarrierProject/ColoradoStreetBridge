@@ -29,7 +29,7 @@ The site uses relative asset links and hash-based navigation so it can run under
 
 The interface uses a dark charcoal palette, teal accents, and system fonts. A persistent sidebar serves larger screens. On phones, a compact header opens the section menu, and forms and cards adapt to the available width. Keyboard navigation, visible focus, and reduced-motion preferences are supported.
 
-The opening explanation and its source links are rendered into HTML so they do not wait for JavaScript. The same overview function supplies both versions. The five script files are combined into one download, with data formatting compacted without changing the source records. A return shortcut appears on long pages after search scrolls out of view. Versioned asset URLs help readers receive matching updates.
+The opening explanation and its source links are rendered into HTML so they do not wait for JavaScript. The same overview function supplies both versions. The five script files are combined into one download, with data formatting compacted without changing the source records. The introduction appears only on Overview; other sections start with their own heading. Navigation stays in the sidebar or phone menu, without a floating control over the reading area. Versioned asset URLs help readers receive matching updates.
 
 ## Local checks
 
@@ -39,6 +39,8 @@ Run these with Node.js. No external packages are required:
 node scripts/build.cjs
 node tests/site.test.cjs
 node tests/site.test.cjs --bundle
+node tests/site.test.cjs --no-resize-observer
+node tests/site.test.cjs --bundle --no-resize-observer
 ```
 
-The checks cover both readable sources and the production bundle, including data, routing, links, search, preservation, the static overview, menu interactions, and return navigation. They are not a substitute for browser or physical-device testing.
+The checks cover both readable sources and the production bundle, including data, routing, page locators, source-note search, the static overview, menu interactions, and enlarged-header offsets. They also verify the September 15 editorial cleanup: 71 entries including 35 from 15 other speakers, Overview-only introduction, distinct excerpt verification labels, and dated follow-ups separated from record notes. They are not a substitute for browser or physical-device testing.

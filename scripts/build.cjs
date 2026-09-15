@@ -13,7 +13,7 @@ const script=read('search.js')+'\n'+compact+'\nconst speakerDirectory={...speake
 // Render the same overview function used by the interactive guide, not a second account.
 const noop=()=>{};
 const node=()=>({innerHTML:'',value:'',dataset:{view:'overview'},setAttribute:noop,addEventListener:noop,querySelector:()=>null,querySelectorAll:()=>[],focus:noop,scrollIntoView:noop});
-const ctx=vm.createContext({document:{getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener:noop},location:{hash:''},history:{pushState:noop},URLSearchParams,addEventListener:noop});
+const ctx=vm.createContext({document:{getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener:noop},location:{hash:''},history:{pushState:noop},URL,URLSearchParams,addEventListener:noop});
 vm.runInContext(script,ctx,{filename:'guide.js'});
 const overview=vm.runInContext('overview()',ctx).replace('<h2>','<h2 id="view-heading">');
 const html=read('index.template.html').replace('__STYLE_VERSION__',hash(read('styles.css'))).replace('__SCRIPT_VERSION__',hash(script)).replace('__OVERVIEW__',overview).replaceAll('__BASELINE_DATE__',vm.runInContext('formatDate(reviewDates.baseline)',ctx)).replaceAll('__SITE_UPDATE_DATE__',vm.runInContext('formatDate(reviewDates.siteUpdated)',ctx));
