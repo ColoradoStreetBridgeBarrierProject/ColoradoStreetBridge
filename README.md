@@ -4,7 +4,7 @@ Independent searchable guide to Pasadena’s Colorado Street Bridge suicide prev
 
 ## Explore the guide
 
-The website is titled **Colorado Street Bridge Barrier Enhancements Project**. It is an independent research guide, not an official City website.
+The website is titled **Colorado Street Bridge Project Guide**. It is an independent research guide, not an official City website.
 
 - Project highlights and a decision timeline
 - Alternatives, earlier research, responses, and evidence limits
