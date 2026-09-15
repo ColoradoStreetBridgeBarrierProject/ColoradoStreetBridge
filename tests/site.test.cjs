@@ -55,7 +55,15 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,11);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
-assert.equal(index.length,141,'The separate 2021 survey adds one search record without changing existing routes');
+assert.equal(index.length,142,'February 2020 adds one timeline record');
+assert(index.some(x=>x.route==='timeline/2020-02-03'));
+assert.equal(run('timeline.find(t=>t.id==="4").date'),'Aug 2021','Existing numeric timeline links remain stable');
+assert(run('steps(timeline,true)').includes('data-timeline-id="2020-02-03"'));
+assert(run('steps(timeline,true)').includes('committee received and filed'));
+assert(run('evidence()').includes('$130,000 on June 9 and $46,000 on July 21'));
+assert(run('evidence()').includes('Staff said enough remained to finish design'));
+assert(run('evidence()').includes('after outstanding commitments'));
+assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert(index.some(x=>x.title==='Option B led among respondents who ranked the mockups'));
 assert(run('evidence()').includes('73324'));
@@ -63,7 +71,7 @@ assert(!run('evidence()').includes('Of 678 respondents'));
 assert(run('overview()').includes('p. 184 excerpt'));
 assert(run('overview()').includes('What alternatives were studied?'));
 assert(run('speakerView()').includes('whether they support or challenge'));
-assert(!run('timeline[6].result').includes('meeting that timing milestone'));
+assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
 assert.notEqual(run('reviewDates.baseline'),run('reviewDates.siteUpdated'));
 const tablePage=fs.readFileSync(path.join(dir,'preserved-records/tables.html'),'utf8');
 for(const id of ['survey-2021','police-2021','fiscal-2021','schedule-2022','finance-2026'])assert(tablePage.includes('id="'+id+'"'));
