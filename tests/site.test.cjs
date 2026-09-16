@@ -172,7 +172,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about','changes']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
@@ -194,7 +194,7 @@ for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01
  assert(elements[id].focused&&elements[id].scrolled,'Existing entry route must still work: '+route);
 }
 // Editorial cleanup: retain the evidence while changing its presentation.
-for(const view of ['overview','timeline','alternatives','evidence','speakers','meetings','news','search']){
+for(const view of ['overview','timeline','alternatives','evidence','speakers','meetings','news','search','about','changes']){
  run('navigate('+JSON.stringify(view)+')');
  assert.equal(elements['.intro'].hidden,view!=='overview',view+': hero visibility');
  assert(elements.content.innerHTML.includes(view==='overview'?'<h2>':'<h1>'),view+': section heading');

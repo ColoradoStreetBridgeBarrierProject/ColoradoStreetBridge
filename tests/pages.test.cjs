@@ -2,7 +2,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
-const pages=['','timeline/','alternatives-studied/','evidence-and-limits/','who-said-what/','meetings-and-documents/','news-and-commentary/','search/',...['netting','landscaping','staffing','technology'].map(key=>'alternatives-studied/'+key+'/')];
+const pages=['','timeline/','alternatives-studied/','evidence-and-limits/','who-said-what/','meetings-and-documents/','news-and-commentary/','search/','about/','changes/',...['netting','landscaping','staffing','technology'].map(key=>'alternatives-studied/'+key+'/')];
 const noop=()=>{};
 function load(url,html){
   const nodes={},events={};
@@ -22,10 +22,11 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   assert(html.includes('rel="canonical" href="https://coloradostreetbridgeproject.com/'+page+'"'));
   assert(!html.includes('role="tab"'),'Navigation is ordinary links');
   assert.equal((html.match(/data-view="/g)||[]).length,7);
-  assert.equal((html.match(/data-view="[^"]+" aria-current="page"/g)||[]).length,page==='search/'?0:1);
+  assert.equal((html.match(/data-view="[^"]+" aria-current="page"/g)||[]).length,['search/','about/','changes/'].includes(page)?0:1);
   assert.equal(/class="intro"[^>]+ hidden/.test(html),page!=='');
   assert(html.includes('mailto:contact@coloradostreetbridgeproject.com'));
   assert(html.includes('href="tel:988"'));
+  assert(html.includes('data-route="about">About</a>')&&html.includes('data-route="changes">Changes</a>'),'Every footer must link to both information pages');
   const app=load(url,html),route=JSON.parse(app.run('JSON.stringify(readRoute())'));
   const prefix=page?'../'.repeat(page.split('/').filter(Boolean).length):'./';
   const expected=app.run('viewMarkup(readRoute())').replace(/<h([12])>/,'<h$1 id="view-heading">').replace(new RegExp('href="'+new URL(base).pathname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?!/)','g'),'href="'+prefix);
@@ -65,10 +66,21 @@ for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/d
  if(id)assert(app.nodes[id].scrolled,'Legacy entry focus '+id);
 }
 const who=read('who-said-what/index.html');
+const about=read('about/index.html'),changes=read('changes/index.html');
+assert(about.includes('Updating the website does not mean every claim has been checked again.'));
+assert(about.includes('Please identify the passage and include a supporting source when available.'));
+assert(about.includes('whether they support or challenge the guide’s reading'));
+const changesBody=changes.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
+assert.equal((changesBody.match(/<time /g)||[]).length,1);
+assert(changesBody.includes('September 15, 2026'));
+assert(!changesBody.includes('September 16, 2026'));
+assert(changesBody.includes('the committee’s recorded action.'));
+assert(changesBody.includes('Retained the limits concerning outstanding commitments and federal ARPA accounting.'));
+assert(!/floating|permanent pages|meeting-record explanation|<h[1-6]>\s*<\/h[1-6]>/.test(changesBody));
 assert.equal((who.match(/class="remark-card"/g)||[]).length,71);
 assert.equal((read('meetings-and-documents/index.html').match(/class="directory-card"/g)||[]).length,34);
 assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,11);
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
-assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,11);
+assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));

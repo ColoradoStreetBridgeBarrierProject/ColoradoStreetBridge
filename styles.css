@@ -236,6 +236,10 @@ mark { color: #f0f7d9; background: #40542e; border-radius: 2px; padding: 0 2px; 
 .footer { padding: 26px 0 40px; border-top: 1px solid var(--line); color: var(--dim); font-size: .75rem; line-height: 1.75; }
 .footer p { max-width: 890px; margin-bottom: 12px; }
 .footer .memorial { margin-top: 22px; font-size: .9375rem; color: var(--muted); }
+.footer-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: .875rem; }
+.info-copy { max-width: 68ch; padding-bottom: 32px; font-size: 1rem; line-height: 1.7; color: var(--muted); }
+.info-copy h2 { margin-top: 28px; font-size: 1.25rem; color: var(--ink); }
+.info-copy h2:first-child { margin-top: 0; }
 .scroll-focus { scroll-margin-top: 24px; }
 
 @media (max-width: 1180px) {

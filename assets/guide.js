@@ -214,8 +214,8 @@ function evidence(){return head('04','What does the evidence establish?','The ca
 
 
 const views = ['overview','timeline','alternatives','evidence','speakers','meetings','news'];
-const sectionPaths = Object.freeze({overview:'',timeline:'timeline',alternatives:'alternatives-studied',evidence:'evidence-and-limits',speakers:'who-said-what',meetings:'meetings-and-documents',news:'news-and-commentary',search:'search'});
-const sectionLabels = Object.freeze({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'});
+const sectionPaths = Object.freeze({overview:'',timeline:'timeline',alternatives:'alternatives-studied',evidence:'evidence-and-limits',speakers:'who-said-what',meetings:'meetings-and-documents',news:'news-and-commentary',search:'search',about:'about',changes:'changes'});
+const sectionLabels = Object.freeze({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results',about:'About this guide',changes:'Changes to this guide'});
 // Resolve the deployment root once. Relative HTML links also work on GitHub project paths.
 const siteBase = new URL(document.documentElement?.dataset?.siteRoot || './', location.href || 'https://coloradostreetbridgeproject.com/').pathname;
 function routeHref(route) {
@@ -405,19 +405,38 @@ function readRoute() {
   const pathView=Object.keys(sectionPaths).find(key=>sectionPaths[key]===slug)||'overview';
   const fallback=pathView+(pathView==='alternatives'&&Object.hasOwn(topics,topic)?'/'+topic:'');
   const hash=(location.hash||'').slice(1);
-  const legacy=views.includes(hash.split(/[/?]/)[0])||hash.split(/[/?]/)[0]==='search';
+  const legacy=Object.hasOwn(sectionPaths,hash.split(/[/?]/)[0]);
   const [path,queryString='']=(legacy?hash:fallback).split('?');
   const [raw,arg,detail]=path.split('/');
-  const view=views.includes(raw)||raw==='search'?raw:'overview';
+  const view=Object.hasOwn(sectionPaths,raw)?raw:'overview';
   const params=new URLSearchParams(queryString);
   const filter=Object.hasOwn(speakerTopics,params.get('topic'))?params.get('topic'):'all';
   const year=meetingRecords.some(m=>m.date.slice(0,4)===params.get('year'))?params.get('year'):'all';
   return {view,arg,detail,filter,year,query:(params.get('q')||'').slice(0,200),anchor:legacy?'':hash};
 }
+function aboutView() {
+  return `<div class="section-head"><div><h2>About this guide</h2></div></div>
+    <div class="info-copy">
+      <p>This independent guide follows Pasadena’s effort since 2017 to develop a permanent suicide prevention barrier for the Colorado Street Bridge. It brings together City reports, meeting minutes, presentations, and recordings to help readers follow the decisions, alternatives, and schedule.</p>
+      <p>The research baseline is September 1, 2026. Later checks and additions are identified with the material they support. Updating the website does not mean every claim has been checked again.</p>
+      <p>Selected exchanges include earlier work, responses, and source links. Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge the guide’s reading. Source notes distinguish quotations, caption excerpts, and summaries, and identify verification limits.</p>
+      <p>This is not an official City website.</p>
+      <h2>Questions and corrections</h2>
+      <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>. Please identify the passage and include a supporting source when available.</p>
+    </div>`;
+}
+function changesView() {
+  return `<div class="section-head"><div><h2>Changes to this guide</h2></div></div>
+    <div class="info-copy">
+      <h2><time datetime="2026-09-15">September 15, 2026</time></h2>
+      <p>Added the appropriation history explaining the $2,874,000 total, including the two 2025 transfers. Retained the limits concerning outstanding commitments and federal ARPA accounting.</p>
+      <p>Added the February 2020 design comparison, projected schedule, and the committee’s recorded action.</p>
+    </div>`;
+}
 function viewMarkup({view,arg,filter='all',year='all',query=''}) {
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry includes a record note distinguishing outcomes, forecasts, and limits. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():searchView(query);
+  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry includes a record note distinguishing outcomes, forecasts, and limits. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():view==='about'?aboutView():view==='changes'?changesView():searchView(query);
   if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
   return markup;
 }
@@ -425,7 +444,7 @@ function render(focus=false) {
   const route=readRoute();
   const {view,arg,detail,query,filter,year,anchor}=route;
   document.querySelector('.intro').hidden=view!=='overview';
-  if(mobileView)mobileView.textContent=({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'})[view];
+  if(mobileView)mobileView.textContent=sectionLabels[view];
   // A longer section label can wrap. Measure it before scrolling to the target.
   syncHeaderHeight();
   document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
@@ -440,7 +459,7 @@ function render(focus=false) {
   content.innerHTML=viewMarkup(route);
   const heading=content.querySelector('h1,h2');if(heading)heading.id='view-heading';
   content.setAttribute('aria-labelledby','view-heading');
-  document.title='Colorado Street Bridge Project Guide | '+({overview:'Overview',timeline:'Decisions over time',alternatives:topics[topic].name,evidence:'Evidence and limits',speakers:person==='all'?'Who said what':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search'}[view]);
+  document.title='Colorado Street Bridge Project Guide | '+({overview:'Overview',timeline:'Decisions over time',alternatives:topics[topic].name,evidence:'Evidence and limits',speakers:person==='all'?'Who said what':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search',about:'About this guide',changes:'Changes to this guide'}[view]);
   let target=null;
   const canonical=document.querySelector('link[rel="canonical"]');
   if(canonical)canonical.setAttribute('href','https://coloradostreetbridgeproject.com/'+(sectionPaths[view]?sectionPaths[view]+'/':'')+(view==='alternatives'&&Object.hasOwn(topics,arg)?arg+'/':''));
