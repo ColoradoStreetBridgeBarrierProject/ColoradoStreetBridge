@@ -33,6 +33,8 @@ Every section is rendered into HTML by the same view functions used by the inter
 
 The five script files are combined into one download, with data formatting compacted without changing the source records. The introduction appears only on Overview; other sections start with their own heading. Navigation stays in the sidebar or phone menu, without a floating control over the reading area. Versioned asset URLs help readers receive matching updates. The build supplies section titles, descriptions, canonical URLs, and a sitemap. Source verification dates remain separate from the site update date.
 
+The footer links to `/about/`, `/changes/`, and the project email address. About explains the research scope and corrections route without a byline. Changes records substantive content additions, not every website revision. Both pages use the shared renderer and are readable without JavaScript. The paper remains unpublished on this website.
+
 ## Local checks
 
 Run these with Node.js. No external packages are required:
