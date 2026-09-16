@@ -187,7 +187,7 @@ const timeline = [
 timeline.forEach((entry,index)=>{entry.id=String(index);});
 timeline.splice(4,0,{"id":"2020-02-03","date":"Feb 2020","title":"Design alternatives and a March–May forecast","text":"The February 2020 presentation compared straight mesh, pickets, curved mesh, and a hybrid. It projected mockup installation in March, commission reviews in April, and a committee recommendation and Council approval in May. At the meeting, Kennedy requested a cost estimate for enclosing the bridge with a roof before Council consideration.","result":"The minutes record that the committee received and filed the information. The March–May dates were forecasts, not completed approvals.","page":8,"refs":"10","note":"The February 3, 2020 presentation separates the task force’s recommended minimum height from the consultant’s broader design criteria. Those criteria included height, resistance to climbing, historic preservation, appearance, and emergency access. Slides 10–27 show the design options and their different dimensions.\n\nSlide 30 ranks curved mesh highest among the options shown, but it does not identify the final mesh type.\n\nSlide 31 gives the projected schedule for March through May. Kennedy’s request for a roof over the barrier appears in the meeting minutes on page 2, not in the presentation. Page 3 says the committee received and filed the information; it does not say the committee approved a permanent design.",links:[['February 2020 presentation · Schedule · Slide 31',urls.p2020+'#page=31'],['Preserved agenda and minutes',urls.dropbox]]});
 
-function steps(items, year=false){return `<div class="timeline ${year?'year-timeline':''}">${items.map(s=>`<article class="timeline-item" data-timeline-id="${esc(s.id??'')}"><div class="timeline-date">${esc(s.date)}</div><div class="timeline-entry"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><p class="outcome"><strong>Record note</strong> ${esc(s.result)}</p><details><summary>Read the supporting record</summary>${s.note?s.note.split('\n\n').map(p=>`<p>${esc(p)}</p>`).join(''):''}${citations(s.page,s.refs,s.links)}</details></div></article>`).join('')}</div>`;}
+function steps(items, year=false){return `<div class="timeline ${year?'year-timeline':''}">${items.map(s=>`<article class="timeline-item" data-timeline-id="${esc(s.id??'')}"><div class="timeline-date">${esc(s.date)}</div><div class="timeline-entry"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><details><summary>Read the supporting record</summary>${s.note?s.note.split('\n\n').map(p=>`<p>${esc(p)}</p>`).join(''):''}${citations(s.page,s.refs,s.links)}</details></div></article>`).join('')}</div>`;}
 
 function overview(){return head('01','Why is the fence still there?','In April 2018, the City Council chose to pursue a permanent barrier. The temporary fence installed in September 2018 remains on the bridge.')+`
   <div class="overview-grid">
@@ -267,7 +267,7 @@ function remarkLinks(remark) {
   }).join('');
 }
 // Only explicit, dated follow-ups use the chronological label. Other existing
-// outcomes mix context, interpretation and limits, so keep them as record notes.
+// outcomes remain in the source data but are not displayed or searched.
 const datedFollowups = {
   'madison-staffing-2021':'first', 'madison-health-expertise':'all',
   'kennedy-enclosure':'first', 'markarian-staffing':'all',
@@ -304,7 +304,6 @@ function remarkCard(key, person, remark) {
       <div><dt>Earlier answer or work</dt><dd>${esc(remark.earlier)}</dd></div>
       <div><dt>Response and context</dt><dd>${esc(remark.response)}</dd></div>
       ${outcome.event?`<div><dt>What followed</dt><dd>${esc(outcome.event)}</dd></div>`:''}
-      ${outcome.note?`<div><dt>Record note</dt><dd>${esc(outcome.note)}</dd></div>`:''}
     </dl>
     <details class="exchange-records"><summary>Sources for this entry</summary><ul>${remarkLinks(remark)}</ul></details>
     <details class="source-detail"><summary>About this selection and its source</summary><p>${esc(remark.basis)}</p></details>
@@ -334,8 +333,7 @@ function speakerView(key='all', topic='all') {
     <div class="speaker-heading"><h3>${esc(name)}</h3><p role="status">${entries.length}${topic==='all'?'':' of '+total} entries · oldest first</p></div>
     ${key==='other'?`<p class="locator-note">${speakerEntries('other').length} entries from ${Object.keys(otherSpeakers).length} people.</p>`:''}
     ${key==='all'?`<p class="locator-note">Open a recording and go to the displayed time. Expand the supporting links to follow the earlier answer or response. Written records and interviews are labeled separately. These are selected exchanges, not a complete record of anyone’s contributions.</p>
-    <p class="locator-note">Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge this guide’s reading of the record.</p>
-    <p class="chronology-note">A recurring question does not establish that a whole study was repeated. The entries distinguish requests for more information, objections to designs, support for action, and refinement.</p>`:''}
+    <p class="locator-note">Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge this guide’s reading of the record.</p>`:''}
     ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p></div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div></section>`).join(''):'<p class="search-empty">No selected entries for this speaker and topic. Choose another topic or All speakers.</p>'}`;
 }
 
@@ -370,9 +368,9 @@ let indexCache;
 function searchIndex() {
   if (indexCache) return indexCache;
   const result=[];
-  for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text,s.result]),t.limit].join(' '),route:'alternatives/'+key});
-  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,text:[t.text,t.result,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
-  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,text:[r.date,r.time,r.body,speakerTopics[r.topic],r.quote,r.context,r.earlier,r.response,r.outcome,...(r.links||[]).flatMap(l=>[l.label,l.time]),r.basis].join(' '),route:'speakers/'+key+'/'+r.id}));
+  for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
+  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,text:[r.date,r.time,r.body,speakerTopics[r.topic],r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...(r.links||[]).flatMap(l=>[l.label,l.time]),r.basis].join(' '),route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,text:[m.title,m.kind,m.note,...m.links.map(l=>l.label)].join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,n.note].join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
@@ -436,7 +434,7 @@ function changesView() {
 function viewMarkup({view,arg,filter='all',year='all',query=''}) {
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry includes a record note distinguishing outcomes, forecasts, and limits. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():view==='about'?aboutView():view==='changes'?changesView():searchView(query);
+  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():view==='about'?aboutView():view==='changes'?changesView():searchView(query);
   if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
   return markup;
 }
