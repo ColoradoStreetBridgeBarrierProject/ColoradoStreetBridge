@@ -206,6 +206,8 @@ assert(!run('speakerView("madison")').includes('class="chronology-note"'));
 assert(!run('speakerView("other")').includes('Remarks are included when'));
 assert(run('speakerView()').includes('Remarks are included when'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
+assert(!run('overview()').includes('The record contains both practical delays'));
+assert(run('overview()').includes('Construction also required funding separate from the design budget.'));
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
