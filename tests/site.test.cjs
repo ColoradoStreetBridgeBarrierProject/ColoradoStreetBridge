@@ -10,7 +10,7 @@ node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-vi
 doc.documentElement={style:{setProperty(name,value){cssProperties[name]=value;headerWrites++;}},classList:{add(name){classes.add(name);},remove(name){classes.delete(name);},toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
 let resizeCallback,resizeTarget;
 class TestResizeObserver{constructor(callback){resizeCallback=callback;}observe(target){resizeTarget=target;}}
-const context={document:doc,location:{hash:''},URL,URLSearchParams,console,addEventListener(type,fn){listeners['window:'+type]=fn;},history:{pushState(_,__,hash){context.location.hash=hash;}}};
+const context={document:doc,location:{hash:'',pathname:'/',href:'https://coloradostreetbridgeproject.com/'},URL,URLSearchParams,console,addEventListener(type,fn){listeners['window:'+type]=fn;},history:{pushState(_,__,href){const url=new URL(href,context.location.href);Object.assign(context.location,{href:url.href,pathname:url.pathname,hash:url.hash});}}};
 if(!process.argv.includes('--no-resize-observer'))context.ResizeObserver=TestResizeObserver;
 vm.createContext(context);
 const bundled=process.argv.includes('--bundle');
@@ -92,7 +92,7 @@ listeners['document:change']({target:{id:'meeting-year',value:'2024'}});assert.e
 context.location.hash='#search?q=%3Cscript%3E';run('render()');assert(!elements.content.innerHTML.includes('<script>'));
 const html=run('speakerView()+meetingsView()+newsView()');
 assert(html.includes('class="source-label"'));
-for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
+for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('/')||href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
 const page=fs.readFileSync(path.join(dir,'index.html'),'utf8');
 const styles=fs.readFileSync(path.join(dir,'styles.css'),'utf8');
 const styleBlocks=[...styles.matchAll(/([^{}]+)\{([^}]*)\}/g)].map(([,selectors,body])=>({selectors,body}));
@@ -104,7 +104,7 @@ assert(!page.includes('Private preview'));
 assert(!page.includes('noindex'));
 assert(!page.includes('<iframe'));
 assert.equal((page.match(/<img /g)||[]).length,1);
-assert(page.includes('src="bridge-preview.webp"'));
+assert(page.includes('src="./bridge-preview.webp"'));
 assert(!page.includes('src="bridge.jpeg"'));
 assert(page.includes('class="figure-links"'));
 assert(page.includes('class="footer-link"'));
@@ -134,7 +134,7 @@ assert(styleBlock('.footer-link').includes('min-height: 44px'),'The footer crisi
 listeners['menu-toggle:click']();assert(classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'true');
 assert.equal(cssProperties['--mobile-header-height'],'133px','Opening the menu refreshes the offset synchronously');
 listeners['.view-nav:keydown']({key:'ArrowDown',target:{closest:()=>({dataset:{view:'overview'}})},preventDefault(){}});
-assert.equal(context.location.hash,'#timeline');assert(classes.has('menu-open'));assert(elements['tab-timeline'].focused);
+assert.equal(context.location.pathname,'/timeline/');assert.equal(context.location.hash,'');assert(classes.has('menu-open'));assert(elements['tab-timeline'].focused);
 listeners['document:keydown']({key:'Escape'});assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements['menu-toggle'].focused);
 listeners['menu-toggle:click']();headerHeight=165;run('navigate("meetings")');assert(!classes.has('menu-open'));assert.equal(elements['menu-toggle'].attributes['aria-expanded'],'false');assert(elements.content.focused);
 assert.equal(elements['mobile-view'].textContent,'Meetings & documents');
@@ -144,11 +144,11 @@ headerHeight=166;run('navigate("meetings/meeting-2024-01-09")');
 assert.equal(elements['meeting-2024-01-09'].headerAtScroll,'166px','Deep links use the measured header offset');
 headerHeight=68;
 elements.content.scrolled=false;
-listeners['document:click']({target:{closest:selector=>selector==='[data-view]'?({dataset:{view:'news'},focus(){}}):null}});
-assert.equal(context.location.hash,'#news');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
+listeners['document:click']({preventDefault(){},target:{closest:selector=>selector==='[data-view]'?({dataset:{view:'news'},focus(){}}):null}});
+assert.equal(context.location.pathname,'/news-and-commentary/');assert.equal(context.location.hash,'');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
 assert(!listeners['return-tools:click']);
 assert.equal((page.match(/<script src=/g)||[]).length,1);
-assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">')),'Static overview diverges from the interactive overview');
+assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">').replace(/href="\/(?!\/)/g,'href="./')),'Static overview diverges from the interactive overview');
 for(const html of [page,run('overview()')]){
  assert(!html.includes('Three different decisions'),'Removed card must not appear in either overview');
  assert(!html.includes('class="status-list"'),'Removed policy/design/construction list must not remain');
@@ -168,11 +168,11 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  if(value.startsWith('#')||/^(https:|data:|tel:|mailto:)/.test(value))continue;
  assert(!value.startsWith('/'),'Asset must work under the project path: '+value);
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
- assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
+ assert(fs.existsSync(path.join(dir,value.split(/[?#]/)[0])),value);
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);

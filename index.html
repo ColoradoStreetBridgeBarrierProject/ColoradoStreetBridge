@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-site-root="./">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,57 +8,58 @@
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="An independent guide to Pasadena’s Colorado Street Bridge barrier project, with a decision timeline and links to City records and recordings.">
   <title>Colorado Street Bridge Project Guide | Overview</title>
+  <link rel="canonical" href="https://coloradostreetbridgeproject.com/">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23132135'/%3E%3Cpath d='M7 6v20M16 6v20M25 6v20M5 12h22M5 21h22' stroke='%237edce0' stroke-width='2'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=3fad1f1ceae7">
-  <script src="assets/guide.js?v=f580e7743347" defer></script>
-  <noscript><style>.search-form,.site-sidebar,.menu-toggle,.next-cards{display:none!important}.app-layout{display:block}</style></noscript>
+  <link rel="stylesheet" href="./styles.css?v=8a4703a33350">
+  <script src="./assets/guide.js?v=54bb4cb4fda6" defer></script>
+  <noscript><style>.search-form,.menu-toggle,.speaker-menu,.speaker-filter,.topbar{display:none!important}.app-layout{display:block}.site-sidebar{display:block;position:static;height:auto;max-height:none;width:auto;padding:20px}.site-sidebar .sidebar-brand,.sidebar-bottom,.nav-label{display:none}.view-nav{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}</style></noscript>
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
   <header class="topbar">
-    <div class="topbar-inner"><a class="mobile-brand" href="#overview">Colorado Street Bridge<span id="mobile-view">Overview</span></a><button id="menu-toggle" class="menu-toggle" type="button" aria-controls="site-sidebar" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menu</span></button></div>
+    <div class="topbar-inner"><a class="mobile-brand" href="./" data-route="overview">Colorado Street Bridge<span id="mobile-view">Overview</span></a><button id="menu-toggle" class="menu-toggle" type="button" aria-controls="site-sidebar" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Menu</span></button></div>
   </header>
   <div class="app-layout">
   <aside class="site-sidebar" id="site-sidebar" aria-label="Project navigation">
-    <a class="sidebar-brand" href="#overview"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 17h38M8 17v22m32-22v22M8 32c4-15 10-15 16 0 6-15 12-15 16 0M5 39h38M14 17v-5m10 5v-5m10 5v-5"/></svg><span>Colorado<br>Street Bridge<small>PROJECT GUIDE</small></span></a>
+    <a class="sidebar-brand" href="./" data-route="overview"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 17h38M8 17v22m32-22v22M8 32c4-15 10-15 16 0 6-15 12-15 16 0M5 39h38M14 17v-5m10 5v-5m10 5v-5"/></svg><span>Colorado<br>Street Bridge<small>PROJECT GUIDE</small></span></a>
     <p class="nav-label">In this guide</p>
-    <nav class="view-nav" aria-label="Guide sections" role="tablist" aria-orientation="vertical">
-      <button id="tab-overview" role="tab" aria-controls="content" aria-selected="true" data-view="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg><span>Overview</span></button>
-      <button id="tab-timeline" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="timeline"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16M11 6h9M11 12h6M11 18h9"/><circle cx="6" cy="6" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="6" cy="18" r="1.5"/></svg><span>Timeline</span></button>
-      <button id="tab-alternatives" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="alternatives"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v6M5 20v-5a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v5M2 17l3 3 3-3m8 0 3 3 3-3"/></svg><span>Alternatives studied</span></button>
-      <button id="tab-evidence" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="evidence"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM14 3v5h5M9 12h6m-6 4h6"/></svg><span>Evidence &amp; limits</span></button>
-      <button id="tab-speakers" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="speakers"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Who said what</span></button>
-      <button id="tab-meetings" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="meetings"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4m8-4v4M4 11h16m-12 4h3m2 0h3m-8 3h3"/></svg><span>Meetings &amp; documents</span></button>
-      <button id="tab-news" role="tab" aria-controls="content" aria-selected="false" tabindex="-1" data-view="news"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13v16H5a2 2 0 0 1-2-2V7m14 1h4v10a2 2 0 0 1-4 0M7 8h6m-6 4h6m-6 4h6"/></svg><span>News &amp; commentary</span></button>
+    <nav class="view-nav" aria-label="Guide sections">
+      <a id="tab-overview" href="./" data-view="overview" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg><span>Overview</span></a>
+      <a id="tab-timeline" href="./timeline/" data-view="timeline" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16M11 6h9M11 12h6M11 18h9"/><circle cx="6" cy="6" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="6" cy="18" r="1.5"/></svg><span>Timeline</span></a>
+      <a id="tab-alternatives" href="./alternatives-studied/" data-view="alternatives" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v6M5 20v-5a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v5M2 17l3 3 3-3m8 0 3 3 3-3"/></svg><span>Alternatives studied</span></a>
+      <a id="tab-evidence" href="./evidence-and-limits/" data-view="evidence" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM14 3v5h5M9 12h6m-6 4h6"/></svg><span>Evidence &amp; limits</span></a>
+      <a id="tab-speakers" href="./who-said-what/" data-view="speakers" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2m1-15a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Who said what</span></a>
+      <a id="tab-meetings" href="./meetings-and-documents/" data-view="meetings" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4m8-4v4M4 11h16m-12 4h3m2 0h3m-8 3h3"/></svg><span>Meetings &amp; documents</span></a>
+      <a id="tab-news" href="./news-and-commentary/" data-view="news" aria-current="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13v16H5a2 2 0 0 1-2-2V7m14 1h4v10a2 2 0 0 1-4 0M7 8h6m-6 4h6m-6 4h6"/></svg><span>News &amp; commentary</span></a>
     </nav>
     <form id="search-form" class="search-form sidebar-search" role="search" aria-label="Search this guide" tabindex="-1">
       <label for="search-input">Search this guide</label>
       <div class="search-controls"><input id="search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search"><button type="submit">Search</button></div>
     </form>
-    <div class="sidebar-bottom"><span class="independent-badge"><i aria-hidden="true"></i>Independent guide</span><p>A source-linked history of Pasadena’s permanent-barrier project.</p><a href="#meetings/source-folder">Preserved City records</a></div>
+    <div class="sidebar-bottom"><span class="independent-badge"><i aria-hidden="true"></i>Independent guide</span><p>A source-linked history of Pasadena’s permanent-barrier project.</p><a href="./meetings-and-documents/#source-folder">Preserved City records</a></div>
   </aside>
   <div class="shell">
-    <section class="intro" aria-labelledby="site-title">
+    <section class="intro" aria-labelledby="site-title" >
       <div class="intro-copy">
         <p class="eyebrow">INDEPENDENT PROJECT GUIDE</p>
         <h1 id="site-title">Colorado Street Bridge<br>Barrier Enhancements Project</h1>
         <p class="dek">Pasadena’s work since 2017 on a permanent suicide prevention barrier, documented through City reports, meetings, and recordings.</p>
-        <p class="edition">Research baseline: September 1, 2026. Guide updated September 15, 2026. Later source checks are identified with the material they support.</p>
+        <p class="edition">Research baseline: September 1, 2026. Guide updated September 16, 2026. Later source checks are identified with the material they support.</p>
       </div>
       <div class="bridge-figure-group">
-        <figure class="bridge-image"><a href="bridge.jpeg" target="_blank" rel="noopener noreferrer" aria-label="Open the larger bridge photograph"><img src="bridge-preview.webp" alt="The Colorado Street Bridge after its 1993 restoration, with concrete arches following the curve across the Arroyo Seco." width="620" height="250"></a><figcaption>After the 1993 restoration. BCA Associates.</figcaption></figure>
-        <div class="figure-links"><a href="bridge.jpeg" target="_blank" rel="noopener noreferrer">Enlarge photograph</a><a href="https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/HRTR-Colorado-Street-Bridge_11072019.pdf#page=20" target="_blank" rel="noopener noreferrer">Image source</a></div>
+        <figure class="bridge-image"><a href="./bridge.jpeg" target="_blank" rel="noopener noreferrer" aria-label="Open the larger bridge photograph"><img src="./bridge-preview.webp" alt="The Colorado Street Bridge after its 1993 restoration, with concrete arches following the curve across the Arroyo Seco." width="620" height="250"></a><figcaption>After the 1993 restoration. BCA Associates.</figcaption></figure>
+        <div class="figure-links"><a href="./bridge.jpeg" target="_blank" rel="noopener noreferrer">Enlarge photograph</a><a href="https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/HRTR-Colorado-Street-Bridge_11072019.pdf#page=20" target="_blank" rel="noopener noreferrer">Image source</a></div>
       </div>
     </section>
-    <main id="content" role="tabpanel" aria-labelledby="view-heading" tabindex="-1"><div class="section-head"><div><h2 id="view-heading">Why is the fence still there?</h2><p>In April 2018, the City Council chose to pursue a permanent barrier. The temporary fence installed in September 2018 remains on the bridge.</p></div></div>
+    <main id="content" aria-labelledby="view-heading" tabindex="-1"><div class="section-head"><div><h2 id="view-heading">Why is the fence still there?</h2><p>In April 2018, the City Council chose to pursue a permanent barrier. The temporary fence installed in September 2018 remains on the bridge.</p></div></div>
   <div class="overview-grid">
     <article class="feature-card lead"><p class="eyebrow">THE SHORT VERSION</p><p class="large">As of September 2026, the records reviewed for this guide do not show an approved permanent design.</p><p>The temporary fence stayed while designs went through mockups, commission reviews, public input, a change of consultant, and further study. Construction also required funding separate from the design budget.</p><p>The record contains both practical delays and repeated reconsideration of alternatives. It does not support treating every delay as the same, or assigning one motive to everyone involved.</p><div class="evidence-links"><a class="source-link" href="https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/" target="_blank" rel="noopener noreferrer">City project page <span aria-hidden="true">↗</span></a><a class="source-link" href="https://ww2.cityofpasadena.net/2018%20Agendas/May_07_18/2018%2004%2023%20CC%20MIN.pdf#page=4" target="_blank" rel="noopener noreferrer">City Council · April 23, 2018 · Minutes · PDF pp. 4–5 <span aria-hidden="true">↗</span></a><a class="source-link" href="https://coloradostreetbridgeproject.com/preserved-records/2026-08-24-finance-p184.pdf" target="_blank" rel="noopener noreferrer">Finance/Audit Committee · August 24, 2026 · Project row · PDF p. 184 excerpt</a><a class="source-link" href="https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-08-24-Finance-Audit-Committee-Agenda.pdf#page=184" target="_blank" rel="noopener noreferrer">Finance/Audit Committee · August 24, 2026 · Full packet · PDF p. 184 <span aria-hidden="true">↗</span></a></div></article>
   </div>
-  <div class="next-cards"><button class="next-card" data-go="timeline"><strong>How did the schedule move?</strong><span>Compare the May 2019 forecast of construction in August 2020, pending appropriation, with what followed.</span><span class="action">The timeline →</span></button><button class="next-card" data-go="alternatives"><strong>What alternatives were studied?</strong><span>Follow the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></button><button class="next-card" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read the research on prevention and the questions it does not settle.</span><span class="action">The evidence →</span></button></div>
+  <div class="next-cards"><a class="next-card" href="./timeline/" data-go="timeline"><strong>How did the schedule move?</strong><span>Compare the May 2019 forecast of construction in August 2020, pending appropriation, with what followed.</span><span class="action">The timeline →</span></a><a class="next-card" href="./alternatives-studied/" data-go="alternatives"><strong>What alternatives were studied?</strong><span>Follow the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="./evidence-and-limits/" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read the research on prevention and the questions it does not settle.</span><span class="action">The evidence →</span></a></div>
   </main>
-    <noscript><p>The opening explanation and its source links are available without JavaScript. Enable JavaScript to use search, speaker filters, and the other sections. You can also visit the <a href="https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/">City’s project page</a>.</p></noscript>
+    <noscript><p>Every section and its source links are available without JavaScript. Enable JavaScript to use search and filters. You can also visit the <a href="https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/">City’s project page</a>.</p></noscript>
     <footer class="footer">
-      <p>Last updated September 15, 2026</p>
+      <p>Last updated September 16, 2026</p>
       <p>This is not an official City website.</p>
       <p><a class="source-link" href="mailto:contact@coloradostreetbridgeproject.com" aria-label="Email the guide with questions or corrections">Email</a></p>
       <p class="memorial">In memory of the people who died by suicide at the Colorado Street Bridge.</p>

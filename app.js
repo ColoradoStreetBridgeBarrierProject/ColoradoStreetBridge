@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-15',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-16',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -161,11 +161,11 @@ function overview(){return head('01','Why is the fence still there?','In April 2
   <div class="overview-grid">
     <article class="feature-card lead"><p class="eyebrow">THE SHORT VERSION</p><p class="large">As of September 2026, the records reviewed for this guide do not show an approved permanent design.</p><p>The temporary fence stayed while designs went through mockups, commission reviews, public input, a change of consultant, and further study. Construction also required funding separate from the design budget.</p><p>The record contains both practical delays and repeated reconsideration of alternatives. It does not support treating every delay as the same, or assigning one motive to everyone involved.</p>${citations(21,'26',[['City project page',urls.project],sourceRecords[6],['Finance & Audit · August 24, 2026 · Project row · PDF p. 184 excerpt',urls.financeExcerpt]])}</article>
   </div>
-  <div class="next-cards"><button class="next-card" data-go="timeline"><strong>How did the schedule move?</strong><span>Compare the May 2019 forecast of construction in August 2020, pending appropriation, with what followed.</span><span class="action">The timeline →</span></button><button class="next-card" data-go="alternatives"><strong>What alternatives were studied?</strong><span>Follow the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></button><button class="next-card" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read the research on prevention and the questions it does not settle.</span><span class="action">The evidence →</span></button></div>
+  <div class="next-cards"><a class="next-card" href="${esc(routeHref('timeline'))}" data-go="timeline"><strong>How did the schedule move?</strong><span>Compare the May 2019 forecast of construction in August 2020, pending appropriation, with what followed.</span><span class="action">The timeline →</span></a><a class="next-card" href="${esc(routeHref('alternatives'))}" data-go="alternatives"><strong>What alternatives were studied?</strong><span>Follow the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="${esc(routeHref('evidence'))}" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read the research on prevention and the questions it does not settle.</span><span class="action">The evidence →</span></a></div>
   `;}
 
 function alternatives(key='netting'){const t=topics[key]||topics.netting;return head('03','What alternatives were studied?','Select an approach to follow what was studied, the answers that came back, and what remained unresolved.')+`
-  <div class="topic-layout"><nav class="topic-menu" aria-label="Approaches considered">${Object.entries(topics).map(([id,x])=>`<button data-topic="${id}" aria-pressed="${t===x}">${esc(x.name)}<small>${esc(x.sub)}</small></button>`).join('')}</nav><div class="topic-main"><article class="topic-answer"><span class="pill">${esc(t.tag)}</span><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article>${steps(t.steps)}<div class="note"><p><strong>Keep this qualification</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div></div></div>`;}
+  <div class="topic-layout"><nav class="topic-menu" aria-label="Approaches considered">${Object.entries(topics).map(([id,x])=>`<a href="${esc(routeHref('alternatives/'+id))}" data-topic="${id}" aria-current="${t===x?'page':'false'}">${esc(x.name)}<small>${esc(x.sub)}</small></a>`).join('')}</nav><div class="topic-main"><article class="topic-answer"><span class="pill">${esc(t.tag)}</span><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article>${steps(t.steps)}<div class="note"><p><strong>Keep this qualification</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div></div></div>`;}
 
 function evidence(){return head('04','What does the evidence establish?','The case for protection and the limits of what can be concluded belong together.')+`
   <div class="evidence-grid">
@@ -182,6 +182,18 @@ function evidence(){return head('04','What does the evidence establish?','The ca
 
 
 const views = ['overview','timeline','alternatives','evidence','speakers','meetings','news'];
+const sectionPaths = Object.freeze({overview:'',timeline:'timeline',alternatives:'alternatives-studied',evidence:'evidence-and-limits',speakers:'who-said-what',meetings:'meetings-and-documents',news:'news-and-commentary',search:'search'});
+const sectionLabels = Object.freeze({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'});
+// Resolve the deployment root once. Relative HTML links also work on GitHub project paths.
+const siteBase = new URL(document.documentElement?.dataset?.siteRoot || './', location.href || 'https://coloradostreetbridgeproject.com/').pathname;
+function routeHref(route) {
+  const [path,query='']=route.split('?');
+  const [raw,arg]=path.split('/');
+  const view=Object.hasOwn(sectionPaths,raw)?raw:'overview';
+  const base=siteBase+(sectionPaths[view]?sectionPaths[view]+'/':'');
+  if(view==='alternatives' && Object.hasOwn(topics,arg))return base+arg+'/';
+  return base+(arg||query?'#'+route:'');
+}
 const content = document.getElementById('content');
 const searchInput = document.getElementById('search-input');
 const searchForm = document.getElementById('search-form');
@@ -353,25 +365,39 @@ function searchView(query) {
   if (!words.length) return heading+'<p class="search-empty">Enter a word or phrase above. You can start with <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
   const matches=searchIndex().map(item=>({item,score:SearchText.score(item,words)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
   const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
-  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>`<li><p class="result-type">${esc(item.type)}</p><h3><a href="#${esc(item.route)}">${highlight(item.title,words)}</a></h3><p>${highlight(SearchText.excerpt(item.text,words),words)}</p></li>`).join('')}</ol>`:'<p class="search-empty">No matching guide entries were found. Try fewer words, a surname, or a broader topic.</p>');
+  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>`<li><p class="result-type">${esc(item.type)}</p><h3><a data-route="${esc(item.route)}" href="${esc(routeHref(item.route))}">${highlight(item.title,words)}</a></h3><p>${highlight(SearchText.excerpt(item.text,words),words)}</p></li>`).join('')}</ol>`:'<p class="search-empty">No matching guide entries were found. Try fewer words, a surname, or a broader topic.</p>');
 }
 function readRoute() {
-  const [path,queryString='']=location.hash.slice(1).split('?');
+  const relative=(location.pathname||siteBase).slice(siteBase.length).replace(/index\.html$/,'').replace(/\/$/,'');
+  const [slug,topic]=relative.split('/');
+  const pathView=Object.keys(sectionPaths).find(key=>sectionPaths[key]===slug)||'overview';
+  const fallback=pathView+(pathView==='alternatives'&&Object.hasOwn(topics,topic)?'/'+topic:'');
+  const hash=(location.hash||'').slice(1);
+  const legacy=views.includes(hash.split(/[/?]/)[0])||hash.split(/[/?]/)[0]==='search';
+  const [path,queryString='']=(legacy?hash:fallback).split('?');
   const [raw,arg,detail]=path.split('/');
   const view=views.includes(raw)||raw==='search'?raw:'overview';
   const params=new URLSearchParams(queryString);
   const filter=Object.hasOwn(speakerTopics,params.get('topic'))?params.get('topic'):'all';
   const year=meetingRecords.some(m=>m.date.slice(0,4)===params.get('year'))?params.get('year'):'all';
-  return {view,arg,detail,filter,year,query:(params.get('q')||'').slice(0,200)};
+  return {view,arg,detail,filter,year,query:(params.get('q')||'').slice(0,200),anchor:legacy?'':hash};
+}
+function viewMarkup({view,arg,filter='all',year='all',query=''}) {
+  const topic=Object.hasOwn(topics,arg)?arg:'netting';
+  const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
+  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry includes a record note distinguishing outcomes, forecasts, and limits. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():searchView(query);
+  if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
+  return markup;
 }
 function render(focus=false) {
-  const {view,arg,detail,query,filter,year}=readRoute();
+  const route=readRoute();
+  const {view,arg,detail,query,filter,year,anchor}=route;
   document.querySelector('.intro').hidden=view!=='overview';
   if(mobileView)mobileView.textContent=({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results'})[view];
   // A longer section label can wrap. Measure it before scrolling to the target.
   syncHeaderHeight();
   document.querySelectorAll('.view-nav [data-view]').forEach(b=>{
-    const on=b.dataset.view===view;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1;
+    const on=b.dataset.view===view;b.setAttribute('aria-current',on?'page':'false');
   });
   if (view==='search') {
     document.querySelector('.view-nav [data-view]').tabIndex=0;
@@ -379,13 +405,13 @@ function render(focus=false) {
   }
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreement did not finish the project','Follow the sequence from the emergency response to the later design and funding questions.')+'<p class="timeline-key">Each entry includes a record note distinguishing outcomes, forecasts, and limits. Expand an entry for its supporting record.</p>'+steps(timeline,true):view==='alternatives'?alternatives(topic):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter):view==='meetings'?meetingsView(year):view==='news'?newsView():searchView(query);
-  if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
-  content.innerHTML=markup;
+  content.innerHTML=viewMarkup(route);
   const heading=content.querySelector('h1,h2');if(heading)heading.id='view-heading';
-  content.setAttribute('aria-labelledby','view-heading');content.setAttribute('role',view==='search'?'region':'tabpanel');
+  content.setAttribute('aria-labelledby','view-heading');
   document.title='Colorado Street Bridge Project Guide | '+({overview:'Overview',timeline:'Decisions over time',alternatives:topics[topic].name,evidence:'Evidence and limits',speakers:person==='all'?'Who said what':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search'}[view]);
   let target=null;
+  const canonical=document.querySelector('link[rel="canonical"]');
+  if(canonical)canonical.setAttribute('href','https://coloradostreetbridgeproject.com/'+(sectionPaths[view]?sectionPaths[view]+'/':'')+(view==='alternatives'&&Object.hasOwn(topics,arg)?arg+'/':''));
   if (['timeline','evidence','overview'].includes(view) && /^(?:\d+|2020-02-03)$/.test(arg||'')) {
     const items=content.querySelectorAll(view==='timeline'?'.timeline-item':'article.feature-card,aside.feature-card');
     target=view==='timeline'?[...items].find(item=>item.dataset.timelineId===arg):items[Number(arg)];
@@ -394,20 +420,23 @@ function render(focus=false) {
   if(view==='speakers' && detail && speakerEntries(person,filter).some(({remark})=>remark.id===detail)) target=document.getElementById(detail);
   if(view==='meetings'&&(arg==='source-folder'||meetingRecords.some(m=>m.id===arg)))target=document.getElementById(arg);
   if(view==='news'&&newsRecords.some(n=>n.id===arg))target=document.getElementById(arg);
+  if(!target && anchor)target=document.getElementById(anchor);
   if(target) {target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
   else if(focus) {content.focus({preventScroll:true});content.scrollIntoView({block:'start'});}
 }
 function navigate(path,focus=true,keepMenu=false) {
   if(menuOpen&&!keepMenu){closeMenu();focus=true;}
-  const next='#'+path;
-  if(location.hash!==next)history.pushState(null,'',next);
+  const next=routeHref(path);
+  if((location.pathname||siteBase)+(location.hash||'')!==next)history.pushState(null,'',next);
   render(focus);
 }
 searchForm.addEventListener('submit',e=>{e.preventDefault();navigate('search?q='+encodeURIComponent(searchInput.value.trim()));});
 document.addEventListener('click',e=>{
-  const tab=e.target.closest('[data-view]');if(tab){const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
-  const go=e.target.closest('[data-go]');if(go){navigate(go.dataset.go);return;}
-  const topic=e.target.closest('[data-topic]');if(topic){navigate('alternatives/'+topic.dataset.topic);return;}
+  if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button>0)return;
+  const tab=e.target.closest('[data-view]');if(tab){e.preventDefault();const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
+  const go=e.target.closest('[data-go]');if(go){e.preventDefault();navigate(go.dataset.go);return;}
+  const topic=e.target.closest('[data-topic]');if(topic){e.preventDefault();navigate('alternatives/'+topic.dataset.topic);return;}
+  const routeLink=e.target.closest('[data-route]');if(routeLink){e.preventDefault();navigate(routeLink.dataset.route);return;}
   const person=e.target.closest('[data-speaker]');if(person){const filter=readRoute().filter;navigate('speakers/'+person.dataset.speaker+(filter==='all'?'':'?topic='+filter));return;}
   const query=e.target.closest('[data-query]');if(query){navigate('search?q='+encodeURIComponent(query.dataset.query));return;}
   const a=e.target.closest('a[href^="#"]');
@@ -436,4 +465,12 @@ document.querySelector('.view-nav').addEventListener('keydown',e=>{
 });
 addEventListener('hashchange',()=>render(true));
 addEventListener('popstate',()=>render(true));
+// Pin persistent relative links before history navigation changes the document URL.
+document.querySelectorAll('a[href],img[src]').forEach(element=>{
+  const attr=element.tagName==='IMG'?'src':'href';
+  const value=element.getAttribute(attr);
+  if(value && !/^(?:#|\/|[a-z][a-z0-9+.-]*:)/i.test(value)){
+    const url=new URL(value,location.href);element.setAttribute(attr,url.pathname+url.search+url.hash);
+  }
+});
 render();
