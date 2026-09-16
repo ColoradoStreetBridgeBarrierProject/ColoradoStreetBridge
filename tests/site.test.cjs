@@ -205,6 +205,14 @@ assert(run('speakerView("other")').includes('35 entries from 15 people'));
 assert(!run('speakerView("madison")').includes('class="chronology-note"'));
 assert(!run('speakerView("other")').includes('Remarks are included when'));
 assert(run('speakerView()').includes('Remarks are included when'));
+assert(!run('speakerView()').includes('A recurring question does not establish'));
+for(const view of ['timeline','alternatives','speakers']){
+ assert(!run('viewMarkup('+JSON.stringify({view})+')').includes('Record note'),view+': record-note blocks removed');
+}
+assert(run('speakerView()').includes('<dt>What followed</dt>'));
+assert(run('speakerView()').includes('Sources for this entry'));
+assert(!run('searchIndex().map(r=>r.text).join(" ")').includes('This exchange records the intended distinction'));
+assert(!run('steps([{date:"2026",title:"Test",text:"Visible",result:"Hidden record note"}])').includes('Hidden record note'));
 assert(run('searchView("final mesh type")').includes('timeline/2020-02-03'),'Search includes the February source note');
 for(const r of metadata){
  const parts=json(`outcomeParts(${JSON.stringify(r)})`);
