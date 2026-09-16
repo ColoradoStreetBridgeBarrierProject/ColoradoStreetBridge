@@ -327,9 +327,9 @@ function meetingsView(year='all') {
 }
 function newsView() {
   return head('07','News & commentary','Browse reporting, interviews, historical coverage, and preservation commentary about the bridge.')+
-    `<p class="locator-note">Links open the original publisher sites. Some require a subscription. Reports and columns reflect their publication dates. They are not current project-status updates or independent verification of every claim they contain.</p>
+    `<p class="locator-note">Links open the original publisher sites. Some require a subscription.</p>
     <div class="directory-grid">${newsRecords.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${n.note?'<p class="locator-note">'+esc(n.note)+'</p>':''}<p>${link('Read at the publisher',n.url)}</p></article>`).join('')}</div>
-    <aside class="directory-tail"><h3>More regional coverage</h3><p>${link('San Gabriel Valley Tribune · publisher homepage','https://www.sgvtribune.com/')}</p><p class="locator-note">A specific Tribune article link has not been established for this directory. The Pasadena Star-News entries above link directly to the identified articles.</p></aside>`;
+    <aside class="directory-tail"><h3>More regional coverage</h3><p>${link('San Gabriel Valley Tribune · publisher homepage','https://www.sgvtribune.com/')}</p></aside>`;
 }
 
 let indexCache;
