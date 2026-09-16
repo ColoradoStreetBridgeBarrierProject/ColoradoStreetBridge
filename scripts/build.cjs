@@ -10,17 +10,35 @@ const declarations=['speakerTopics','speakers','otherSpeakers','resourceUrls','m
 const compact=declarations.map(name=>'const '+name+'='+vm.runInContext('JSON.stringify('+name+')',data)+';').join('\n');
 const script=read('search.js')+'\n'+compact+'\nconst speakerDirectory={...speakers,...otherSpeakers};\n'+read('app.js');
 
-// Render the same overview function used by the interactive guide, not a second account.
+// Every static page and the interactive guide share the same view renderer.
 const noop=()=>{};
 const node=()=>({innerHTML:'',value:'',dataset:{view:'overview'},setAttribute:noop,addEventListener:noop,querySelector:()=>null,querySelectorAll:()=>[],focus:noop,scrollIntoView:noop});
-const ctx=vm.createContext({document:{getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener:noop},location:{hash:''},history:{pushState:noop},URL,URLSearchParams,addEventListener:noop});
+const ctx=vm.createContext({document:{getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener:noop},location:{hash:'',pathname:'/',href:'https://coloradostreetbridgeproject.com/'},history:{pushState:noop},URL,URLSearchParams,addEventListener:noop});
 vm.runInContext(script,ctx,{filename:'guide.js'});
-const overview=vm.runInContext('overview()',ctx).replace('<h2>','<h2 id="view-heading">');
-const html=read('index.template.html').replace('__STYLE_VERSION__',hash(read('styles.css'))).replace('__SCRIPT_VERSION__',hash(script)).replace('__OVERVIEW__',overview).replaceAll('__BASELINE_DATE__',vm.runInContext('formatDate(reviewDates.baseline)',ctx)).replaceAll('__SITE_UPDATE_DATE__',vm.runInContext('formatDate(reviewDates.siteUpdated)',ctx));
-if(/__[A-Z_]+__/.test(html))throw new Error('Unresolved build placeholder');
+const get=expression=>vm.runInContext(expression,ctx);
+const sections=JSON.parse(get('JSON.stringify(sectionPaths)'));
+const labels=JSON.parse(get('JSON.stringify(sectionLabels)'));
+const topicNames=JSON.parse(get('JSON.stringify(Object.fromEntries(Object.entries(topics).map(([key,t])=>[key,t.name])))'));
+const pages=Object.entries(sections).map(([view,slug])=>({view,path:slug?slug+'/':'',title:labels[view]}));
+for(const [arg,title] of Object.entries(topicNames))pages.push({view:'alternatives',arg,path:sections.alternatives+'/'+arg+'/',title});
+const descriptions={overview:'An independent guide to Pasadena’s Colorado Street Bridge barrier project, with a decision timeline and links to City records and recordings.',timeline:'Follow the Colorado Street Bridge barrier project’s decisions, forecasts, and outcomes, with links to supporting City records.',alternatives:'Read the local reviews of netting, landscaping, staffing, and cameras for the Colorado Street Bridge.',evidence:'Read the prevention evidence, local surveys, funding records, and their limits for the Colorado Street Bridge project.',speakers:'Read 71 selected exchanges about the Colorado Street Bridge project, with earlier work, responses, source notes, and recording timestamps.',meetings:'Find the Colorado Street Bridge project’s meeting records, presentations, minutes, recordings, and preserved City documents.',news:'Read historical reporting, project coverage, interviews, and commentary about the Colorado Street Bridge.',search:'Search the Colorado Street Bridge Project Guide. JavaScript is required for search.'};
+const output=[];
+for(const page of pages){
+  const prefix=page.path?'../'.repeat(page.path.split('/').filter(Boolean).length):'./';
+  let markup=get('viewMarkup('+JSON.stringify(page)+')').replace(/<h([12])>/,'<h$1 id="view-heading">');
+  // Static links are relative to the deployment root, including GitHub project paths.
+  markup=markup.replace(/href="\/(?!\/)([^"]*)"/g,(_,href)=>'href="'+prefix+href+'"');
+  const values={ROOT:prefix,TITLE:get('esc('+JSON.stringify(page.title)+')'),DESCRIPTION:get('esc('+JSON.stringify(descriptions[page.view])+')'),CANONICAL:'https://coloradostreetbridgeproject.com/'+page.path,SECTION_LABEL:get('esc('+JSON.stringify(labels[page.view])+')'),HERO_HIDDEN:page.view==='overview'?'':'hidden',STYLE_VERSION:hash(read('styles.css')),SCRIPT_VERSION:hash(script),CONTENT:markup,BASELINE_DATE:get('formatDate(reviewDates.baseline)'),SITE_UPDATE_DATE:get('formatDate(reviewDates.siteUpdated)')};
+  for(const [view,slug] of Object.entries(sections)){values['LINK_'+view.toUpperCase()]=prefix+(slug?slug+'/':'');values['CURRENT_'+view.toUpperCase()]=view===page.view?'page':'false';}
+  const html=read('index.template.html').replace(/__([A-Z_]+)__/g,(match,key)=>values[key]??match);
+  if(/__[A-Z_]+__/.test(html))throw new Error('Unresolved build placeholder: '+page.path);
+  const target=path.join(root,page.path,'index.html');fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,html);
+  output.push({path:page.path,html});
+}
 fs.mkdirSync(path.join(root,'assets'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets/guide.js'),script);
-fs.writeFileSync(path.join(root,'index.html'),html);
+fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+pages.filter(p=>p.view!=='search').map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n</urlset>\n');
+const html=output.find(p=>p.path==='').html;
 const currentText=[html,read('styles.css'),script];
 const report={initialRequests:4,initialUncompressedBytes:currentText.reduce((n,s)=>n+Buffer.byteLength(s),0)+fs.statSync(path.join(root,'bridge-preview.webp')).size,gzipTextBytes:currentText.reduce((n,s)=>n+zlib.gzipSync(s).length,0),largerImageClickOnly:true};
-console.log(JSON.stringify(report));
+console.log(JSON.stringify({...report,staticPages:output.length}));
