@@ -418,11 +418,11 @@ function aboutView() {
   return `<div class="section-head"><div><h2>About this guide</h2></div></div>
     <div class="info-copy">
       <p>This independent guide follows Pasadena’s effort since 2017 to develop a permanent suicide prevention barrier for the Colorado Street Bridge. It brings together City reports, meeting minutes, presentations, and recordings to help readers follow the decisions, alternatives, and schedule.</p>
-      <p>The research baseline is September 1, 2026. Later checks and additions are identified with the material they support. Updating the website does not mean every claim has been checked again.</p>
+      <p>The research baseline is September 1, 2026. Later checks and additions are identified with the material they support.</p>
       <p>Selected exchanges include earlier work, responses, and source links. Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge the guide’s reading. Source notes distinguish quotations, caption excerpts, and summaries, and identify verification limits.</p>
       <p>This is not an official City website.</p>
       <h2>Questions and corrections</h2>
-      <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>. Please identify the passage and include a supporting source when available.</p>
+      <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>.</p>
     </div>`;
 }
 function changesView() {

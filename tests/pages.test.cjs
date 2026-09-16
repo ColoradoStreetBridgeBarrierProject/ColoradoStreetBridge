@@ -67,8 +67,8 @@ for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/d
 }
 const who=read('who-said-what/index.html');
 const about=read('about/index.html'),changes=read('changes/index.html');
-assert(about.includes('Updating the website does not mean every claim has been checked again.'));
-assert(about.includes('Please identify the passage and include a supporting source when available.'));
+assert(!about.includes('Updating the website does not mean every claim has been checked again.'));
+assert(!about.includes('Please identify the passage and include a supporting source when available.'));
 assert(about.includes('whether they support or challenge the guide’s reading'));
 const changesBody=changes.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((changesBody.match(/<time /g)||[]).length,1);
