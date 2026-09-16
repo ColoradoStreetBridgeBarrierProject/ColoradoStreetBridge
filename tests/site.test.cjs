@@ -165,12 +165,13 @@ for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css']]){
 const base='https://example.org/ColoradoStreetBridge/';
 for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  const value=match[1];
- if(value.startsWith('#')||/^(https:|data:|tel:)/.test(value))continue;
+ if(value.startsWith('#')||/^(https:|data:|tel:|mailto:)/.test(value))continue;
  assert(!value.startsWith('/'),'Asset must work under the project path: '+value);
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
  assert(fs.existsSync(path.join(dir,value.split('?')[0])),value);
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
+assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
 const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
