@@ -87,7 +87,9 @@ assert.equal((read('news-and-commentary/index.html').match(/class="directory-car
 for(const page of pages)assert(!/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': excluded publisher returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
-assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,12);
+assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
+assert(read('sitemap.xml').includes('/preserved-records/tables.html'));
+assert(read('robots.txt').includes('Sitemap: https://coloradostreetbridgeproject.com/sitemap.xml'));
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
 
 for(const page of pages){
@@ -119,3 +121,37 @@ assert(/aspect-ratio:\s*4\s*\/\s*3/.test(galleryRule),'Equal illustration frames
 assert(/object-fit:\s*contain/.test(galleryRule),'Never crop design evidence');
 assert(read('preserved-records/tables.html').includes('aria-label="Guide sections"'));
 console.log('Audit static metadata, illustrations, and heading checks passed');
+
+// Metadata must follow navigation, including search and browser history.
+const metadataApp=load('https://coloradostreetbridgeproject.com/',overview);
+function assertMetadata(app,description,title,canonical,robots='index, follow'){
+ assert.equal(app.context.document.title,title);
+ for(const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]'])assert.equal(app.nodes[selector].attributes.content,description,selector);
+ for(const selector of ['meta[property="og:title"]','meta[name="twitter:title"]'])assert.equal(app.nodes[selector].attributes.content,title,selector);
+ assert.equal(app.nodes['link[rel="canonical"]'].attributes.href,canonical);
+ assert.equal(app.nodes['meta[property="og:url"]'].attributes.content,canonical);
+ assert.equal(app.nodes['meta[name="robots"]'].attributes.content,robots);
+}
+for(const [route,page] of [['alternatives/landscaping','alternatives-studied/landscaping/'],['evidence/funding','evidence-and-limits/'],['search','search/'],['overview','']]){
+ metadataApp.run('navigate('+JSON.stringify(route)+')');
+ const html=read(page+'index.html');
+ const decode=s=>s.replaceAll('&amp;','&').replaceAll('&#39;',"'").replaceAll('&quot;','"');
+ const desc=decode(html.match(/name="description" content="([^"]+)"/)[1]);
+ const title=decode(html.match(/<title>([^<]+)<\/title>/)[1]);
+ assertMetadata(metadataApp,desc,title,'https://coloradostreetbridgeproject.com/'+page,page==='search/'?'noindex, follow':'index, follow');
+}
+metadataApp.context.location=new URL('https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');metadataApp.events.popstate();
+assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of patrols, staffing costs, response time, and the limits of continuous coverage.','Colorado Street Bridge Project Guide | Staffing & patrols','https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');
+assert.equal((alternatives.match(/class="approach-card"/g)||[]).length,4);
+assert(!alternatives.includes('aria-current="page">Horizontal netting'),'Overview must not silently select one alternative');
+assert.equal((who.match(/class="earlier-work"/g)||[]).length,71,'Keep every earlier-work passage in an accessible disclosure');
+assert(who.includes('Jump to a meeting'));
+assert(!who.includes('for this website update'),'Routine update history belongs in the internal handoff');
+assert(!who.includes('No new listening'));
+for(const page of pages)assert(!/#page=\d+#page=/.test(read(page+'index.html')),'Duplicate PDF fragment on '+page);
+const filtered=metadataApp.run('speakerView("jones","staffing","2024")');
+assert(filtered.includes('Clear filters'));assert(filtered.includes('data-route="speakers"'));
+const directory=read('meetings-and-documents/index.html');
+assert(directory.indexOf('id="meeting-year"')<directory.indexOf('id="source-folder"'));
+assert(metadataApp.run('meetingsView("2024","newest")').includes('Reset filters'));
+console.log('Route metadata, excerpt preservation, meeting navigation, and disclosure checks passed');
