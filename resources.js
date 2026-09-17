@@ -695,7 +695,7 @@ const meetingRecords = [
         "url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-09-16-Public-Safety-Committee-Meeting-Agenda.pdf"
       }
     ],
-    "note": "No Bridge-specific item was listed in the supplied agenda’s pages 1–6, read September 12. This is a future meeting and no outcome is established. The full 160-page packet was not read.",
+    "note": "Agenda review for the September 16, 2026 meeting: no Bridge-specific item was listed on pages 1–6, read September 12. No meeting outcome is established by that agenda review. The full 160-page packet was not read for this guide.",
     "kind": "Agenda monitoring"
   }
 ];

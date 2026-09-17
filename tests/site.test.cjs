@@ -3,7 +3,7 @@ const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
 function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;this.headerAtScroll=cssProperties['--mobile-header-height'];}};}
-const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
+const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1]},textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
 const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
@@ -19,11 +19,11 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
-// Preserve the reviewed speaker and resource data during the hosting migration.
+// Speaker records remain byte-identical. The resource hash includes only the approved date-safe September 16 agenda note.
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'6f6827d51d2f04a68c14788ec6bbc91b47a9cc195dd0b8ae6c9f3e7615af9d95'
+ 'resources.js':'9bfb6c0b80e8ac4521141bbbbc0789900bf08bb48daf347c43b64c5bb14a0a37'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
@@ -66,8 +66,11 @@ assert(index.some(x=>x.title==='Height depends on the measurement point'),'Heigh
 assert(index.some(x=>x.title==='Option B led among respondents who ranked the mockups'));
 assert(run('evidence()').includes('73324'));
 assert(!run('evidence()').includes('Of 678 respondents'));
-assert(run('overview()').includes('p. 184 excerpt'));
+assert(run('overview()').includes('Page excerpt'));
 assert(run('overview()').includes('What alternatives were studied?'));
+assert(run('forecastComparison()').includes('August 2020, pending appropriation'));
+assert(run('forecastComparison()').includes('not a construction-completion commitment'));
+assert.equal((run('forecastComparison()').match(/scope="row"/g)||[]).length,3);
 assert(run('speakerView()').includes('whether they support or challenge'));
 assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
 assert.notEqual(run('reviewDates.baseline'),run('reviewDates.siteUpdated'));
@@ -183,8 +186,8 @@ for(const name of ['index.html','app.js','search.js','speakers.js','other-speake
  const text=fs.readFileSync(path.join(dir,name),'utf8');
  assert(!/sandbox:|\/workspace\/|libfile_|file_000000|chatgpt\.site/.test(text),name+': internal reference');
 }
-// Remove entry-sharing controls without removing records or existing deep-link routes.
-for(const marker of ['data-copy-link','entry-sharing','entry-link','Copy link to this entry','Link to this article entry','Link to this meeting'])assert(!html.includes(marker),'Removed sharing control returned: '+marker);
+// The September 17 approval adds entry sharing without changing existing routes.
+assert.equal((html.match(/data-copy-entry=/g)||[]).length,71,'Approved entry-copy controls cover all selected exchanges');
 assert.equal(run('typeof copyEntryLink'),'undefined');
 assert.equal(run('typeof entryShare'),'undefined');
 assert.equal((html.match(/class="remark-card"/g)||[]).length,71);
@@ -200,7 +203,7 @@ for(const view of ['overview','timeline','alternatives','evidence','speakers','m
  assert(elements.content.innerHTML.includes(view==='overview'?'<h2>':'<h1>'),view+': section heading');
 }
 assert(styleBlock('[hidden]').includes('display: none !important'),'Responsive display rules must not unhide the hero');
-assert(run('speakerView()').includes('Other speakers <span>35 entries</span>'));
+assert(run('speakerView()').includes('All 19 speakers'));
 assert(run('speakerView("other")').includes('35 entries from 15 people'));
 assert(!run('speakerView("madison")').includes('class="chronology-note"'));
 assert(!run('speakerView("other")').includes('Remarks are included when'));
@@ -212,7 +215,7 @@ assert(!run('viewMarkup({view:"timeline"})').includes('This describes the review
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
 assert(run('newsView()').includes('Links open the original publisher sites. Some require a subscription.'));
-assert(run('newsView()').includes('San Gabriel Valley Tribune · publisher homepage'));
+assert(!run('newsView()').includes('San Gabriel Valley Tribune · publisher homepage'));
 for(const view of ['timeline','alternatives','speakers']){
  assert(!run('viewMarkup('+JSON.stringify({view})+')').includes('Record note'),view+': record-note blocks removed');
 }
@@ -245,4 +248,32 @@ assert(!run('overview()').includes('More supporting records'),'A single extra so
 assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('September 2018'));
 assert(run('overview()').includes('records reviewed for this guide'));
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:0,checks:'preserved data, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:71,checks:'preserved data, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
+
+const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
+assert.equal((personOptions.match(/<option /g)||[]).length,20);
+assert(run('speakerView("kramer")').includes('1 entry'));
+assert(!run('speakerView("kramer")').includes('1 entries'));
+for(const y of ['2018','2021','2024','2026']){
+ const selected=json('speakerEntries("all","all",'+JSON.stringify(y)+')');
+ assert(selected.every(x=>x.remark.sortDate.startsWith(y)));
+ assert.equal((run('speakerView("all","all",'+JSON.stringify(y)+')').match(/class="remark-card"/g)||[]).length,selected.length);
+}
+assert(run('meetingsView("all","newest")').indexOf('id="meeting-2026-09-16"')<run('meetingsView("all","newest")').indexOf('id="meeting-2024-01-09"'));
+assert(run('viewMarkup({view:"timeline"})').includes('construction in August 2020, pending budget appropriation'));
+assert(run('evidence()').indexOf('2021 survey')<run('evidence()').indexOf('2024 survey'));
+assert(run('evidence()').indexOf('id="research"')<run('evidence()').indexOf('id="design-criteria"'));
+assert.equal(json('searchIndex().filter(x=>x.title==="Height depends on the measurement point")')[0].route,'evidence/0');
+assert(!run('speakerView()').match(/\bSource \d+/));
+assert(!run('speakerView()').includes('from the paper'));
+assert.equal((run('designGallery()').match(/<img /g)||[]).length,4);
+assert(run('designGallery()').includes('Its capture date is not stated'));
+assert(run('designGallery()').includes('identifies this option as eliminated'));
+assert(!run('meetingsView()').includes('This is a future meeting'));
+assert(!run('alternatives()').includes('Keep this qualification'));
+assert(!run('alternatives("technology")').includes('This companion'));
+assert(run('aboutView()').includes('The full paper is not published here'));
+run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cacti")');
+assert(elements.content.innerHTML.includes('Return to search results'));
+assert(elements.content.innerHTML.indexOf('Return to search results')<elements.content.innerHTML.indexOf('class="remark-card"'));
+console.log('September 17 audit regression checks passed');
