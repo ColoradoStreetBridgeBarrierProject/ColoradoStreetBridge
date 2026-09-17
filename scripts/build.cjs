@@ -29,7 +29,7 @@ for(const page of pages){
   let markup=get('viewMarkup('+JSON.stringify(page)+')').replace(/<h([12])>/,'<h$1 id="view-heading">');
   // Static links are relative to the deployment root, including GitHub project paths.
   markup=markup.replace(/(href|src)="\/(?!\/)([^"]*)"/g,(_,attr,value)=>attr+'="'+prefix+value+'"');
-  const values={ROOT:prefix,TITLE:get('esc('+JSON.stringify(page.title)+')'),DESCRIPTION:get('esc('+JSON.stringify(topicDescriptions[page.arg]||descriptions[page.view])+')'),CANONICAL:'https://coloradostreetbridgeproject.com/'+page.path,SECTION_LABEL:get('esc('+JSON.stringify(labels[page.view])+')'),HERO_HIDDEN:page.view==='overview'?'':'hidden',STYLE_VERSION:hash(read('styles.css')),SCRIPT_VERSION:hash(script),CONTENT:markup,BASELINE_DATE:get('formatDate(reviewDates.baseline)'),SITE_UPDATE_DATE:get('formatDate(reviewDates.siteUpdated)')};
+  const values={ROOT:prefix,TITLE:get('esc('+JSON.stringify(page.title)+')'),DESCRIPTION:get('esc('+JSON.stringify(topicDescriptions[page.arg]||descriptions[page.view])+')'),CANONICAL:'https://coloradostreetbridgeproject.com/'+page.path,SECTION_LABEL:get('esc('+JSON.stringify(labels[page.view])+')'),HERO_HIDDEN:page.view==='overview'?'':'hidden',STYLE_VERSION:hash(read('styles.css')),THEME_VERSION:hash(read('theme.js')),SCRIPT_VERSION:hash(script),CONTENT:markup,BASELINE_DATE:get('formatDate(reviewDates.baseline)'),SITE_UPDATE_DATE:get('formatDate(reviewDates.siteUpdated)')};
   for(const [view,slug] of Object.entries(sections)){values['LINK_'+view.toUpperCase()]=prefix+(slug?slug+'/':'');values['CURRENT_'+view.toUpperCase()]=view===page.view?'page':'false';}
   const html=read('index.template.html').replace(/__([A-Z_]+)__/g,(match,key)=>values[key]??match);
   if(/__[A-Z_]+__/.test(html))throw new Error('Unresolved build placeholder: '+page.path);
@@ -40,6 +40,6 @@ fs.mkdirSync(path.join(root,'assets'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets/guide.js'),script);
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+pages.filter(p=>p.view!=='search').map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n</urlset>\n');
 const html=output.find(p=>p.path==='').html;
-const currentText=[html,read('styles.css'),script];
-const report={initialRequests:4,initialUncompressedBytes:currentText.reduce((n,s)=>n+Buffer.byteLength(s),0)+fs.statSync(path.join(root,'bridge-preview.webp')).size,gzipTextBytes:currentText.reduce((n,s)=>n+zlib.gzipSync(s).length,0),largerImageClickOnly:true};
+const currentText=[html,read('styles.css'),read('theme.js'),script];
+const report={initialRequests:5,initialUncompressedBytes:currentText.reduce((n,s)=>n+Buffer.byteLength(s),0)+fs.statSync(path.join(root,'bridge-preview.webp')).size,gzipTextBytes:currentText.reduce((n,s)=>n+zlib.gzipSync(s).length,0),largerImageClickOnly:true};
 console.log(JSON.stringify({...report,staticPages:output.length}));

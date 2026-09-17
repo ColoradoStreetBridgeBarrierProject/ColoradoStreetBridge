@@ -39,6 +39,12 @@ The September 17 audit implementation adds a dated homepage status panel, groupe
 
 ## Local checks
 
+The follow-up adds an optional light reading mode on every guide page and the source tables. Dark remains the default. The choice is saved only in the browser's local storage; switching still works when storage is blocked. The small `theme.js` applies that choice before the stylesheet renders. Print output stays light.
+
+The six City-record filenames were confirmed in the existing public Dropbox folder on September 17. No individual share links existed, so the directory identifies exact filenames beside the folder links without creating links or changing permissions. The remaining Steve Lopez column was reviewed and described. The three Star-News articles still could not be retrieved and have not been summarized from their headlines. Their existing access notes remain.
+
+Physical iPhone/Safari, enlarged-text reflow, and screen-reader operation require separate testing. The automated contrast checks cover palette tokens, not a comprehensive accessibility certification.
+
 Run these with Node.js. No external packages are required:
 
 ```sh
@@ -48,6 +54,7 @@ node tests/site.test.cjs --bundle
 node tests/site.test.cjs --no-resize-observer
 node tests/site.test.cjs --bundle --no-resize-observer
 node tests/pages.test.cjs
+node tests/reading.test.cjs
 ```
 
 The checks cover both readable sources and the production bundle, including data, routing, page locators, source-note search, static pages, menu interactions, and enlarged-header offsets. They verify 71 entries (including the legacy 35-entry group), all 19 selector options, year filtering, entry-copy controls, Overview-only introduction, distinct excerpt verification labels, and dated follow-ups retained while record-note blocks and the recurring-question callout remain excluded from views and search. The page checks cover direct loads, local links at both deployment roots, old entry links, new-tab behavior, back/forward, shared rendering, the email and 988 links, metadata, and the four illustrations. They are not a substitute for browser or physical-device testing.

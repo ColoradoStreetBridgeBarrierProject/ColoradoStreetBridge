@@ -337,10 +337,18 @@ function formatDate(date) {
   if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return date;
   return new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
 }
-function directoryLinks(items) {
+const preservedFileNames={
+  'meeting-2017-07-19':['2017-07-19_Public_Safety_Committee_Minutes.pdf'],
+  'meeting-2018-04-18':['2018-04-18_Public_Safety_Committee_Minutes.pdf'],
+  'meeting-2019-04-17':['2019-04-17_Public_Safety_Committee_Minutes.pdf'],
+  'meeting-2019-05-15':['2019-05-15_Public_Safety_Committee_Minutes.pdf'],
+  'meeting-2020-02-03':['2020-02-03_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf']
+};
+function directoryLinks(items,recordId) {
   return '<ul class="directory-links">'+items.map(item=>{
     const url=item.url||urls[item.source];
-    return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(locatorLabel(item.label))}${linkArrow(url)}</span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a></li>`;
+    const files=item.source==='dropbox'?preservedFileNames[recordId]:null;
+    return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(locatorLabel(item.label))}${linkArrow(url)}</span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a>${files?'<p class="file-locator">In that folder, select '+files.map(file=>'<code>'+esc(file)+'</code>').join(' or ')+'.</p>':''}</li>`;
   }).join('')+'</ul>';
 }
 function meetingsView(year='all', order='oldest') {
@@ -351,7 +359,7 @@ function meetingsView(year='all', order='oldest') {
     `<aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>The Dropbox folder holds preserved copies of official records, including minutes for early meetings where recordings were unavailable. This guide also provides hand-checked table transcriptions, searchable derivatives of two scanned reports, and a labeled excerpt of the fiscal row.</p>${link('Read the tables and preservation notes',urls.transcriptions)}</div>${link('Open the Dropbox source folder',urls.dropbox)}</aside>
     <p class="locator-note">This directory brings together links from the City’s project page and the reviewed source records. A listed link does not mean its full document or recording was reviewed in this update. Some presentations open through the City’s link list. As checked ${formatDate(reviewDates.projectPage)}, the City project page still listed a tentative Summer 2024 meeting as upcoming. That listing is outdated and should not be used as a current meeting schedule.</p>
     <div class="speaker-filter"><label for="meeting-year">Choose a year</label><select id="meeting-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><label for="meeting-order">Order</label><select id="meeting-order"><option value="oldest" ${order==='oldest'?'selected':''}>Oldest first</option><option value="newest" ${order==='newest'?'selected':''}>Newest first</option></select><span role="status">${countLabel(selected.length,'meeting record','meeting records')}</span></div>
-    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links)}</article>`).join('')}</div>
+    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links,m.id)}</article>`).join('')}</div>
     <p class="directory-tail">${link('City project page and meeting list',urls.project)} · ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')}</p>`;
 }
 // Relevance notes describe the cited article, not a new verification of its claims.
@@ -359,6 +367,7 @@ const newsRelevance={
  'lat-1989':'Background on the bridge’s rehabilitation and the preservation choices that preceded the current barrier project.',
  'lat-1992':'A retrospective account of a child’s survival in 1937 and the public response that followed.',
  'gnp-2013':'Explains the earlier decision to install crisis signs and the discussion of their limits.',
+ 'lat-2017':'Connects the 2017 emergency fencing with longer-term prevention proposals and an interview with Didi Hirsch’s Kita Curry.',
  'lamag-2018':'Interviews on the tension between prevention measures and historic preservation during the early task-force period.',
  'pnow-2018':'Reports the emergency decision to extend temporary fencing along the bridge in September 2018.',
  'pnow-2024':'Previews the July 2024 review of barrier concepts, commission feedback, surveys, and other prevention measures.',
@@ -378,7 +387,7 @@ function searchIndex() {
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
   for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,text:[r.date,r.time,r.body,speakerTopics[r.topic],r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...(r.links||[]).flatMap(l=>[l.label,l.time]),r.basis].join(' '),route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,text:[m.title,m.kind,m.note,...m.links.map(l=>l.label)].join(' '),route:'meetings/'+m.id}));
-  newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,n.note].join(' '),route:'news/'+n.id}));
+  newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
     const div=document.createElement('div');div.innerHTML=html;
@@ -435,6 +444,7 @@ function changesView() {
   return `<div class="section-head"><div><h2>Changes to this guide</h2></div></div>
     <div class="info-copy">
       <h2><time datetime="2026-09-17">September 17, 2026</time></h2><p>Improved reading width, source-link styling, and homepage navigation. Grouped the evidence by research, design criteria, surveys, funding, and unresolved questions. Added an all-speaker selector, year filtering, entry links, and meeting sorting. Corrected dated wording and restored the May 2019 forecast to the visible timeline. Added four attributed City illustrations and reader-facing article descriptions where the contents were available. The paper remains unpublished on this site.</p>
+      <p>A follow-up added optional light reading mode, narrow-layout and print refinements, exact filenames for six preserved City records, and a description of the reviewed Steve Lopez column. The existing Dropbox sharing permissions were unchanged.</p>
       <h2><time datetime="2026-09-16">September 16, 2026</time></h2><p>Removed recurring record-note blocks, the recurring-question callout, selected introductory caveats, and the research-baseline line on Overview. These were presentation changes, not a new comprehensive source review.</p>
       <h2><time datetime="2026-09-15">September 15, 2026</time></h2>
       <p>Added the appropriation history explaining the $2,874,000 total, including the two 2025 transfers. Retained the limits concerning outstanding commitments and federal ARPA accounting.</p>
