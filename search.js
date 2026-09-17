@@ -30,7 +30,12 @@ const SearchText = (() => {
       const space = clean.indexOf(' ', start);
       if (space >= 0 && space < match) start = space + 1;
     }
-    return (start ? '…' : '') + clean.slice(start, start + length) + (start + length < clean.length ? '…' : '');
+    let end = Math.min(start + length, clean.length);
+    if (end < clean.length) {
+      const space = clean.lastIndexOf(' ', end);
+      if (space > start + length - 40) end = space;
+    }
+    return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
   return {normalize, terms, separateBlocks, score, snippet, excerpt};
 })();

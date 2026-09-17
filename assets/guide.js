@@ -30,7 +30,12 @@ const SearchText = (() => {
       const space = clean.indexOf(' ', start);
       if (space >= 0 && space < match) start = space + 1;
     }
-    return (start ? '…' : '') + clean.slice(start, start + length) + (start + length < clean.length ? '…' : '');
+    let end = Math.min(start + length, clean.length);
+    if (end < clean.length) {
+      const space = clean.lastIndexOf(' ', end);
+      if (space > start + length - 40) end = space;
+    }
+    return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
   return {normalize, terms, separateBlocks, score, snippet, excerpt};
 })();
@@ -203,7 +208,7 @@ function steps(items, year=false){return `<div class="timeline ${year?'year-time
 
 function overview(){return head('01','Why is the fence still there?','')+`
   <article class="feature-card lead overview-summary"><p class="eyebrow">THE SHORT VERSION</p><p class="large">In 2018, Pasadena decided to pursue a permanent suicide prevention barrier on the Colorado Street Bridge. More than eight years later, the temporary fence remains.</p><p>The City has studied designs and alternatives, built full-size examples, and gathered public feedback. But as of September 2026, the records reviewed for this guide do not show an approved permanent design or secured construction funding.</p>
-  <p class="overview-schedule"><strong>What the 2028 date means</strong>The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.</p></article>
+  <p class="overview-schedule"><strong>What the 2028 date means</strong> The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.</p></article>
   <nav class="next-cards" aria-label="Explore the project"><a class="next-card" href="${esc(routeHref('timeline'))}" data-go="timeline"><strong>How did the schedule change?</strong><span>In May 2019, construction was expected in August 2020 if the City approved the funding. See what happened next.</span><span class="action">The timeline →</span></a><a class="next-card" href="${esc(routeHref('alternatives'))}" data-go="alternatives"><strong>What alternatives were studied?</strong><span>See the upright barrier designs and the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="${esc(routeHref('evidence'))}" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read what prevention research tells us and what it does not answer.</span><span class="action">The evidence →</span></a></nav>
   <p class="quick-links"><a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">Funding and schedule</a><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">The local surveys</a></p>
   <div class="overview-sources"><p>Supporting records</p>${link('City project page',urls.project)} ${link('April 2018 Council minutes · PDF pp. 4–5',urls.m2018+'#page=4')}<p>August 24, 2026 Finance/Audit packet, project row on p. 184: ${link('Page excerpt',urls.financeExcerpt)} ${link('Full packet',urls.q426)}</p><details class="source-detail"><summary>Source dates and funding note</summary><p>City project page checked ${formatDate(reviewDates.projectPage)}. The Finance/Audit report covers activity through June 30, 2026. A funding request does not mean the money has been awarded.</p></details></div>
@@ -500,7 +505,7 @@ function searchIndex() {
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
   for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),route:'speakers/'+key+'/'+r.id}));
-  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].join(' '),route:'meetings/'+m.id}));
+  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
