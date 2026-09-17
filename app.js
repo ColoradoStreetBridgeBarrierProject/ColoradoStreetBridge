@@ -196,7 +196,7 @@ const decisionProcess = Object.freeze({
   remaining:'After concept approval, the City still has to complete detailed design, environmental documents, and construction documents. Building the barrier also requires construction funding and contract authorization.',
   status:'The records reviewed for this guide describe continuing design work and further review. They do not establish a confirmed date for the next Bridge decision.'
 });
-function decisionProcessView(){return `<details class="decision-process"><summary>${esc(decisionProcess.title)}</summary><div id="who-decides" class="scroll-focus" tabindex="-1" role="region" aria-label="Who decides what?"><p>${esc(decisionProcess.intro)}</p><dl>${decisionProcess.roles.map(([role,text])=>`<dt>${esc(role)}</dt><dd>${esc(text)}</dd>`).join('')}</dl><p>${esc(decisionProcess.remaining)}</p><p>${esc(decisionProcess.status)}</p>${citations(null,'',[
+function decisionProcessView(){return `<details id="who-decides" class="decision-process scroll-focus" tabindex="-1"><summary>${esc(decisionProcess.title)}</summary><div role="region" aria-label="Who decides what?"><p>${esc(decisionProcess.intro)}</p><dl>${decisionProcess.roles.map(([role,text])=>`<dt>${esc(role)}</dt><dd>${esc(text)}</dd>`).join('')}</dl><p>${esc(decisionProcess.remaining)}</p><p>${esc(decisionProcess.status)}</p>${citations(null,'',[
   ['November 2023 presentation · PDF p. 34 · Decision process',urls.p2023+'#page=34'],
   ['August 2021 report · PDF p. 4 · Work after concept approval',urls.r2021+'#page=4'],
   ['August 2026 project report · PDF p. 184',urls.q426],
@@ -627,7 +627,7 @@ function render(focus=false) {
   if(view==='meetings'&&(arg==='source-folder'||meetingRecords.some(m=>m.id===arg)))target=document.getElementById(arg);
   if(view==='news'&&newsRecords.some(n=>n.id===arg))target=document.getElementById(arg);
   if(!target && anchor)target=document.getElementById(anchor);
-  if(target) {let parent=target.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
+  if(target) {if(target.tagName==='DETAILS')target.open=true;let parent=target.parentElement;while(parent){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement;}target.tabIndex=-1;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}
   else if(focus) {content.focus({preventScroll:true});content.scrollIntoView({block:'start'});}
 }
 let returnQuery='';

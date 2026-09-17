@@ -97,11 +97,14 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
  }
  const process=load(base+'timeline/#timeline/who-decides',read('timeline/index.html'));
  const disclosure={tagName:'DETAILS',open:false,parentElement:null};
+ process.nodes['who-decides'].tagName='DETAILS';
+ process.nodes['who-decides'].open=false;
  process.nodes['who-decides'].parentElement=disclosure;
  process.run('render(true)');
  assert.equal(process.run('readRoute().view'),'timeline');
  assert(process.nodes['who-decides'].focused&&process.nodes['who-decides'].scrolled);
  assert(disclosure.open,'The decision-process search destination must reveal its explanation');
+ assert(process.nodes['who-decides'].open,'Direct disclosure destinations must open and keep their summary in view');
 }
 assert(read('preserved-records/tables.html').includes('href="../meetings-and-documents/#source-folder"'));
 assert(read('index.template.html').includes('class="skip" href="#content"'),'Native skip fallback must remain available');
