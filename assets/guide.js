@@ -204,6 +204,36 @@ const timeline = [
 timeline.forEach((entry,index)=>{entry.id=String(index);});
 timeline.splice(4,0,{"id":"2020-02-03","date":"Feb 2020","title":"Design alternatives and a March–May forecast","text":"The February 2020 presentation compared straight mesh, pickets, curved mesh, and a hybrid. It projected mockup installation in March, commission reviews in April, and a committee recommendation and Council approval in May. At the meeting, Kennedy requested a cost estimate for enclosing the bridge with a roof before Council consideration.","result":"The minutes record that the committee received and filed the information. The March–May dates were forecasts, not completed approvals.","page":8,"refs":"10","note":"The February 3, 2020 presentation separates the task force’s recommended minimum height from the consultant’s broader design criteria. Those criteria included height, resistance to climbing, historic preservation, appearance, and emergency access. Slides 10–27 show the design options and their different dimensions.\n\nSlide 30 ranks curved mesh highest among the options shown, but it does not identify the final mesh type.\n\nSlide 31 gives the projected schedule for March through May. Kennedy’s request for a roof over the barrier appears in the meeting minutes on page 2, not in the presentation. Page 3 says the committee received and filed the information; it does not say the committee approved a permanent design.",links:[['February 2020 presentation · Schedule · Slide 31',urls.p2020+'#page=31'],['Preserved February 2020 minutes · Dropbox folder',urls.minutes20200203],['Preserved February 2020 agenda packet · Dropbox folder',urls.agenda20200203]]});
 
+// Milestone annotations belong to the chronology records. Both views use these
+// same objects, titles, dates, and source destinations, not a second timeline.
+const milestoneNotes = {
+  '0':['Jul 2017','Temporary fencing was placed around the seating alcoves.'],
+  '1':['Apr 2018','The Council decision set a direction for a permanent barrier. It was not an installation.'],
+  '2':['Sep 2018','The temporary fence was extended along the bridge.'],
+  '4':['Aug 2021','Full-size mockups were reviewed. They were not a completed permanent barrier.'],
+  '6':['Nov 2023','The new concepts were proposed designs, not installed barriers.'],
+  '7':['Jan–Jul 2024','The two remaining staff options were design concepts, not a completed installation.'],
+  '8':['2025–2026','The reviewed report described continuing design work, not completion of a permanent barrier.']
+};
+for(const entry of timeline){
+  if(Object.hasOwn(milestoneNotes,entry.id)){
+    const [label,bridge]=milestoneNotes[entry.id];
+    entry.milestone={label,bridge};
+  }
+}
+function milestoneDetail(entry){return `<p class="milestone-date">${esc(entry.date)}</p><h3 class="milestone-title">${esc(entry.title)}</h3><div class="milestone-tracks"><div><p class="milestone-track-label">On the bridge</p><p>${esc(entry.milestone.bridge)}</p></div><div><p class="milestone-track-label">Project decisions and work</p><p>${esc(entry.text)}</p></div></div><a class="milestone-record-link" href="${esc(routeHref('timeline/'+entry.id))}" data-route="timeline/${esc(entry.id)}">Read this milestone’s full record and sources →</a>${entry.id==='7'?`<a class="milestone-record-link" href="${esc(routeHref('alternatives'))}" data-route="alternatives">See the City’s design illustrations →</a>`:''}`;}
+function milestoneExplorer(){
+  const entries=timeline.filter(entry=>entry.milestone);
+  return `<section class="milestone-explorer" aria-labelledby="milestone-heading"><h2 id="milestone-heading">Explore the key milestones</h2><p class="milestone-intro">Physical changes and project decisions, side by side. The complete chronology remains below.</p><div id="milestone-controls" class="milestone-controls" role="group" aria-label="Choose a project milestone" hidden>${entries.map((entry,index)=>`<button type="button" class="milestone-button" data-milestone="${esc(entry.id)}" aria-controls="milestone-detail" aria-pressed="${index===0?'true':'false'}">${esc(entry.milestone.label)}</button>`).join('')}</div><div id="milestone-detail" class="milestone-detail" role="region" aria-label="Selected milestone" aria-live="polite" aria-atomic="true">${milestoneDetail(entries[0])}</div><p class="milestone-scope">Selected milestones, not a time-scaled chart. Later entries describe the reviewed records, not a new live-status check.</p></section>`;
+}
+function selectMilestone(id){
+  const entry=timeline.find(item=>item.id===id&&item.milestone);
+  const panel=document.getElementById('milestone-detail');
+  if(!entry||!panel)return;
+  panel.innerHTML=milestoneDetail(entry);
+  document.querySelectorAll('[data-milestone]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.milestone===id)));
+}
+function timelineView(){return head('02','Agreeing to a barrier was only the first step','Follow the project from emergency fencing to questions about what permanent barrier to build and how to pay for it.')+`<p class="quick-links"><a href="${esc(routeHref('timeline'))}#chronology">Skip to the full chronology</a><a href="${esc(routeHref('timeline'))}#forecast-heading">Compare planned dates with what happened</a></p><p class="bridge-history-note">Before this project: the bridge opened in 1913 and reopened after restoration in 1993. This guide follows the barrier project from 2017. <a href="https://www.nps.gov/places/colorado-street-bridge.htm" target="_blank" rel="noopener noreferrer">National Park Service history ↗</a></p>`+milestoneExplorer()+'<h2 id="chronology" class="scroll-focus" tabindex="-1">The full chronology</h2><p class="timeline-key">Open the source section under an entry to see its supporting records.</p>'+steps(timeline,true)+forecastComparison();}
 function steps(items, year=false){return `<div class="timeline ${year?'year-timeline':''}">${items.map(s=>`<article class="timeline-item" data-timeline-id="${esc(s.id??'')}"><div class="timeline-date">${esc(s.date)}</div><div class="timeline-entry"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><details><summary>Read the supporting record</summary>${s.note?s.note.split('\n\n').map(p=>`<p>${esc(p)}</p>`).join(''):''}${citations(s.page,s.refs,s.links)}</details></div></article>`).join('')}</div>`;}
 
 function overview(){return head('01','Why is the fence still there?','')+`
@@ -503,7 +533,7 @@ function searchIndex() {
   if (indexCache) return indexCache;
   const result=[];
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
-  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
+  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
   for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
@@ -567,9 +597,9 @@ function forecastComparison(){return `<section aria-labelledby="forecast-heading
 function viewMarkup({view,arg,filter='all',year='all',order='oldest',query=''}) {
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreeing to a barrier was only the first step','Follow the project from emergency fencing to questions about what permanent barrier to build and how to pay for it.')+'<p class="quick-links"><a href="'+esc(routeHref('timeline'))+'#chronology">Skip to the full chronology</a></p>'+forecastComparison()+'<h2 id="chronology" class="scroll-focus" tabindex="-1">The full chronology</h2><p class="timeline-key">Open the source section under an entry to see its supporting records.</p>'+steps(timeline,true):view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView():view==='about'?aboutView():searchView(query);
+  let markup=view==='overview'?overview():view==='timeline'?timelineView():view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView():view==='about'?aboutView():searchView(query);
   if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
-  if(['timeline','alternatives','meetings','search'].includes(view))markup=markup.replaceAll('<h3','<h2').replaceAll('</h3>','</h2>');
+  if(['timeline','alternatives','meetings','search'].includes(view))markup=markup.replace(/<h3([^>]*)>([\s\S]*?)<\/h3>/g,(whole,attributes,text)=>attributes.includes('class="milestone-title"')?whole:`<h2${attributes}>${text}</h2>`);
   return markup;
 }
 function render(focus=false) {
@@ -591,6 +621,11 @@ function render(focus=false) {
   content.innerHTML=(view!=='search'&&returnQuery?`<p class="return-search"><a data-route="search?q=${esc(encodeURIComponent(returnQuery))}" href="${esc(routeHref('search?q='+encodeURIComponent(returnQuery)))}" aria-label="Return to search results for ${esc(returnQuery)}">← Return to search results</a></p>`:'')+viewMarkup(route);
   const heading=content.querySelector('h1,h2');if(heading)heading.id='view-heading';
   content.setAttribute('aria-labelledby','view-heading');
+  if(view==='timeline'){
+    const controls=document.getElementById('milestone-controls');
+    if(controls)controls.hidden=false;
+    if(arg)selectMilestone(arg);
+  }
   updateMetadata(route);
   let target=null;
   if(view==='evidence' && ['research','design-criteria','surveys','funding','unresolved','sources'].includes(arg))target=document.getElementById(arg);
@@ -623,6 +658,8 @@ document.addEventListener('submit',e=>{
 });
 document.addEventListener('click',async e=>{
   if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button>0)return;
+  const milestone=e.target.closest('[data-milestone]');
+  if(milestone){selectMilestone(milestone.dataset.milestone);return;}
   const scrollLink=e.target.closest('[data-scroll-target]');
   if(scrollLink){const target=document.getElementById(scrollLink.dataset.scrollTarget);if(target){e.preventDefault();target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}return;}
   const copy=e.target.closest('[data-copy-entry]');
