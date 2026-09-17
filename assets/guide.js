@@ -2,6 +2,9 @@
 const SearchText = (() => {
   const normalize = value => String(value).toLocaleLowerCase('en-US').replace(/[–—−]/g, '-').replace(/\s+/g, ' ').trim();
   const terms = query => [...new Set(normalize(query).split(' ').filter(Boolean))];
+  // textContent joins adjacent block elements. Separate them in the detached
+  // search copy, while leaving inline markup and its punctuation untouched.
+  const separateBlocks = html => String(html).replace(/(<\/(?:p|h[1-6]|div|li|dt|dd|ul|ol|dl|section|article|aside|details|summary)\s*>|<br\b[^>]*>|<hr\b[^>]*>)/gi, '$1 ');
   const score = (item, words) => {
     const title = normalize([item.title, ...(item.aliases || [])].join(' '));
     const body = normalize(item.text);
@@ -20,7 +23,7 @@ const SearchText = (() => {
     }
     return (start ? '…' : '') + clean.slice(start, start + length) + (start + length < clean.length ? '…' : '');
   };
-  return {normalize, terms, score, excerpt};
+  return {normalize, terms, separateBlocks, score, excerpt};
 })();
 
 const speakerTopics={"all":"All topics","design":"Design and direction","staffing":"Staffing and patrol","landscaping":"Landscaping","netting":"Netting and rescue","technology":"Technology","effectiveness":"Effectiveness and substitution"};
@@ -439,7 +442,7 @@ function searchIndex() {
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
-    const div=document.createElement('div');div.innerHTML=html;
+    const div=document.createElement('div');div.innerHTML=SearchText.separateBlocks(html);
     div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
       const h=a.querySelector('h3,.eyebrow');
       result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),text:a.textContent,route:view+'/'+(a.dataset?.evidenceId??i)});

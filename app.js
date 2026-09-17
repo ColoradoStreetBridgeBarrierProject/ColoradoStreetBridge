@@ -407,7 +407,7 @@ function searchIndex() {
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
-    const div=document.createElement('div');div.innerHTML=html;
+    const div=document.createElement('div');div.innerHTML=SearchText.separateBlocks(html);
     div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
       const h=a.querySelector('h3,.eyebrow');
       result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),text:a.textContent,route:view+'/'+(a.dataset?.evidenceId??i)});
