@@ -19,13 +19,39 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
-// Speaker records remain byte-identical. The resource hash includes the approved agenda note, publisher exclusions, and plain-language directory notes.
+// Speaker records remain byte-identical. The resource hash also includes the six approved, document-specific Dropbox folder links.
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'e09c1a83f24f8f37874e462cce688b4f2fae3224bc9441d7c49a1e3c959f7914'
+ 'resources.js':'28f0e749eea86846e74eb586186532c2833ac19e011108b5fabd974d5402bba5'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
+const folderCases=[
+ ['2017-07-19','minutes20170719','1pfx649hnjvsw98o1d7ku','Minutes'],
+ ['2018-04-18','minutes20180418','n378hzunr3hgwem4sawh7','Minutes'],
+ ['2019-04-17','minutes20190417','xtk47234b4f653ggryw1t','Minutes'],
+ ['2019-05-15','minutes20190515','7zyzzn8io53bx9hd8ok11','Minutes'],
+ ['2020-02-03','minutes20200203','p9xxlexn4wn26xl5102jl','Minutes'],
+ ['2020-02-03','agenda20200203','y52soljq7chasxsg0z3cw','Agenda_Packet']
+];
+const folderTargets=new Set();
+for(const [date,source,folderId,kind] of folderCases){
+ const record=json(`meetingRecords.find(m=>m.id===${JSON.stringify('meeting-'+date)})`);
+ const item=record.links.find(l=>l.source===source);
+ assert(item,source+': missing document link');
+ assert.equal(item.label,kind==='Minutes'?'Preserved minutes · Dropbox folder':'Preserved agenda packet · Dropbox folder');
+ const target=run(`urls[${JSON.stringify(source)}]`),url=new URL(target);
+ assert.equal(url.origin,'https://www.dropbox.com');
+ assert(url.pathname.startsWith('/scl/fo/'+folderId+'/'),source+': wrong folder');
+ assert(url.searchParams.get('rlkey'));assert.equal(url.searchParams.get('dl'),'0');assert(!url.searchParams.has('st'));
+ folderTargets.add(target);
+ const markup=run(`directoryLinks([${JSON.stringify(item)}],${JSON.stringify(record.id)})`);
+ assert(markup.includes('href="'+target.replaceAll('&','&amp;')+'"'),source+': wrong rendered target');
+ assert(markup.includes(date+'_Public_Safety_Committee_'+kind+'.pdf'),source+': wrong filename');
+ assert.equal((markup.match(/<code>/g)||[]).length,1,'Each link identifies only its own PDF');
+ assert(!record.links.some(l=>l.source==='dropbox'),'Document entry must not fall back to the general archive');
+}
+assert.equal(folderTargets.size,6,'Minutes and agenda packet must have distinct destinations');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
 assert.equal(run('speakerEntries().length'),71);
 assert.equal(run('speakerEntries("other").length'),35);

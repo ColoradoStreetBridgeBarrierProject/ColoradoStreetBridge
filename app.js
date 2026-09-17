@@ -353,16 +353,17 @@ function formatDate(date) {
   return new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});
 }
 const preservedFileNames={
-  'meeting-2017-07-19':['2017-07-19_Public_Safety_Committee_Minutes.pdf'],
-  'meeting-2018-04-18':['2018-04-18_Public_Safety_Committee_Minutes.pdf'],
-  'meeting-2019-04-17':['2019-04-17_Public_Safety_Committee_Minutes.pdf'],
-  'meeting-2019-05-15':['2019-05-15_Public_Safety_Committee_Minutes.pdf'],
-  'meeting-2020-02-03':['2020-02-03_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf']
+  minutes20170719:['2017-07-19_Public_Safety_Committee_Minutes.pdf'],
+  minutes20180418:['2018-04-18_Public_Safety_Committee_Minutes.pdf'],
+  minutes20190417:['2019-04-17_Public_Safety_Committee_Minutes.pdf'],
+  minutes20190515:['2019-05-15_Public_Safety_Committee_Minutes.pdf'],
+  minutes20200203:['2020-02-03_Public_Safety_Committee_Minutes.pdf'],
+  agenda20200203:['2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf']
 };
 function directoryLinks(items,recordId) {
   return '<ul class="directory-links">'+items.map(item=>{
     const url=item.url||urls[item.source];
-    const files=item.source==='dropbox'?preservedFileNames[recordId]:null;
+    const files=preservedFileNames[item.source];
     return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(locatorLabel(item.label))}${linkArrow(url)}</span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a>${files?'<p class="file-locator">In that folder, select '+files.map(file=>'<code>'+esc(file)+'</code>').join(' or ')+'.</p>':''}</li>`;
   }).join('')+'</ul>';
 }
