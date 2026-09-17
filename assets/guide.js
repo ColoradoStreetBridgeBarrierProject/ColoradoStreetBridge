@@ -437,7 +437,6 @@ function remarkCard(key, person, remark) {
       <div><dt>Response and context</dt><dd>${esc(remark.response)}</dd></div>
       ${outcome.event?`<div><dt>What followed</dt><dd>${esc(outcome.event)}</dd></div>`:''}
     </dl>
-    <div class="entry-actions"><a class="entry-link" href="${esc(routeHref('speakers/'+key+'/'+remark.id))}" data-route="speakers/${key}/${remark.id}">Entry link</a><button type="button" data-copy-entry="speakers/${key}/${remark.id}" aria-label="Copy link to ${esc(person.name+' · '+remark.title)}">Copy entry link</button></div>
     <details class="exchange-records"><summary>Sources for this entry</summary><ul>${remarkLinks(remark)}</ul></details>
     <details class="source-detail"><summary>Source and verification</summary><p>${esc(readableSourceNote(remark.basis))}</p></details>
   </article>`;
@@ -486,7 +485,6 @@ function speakerView(key='all', topic='all', year='all') {
     <div class="speaker-heading"><h2>${esc(name)}</h2><p role="status">${countLabel(entries.length)} · oldest first</p></div>
     ${key==='other'?'<p class="locator-note">35 entries from 15 people in the former “Other speakers” group.</p>':''}
     ${key==='all'?'<p class="locator-note">These are selected exchanges, not a complete record of anyone’s contributions. Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge this guide’s reading of the record.</p>':''}
-    <p id="copy-status" class="copy-status" role="status"></p>
     ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p>${meetingDocumentsLink(g.items[0].remark)}</div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div><nav class="meeting-tools" aria-label="Continue after ${esc(g.date+' '+g.body)}"><a href="${esc(routeHref('speakers'))}#speaker-controls" data-scroll-target="speaker-controls">↑ Back to filters</a>${groups.length>1?`<a href="${esc(routeHref('speakers'))}#meeting-index" data-scroll-target="meeting-index">Choose another date</a>`:''}</nav></section>`).join(''):'<p class="search-empty">No selected entries for these filters. Choose another speaker, topic, or year.</p>'}`;
 }
 
@@ -676,18 +674,12 @@ document.addEventListener('submit',e=>{
   if(e.target.id!=='results-search-form')return;
   e.preventDefault();navigate('search?q='+encodeURIComponent(document.getElementById('results-search-input').value.trim()));
 });
-document.addEventListener('click',async e=>{
+document.addEventListener('click',e=>{
   if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button>0)return;
   const milestone=e.target.closest('[data-milestone]');
   if(milestone){selectMilestone(milestone.dataset.milestone);return;}
   const scrollLink=e.target.closest('[data-scroll-target]');
   if(scrollLink){const target=document.getElementById(scrollLink.dataset.scrollTarget);if(target){e.preventDefault();target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}return;}
-  const copy=e.target.closest('[data-copy-entry]');
-  if(copy){
-    const status=document.getElementById('copy-status');
-    try{await navigator.clipboard.writeText(new URL(routeHref(copy.dataset.copyEntry),location.href).href);status.textContent='Entry link copied.';copy.textContent='Link copied';}catch{status.textContent='Copy was unavailable. Use the Entry link beside this button.';copy.textContent='Use the Entry link to copy';}
-    return;
-  }
   const tab=e.target.closest('[data-view]');if(tab){e.preventDefault();const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
   const go=e.target.closest('[data-go]');if(go){e.preventDefault();navigate(go.dataset.go);return;}
   const topic=e.target.closest('[data-topic]');if(topic){e.preventDefault();navigate('alternatives/'+topic.dataset.topic);return;}
