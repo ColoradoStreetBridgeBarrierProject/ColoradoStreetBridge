@@ -2,6 +2,12 @@
 // Directory additions checked at their stated scope on September 12, 2026.
 const resourceUrls = {
   "dropbox": "https://www.dropbox.com/scl/fo/fulazr7h1pcj6tgpkbeoi/ANjuObtxDwDhjr9IU5Wv-M0?rlkey=f4t0ypr91hr7o0cimhcdb1773&dl=0",
+  "minutes20170719": "https://www.dropbox.com/scl/fo/1pfx649hnjvsw98o1d7ku/AA3sG5KsJR3rMbSzqzR_dj0?rlkey=n141uw7paaolj4seticypk3zl&dl=0",
+  "minutes20180418": "https://www.dropbox.com/scl/fo/n378hzunr3hgwem4sawh7/AAYeeMS-kuPeWiea_w_zd-o?rlkey=cb7gz0p1i986362eedh03ox0o&dl=0",
+  "minutes20190417": "https://www.dropbox.com/scl/fo/xtk47234b4f653ggryw1t/ALaUwIXXsMB-LxjGaSwccH4?rlkey=cta5oggkdon103npohxh6szqe&dl=0",
+  "minutes20190515": "https://www.dropbox.com/scl/fo/7zyzzn8io53bx9hd8ok11/AFnbyOkb1Uuni4ndwbPYuBg?rlkey=5q7dcie1xkxxoaup6mznd3cmx&dl=0",
+  "minutes20200203": "https://www.dropbox.com/scl/fo/p9xxlexn4wn26xl5102jl/AL61nZyP_hh9oTEKPscVUsA?rlkey=r3woiza12bfnbfdr6wfpzgkmm&dl=0",
+  "agenda20200203": "https://www.dropbox.com/scl/fo/y52soljq7chasxsg0z3cw/ANESdsZJZ5Q4YEudN17XAtc?rlkey=5514l50uc9kdeovnpvyja6z15&dl=0",
   "v2019": "https://pasadena.granicus.com/MediaPlayer.php?clip_id=4580&view_id=25",
   "m2021": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-08-18-Public-Safety-Committee-Minutes.pdf",
   "jan24memo": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2024-01-09-Design-Commission-4A-Colorado-St.-Bridge-Barrier-Memo.pdf",
@@ -21,8 +27,8 @@ const meetingRecords = [
         "source": "p2017"
       },
       {
-        "label": "Preserved minutes in Dropbox",
-        "source": "dropbox"
+        "label": "Preserved minutes · Dropbox folder",
+        "source": "minutes20170719"
       }
     ],
     "note": "The reviewed record uses written minutes and the presentation. A recording was not recovered.",
@@ -75,8 +81,8 @@ const meetingRecords = [
         "source": "p2018"
       },
       {
-        "label": "Preserved minutes in Dropbox",
-        "source": "dropbox"
+        "label": "Preserved minutes · Dropbox folder",
+        "source": "minutes20180418"
       }
     ],
     "note": "A recording was not recovered. The preserved minutes document the committee’s recommendation.",
@@ -141,8 +147,8 @@ const meetingRecords = [
     "title": "Consultant schedule and budget review",
     "links": [
       {
-        "label": "Preserved minutes in Dropbox",
-        "source": "dropbox"
+        "label": "Preserved minutes · Dropbox folder",
+        "source": "minutes20190417"
       }
     ],
     "note": "Preserved minutes, pages 2–3, record the discussion. A recording was not recovered.",
@@ -155,8 +161,8 @@ const meetingRecords = [
     "title": "Revised consultant recommendation",
     "links": [
       {
-        "label": "Preserved minutes in Dropbox",
-        "source": "dropbox"
+        "label": "Preserved minutes · Dropbox folder",
+        "source": "minutes20190515"
       },
       {
         "label": "City-linked agenda packet",
@@ -282,8 +288,12 @@ const meetingRecords = [
         "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2020-02-03-Public-Safety-Committee-Presentation.pdf"
       },
       {
-        "label": "Preserved agenda and minutes in Dropbox",
-        "source": "dropbox"
+        "label": "Preserved minutes · Dropbox folder",
+        "source": "minutes20200203"
+      },
+      {
+        "label": "Preserved agenda packet · Dropbox folder",
+        "source": "agenda20200203"
       }
     ],
     "note": "The City Clerk supplied agenda and minutes in September 2026. A recording was not recovered.",
