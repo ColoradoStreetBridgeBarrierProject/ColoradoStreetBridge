@@ -63,7 +63,13 @@ node tests/site.test.cjs --no-resize-observer
 node tests/site.test.cjs --bundle --no-resize-observer
 node tests/pages.test.cjs
 node tests/reading.test.cjs
+node tests/milestones.test.cjs
+node tests/milestones.test.cjs --bundle
 ```
+
+The September 17 milestone enhancement adds seven selected stops to the existing Timeline, covering July 2017 through the reviewed 2025–2026 records. Each preview distinguishes physical changes from project decisions and work. Preview titles, dates, narrative text, and source destinations come from the existing chronology records. Physical-status annotations are attached to those records and included in their existing search entries. The complete eleven-entry chronology, existing entry URLs, and supporting sources remain intact. The schedule comparison follows the chronology and has a shortcut near the page heading. A brief historical introduction links to the National Park Service account for 1913 and 1993; this does not advance the barrier research baseline or older source-check dates.
+
+The milestone controls are native buttons revealed after JavaScript enhancement. Selection stays within the page, keeps focus on the button, announces the selected content, and links to the full underlying entry. Without JavaScript, readers retain the first summary and complete chronology; print output omits the interactive summary. The two tracks stack below 600px, controls wrap, and the feature adds no image, font, video, or third-party dependency. Existing illustrations remain in their attributed gallery rather than being assigned unsupported capture dates. This is a presentation update, not new verification of the quoted meeting material or an update to the unpublished paper.
 
 The checks cover both readable sources and the production bundle, including data, routing, page locators, source-note search, static pages, menu interactions, and enlarged-header offsets. They verify 71 entries (including the legacy 35-entry group), all 19 selector options, year filtering, entry-copy controls, Overview-only introduction, distinct excerpt verification labels, and dated follow-ups retained while record-note blocks and the recurring-question callout remain excluded from views and search. The page checks cover direct loads, local links at both deployment roots, old entry links, new-tab behavior, back/forward, shared rendering, the email and 988 links, metadata, and the four illustrations. They are not a substitute for browser or physical-device testing.
 
