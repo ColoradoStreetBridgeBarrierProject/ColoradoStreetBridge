@@ -121,7 +121,8 @@ for(const [date,source,folderId,kind] of folderCases){
 }
 for(const query of ['2/3/2020','02/03/2020','February 3, 2020'])assert(run('searchView('+JSON.stringify(query)+')').includes('meetings/meeting-2020-02-03'),query+': date format');
 assert.deepEqual(json('searchDateAliases("Winter 2026")'),[],'Do not invent dates for partial dates');
-assert(run('searchView("")').includes('Use the search box to enter a word or phrase.'));
+assert(run('searchView("")').includes('<p class="search-empty">Try <button'));
+assert(!run('searchView("")').includes('Use the search box to enter a word or phrase.'));
 assert(!run('searchView("")').includes('phrase above'));
 
 assert(!excludedPublisher.test(JSON.stringify(index)),'Excluded publisher must not appear in search');
@@ -398,3 +399,23 @@ assert(run('meetingsView()').includes('Automatically recognized text may contain
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
 assert(tablePage.includes('after costs the City had already agreed to pay'));
 console.log('Plain-language copy and preservation checks passed');
+
+// Remove repeated editorial labels without losing the underlying explanations.
+for(const key of json('Object.keys(topics)')){
+ const topic=json('topics['+JSON.stringify(key)+']');
+ const markup=run('alternatives('+JSON.stringify(key)+')');
+ assert(!markup.includes('<span class="pill">'),'Alternative summaries must not repeat their answer in a status badge');
+ for(const field of ['title','answer','limit']){
+  const value=field==='title'?topic[field].replace(/\.$/,''):topic[field];
+  assert(markup.includes(run('esc('+JSON.stringify(value)+')')),key+': preserve '+field);
+ }
+}
+assert(run('evidence()').includes('Read the prevention studies, local surveys, and financial records, with the limits of each.'));
+assert(!run('evidence()').includes('READING THE MONEY AND DATES'));
+assert(run('speakerView()').includes('Read selected exchanges in date order, with their background, responses, and supporting records.'));
+assert(!run('aboutView()').includes('Source notes explain whether the words are'));
+assert(run('aboutView()').includes('Quotations, City-caption excerpts, working-transcript excerpts, and summaries are labeled separately.'));
+assert(run('aboutView()').includes('Checking who was speaking and when does not mean every quoted word was checked against the audio.'));
+assert(run('aboutView()').includes('whether they support or challenge the guide’s reading'));
+assert(run('aboutView()').includes('The full paper is not published here.'));
+console.log('Focused repetition and qualification-preservation checks passed');
