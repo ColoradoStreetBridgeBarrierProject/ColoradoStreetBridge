@@ -192,7 +192,11 @@ for(const hash of ['#speakers/other','#speakers/delgado?topic=netting','#meeting
 context.location.hash='#speakers/delgado?topic=design';listeners['document:change']({target:{id:'other-speaker',value:'kennedy'}});assert.equal(context.location.hash,'#speakers/kennedy?topic=design');
 listeners['document:change']({target:{id:'speaker-topic',value:'staffing'}});assert.equal(context.location.hash,'#speakers/kennedy?topic=staffing');
 listeners['document:change']({target:{id:'meeting-year',value:'2024'}});assert.equal(context.location.hash,'#meetings?year=2024');
-context.location.hash='#search?q=%3Cscript%3E';run('render()');assert(!elements.content.innerHTML.includes('<script>'));
+for(const query of ['<script>', '"><img src=x onerror=alert(1)>', "'><svg onload=alert(1)>", '.*+?^${}()|[]\\']){
+  context.location.hash='#search?q='+encodeURIComponent(query);run('render()');
+  assert(!/<script\b|<img\b|<svg\b/i.test(elements.content.innerHTML),'Search markup remains escaped');
+  assert(elements.content.innerHTML.includes(run('esc('+JSON.stringify(query)+')')),'Search terms remain literal text');
+}
 const html=run('speakerView()+meetingsView()+newsView()');
 assert(html.includes('class="source-label"'));
 for(const m of html.matchAll(/href="([^"]+)"/g)){const href=m[1].replaceAll('&amp;','&');assert(href.startsWith('/')||href.startsWith('#')||href.startsWith('https://'),href);if(href.startsWith('https'))new URL(href);}
@@ -290,8 +294,8 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','robots.txt','about']);
-const allowedHiddenEntries=new Set(['.nojekyll']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','noscript.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','robots.txt','about']);
+const allowedHiddenEntries=new Set(['.nojekyll','.github']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
 const hiddenEntries=rootEntries.filter(entry=>entry.name.startsWith('.')).map(entry=>entry.name).filter(name=>!ignoredHiddenEntries.has(name));

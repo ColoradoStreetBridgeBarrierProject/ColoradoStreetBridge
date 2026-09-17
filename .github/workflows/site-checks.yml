@@ -1,0 +1,43 @@
+name: Site checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  site-checks:
+    name: Site checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out site
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Build and check site
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build.cjs
+          node tests/security.test.cjs
+          node tests/site.test.cjs
+          node tests/site.test.cjs --bundle
+          node tests/site.test.cjs --no-resize-observer
+          node tests/site.test.cjs --bundle --no-resize-observer
+          node tests/pages.test.cjs
+          node tests/reading.test.cjs
+          node tests/milestones.test.cjs
+          node tests/milestones.test.cjs --bundle
+          node tests/reading-paths.test.cjs
+          node tests/reading-paths.test.cjs --bundle
+          git diff --exit-code
+          git diff --check

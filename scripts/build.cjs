@@ -1,6 +1,7 @@
 'use strict';
 // Dependency-free build. Source records remain readable and unchanged.
 const fs=require('fs'),path=require('path'),vm=require('vm'),crypto=require('crypto'),zlib=require('zlib');
+const {secureHtml}=require('./security.cjs');
 const root=path.resolve(__dirname,'..');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex').slice(0,12);
@@ -30,13 +31,14 @@ for(const page of pages){
   const meta=JSON.parse(get('JSON.stringify(pageMetadata('+JSON.stringify(page)+'))'));
   const values={ROOT:prefix,TITLE:get('esc('+JSON.stringify(meta.title)+')'),DESCRIPTION:get('esc('+JSON.stringify(meta.description)+')'),CANONICAL:meta.canonical,ROBOTS:meta.robots,SECTION_LABEL:get('esc('+JSON.stringify(labels[page.view])+')'),HERO_HIDDEN:page.view==='overview'?'':'hidden',STYLE_VERSION:hash(read('styles.css')),THEME_VERSION:hash(read('theme.js')),SCRIPT_VERSION:hash(script),CONTENT:markup,BASELINE_DATE:get('formatDate(reviewDates.baseline)'),SITE_UPDATE_DATE:get('formatDate(reviewDates.siteUpdated)')};
   for(const [view,slug] of Object.entries(sections)){values['LINK_'+view.toUpperCase()]=prefix+(slug?slug+'/':'');values['CURRENT_'+view.toUpperCase()]=view===page.view?'page':'false';}
-  const html=read('index.template.html').replace(/__([A-Z_]+)__/g,(match,key)=>values[key]??match);
+  const html=secureHtml(read('index.template.html').replace(/__([A-Z_]+)__/g,(match,key)=>values[key]??match));
   if(/__[A-Z_]+__/.test(html))throw new Error('Unresolved build placeholder: '+page.path);
   const target=path.join(root,page.path,'index.html');fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,html);
   output.push({path:page.path,html});
 }
 fs.mkdirSync(path.join(root,'assets'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets/guide.js'),script);
+fs.writeFileSync(path.join(root,'preserved-records/tables.html'),secureHtml(read('preserved-records/tables.html')));
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+pages.filter(p=>p.view!=='search').map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/tables.html</loc></url>\n</urlset>\n');
 const html=output.find(p=>p.path==='').html;
 const currentText=[html,read('styles.css'),read('theme.js'),script];
