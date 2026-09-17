@@ -3,7 +3,7 @@ const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
 function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;this.headerAtScroll=cssProperties['--mobile-header-height'];}};}
-const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1]},textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
+const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1],searchTitle:(m[0].match(/data-search-title="([^"]+)"/)||[])[1]},textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
 const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
@@ -90,6 +90,25 @@ assert.equal(index.filter(x=>x.type==='Meeting & documents').length,34);
 for(const [q,want] of [['Delgado cacti','delgado-cacti'],['Kennedy','kennedy-review'],['Mermell three months','mermell-return'],['2019 minutes','meeting-2019-05-15'],['Dropbox','source-folder'],['Los Angeles Times','lat-2017'],['Kris','markarian-exhausted']]){
  const routes=json(`searchIndex().filter(i=>SearchText.score(i,SearchText.terms(${JSON.stringify(q)}))>0).map(i=>i.route)`);assert(routes.some(r=>r.endsWith('/'+want)),q);
 }
+const delgadoRoutes=index.filter(i=>i.route.startsWith('speakers/delgado/')).map(i=>i.route).sort();
+assert.equal(delgadoRoutes.length,4);
+for(const query of ['Julianna Delgado','J. Delgado','J Delgado','Delgado']){
+ const matches=json(`searchIndex().filter(i=>i.route.startsWith('speakers/delgado/')&&SearchText.score(i,SearchText.terms(${JSON.stringify(query)}))>0).map(i=>i.route)`);
+ assert.deepEqual(matches.sort(),delgadoRoutes,'All Delgado name variants must find all four remarks: '+query);
+}
+assert(run('searchView("Julianna Delgado cacti")').includes('delgado-cacti'),'Full name and topic must combine');
+assert(index.filter(i=>i.route.startsWith('speakers/delgado/')).every(i=>i.title.startsWith('J. Delgado · ')),'Search aliases must not rewrite preserved display names');
+assert.equal(index.find(i=>i.route==='evidence/5').title,'What remains unresolved');
+assert.equal(index.find(i=>i.route==='evidence/7').title,'How to use the sources');
+assert(!run('evidence()').includes('<h3>What the record leaves open</h3>'));
+assert(!run('evidence()').includes('<h3>How to use the source links</h3>'));
+assert(run('evidence()').includes('The records also show an unexplained disagreement between two 2017 counts.'));
+assert(!run('evidence()').includes('These statements use different wording and dates. These statements'));
+assert(run('meetingsView()').includes('34 meeting and related records'));
+assert(run('meetingsView("2022")').includes('1 meeting or related record'));
+assert(run('alternatives()').includes('href="/alternatives-studied/#other-approaches"'));
+assert(run('alternatives()').indexOf('Skip to netting')<run('alternatives()').indexOf('class="design-gallery"'));
+assert(!run('alternatives("netting")').includes('Skip to netting'),'Subpages must not contain the gallery shortcut');
 for(const entry of index){context.location.hash='#'+entry.route;run('render()');assert(!elements.content.innerHTML.includes('href="undefined"'),entry.route);}
 for(const hash of ['#speakers/other','#speakers/delgado?topic=netting','#meetings?year=2019','#meetings?year=unknown','#speakers/unknown','#news']){context.location.hash=hash;run('render()');}
 context.location.hash='#speakers/delgado?topic=design';listeners['document:change']({target:{id:'other-speaker',value:'kennedy'}});assert.equal(context.location.hash,'#speakers/kennedy?topic=design');
