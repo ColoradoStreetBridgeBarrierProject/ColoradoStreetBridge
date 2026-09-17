@@ -3,7 +3,7 @@ const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
 function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;this.headerAtScroll=cssProperties['--mobile-header-height'];}};}
-const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1],searchTitle:(m[0].match(/data-search-title="([^"]+)"/)||[])[1]},textContent:strip(m[2]),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
+const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1],searchTitle:(m[0].match(/data-search-title="([^"]+)"/)||[])[1]},textContent:m[2].replace(/<[^>]*>/g,''),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')})}));}})};
 const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
@@ -55,6 +55,17 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,8);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
+// Match actual DOM textContent: tags alone do not insert spaces.
+const snippetText=html=>run(`SearchText.separateBlocks(${JSON.stringify(html)})`).replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
+assert.equal(snippetText('<p>One.</p><p>Two.</p>'),'One. Two.');
+assert.equal(snippetText('<h3>Heading</h3><p>Body.</p><ul><li>First</li><li>Second</li></ul>'),'Heading Body. First Second');
+assert.equal(snippetText('<p>2017<strong>–2021</strong>, $<em>1.48</em> million.</p>'),'2017–2021, $1.48 million.','Do not split inline punctuation or numbers');
+assert.equal(snippetText('<p>First<br>Second<br />Third</p>'),'First Second Third');
+assert.equal(snippetText('<P>One.</P><P>Two.</P>'),'One. Two.');
+const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
+assert(sourceSnippet.includes('shown. This guide'),'Adjacent paragraphs must stay separated in the actual index');
+assert(!sourceSnippet.includes('shown.This'));
+assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. This'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
 assert.equal(index.length,139,'Three excluded news entries have been removed');
 assert(!excludedPublisher.test(JSON.stringify(index)),'Excluded publisher must not appear in search');
 assert(index.some(x=>x.route==='timeline/2020-02-03'));
