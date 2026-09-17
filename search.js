@@ -3,7 +3,7 @@ const SearchText = (() => {
   const normalize = value => String(value).toLocaleLowerCase('en-US').replace(/[–—−]/g, '-').replace(/\s+/g, ' ').trim();
   const terms = query => [...new Set(normalize(query).split(' ').filter(Boolean))];
   const score = (item, words) => {
-    const title = normalize(item.title);
+    const title = normalize([item.title, ...(item.aliases || [])].join(' '));
     const body = normalize(item.text);
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
     return 1 + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);

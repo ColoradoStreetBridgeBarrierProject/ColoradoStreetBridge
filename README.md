@@ -43,6 +43,8 @@ The September 17 audit implementation adds a dated homepage status panel, groupe
 
 The September 17 plain-language pass simplifies headings, explanations, funding and survey notes, and repeated source labels. Quotations and original speaker records remain byte-identical. Source links, dates, reported figures, and official titles are preserved. Search uses the same revised topic labels and source-note wording as the displayed entries. Original City tables retain their source fields and values. The wording update does not advance source-check dates or change the unpublished paper.
 
+A bounded finishing pass adds Julianna Delgado's full-name and initial variants to search without changing stored remarks or display names. Illustration frames share a 4:3 ratio and contain the complete images, with their existing City-slide links and captions retained. A native anchor shortcut skips the gallery. Two redundant evidence headings were removed while preserving their search titles and entry routes. Minor copy corrections include the meeting-and-related-record count. No paper, preserved source files, or Dropbox permissions were changed.
+
 ## Local checks
 
 The follow-up adds an optional light reading mode on every guide page and the source tables. Dark remains the default. The choice is saved only in the browser's local storage; switching still works when storage is blocked. The small `theme.js` applies that choice before the stylesheet renders. Print output stays light.

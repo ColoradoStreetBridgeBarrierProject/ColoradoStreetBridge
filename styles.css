@@ -444,7 +444,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .design-gallery > h2 { font-size: 1.55rem; }
 .design-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 26px; }
 .design-grid figure { min-width: 0; }
-.design-grid img { width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--line); background: white; }
+.design-grid img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; display: block; border-radius: 6px; border: 1px solid var(--line); background: white; }
 .design-grid figcaption { color: var(--muted); font-size: .9375rem; margin-top: 12px; max-width: 70ch; }
 .design-grid figcaption strong { display: block; color: var(--ink); }
 .design-grid a { display: block; }

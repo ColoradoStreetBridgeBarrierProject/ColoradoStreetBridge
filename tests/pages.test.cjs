@@ -98,5 +98,17 @@ for(const page of pages){
  assert(headings.every((h,i)=>!i||h<=headings[i-1]+1),page+': heading level jump');
 }
 assert.equal((read('alternatives-studied/index.html').match(/assets\/illustrations\/[^"]+\.jpeg/g)||[]).length,4);
+const alternatives=read('alternatives-studied/index.html');
+assert(alternatives.includes('href="../alternatives-studied/#other-approaches"'));
+assert(alternatives.includes('id="other-approaches" class="scroll-focus" tabindex="-1"'));
+for(const base of ['https://coloradostreetbridgeproject.com/','https://example.org/ColoradoStreetBridge/']){
+ const app=load(base+'alternatives-studied/#other-approaches',alternatives);
+ assert.equal(app.run('readRoute().view'),'alternatives');
+ assert.equal(app.run('readRoute().anchor'),'other-approaches');
+ assert(app.nodes['other-approaches'].scrolled&&app.nodes['other-approaches'].focused,'Gallery shortcut must focus and scroll to the approaches');
+}
+const galleryRule=read('styles.css').match(/\.design-grid img\s*\{([^}]+)\}/)[1];
+assert(/aspect-ratio:\s*4\s*\/\s*3/.test(galleryRule),'Equal illustration frames');
+assert(/object-fit:\s*contain/.test(galleryRule),'Never crop design evidence');
 assert(read('preserved-records/tables.html').includes('aria-label="Guide sections"'));
 console.log('Audit static metadata, illustrations, and heading checks passed');
