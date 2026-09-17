@@ -480,6 +480,36 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .forecast-table th, .forecast-table td { overflow-wrap: anywhere; }
 .file-locator { margin: 2px 0 14px; font-size: .875rem; }
 .file-locator code { font: inherit; overflow-wrap: anywhere; }
+.approach-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin: 24px 0 36px; }
+.approach-card { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; background: var(--surface); }
+.approach-card h2 { font-size: 1.3rem; }
+.approach-card p { color: var(--muted); font-size: 1rem; line-height: 1.75; }
+.approach-link, .filter-actions a, .meeting-jumps a { display: inline-flex; align-items: center; min-height: 44px; }
+.filter-actions { margin: 0 0 16px; }
+.filter-actions:empty { display: none; }
+.meeting-jumps { border-bottom: 1px solid var(--line); margin-bottom: 20px; padding-bottom: 12px; }
+.meeting-jumps nav { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 24px; }
+.meeting-jumps a { font-size: .9375rem; line-height: 1.6; padding: 6px 0; }
+.earlier-work { margin: 18px 0; color: var(--muted); font-size: .9375rem; }
+.earlier-work p { max-width: 72ch; margin: 8px 0 0; line-height: 1.75; }
+.earlier-work summary { color: var(--accent); }
+.remark-sequence { margin: 16px 0; }
+.remark-sequence dt, .remark-kind, .remark-topic, .approx-label, .directory-date { font-size: .875rem !important; }
+.remark-sequence dt { text-transform: none; letter-spacing: normal; }
+.remark-date, .directory-card .eyebrow { font-size: .8125rem; }
+.funding-detail, .directory-notes { margin: 18px 0 28px; }
+.funding-detail > summary, .directory-notes > summary { font-size: 1rem; }
+.funding-detail > p:first-of-type { margin-top: 16px; }
+.meeting-filters { flex-wrap: wrap; }
+.meeting-filters select { width: auto; max-width: 100%; }
+.topic-layout { margin-top: 24px; }
+@media(max-width:600px) {
+  .approach-grid, .meeting-jumps nav { grid-template-columns: minmax(0,1fr); }
+  .approach-card { padding: 20px; }
+  .meeting-filters { display: grid; gap: 8px; }
+  .meeting-filters select { width: 100%; }
+  .view-nav a { font-size: .875rem; }
+}
 @media(max-width:400px) {
   .topic-menu { grid-template-columns: minmax(0,1fr); }
   .topbar-inner { gap: 8px; }

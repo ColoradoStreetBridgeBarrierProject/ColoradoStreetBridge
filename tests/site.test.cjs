@@ -281,7 +281,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','robots.txt','about']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
