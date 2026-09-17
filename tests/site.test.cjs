@@ -114,7 +114,7 @@ assert(page.includes('class="footer-link"'));
 assert(page.includes('class="source-link"'));
 assert(!page.includes('return-tools'),'Floating control must not cover reading content');
 assert(page.includes('aria-controls="site-sidebar"'));
-assert(page.includes('name="color-scheme" content="dark"'));
+assert(page.includes('name="color-scheme" content="dark light"'));
 assert(!page.includes('section-num'));
 assert(!run('head("01","Title","Description")').includes('01'));
 assert(styleBlock('.mobile-brand').includes('min-height: 44px'),'Mobile brand needs a 44px tap target');
@@ -150,7 +150,7 @@ elements.content.scrolled=false;
 listeners['document:click']({preventDefault(){},target:{closest:selector=>selector==='[data-view]'?({dataset:{view:'news'},focus(){}}):null}});
 assert.equal(context.location.pathname,'/news-and-commentary/');assert.equal(context.location.hash,'');assert(elements.content.scrolled,'Persistent navigation must reveal the new section heading');
 assert(!listeners['return-tools:click']);
-assert.equal((page.match(/<script src=/g)||[]).length,1);
+assert.equal((page.match(/<script src=/g)||[]).length,2);
 assert(page.includes(run('overview()').replace('<h2>','<h2 id="view-heading">').replace(/href="\/(?!\/)/g,'href="./')),'Static overview diverges from the interactive overview');
 for(const html of [page,run('overview()')]){
  assert(!html.includes('Three different decisions'),'Removed card must not appear in either overview');
@@ -161,7 +161,7 @@ for(const html of [page,run('overview()')]){
 }
 const overviewColumns=styleBlocks.filter(block=>block.selectors.includes('.overview-grid')&&block.body.includes('grid-template-columns')).map(block=>block.body.match(/grid-template-columns:\s*([^;]+)/)[1].trim());
 assert(overviewColumns.length>0&&overviewColumns.every(value=>value==='minmax(0,1fr)'),'Overview must use one column at every breakpoint');
-for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css']]){
+for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css'],['THEME','theme.js']]){
  const version=crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,file))).digest('hex').slice(0,12);
  assert(page.includes(file+'?v='+version),name+': cache version mismatch');
 }
@@ -175,7 +175,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about','changes']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about','changes']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
