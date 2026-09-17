@@ -82,7 +82,8 @@ assert(changesBody.includes('Retained the limits concerning outstanding commitme
 assert(!/floating|permanent pages|meeting-record explanation|<h[1-6]>\s*<\/h[1-6]>/.test(changesBody));
 assert.equal((who.match(/class="remark-card"/g)||[]).length,71);
 assert.equal((read('meetings-and-documents/index.html').match(/class="directory-card"/g)||[]).length,34);
-assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,11);
+assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,8);
+for(const page of pages)assert(!/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': excluded publisher returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
 assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
