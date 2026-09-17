@@ -65,9 +65,13 @@ node tests/pages.test.cjs
 node tests/reading.test.cjs
 node tests/milestones.test.cjs
 node tests/milestones.test.cjs --bundle
+node tests/reading-paths.test.cjs
+node tests/reading-paths.test.cjs --bundle
 ```
 
 The September 17 milestone enhancement adds seven selected stops to the existing Timeline, covering July 2017 through the reviewed 2025–2026 records. Each preview distinguishes physical changes from project decisions and work. Preview titles, dates, narrative text, and source destinations come from the existing chronology records. Physical-status annotations are attached to those records and included in their existing search entries. The complete eleven-entry chronology, existing entry URLs, and supporting sources remain intact. The schedule comparison follows the chronology and has a shortcut near the page heading. A brief historical introduction links to the National Park Service account for 1913 and 1993; this does not advance the barrier research baseline or older source-check dates.
+
+The author subsequently confirmed that the milestone update looked good on an iPhone. A further reading-flow review left the overview, timeline, evidence presentation, illustrations, budget emphasis, news, search, About, and preserved tables unchanged in substance. It added quiet two-way links between the four alternative summaries and their existing topic-filtered exchanges, and between eight meeting records and their matching exchange groups. Matching requires both the exact date and the exact meeting body, with no link when the match is absent or ambiguous. The published-interview group is not presented as a meeting or assigned an unrelated City record. The index now says “Jump to a date,” covering its eight meetings and one interview accurately. No entries, quotations, verification labels, source documents, research dates, or record counts changed. These are reading paths, not new research or additional interactive displays.
 
 The milestone controls are native buttons revealed after JavaScript enhancement. Selection stays within the page, keeps focus on the button, announces the selected content, and links to the full underlying entry. Without JavaScript, readers retain the first summary and complete chronology; print output omits the interactive summary. The two tracks stack below 600px, controls wrap, and the feature adds no image, font, video, or third-party dependency. Existing illustrations remain in their attributed gallery rather than being assigned unsupported capture dates. This is a presentation update, not new verification of the quoted meeting material or an update to the unpublished paper.
 

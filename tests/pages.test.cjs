@@ -145,7 +145,7 @@ assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of pa
 assert.equal((alternatives.match(/class="approach-card"/g)||[]).length,4);
 assert(!alternatives.includes('aria-current="page">Horizontal netting'),'Overview must not silently select one alternative');
 assert.equal((who.match(/class="earlier-work"/g)||[]).length,71,'Keep every earlier-work passage in an accessible disclosure');
-assert(who.includes('Jump to a meeting'));
+assert(who.includes('Jump to a date'));
 assert(!who.includes('for this website update'),'Routine update history belongs in the internal handoff');
 assert(!who.includes('No new listening'));
 for(const page of pages)assert(!/#page=\d+#page=/.test(read(page+'index.html')),'Duplicate PDF fragment on '+page);

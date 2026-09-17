@@ -259,11 +259,15 @@ const topicIntroductions = Object.freeze({
   staffing:'Follow proposals for staffing and patrols, the City’s cost estimates, and the distinction between adding personnel and replacing a barrier.',
   technology:'Follow proposals for cameras, sensors, and remote communication as additions to physical protection.'
 });
+function topicExchangeLink(key){
+  const route='speakers/all?topic='+key;
+  return `<nav class="related-reading" aria-label="Continue reading"><a href="${esc(routeHref(route))}" data-route="${esc(route)}">Selected exchanges: ${esc(speakerTopicLabel(key))} →</a></nav>`;
+}
 function alternatives(key){
   const selected=Object.hasOwn(topics,key),t=topics[selected?key:'netting'];
   const navigation=`<nav class="topic-menu" aria-label="Approaches considered">${Object.entries(topics).map(([id,x])=>`<a href="${esc(routeHref('alternatives/'+id))}" data-topic="${id}" aria-current="${key===id?'page':'false'}">${esc(x.name)}<small>${esc(x.sub)}</small></a>`).join('')}</nav>`;
   if(!selected)return head('03','What alternatives were studied?','Start with the upright barrier designs. Then choose another approach to see what was studied and what people said about it.')+`<p class="quick-links"><a href="${esc(routeHref('alternatives'))}#other-approaches">Skip to netting, landscaping, patrols, and technology</a></p>`+designGallery()+`<h2 id="other-approaches" class="scroll-focus" tabindex="-1">Other approaches studied</h2><p class="topic-orientation">These reviews took place as the City pursued the Council’s decision to develop a permanent barrier.</p><div class="approach-grid">${Object.entries(topics).map(([id,x])=>`<article class="approach-card"><h3><a href="${esc(routeHref('alternatives/'+id))}" data-topic="${id}">${esc(x.name)}</a></h3><p>${esc(x.answer)}</p><a class="approach-link" href="${esc(routeHref('alternatives/'+id))}" data-topic="${id}">Read the ${esc(x.name.toLowerCase())} record →</a></article>`).join('')}</div>`;
-  return head('03',esc(t.name),esc(topicIntroductions[key]))+`<p class="quick-links"><a href="${esc(routeHref('alternatives'))}" data-route="alternatives">← All barrier designs and alternatives</a></p><article class="topic-answer"><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article><div class="topic-layout">${navigation}<div class="topic-main">${steps(t.steps)}<div class="note"><p><strong>Findings and limits</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div></div></div>`;
+  return head('03',esc(t.name),esc(topicIntroductions[key]))+`<p class="quick-links"><a href="${esc(routeHref('alternatives'))}" data-route="alternatives">← All barrier designs and alternatives</a></p><article class="topic-answer"><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article><div class="topic-layout">${navigation}<div class="topic-main">${steps(t.steps)}<div class="note"><p><strong>Findings and limits</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div>${topicExchangeLink(key)}</div></div>`;
 }
 
 function evidence(){return head('04','What does the evidence tell us?','Read the prevention studies, local surveys, and financial records, with the limits of each.')+`
@@ -445,6 +449,22 @@ function speakerEntries(key='all', topic='all', year='all') {
     .sort((a,b)=>(a.remark.sortDate+' '+(a.remark.time||'00:00:00')).localeCompare(b.remark.sortDate+' '+(b.remark.time||'00:00:00'))||(a.remark.sortOrder||0)-(b.remark.sortOrder||0)||a.id.localeCompare(b.id));
 }
 function countLabel(n,one='entry',many='entries'){return n+' '+(n===1?one:many);}
+function meetingRecordFor(remark){
+  const matches=meetingRecords.filter(record=>record.date===remark.sortDate&&record.body===remark.body);
+  return matches.length===1?matches[0]:null;
+}
+function meetingDocumentsLink(remark){
+  const record=meetingRecordFor(remark);
+  if(!record)return '';
+  const route='meetings/'+record.id;
+  return `<a class="meeting-record-link" href="${esc(routeHref(route))}" data-route="${esc(route)}" aria-label="Meeting documents for ${esc(formatDate(record.date)+' · '+record.body)}">Meeting documents →</a>`;
+}
+function meetingExchangesLink(record){
+  const entries=speakerEntries().filter(({remark})=>meetingRecordFor(remark)?.id===record.id);
+  if(!entries.length)return '';
+  const route='speakers/all/'+entries[0].remark.id;
+  return `<p class="record-related"><a href="${esc(routeHref(route))}" data-route="${esc(route)}">Jump to ${countLabel(entries.length,'selected exchange','selected exchanges')} from this meeting →</a></p>`;
+}
 function speakerView(key='all', topic='all', year='all') {
   const entries=speakerEntries(key,topic,year);
   const name=key==='all'?'All speakers':key==='other'?'Other speakers':speakerDirectory[key].name;
@@ -460,14 +480,14 @@ function speakerView(key='all', topic='all', year='all') {
     <div class="speaker-filter"><label for="speaker-person">Choose a speaker</label><select id="speaker-person"><option value="all">All 19 speakers</option>${key==='other'?'<option value="other" selected>Other speakers (legacy selection)</option>':''}${Object.entries(speakerDirectory).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([id,p])=>`<option value="${id}" ${id===key?'selected':''}>${esc(p.name)} · ${esc(speakerRole(p))}</option>`).join('')}</select></div>
     <div class="speaker-filter"><label for="speaker-topic">Follow a topic</label><select id="speaker-topic">${Object.keys(speakerTopics).map(id=>`<option value="${id}" ${id===topic?'selected':''}>${esc(speakerTopicLabel(id))}</option>`).join('')}</select></div>
     <div class="speaker-filter"><label for="speaker-year">Choose a year</label><select id="speaker-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select></div></div>
-    <p class="filter-actions">${key!=='all'||topic!=='all'||year!=='all'?`<a href="${esc(routeHref('speakers'))}" data-route="speakers">Clear filters</a>`:''}</p>
-    ${groups.length>1?`<section class="meeting-jumps scroll-focus" id="meeting-index" tabindex="-1" aria-labelledby="meeting-index-heading"><h2 id="meeting-index-heading">Jump to a meeting (${groups.length})</h2><nav aria-label="Selected meetings">${groups.map(g=>{const entry=g.items[0];const params=new URLSearchParams();if(topic!=='all')params.set('topic',topic);if(year!=='all')params.set('year',year);const route='speakers/'+key+'/'+entry.remark.id+(params.toString()?'?'+params:'');return `<a href="${esc(routeHref(route))}" data-route="${esc(route)}">${esc(g.date)} · ${esc(g.body)} (${g.items.length})</a>`;}).join('')}</nav></section>`:''}
+    <p class="filter-actions">${key!=='all'||topic!=='all'||year!=='all'?`<a href="${esc(routeHref('speakers'))}" data-route="speakers">Clear filters</a>`:''}${Object.hasOwn(topics,topic)?`<a href="${esc(routeHref('alternatives/'+topic))}" data-route="alternatives/${esc(topic)}">Read the ${esc(topics[topic].name.toLowerCase())} overview →</a>`:''}</p>
+    ${groups.length>1?`<section class="meeting-jumps scroll-focus" id="meeting-index" tabindex="-1" aria-labelledby="meeting-index-heading"><h2 id="meeting-index-heading">Jump to a date (${groups.length})</h2><nav aria-label="Selected dates">${groups.map(g=>{const entry=g.items[0];const params=new URLSearchParams();if(topic!=='all')params.set('topic',topic);if(year!=='all')params.set('year',year);const route='speakers/'+key+'/'+entry.remark.id+(params.toString()?'?'+params:'');return `<a href="${esc(routeHref(route))}" data-route="${esc(route)}">${esc(g.date)} · ${esc(g.body)} (${g.items.length})</a>`;}).join('')}</nav></section>`:''}
     <p class="locator-note">The roles shown are the ones people held at the time, not necessarily their current positions.</p>
     <div class="speaker-heading"><h2>${esc(name)}</h2><p role="status">${countLabel(entries.length)} · oldest first</p></div>
     ${key==='other'?'<p class="locator-note">35 entries from 15 people in the former “Other speakers” group.</p>':''}
     ${key==='all'?'<p class="locator-note">These are selected exchanges, not a complete record of anyone’s contributions. Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge this guide’s reading of the record.</p>':''}
     <p id="copy-status" class="copy-status" role="status"></p>
-    ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p></div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div><nav class="meeting-tools" aria-label="Continue after ${esc(g.date+' '+g.body)}"><a href="${esc(routeHref('speakers'))}#speaker-controls" data-scroll-target="speaker-controls">↑ Back to filters</a>${groups.length>1?`<a href="${esc(routeHref('speakers'))}#meeting-index" data-scroll-target="meeting-index">Choose another meeting</a>`:''}</nav></section>`).join(''):'<p class="search-empty">No selected entries for these filters. Choose another speaker, topic, or year.</p>'}`;
+    ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p>${meetingDocumentsLink(g.items[0].remark)}</div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div><nav class="meeting-tools" aria-label="Continue after ${esc(g.date+' '+g.body)}"><a href="${esc(routeHref('speakers'))}#speaker-controls" data-scroll-target="speaker-controls">↑ Back to filters</a>${groups.length>1?`<a href="${esc(routeHref('speakers'))}#meeting-index" data-scroll-target="meeting-index">Choose another date</a>`:''}</nav></section>`).join(''):'<p class="search-empty">No selected entries for these filters. Choose another speaker, topic, or year.</p>'}`;
 }
 
 function formatDate(date) {
@@ -500,7 +520,7 @@ ${year!=='all'||order!=='oldest'?`<p class="filter-actions"><a href="${esc(route
     <details class="directory-notes"><summary>About the directory and preserved records</summary><aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>The Dropbox folder holds preserved copies of official records, including minutes for early meetings where recordings were unavailable. This guide also provides tables copied and checked by hand, searchable copies of two scanned reports, and a labeled page showing the project’s finances.</p>${link('Read the tables and preservation notes',urls.transcriptions)}</div>${link('Open the Dropbox source folder',urls.dropbox)}</aside>
     <p class="locator-note">This directory brings together links from the City’s project page and the reviewed source records. Some presentations open through the City’s link list. As checked ${formatDate(reviewDates.projectPage)}, the City project page still listed a tentative Summer 2024 meeting as upcoming. That listing is outdated and should not be used as a current meeting schedule.</p>
     </details>
-    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links,m.id)}</article>`).join('')}</div>
+    <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date"><time datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time> · ${esc(m.body)}</p><h3>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links,m.id)}${meetingExchangesLink(m)}</article>`).join('')}</div>
     <p class="directory-tail">${link('City project page and meeting list',urls.project)} · ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')}</p>`;
 }
 // Relevance notes describe the cited article, not a new verification of its claims.

@@ -511,8 +511,11 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .approach-card h2 { font-size: 1.3rem; }
 .approach-card p { color: var(--muted); font-size: 1rem; line-height: 1.75; }
 .approach-link, .filter-actions a, .meeting-jumps a { display: inline-flex; align-items: center; min-height: 44px; }
-.filter-actions { margin: 0 0 16px; }
+.filter-actions { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0 0 16px; }
 .filter-actions:empty { display: none; }
+.related-reading { display: flex; flex-wrap: wrap; margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--line); }
+.related-reading a, .meeting-record-link, .record-related a { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; font-size: .875rem; line-height: 1.6; }
+.record-related { margin: 16px 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
 .meeting-jumps { border-bottom: 1px solid var(--line); margin-bottom: 20px; padding-bottom: 12px; }
 .meeting-jumps h2 { font-size: 1.2rem; }
 .meeting-jumps nav { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 24px; }
