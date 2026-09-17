@@ -41,6 +41,8 @@ The footer links to `/about/`, `/changes/`, and the project email address. About
 
 The September 17 audit implementation adds a dated homepage status panel, grouped evidence destinations, a forecast comparison, meeting sorting, clearer source labels, and social-sharing metadata. All speaker source data remain unchanged. The September 16 removals remain in force. The illustrations are extracted from the City's July 17, 2024 presentation; provenance and image-specific limitations are documented in `assets/illustrations/README.md`. They do not establish a current shortlist or a September 2026 photograph of the fence.
 
+The September 17 plain-language pass simplifies headings, explanations, funding and survey notes, and repeated source labels. Quotations and original speaker records remain byte-identical. Source links, dates, reported figures, and official titles are preserved. Search uses the same revised topic labels and source-note wording as the displayed entries. Original City tables retain their source fields and values. The wording update does not advance source-check dates or change the unpublished paper.
+
 ## Local checks
 
 The follow-up adds an optional light reading mode on every guide page and the source tables. Dark remains the default. The choice is saved only in the browser's local storage; switching still works when storage is blocked. The small `theme.js` applies that choice before the stylesheet renders. Print output stays light.
