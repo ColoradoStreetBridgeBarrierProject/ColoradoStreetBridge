@@ -375,7 +375,7 @@ const meetingRecords = [
         "source": "r2021"
       },
       {
-        "label": "Searchable copy, unverified text layer",
+        "label": "Searchable copy. Automatically recognized text may contain errors.",
         "source": "ocr2021"
       },
       {
@@ -401,7 +401,7 @@ const meetingRecords = [
         "source": "r2022"
       },
       {
-        "label": "Searchable copy, unverified text layer",
+        "label": "Searchable copy. Automatically recognized text may contain errors.",
         "source": "ocr2022"
       },
       {
@@ -582,7 +582,7 @@ const meetingRecords = [
       }
     ],
     "note": "",
-    "kind": "Funding and milestone record"
+    "kind": "Funding and schedule record"
   },
   {
     "id": "meeting-2025-10-27",
@@ -596,7 +596,7 @@ const meetingRecords = [
       }
     ],
     "note": "",
-    "kind": "Funding and milestone record"
+    "kind": "Funding and schedule record"
   },
   {
     "id": "meeting-2026-02-23",
@@ -610,7 +610,7 @@ const meetingRecords = [
       }
     ],
     "note": "",
-    "kind": "Funding and milestone record"
+    "kind": "Funding and schedule record"
   },
   {
     "id": "meeting-2026-04-20",
@@ -631,7 +631,7 @@ const meetingRecords = [
         "url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-04-20-Finance-Committee-and-or-City-Council-Agenda-Supplemental-Correspondence-Item-1-FY26-CIP-Available-Balance.pdf#page=2"
       }
     ],
-    "note": "Selected recording locators include 00:08:10, 00:09:15, 01:59:13, and 02:00:24. The funding program, shortlist amount, and match remain unreconciled. The supplemental sheet’s note-to-row association awaits visual verification.",
+    "note": "Relevant parts of the recording begin around 00:08:10, 00:09:15, 01:59:13, and 02:00:24. The records reviewed do not fully explain which funding program was discussed, the amount under consideration, or how much the City would need to contribute. It has not been visually confirmed which project row the note on the supplemental sheet refers to.",
     "kind": "Funding discussion"
   },
   {
@@ -646,7 +646,7 @@ const meetingRecords = [
       }
     ],
     "note": "",
-    "kind": "Funding and milestone record"
+    "kind": "Funding and schedule record"
   },
   {
     "id": "meeting-2026-05-20",
@@ -681,8 +681,8 @@ const meetingRecords = [
         "url": "https://coloradostreetbridgeproject.com/preserved-records/tables.html#finance-2026"
       }
     ],
-    "note": "The report covers activity through June 30, 2026. The excerpt preserves the entire source page and adds the packet date, page locator, and capture date outside the original page.",
-    "kind": "Funding and milestone record"
+    "note": "The report covers activity through June 30, 2026. The excerpt keeps the full original page. The packet date, page number, and date the copy was saved are added outside that page.",
+    "kind": "Funding and schedule record"
   },
   {
     "id": "meeting-2026-09-16",

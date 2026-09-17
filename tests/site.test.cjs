@@ -19,11 +19,11 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
-// Speaker records remain byte-identical. The resource hash includes the approved agenda note and September 17 publisher exclusions.
+// Speaker records remain byte-identical. The resource hash includes the approved agenda note, publisher exclusions, and plain-language directory notes.
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'04efc7b46fe42331606bfa2e5ed23b2adc0a638eadc05bd9844fb9cf9c00af77'
+ 'resources.js':'e09c1a83f24f8f37874e462cce688b4f2fae3224bc9441d7c49a1e3c959f7914'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
@@ -63,7 +63,7 @@ assert(run('steps(timeline,true)').includes('data-timeline-id="2020-02-03"'));
 assert(run('steps(timeline,true)').includes('committee received and filed'));
 assert(run('evidence()').includes('$130,000 on June 9 and $46,000 on July 21'));
 assert(run('evidence()').includes('Staff said enough remained to finish design'));
-assert(run('evidence()').includes('after outstanding commitments'));
+assert(run('evidence()').includes('after costs the City had already agreed to pay'));
 assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert(index.some(x=>x.title==='Option B led among respondents who ranked the mockups'));
@@ -71,8 +71,8 @@ assert(run('evidence()').includes('73324'));
 assert(!run('evidence()').includes('Of 678 respondents'));
 assert(run('overview()').includes('Page excerpt'));
 assert(run('overview()').includes('What alternatives were studied?'));
-assert(run('forecastComparison()').includes('August 2020, pending appropriation'));
-assert(run('forecastComparison()').includes('not a construction-completion commitment'));
+assert(run('forecastComparison()').includes('August 2020, if the City approved the funding'));
+assert(run('forecastComparison()').includes('does not promise when the barrier will be built'));
 assert.equal((run('forecastComparison()').match(/scope="row"/g)||[]).length,3);
 assert(run('speakerView()').includes('whether they support or challenge'));
 assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
@@ -240,7 +240,7 @@ for(const r of metadata){
   assert(excerpt.includes('excerpt-verification'));
  }
 }
-assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('author checked the speaker, passage, and locator'));
+assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('author checked who was speaking and where the passage appears'));
 const aprilLinks=run('citations(7,"5–7",[["Council minutes",urls.m2018],["Task-force report",urls.r2018]])');
 assert(!aprilLinks.includes('href="'+run('urls.m2018')+'"'));
 assert(aprilLinks.includes('href="'+run('urls.m2018')+'#page=4"'));
@@ -264,15 +264,15 @@ for(const y of ['2018','2021','2024','2026']){
  assert.equal((run('speakerView("all","all",'+JSON.stringify(y)+')').match(/class="remark-card"/g)||[]).length,selected.length);
 }
 assert(run('meetingsView("all","newest")').indexOf('id="meeting-2026-09-16"')<run('meetingsView("all","newest")').indexOf('id="meeting-2024-01-09"'));
-assert(run('viewMarkup({view:"timeline"})').includes('construction in August 2020, pending budget appropriation'));
+assert(run('viewMarkup({view:"timeline"})').includes('construction in August 2020, if the City approved the funding'));
 assert(run('evidence()').indexOf('2021 survey')<run('evidence()').indexOf('2024 survey'));
 assert(run('evidence()').indexOf('id="research"')<run('evidence()').indexOf('id="design-criteria"'));
 assert.equal(json('searchIndex().filter(x=>x.title==="Height depends on the measurement point")')[0].route,'evidence/0');
 assert(!run('speakerView()').match(/\bSource \d+/));
 assert(!run('speakerView()').includes('from the paper'));
 assert.equal((run('designGallery()').match(/<img /g)||[]).length,4);
-assert(run('designGallery()').includes('Its capture date is not stated'));
-assert(run('designGallery()').includes('identifies this option as eliminated'));
+assert(run('designGallery()').includes('does not say when the photograph was taken'));
+assert(run('designGallery()').includes('says this option was eliminated'));
 assert(!run('meetingsView()').includes('This is a future meeting'));
 assert(!run('alternatives()').includes('Keep this qualification'));
 assert(!run('alternatives("technology")').includes('This companion'));
@@ -281,3 +281,18 @@ run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cact
 assert(elements.content.innerHTML.includes('Return to search results'));
 assert(elements.content.innerHTML.indexOf('Return to search results')<elements.content.innerHTML.indexOf('class="remark-card"'));
 console.log('September 17 audit regression checks passed');
+
+// The approved plain-language pass changes explanations, not evidence or quotations.
+const plainTimeline=run('viewMarkup({view:"timeline"})');
+for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
+for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after costs the City had already agreed to pay','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
+assert(run('overview()').includes('Target date to finish the design'));
+assert(run('alternatives("netting")').includes('does not mean a completed design proved a net could not be built'));
+assert(run('speakerView()').includes('Not every quoted word was checked against the audio.'));
+assert(!run('speakerView()').includes('official-player passage locator'));
+assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whether deaths move elsewhere');
+assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('starting time in the official recording')),'Search uses the displayed source-note wording');
+assert(run('meetingsView()').includes('Automatically recognized text may contain errors.'));
+assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
+assert(tablePage.includes('after costs the City had already agreed to pay'));
+console.log('Plain-language copy and preservation checks passed');
