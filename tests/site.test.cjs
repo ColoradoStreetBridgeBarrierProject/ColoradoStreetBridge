@@ -19,11 +19,11 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
-// Speaker records remain byte-identical. The resource hash includes only the approved date-safe September 16 agenda note.
+// Speaker records remain byte-identical. The resource hash includes the approved agenda note and September 17 publisher exclusions.
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'9bfb6c0b80e8ac4521141bbbbc0789900bf08bb48daf347c43b64c5bb14a0a37'
+ 'resources.js':'04efc7b46fe42331606bfa2e5ed23b2adc0a638eadc05bd9844fb9cf9c00af77'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
@@ -45,15 +45,18 @@ for(const key of ['all','other',...json('Object.keys(speakerDirectory)')])for(co
  const html=run(`speakerView('${key}','${topic}')`);assert(!html.includes('undefined'));assert(!html.includes('go to null'));
  assert.equal((html.match(/class="remark-card"/g)||[]).length,list.length);filters++;
 }
-const meetings=json('meetingRecords'),news=json('newsRecords');assert.equal(meetings.length,34);assert.equal(news.length,11);
+const meetings=json('meetingRecords'),news=json('newsRecords');assert.equal(meetings.length,34);assert.equal(news.length,8);
+const excludedPublisher=/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i;
+for(const name of ['resources.js','speakers.js','other-speakers.js','app.js','assets/guide.js'])assert(!excludedPublisher.test(fs.readFileSync(path.join(dir,name),'utf8')),name+': excluded publisher returned');
 assert.deepEqual(meetings.map(m=>m.date),meetings.map(m=>m.date).sort());
 for(const m of meetings)for(const l of m.links)assert(l.url||run(`Object.hasOwn(urls,${JSON.stringify(l.source)})`),m.id+':source');
 for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
  const html=run(`meetingsView('${year}')`);assert(!html.includes('undefined'));assert.equal((html.match(/class="directory-card"/g)||[]).length,meetings.filter(m=>year==='all'||m.date.startsWith(year)).length);
 }
-assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,11);
+assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,8);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
-assert.equal(index.length,142,'February 2020 adds one timeline record');
+assert.equal(index.length,139,'Three excluded news entries have been removed');
+assert(!excludedPublisher.test(JSON.stringify(index)),'Excluded publisher must not appear in search');
 assert(index.some(x=>x.route==='timeline/2020-02-03'));
 assert.equal(run('timeline.find(t=>t.id==="4").date'),'Aug 2021','Existing numeric timeline links remain stable');
 assert(run('steps(timeline,true)').includes('data-timeline-id="2020-02-03"'));
@@ -191,7 +194,8 @@ assert.equal((html.match(/data-copy-entry=/g)||[]).length,71,'Approved entry-cop
 assert.equal(run('typeof copyEntryLink'),'undefined');
 assert.equal(run('typeof entryShare'),'undefined');
 assert.equal((html.match(/class="remark-card"/g)||[]).length,71);
-assert.equal((html.match(/class="directory-card(?: news-card)?"/g)||[]).length,45);
+assert.equal((html.match(/class="directory-card(?: news-card)?"/g)||[]).length,42);
+assert(!excludedPublisher.test(html),'Excluded publisher must not appear in rendered views');
 for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01-09','meeting-2024-01-09'],['speakers/delgado/delgado-cacti','delgado-cacti']]){
  run('navigate('+JSON.stringify(route)+')');
  assert(elements[id].focused&&elements[id].scrolled,'Existing entry route must still work: '+route);
@@ -248,7 +252,7 @@ assert(!run('overview()').includes('More supporting records'),'A single extra so
 assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('September 2018'));
 assert(run('overview()').includes('records reviewed for this guide'));
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:11,filters,indexRecords:index.length,shareControls:71,checks:'preserved data, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:71,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
 const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
 assert.equal((personOptions.match(/<option /g)||[]).length,20);

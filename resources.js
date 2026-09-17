@@ -737,15 +737,6 @@ const newsRecords = [
     "note": ""
   },
   {
-    "id": "psn-2018-barriers",
-    "date": "2018-04-24",
-    "publisher": "Pasadena Star-News",
-    "title": "Pasadena to add physical barriers to Colorado Street Bridge to deter suicide attempts",
-    "url": "https://www.pasadenastarnews.com/2018/04/24/pasadena-to-add-physical-barriers-to-colorado-street-bridge-to-deter-suicide-attempts/",
-    "kind": "News report",
-    "note": "Direct publisher link located through a contemporaneous Route 66 News reference. The publisher blocked automated access. Article text was not reviewed in this update."
-  },
-  {
     "id": "lamag-2018",
     "date": "2018-06-18",
     "publisher": "Los Angeles magazine",
@@ -755,15 +746,6 @@ const newsRecords = [
     "note": ""
   },
   {
-    "id": "psn-2018-fence",
-    "date": "2018-09-04",
-    "publisher": "Pasadena Star-News",
-    "title": "Pasadena is extending temporary fencing on Colorado Street Bridge to deter suicide attempts",
-    "url": "https://www.pasadenastarnews.com/2018/09/04/pasadena-is-extending-temporary-fencing-on-colorado-street-bridge-to-deter-suicide-attempts/",
-    "kind": "News report",
-    "note": "Direct publisher link located through a contemporaneous Route 66 News reference. The publisher blocked automated access. Article text was not reviewed in this update."
-  },
-  {
     "id": "pnow-2018",
     "date": "2018-09-04",
     "publisher": "Pasadena Now",
@@ -771,15 +753,6 @@ const newsRecords = [
     "url": "https://pasadenanow.com/main/pasadena-to-install-emergency-fencing-along-entire-length-of-colorado-street-bridge-to-prevent-suicides",
     "kind": "News report",
     "note": ""
-  },
-  {
-    "id": "psn-2020",
-    "date": "2020-09-17",
-    "publisher": "Pasadena Star-News",
-    "title": "Colorado Street Bridge suicide-prevention fencing designs head to public review",
-    "url": "https://www.pasadenastarnews.com/2020/09/17/colorado-street-bridge-suicide-prevention-fencing-designs-head-to-public-review/",
-    "kind": "News report",
-    "note": "Direct publisher link located through a contemporaneous Route 66 News reference. The publisher blocked automated access. Article text was not reviewed in this update."
   },
   {
     "id": "pnow-2024",
