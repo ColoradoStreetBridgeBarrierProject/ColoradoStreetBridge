@@ -455,11 +455,6 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .speaker-filter label { font-size: .9375rem; }
 .speaker-role { display: block; font-size: .875rem; color: var(--muted); font-weight: 400; margin-top: 4px; }
 .speaker-heading h2 { font-size: 1.4rem; margin-bottom: 0; }
-.entry-actions { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; margin: 14px 0; }
-.entry-actions a, .entry-actions button { min-height: 44px; display: inline-flex; align-items: center; font-size: .875rem; }
-.entry-actions button { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--link); }
-.copy-status { position: relative; color: var(--accent); font-size: .9375rem; }
-.copy-status:empty { display: block; margin: 0; }
 .return-search { position: sticky; top: 0; z-index: 8; padding: 6px 0; margin: 0 0 24px; border-bottom: 1px solid var(--line); background: var(--bg); }
 .return-search a { display: inline-flex; min-height: 44px; align-items: center; }
 .timeline-entry h2 { font-size: 1.15rem; }
@@ -541,7 +536,6 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .directory-links .source-label { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--link); }
 .meeting-tools { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 12px; }
 .meeting-tools a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
-.remark-card .entry-actions { gap: 4px 16px; margin: 8px 0; }
 .remark-card .exchange-records, .remark-card .source-detail { margin-top: 6px; }
 .forecast-cell-label { display: none; }
 main:has(.return-search) :is(.remark-card,.timeline-item,.feature-card,.directory-card,.evidence-section,.scroll-focus) { scroll-margin-top: 88px; }
@@ -569,7 +563,7 @@ main:has(.return-search) :is(.remark-card,.timeline-item,.feature-card,.director
 }
 @media print {
   :root, :root[data-theme="light"], :root[data-theme="dark"] { color-scheme: light; --bg: #fff; --surface: #fff; --raised: #fff; --ink: #111; --muted: #333; --dim: #444; --line: #ccc; --accent: #164c48; --accent-wash: #f1f5f4; --link: #173c65; }
-  .theme-toggle, .entry-actions button, .copy-status, .return-search, .meeting-tools { display: none !important; }
+  .theme-toggle, .return-search, .meeting-tools { display: none !important; }
   .design-grid { display: block; }
   .design-grid figure { break-inside: avoid; margin-bottom: 24px; max-width: 420px; }
 }

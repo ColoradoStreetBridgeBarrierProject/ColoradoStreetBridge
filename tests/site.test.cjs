@@ -292,8 +292,9 @@ for(const name of ['index.html','app.js','search.js','speakers.js','other-speake
  const text=fs.readFileSync(path.join(dir,name),'utf8');
  assert(!/sandbox:|\/workspace\/|libfile_|file_000000|chatgpt\.site/.test(text),name+': internal reference');
 }
-// The September 17 approval adds entry sharing without changing existing routes.
-assert.equal((html.match(/data-copy-entry=/g)||[]).length,71,'Approved entry-copy controls cover all selected exchanges');
+// Remove optional entry-sharing controls without breaking existing entry routes.
+assert(!/data-copy-entry|class="entry-actions"|class="entry-link"|id="copy-status"|>Entry link<|>Copy entry link</.test(html),'Entry-sharing controls must not return');
+assert(!/data-copy-entry|class="entry-actions"|class="entry-link"|id="copy-status"|>Entry link<|>Copy entry link</.test(fs.readFileSync(path.join(dir,'who-said-what/index.html'),'utf8')),'Static entries must omit sharing controls too');
 assert.equal(run('typeof copyEntryLink'),'undefined');
 assert.equal(run('typeof entryShare'),'undefined');
 assert.equal((html.match(/class="remark-card"/g)||[]).length,71);
@@ -355,7 +356,7 @@ assert(!run('overview()').includes('More supporting records'),'A single extra so
 assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('In 2018, Pasadena decided to pursue'));
 assert(run('overview()').includes('records reviewed for this guide'));
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:71,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:(html.match(/data-copy-entry=/g)||[]).length,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
 const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
 assert.equal((personOptions.match(/<option /g)||[]).length,20);
