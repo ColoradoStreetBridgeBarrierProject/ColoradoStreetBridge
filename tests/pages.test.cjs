@@ -2,7 +2,7 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
-const pages=['','timeline/','alternatives-studied/','evidence-and-limits/','who-said-what/','meetings-and-documents/','news-and-commentary/','search/','about/','changes/',...['netting','landscaping','staffing','technology'].map(key=>'alternatives-studied/'+key+'/')];
+const pages=['','timeline/','alternatives-studied/','evidence-and-limits/','who-said-what/','meetings-and-documents/','news-and-commentary/','search/','about/',...['netting','landscaping','staffing','technology'].map(key=>'alternatives-studied/'+key+'/')];
 const noop=()=>{};
 function load(url,html){
   const nodes={},events={};
@@ -22,7 +22,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   assert(html.includes('rel="canonical" href="https://coloradostreetbridgeproject.com/'+page+'"'));
   assert(!html.includes('role="tab"'),'Navigation is ordinary links');
   assert.equal((html.match(/data-view="/g)||[]).length,7);
-  assert.equal((html.match(/data-view="[^"]+" aria-current="page"/g)||[]).length,['search/','about/','changes/'].includes(page)?0:1);
+  assert.equal((html.match(/data-view="[^"]+" aria-current="page"/g)||[]).length,['search/','about/'].includes(page)?0:1);
   assert.equal(/class="intro"[^>]+ hidden/.test(html),page!=='');
   assert(html.includes('mailto:contact@coloradostreetbridgeproject.com'));
   assert(html.includes('href="tel:988"'));
@@ -70,24 +70,24 @@ for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/d
  if(id)assert(app.nodes[id].scrolled,'Legacy entry focus '+id);
 }
 const who=read('who-said-what/index.html');
-const about=read('about/index.html'),changes=read('changes/index.html');
+const about=read('about/index.html');
 assert(!about.includes('Updating the website does not mean every claim has been checked again.'));
 assert(!about.includes('Please identify the passage and include a supporting source when available.'));
 assert(about.includes('whether they support or challenge the guide’s reading'));
-const changesBody=changes.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
-assert.equal((changesBody.match(/<time /g)||[]).length,3);
-assert(changesBody.includes('September 15, 2026'));
-assert(changesBody.includes('September 16, 2026'));
-assert(changesBody.includes('the committee’s recorded action.'));
-assert(changesBody.includes('Retained the limits concerning outstanding commitments and federal ARPA accounting.'));
-assert(!/floating|permanent pages|meeting-record explanation|<h[1-6]>\s*<\/h[1-6]>/.test(changesBody));
+assert(!fs.existsSync(path.join(root,'changes/index.html')),'The Changes page must not be published');
+assert(!read('assets/guide.js').includes('Changes to this guide'),'Removed page content must not remain in the bundle');
+assert(!read('sitemap.xml').includes('/changes/'),'Removed page must not remain in the sitemap');
+const removedRoute=load('https://coloradostreetbridgeproject.com/#changes',overview);
+assert.equal(removedRoute.run('readRoute().view'),'overview','Old hash links must not render the removed page');
+assert.equal(removedRoute.run('Object.hasOwn(sectionPaths,"changes")'),false);
+assert.equal(removedRoute.run('typeof changesView'),'undefined');
 assert.equal((who.match(/class="remark-card"/g)||[]).length,71);
 assert.equal((read('meetings-and-documents/index.html').match(/class="directory-card"/g)||[]).length,34);
 assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,8);
 for(const page of pages)assert(!/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': excluded publisher returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
-assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
+assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,12);
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
 
 for(const page of pages){
@@ -100,6 +100,12 @@ for(const page of pages){
 }
 assert.equal((read('alternatives-studied/index.html').match(/assets\/illustrations\/[^"]+\.jpeg/g)||[]).length,4);
 const alternatives=read('alternatives-studied/index.html');
+for(const [key,title] of Object.entries({netting:'Horizontal netting',landscaping:'Trees &amp; landscaping',staffing:'Staffing &amp; patrols',technology:'Cameras &amp; technology'})){
+ const detail=read('alternatives-studied/'+key+'/index.html');
+ assert(detail.includes('<h1 id="view-heading">'+title+'</h1>'),key+': topic-specific heading');
+ assert(!detail.includes('Start with the upright barrier designs.'),key+': overview instructions must not appear on a detail page');
+}
+assert(alternatives.includes('Start with the upright barrier designs.'));
 assert(alternatives.includes('href="../alternatives-studied/#other-approaches"'));
 assert(alternatives.includes('id="other-approaches" class="scroll-focus" tabindex="-1"'));
 for(const base of ['https://coloradostreetbridgeproject.com/','https://example.org/ColoradoStreetBridge/']){

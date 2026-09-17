@@ -52,6 +52,24 @@ for(const [date,source,folderId,kind] of folderCases){
  assert(!record.links.some(l=>l.source==='dropbox'),'Document entry must not fall back to the general archive');
 }
 assert.equal(folderTargets.size,6,'Minutes and agenda packet must have distinct destinations');
+for(const [id,expected] of Object.entries({'kennedy-enclosure':['minutes20200203'],'tornek-urgency':['minutes20190417','minutes20190515'],'line-comparison':['minutes20200203']})){
+ const remark=json('speakerEntries().find(x=>x.remark.id==='+JSON.stringify(id)+').remark');
+ const links=json('remarkSourceLinks('+JSON.stringify(remark)+')');
+ assert(!links.some(l=>l.source==='dropbox'),id+': general archive reference remains');
+ assert.deepEqual(links.filter(l=>l.source.startsWith('minutes')).map(l=>l.source),expected);
+ const markup=run('remarkLinks('+JSON.stringify(remark)+')');
+ for(const source of expected){
+  const target=run('urls['+JSON.stringify(source)+']');
+  assert(markup.includes('href="'+target.replaceAll('&','&amp;')+'"'),id+': wrong document destination');
+  assert(!markup.includes(target.replaceAll('&','&amp;')+'#page='),'Folder links must not have PDF page fragments');
+ }
+ assert.deepEqual(links.filter(l=>!expected.includes(l.source)),remark.links.filter(l=>l.source!=='dropbox'),'Other source links must remain unchanged');
+}
+const februaryLinks=json('timeline.find(t=>t.id==="2020-02-03").links');
+assert.equal(februaryLinks.length,3);
+for(const source of ['minutes20200203','agenda20200203'])assert(februaryLinks.some(l=>l[1]===run('urls['+JSON.stringify(source)+']')));
+assert(!februaryLinks.some(l=>l[1]===run('urls.dropbox')));
+
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
 assert.equal(run('speakerEntries().length'),71);
 assert.equal(run('speakerEntries("other").length'),35);
@@ -93,6 +111,19 @@ assert(sourceSnippet.includes('shown. This guide'),'Adjacent paragraphs must sta
 assert(!sourceSnippet.includes('shown.This'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. This'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
 assert.equal(index.length,139,'Three excluded news entries have been removed');
+for(const [date,source,folderId,kind] of folderCases){
+ const filename=date+'_Public_Safety_Committee_'+kind+'.pdf';
+ for(const query of [date,filename]){
+  const matches=json('searchIndex().filter(item=>SearchText.score(item,SearchText.terms('+JSON.stringify(query)+'))>0)');
+  assert(matches.some(item=>item.route==='meetings/meeting-'+date),query+': matching meeting missing');
+  if(query===filename)assert.equal(matches.length,1,'Each displayed filename identifies its own meeting');
+ }
+}
+for(const query of ['2/3/2020','02/03/2020','February 3, 2020'])assert(run('searchView('+JSON.stringify(query)+')').includes('meetings/meeting-2020-02-03'),query+': date format');
+assert.deepEqual(json('searchDateAliases("Winter 2026")'),[],'Do not invent dates for partial dates');
+assert(run('searchView("")').includes('Use the search box to enter a word or phrase.'));
+assert(!run('searchView("")').includes('phrase above'));
+
 assert(!excludedPublisher.test(JSON.stringify(index)),'Excluded publisher must not appear in search');
 assert(index.some(x=>x.route==='timeline/2020-02-03'));
 assert.equal(run('timeline.find(t=>t.id==="4").date'),'Aug 2021','Existing numeric timeline links remain stable');
@@ -234,7 +265,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about','changes']);
+const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','about']);
 const allowedHiddenEntries=new Set(['.nojekyll']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
@@ -257,7 +288,7 @@ for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01
  assert(elements[id].focused&&elements[id].scrolled,'Existing entry route must still work: '+route);
 }
 // Editorial cleanup: retain the evidence while changing its presentation.
-for(const view of ['overview','timeline','alternatives','evidence','speakers','meetings','news','search','about','changes']){
+for(const view of ['overview','timeline','alternatives','evidence','speakers','meetings','news','search','about']){
  run('navigate('+JSON.stringify(view)+')');
  assert.equal(elements['.intro'].hidden,view!=='overview',view+': hero visibility');
  assert(elements.content.innerHTML.includes(view==='overview'?'<h2>':'<h1>'),view+': section heading');
