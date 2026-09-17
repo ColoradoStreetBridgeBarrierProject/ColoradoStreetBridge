@@ -153,7 +153,7 @@ const timeline = [
 
 // Retain existing numeric timeline links when inserting a historical event.
 timeline.forEach((entry,index)=>{entry.id=String(index);});
-timeline.splice(4,0,{"id":"2020-02-03","date":"Feb 2020","title":"Design alternatives and a March–May forecast","text":"The February 2020 presentation compared straight mesh, pickets, curved mesh, and a hybrid. It projected mockup installation in March, commission reviews in April, and a committee recommendation and Council approval in May. At the meeting, Kennedy requested a cost estimate for enclosing the bridge with a roof before Council consideration.","result":"The minutes record that the committee received and filed the information. The March–May dates were forecasts, not completed approvals.","page":8,"refs":"10","note":"The February 3, 2020 presentation separates the task force’s recommended minimum height from the consultant’s broader design criteria. Those criteria included height, resistance to climbing, historic preservation, appearance, and emergency access. Slides 10–27 show the design options and their different dimensions.\n\nSlide 30 ranks curved mesh highest among the options shown, but it does not identify the final mesh type.\n\nSlide 31 gives the projected schedule for March through May. Kennedy’s request for a roof over the barrier appears in the meeting minutes on page 2, not in the presentation. Page 3 says the committee received and filed the information; it does not say the committee approved a permanent design.",links:[['February 2020 presentation · Schedule · Slide 31',urls.p2020+'#page=31'],['Preserved agenda and minutes',urls.dropbox]]});
+timeline.splice(4,0,{"id":"2020-02-03","date":"Feb 2020","title":"Design alternatives and a March–May forecast","text":"The February 2020 presentation compared straight mesh, pickets, curved mesh, and a hybrid. It projected mockup installation in March, commission reviews in April, and a committee recommendation and Council approval in May. At the meeting, Kennedy requested a cost estimate for enclosing the bridge with a roof before Council consideration.","result":"The minutes record that the committee received and filed the information. The March–May dates were forecasts, not completed approvals.","page":8,"refs":"10","note":"The February 3, 2020 presentation separates the task force’s recommended minimum height from the consultant’s broader design criteria. Those criteria included height, resistance to climbing, historic preservation, appearance, and emergency access. Slides 10–27 show the design options and their different dimensions.\n\nSlide 30 ranks curved mesh highest among the options shown, but it does not identify the final mesh type.\n\nSlide 31 gives the projected schedule for March through May. Kennedy’s request for a roof over the barrier appears in the meeting minutes on page 2, not in the presentation. Page 3 says the committee received and filed the information; it does not say the committee approved a permanent design.",links:[['February 2020 presentation · Schedule · Slide 31',urls.p2020+'#page=31'],['Preserved February 2020 minutes · Dropbox folder',urls.minutes20200203],['Preserved February 2020 agenda packet · Dropbox folder',urls.agenda20200203]]});
 
 function steps(items, year=false){return `<div class="timeline ${year?'year-timeline':''}">${items.map(s=>`<article class="timeline-item" data-timeline-id="${esc(s.id??'')}"><div class="timeline-date">${esc(s.date)}</div><div class="timeline-entry"><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><details><summary>Read the supporting record</summary>${s.note?s.note.split('\n\n').map(p=>`<p>${esc(p)}</p>`).join(''):''}${citations(s.page,s.refs,s.links)}</details></div></article>`).join('')}</div>`;}
 
@@ -174,7 +174,13 @@ ${[
 ].map(([file,title,page,width,height,alt,caption])=>`<figure><a href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer" aria-label="Open City presentation, slide ${page}: ${esc(title)}"><img src="${siteBase}assets/illustrations/${file}.jpeg" width="${width}" height="${height}" loading="lazy" decoding="async" alt="${esc(alt)}"></a><figcaption><strong>${esc(title)}</strong>${esc(caption)} <a class="source-link" href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer">City of Pasadena · July 17, 2024 · Slide ${page}</a></figcaption></figure>`).join('')}
 </div><p class="locator-note">Earlier curved-mesh mockups and the February 2020 enclosure request belong to different stages of the project. <a href="${esc(routeHref('timeline/2020-02-03'))}" data-route="timeline/2020-02-03">Read the February 2020 record.</a> Images are included to explain the designs and are credited to the City.</p></section>`;}
 
-function alternatives(key){const t=topics[key]||topics.netting;return head('03','What alternatives were studied?','Start with the upright barrier designs. Then choose another approach to see what was studied and what people said about it.')+`
+const topicIntroductions = Object.freeze({
+  netting:'Follow Pasadena’s review of horizontal netting, including engineering, rescue, and preservation concerns.',
+  landscaping:'Follow the discussions of trees and other planting below the bridge, and the limits of the evidence reviewed.',
+  staffing:'Follow proposals for staffing and patrols, the City’s cost estimates, and the distinction between adding personnel and replacing a barrier.',
+  technology:'Follow proposals for cameras, sensors, and remote communication as additions to physical protection.'
+});
+function alternatives(key){const t=topics[key]||topics.netting;return head('03',key?esc(t.name):'What alternatives were studied?',key?esc(topicIntroductions[key]):'Start with the upright barrier designs. Then choose another approach to see what was studied and what people said about it.')+`
   ${key?'':`<p class="quick-links"><a href="${esc(routeHref('alternatives'))}#other-approaches">Skip to netting, landscaping, patrols, and technology</a></p>`+designGallery()}<h2 id="other-approaches" class="scroll-focus" tabindex="-1">Other approaches studied</h2><p class="topic-orientation">${key?`<a href="${esc(routeHref('alternatives'))}" data-route="alternatives">See the fence and vertical design concepts</a>`:'These reviews took place as the City pursued the Council’s decision to develop a permanent barrier.'}</p><div class="topic-layout"><nav class="topic-menu" aria-label="Approaches considered">${Object.entries(topics).map(([id,x])=>`<a href="${esc(routeHref('alternatives/'+id))}" data-topic="${id}" aria-current="${t===x?'page':'false'}">${esc(x.name)}<small>${esc(x.sub)}</small></a>`).join('')}</nav><div class="topic-main"><article class="topic-answer"><span class="pill">${esc(t.tag)}</span><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article>${steps(t.steps)}<div class="note"><p><strong>What this does and does not tell us</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div></div></div>`;}
 
 function evidence(){return head('04','What does the evidence tell us?','Here is what the research tells us about protection, and what it does not answer.')+`
@@ -191,8 +197,8 @@ function evidence(){return head('04','What does the evidence tell us?','Here is 
 
 
 const views = ['overview','timeline','alternatives','evidence','speakers','meetings','news'];
-const sectionPaths = Object.freeze({overview:'',timeline:'timeline',alternatives:'alternatives-studied',evidence:'evidence-and-limits',speakers:'who-said-what',meetings:'meetings-and-documents',news:'news-and-commentary',search:'search',about:'about',changes:'changes'});
-const sectionLabels = Object.freeze({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results',about:'About this guide',changes:'Changes to this guide'});
+const sectionPaths = Object.freeze({overview:'',timeline:'timeline',alternatives:'alternatives-studied',evidence:'evidence-and-limits',speakers:'who-said-what',meetings:'meetings-and-documents',news:'news-and-commentary',search:'search',about:'about'});
+const sectionLabels = Object.freeze({overview:'Overview',timeline:'Timeline',alternatives:'Alternatives studied',evidence:'Evidence & limits',speakers:'Who said what',meetings:'Meetings & documents',news:'News & commentary',search:'Search results',about:'About this guide'});
 // Resolve the deployment root once. Relative HTML links also work on GitHub project paths.
 const siteBase = new URL(document.documentElement?.dataset?.siteRoot || './', location.href || 'https://coloradostreetbridgeproject.com/').pathname;
 function routeHref(route) {
@@ -235,8 +241,17 @@ menuToggle?.addEventListener('click',()=>{
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menuOpen)closeMenu(true);});
 
+// Document-specific destinations supplement the preserved source records.
+const preservedRemarkLinks = Object.freeze({
+  'kennedy-enclosure':[{label:'Preserved February 2020 minutes · pp. 2–3',source:'minutes20200203'}],
+  'tornek-urgency':[{label:'Preserved April 2019 minutes · pp. 2–3',source:'minutes20190417'},{label:'Preserved May 2019 minutes · pp. 2–3',source:'minutes20190515'}],
+  'line-comparison':[{label:'Preserved February 2020 minutes',source:'minutes20200203'}]
+});
+function remarkSourceLinks(remark) {
+  return (remark.links || []).flatMap(item=>item.source==='dropbox'&&preservedRemarkLinks[remark.id]?preservedRemarkLinks[remark.id]:[item]);
+}
 function remarkLinks(remark) {
-  return (remark.links || []).map(item => {
+  return remarkSourceLinks(remark).map(item => {
     let url = item.url || urls[item.source];
     if (item.page) url = url.split('#')[0] + '#page=' + item.page;
     const label = item.label + (item.time ? ' · ' + item.time : item.page ? ' · p. ' + item.page : '');
@@ -397,15 +412,21 @@ function newsView(){
 
 // Search aliases supplement the preserved speaker records; quotations and display names stay unchanged.
 const speakerNameAliases = Object.freeze({delgado:['Julianna Delgado','J. Delgado','J Delgado']});
+function searchDateAliases(value) {
+  const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value||'');
+  if(!match)return [];
+  const [,year,month,day]=match;
+  return [value,Number(month)+'/'+Number(day)+'/'+year,month+'/'+day+'/'+year];
+}
 let indexCache;
 function searchIndex() {
   if (indexCache) return indexCache;
   const result=[];
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
-  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
-  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:speakerNameAliases[key]||[],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...(r.links||[]).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),route:'speakers/'+key+'/'+r.id}));
-  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,text:[m.title,m.kind,m.note,...m.links.map(l=>l.label)].join(' '),route:'meetings/'+m.id}));
-  newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
+  timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),route:'speakers/'+key+'/'+r.id}));
+  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].join(' '),route:'meetings/'+m.id}));
+  newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
     const div=document.createElement('div');div.innerHTML=SearchText.separateBlocks(html);
@@ -424,8 +445,8 @@ function highlight(text, words) {
 }
 function searchView(query) {
   const words=SearchText.terms(query);
-  const heading=head('','Search the guide','Search the guide by topic, name, decision, or phrase. Results include explanations, selected remarks, meeting entries, and news links. Search does not look inside linked reports, articles, or recordings.');
-  if (!words.length) return heading+'<p class="search-empty">Enter a word or phrase above. You can start with <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
+  const heading=head('','Search the guide','Search the guide by topic, name, date, filename, decision, or phrase. Results include explanations, selected remarks, meeting entries, and news links. Search does not look inside linked reports, articles, or recordings.');
+  if (!words.length) return heading+'<p class="search-empty">Use the search box to enter a word or phrase. You can start with <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
   const matches=searchIndex().map(item=>({item,score:SearchText.score(item,words)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
   const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
   return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>`<li><p class="result-type">${esc(item.type)}</p><h3><a data-route="${esc(item.route)}" href="${esc(routeHref(item.route))}">${highlight(item.title,words)}</a></h3><p>${highlight(SearchText.excerpt(item.text,words),words)}</p></li>`).join('')}</ol>`:'<p class="search-empty">No matching guide entries were found. Try fewer words, a surname, or a broader topic.</p>');
@@ -458,19 +479,6 @@ function aboutView() {
       <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>.</p>
     </div>`;
 }
-function changesView() {
-  return `<div class="section-head"><div><h2>Changes to this guide</h2></div></div>
-    <div class="info-copy">
-      <h2><time datetime="2026-09-17">September 17, 2026</time></h2><p>Improved reading width, source-link styling, and homepage navigation. Grouped the evidence by research, design criteria, surveys, funding, and unresolved questions. Added an all-speaker selector, year filtering, entry links, and meeting sorting. Corrected dated wording and restored the May 2019 forecast to the visible timeline. Added four attributed City illustrations and reader-facing article descriptions where the contents were available. The paper remains unpublished on this site.</p>
-      <p>A follow-up added optional light reading mode, narrow-layout and print refinements, exact filenames for six preserved City records, and a description of the reviewed Steve Lopez column. Three optional paywalled news links were removed at the author’s request. The existing Dropbox sharing permissions were unchanged.</p>
-      <p>Reworded headings, explanations, and source notes in plain language. Kept quotations, official titles, figures, dates, and source links unchanged. These wording changes did not add a new source review or change the unpublished paper.</p>
-      <p>A final usability pass added full-name search for Julianna Delgado, balanced the illustration frames without cropping the images, added a shortcut to the other approaches, removed two repeated headings, and corrected minor wording. The paper and source records were unchanged.</p>
-      <h2><time datetime="2026-09-16">September 16, 2026</time></h2><p>Removed recurring record-note blocks, the recurring-question callout, selected introductory caveats, and the research-baseline line on Overview. These were presentation changes, not a new comprehensive source review.</p>
-      <h2><time datetime="2026-09-15">September 15, 2026</time></h2>
-      <p>Added the appropriation history explaining the $2,874,000 total, including the two 2025 transfers. Retained the limits concerning outstanding commitments and federal ARPA accounting.</p>
-      <p>Added the February 2020 design comparison, projected schedule, and the committee’s recorded action.</p>
-    </div>`;
-}
 function forecastComparison(){return `<section aria-labelledby="forecast-heading"><h2 id="forecast-heading">Planned dates and what happened next</h2><div class="forecast-table" role="region" aria-label="Schedule comparison" tabindex="0"><table><caption>These dates were estimates. Finishing the design is one step. Building the barrier is another.</caption><thead><tr><th scope="col">What was planned</th><th scope="col">What happened next</th></tr></thead><tbody>
 <tr><th scope="row">May 2019: concept approval in December 2019; construction in August 2020, if the City approved the funding.</th><td>Mockups reached the committee in August 2021, but no permanent design was selected. ${link('May 2019 report · p. 4',urls.r2019+'#page=4')} ${link('August 2021 report',urls.r2021)}</td></tr>
 <tr><th scope="row">September 2022 plan: return to the committee in September 2023. February 2023 update: return by year-end.</th><td>New designs were presented on November 15, 2023, after the original target but within the revised schedule. ${link('September 2022 report · p. 3',urls.r2022+'#page=3')} ${link('February 2023 newsletter · p. 2',urls.rfp+'#page=2')} ${link('November 2023 presentation',urls.p2023)}</td></tr>
@@ -479,7 +487,7 @@ function forecastComparison(){return `<section aria-labelledby="forecast-heading
 function viewMarkup({view,arg,filter='all',year='all',order='oldest',query=''}) {
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreeing to a barrier was only the first step','Follow the project from emergency fencing to questions about what permanent barrier to build and how to pay for it.')+forecastComparison()+'<p class="timeline-key">Open the source section under an entry to see its supporting records.</p>'+steps(timeline,true):view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView():view==='about'?aboutView():view==='changes'?changesView():searchView(query);
+  let markup=view==='overview'?overview():view==='timeline'?head('02','Agreeing to a barrier was only the first step','Follow the project from emergency fencing to questions about what permanent barrier to build and how to pay for it.')+forecastComparison()+'<p class="timeline-key">Open the source section under an entry to see its supporting records.</p>'+steps(timeline,true):view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView():view==='about'?aboutView():searchView(query);
   if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
   if(['timeline','alternatives','meetings','search'].includes(view))markup=markup.replaceAll('<h3','<h2').replaceAll('</h3>','</h2>');
   return markup;
@@ -503,7 +511,7 @@ function render(focus=false) {
   content.innerHTML=(view!=='search'&&returnQuery?`<p class="return-search"><a data-route="search?q=${esc(encodeURIComponent(returnQuery))}" href="${esc(routeHref('search?q='+encodeURIComponent(returnQuery)))}">← Return to search results for “${esc(returnQuery)}”</a></p>`:'')+viewMarkup(route);
   const heading=content.querySelector('h1,h2');if(heading)heading.id='view-heading';
   content.setAttribute('aria-labelledby','view-heading');
-  document.title='Colorado Street Bridge Project Guide | '+({overview:'Overview',timeline:'Decisions over time',alternatives:Object.hasOwn(topics,arg)?topics[topic].name:'Alternatives studied',evidence:'Evidence and limits',speakers:person==='all'?'Who said what':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search',about:'About this guide',changes:'Changes to this guide'}[view]);
+  document.title='Colorado Street Bridge Project Guide | '+({overview:'Overview',timeline:'Decisions over time',alternatives:Object.hasOwn(topics,arg)?topics[topic].name:'Alternatives studied',evidence:'Evidence and limits',speakers:person==='all'?'Who said what':person==='other'?'Other speakers':speakerDirectory[person].name,meetings:'Meetings and documents',news:'News and commentary',search:'Search',about:'About this guide'}[view]);
   let target=null;
   if(view==='evidence' && ['research','design-criteria','surveys','funding','unresolved','sources'].includes(arg))target=document.getElementById(arg);
   const canonical=document.querySelector('link[rel="canonical"]');
