@@ -246,6 +246,12 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('Three different decisions'),'Removed card must not appear in either overview');
  assert(!html.includes('class="status-list"'),'Removed policy/design/construction list must not remain');
  assert(html.includes('THE SHORT VERSION'),'Keep the opening explanation');
+ assert(html.includes('In 2018, Pasadena decided to pursue a permanent suicide prevention barrier on the Colorado Street Bridge. More than eight years later, the temporary fence remains.'),'Use the approved opening paragraph');
+ assert(html.includes('The City has studied designs and alternatives, built full-size examples, and gathered public feedback. But as of September 2026, the records reviewed for this guide do not show an approved permanent design or secured construction funding.'),'Use the approved project summary');
+ assert(!html.includes('In April 2018, the City Council chose to pursue a permanent barrier.'),'Do not repeat the introduction above the summary');
+ assert(!html.includes('The temporary fence stayed while'),'Remove the superseded process summary');
+ assert(!html.includes('<p></p>'),'Omitting the introduction must not leave an empty paragraph');
+ assert.equal((html.match(/class="project-status"/g)||[]).length,1,'Retain the status cards');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
@@ -301,7 +307,7 @@ assert(!run('speakerView("other")').includes('Remarks are included when'));
 assert(run('speakerView()').includes('Remarks are included when'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
-assert(run('overview()').includes('Construction also required funding separate from the design budget.'));
+assert(run('overview()').includes('do not show an approved permanent design or secured construction funding.'));
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
@@ -337,7 +343,7 @@ for(const url of ['#overview','bridge.jpeg','https://coloradostreetbridgeproject
 assert(run('link("Test",urls.project)').includes('↗'));
 assert(!run('overview()').includes('More supporting records'),'A single extra source stays visible');
 assert(!run('overview()').includes('stands in the record'));
-assert(run('overview()').includes('September 2018'));
+assert(run('overview()').includes('In 2018, Pasadena decided to pursue'));
 assert(run('overview()').includes('records reviewed for this guide'));
 console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:71,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
