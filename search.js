@@ -11,6 +11,15 @@ const SearchText = (() => {
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
     return 1 + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
   };
+  // Prefer explanatory sentences over headings and display statistics. Keep the
+  // full indexed text available when a query matches a source label or detail.
+  const snippet = (item, words) => {
+    const summary = item.summary || '';
+    const title = normalize([item.title, ...(item.aliases || [])].join(' '));
+    if (summary && (words.some(word => normalize(summary).includes(word)) || words.every(word => title.includes(word)))) return summary;
+    const text = String(item.text).trim();
+    return text.startsWith(item.title) ? text.slice(item.title.length).trim() : text;
+  };
   const excerpt = (text, words, length = 260) => {
     const clean = String(text).replace(/\s+/g, ' ').trim();
     const lower = normalize(clean);
@@ -23,5 +32,5 @@ const SearchText = (() => {
     }
     return (start ? '…' : '') + clean.slice(start, start + length) + (start + length < clean.length ? '…' : '');
   };
-  return {normalize, terms, separateBlocks, score, excerpt};
+  return {normalize, terms, separateBlocks, score, snippet, excerpt};
 })();

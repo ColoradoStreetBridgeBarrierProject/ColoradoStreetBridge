@@ -434,7 +434,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .entry-actions button { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--link); }
 .copy-status { position: relative; color: var(--accent); font-size: .9375rem; }
 .copy-status:empty { display: block; margin: 0; }
-.return-search { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 30px; }
+.return-search { position: sticky; top: 0; z-index: 8; padding: 6px 0; margin: 0 0 24px; border-bottom: 1px solid var(--line); background: var(--bg); }
 .return-search a { display: inline-flex; min-height: 44px; align-items: center; }
 .timeline-entry h2 { font-size: 1.15rem; }
 .topic-answer h2, .directory-card h2, .search-results h2 { font-size: 1.3rem; }
@@ -488,6 +488,7 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .filter-actions { margin: 0 0 16px; }
 .filter-actions:empty { display: none; }
 .meeting-jumps { border-bottom: 1px solid var(--line); margin-bottom: 20px; padding-bottom: 12px; }
+.meeting-jumps h2 { font-size: 1.2rem; }
 .meeting-jumps nav { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 24px; }
 .meeting-jumps a { font-size: .9375rem; line-height: 1.6; padding: 6px 0; }
 .earlier-work { margin: 18px 0; color: var(--muted); font-size: .9375rem; }
@@ -503,12 +504,34 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .meeting-filters { flex-wrap: wrap; }
 .meeting-filters select { width: auto; max-width: 100%; }
 .topic-layout { margin-top: 24px; }
+.utility-nav { margin: 8px 0 0; padding: 0 12px; }
+.utility-nav a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
+.figure-links { gap: 0 14px; margin-top: 4px; }
+.figure-links a { padding: 4px 0; border: 0; border-radius: 0; background: none; color: var(--link); font-size: .8125rem; font-weight: 400; text-decoration: underline; }
+.figure-links a:hover, .figure-links a:focus-visible { background: none; }
+.directory-links .source-label { margin: 0; font-size: 1rem; line-height: 1.55; color: var(--link); }
+.meeting-tools { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 12px; }
+.meeting-tools a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
+.remark-card .entry-actions { gap: 4px 16px; margin: 8px 0; }
+.remark-card .exchange-records, .remark-card .source-detail { margin-top: 6px; }
+.forecast-cell-label { display: none; }
+main:has(.return-search) :is(.remark-card,.timeline-item,.feature-card,.directory-card,.evidence-section,.scroll-focus) { scroll-margin-top: 88px; }
+@media(max-width:900px) {
+  .return-search { top: var(--mobile-header-height,var(--mobile-header-fallback)); }
+  main:has(.return-search) :is(.remark-card,.timeline-item,.feature-card,.directory-card,.evidence-section,.scroll-focus) { scroll-margin-top: calc(var(--mobile-header-height,var(--mobile-header-fallback)) + 88px); }
+}
 @media(max-width:600px) {
   .approach-grid, .meeting-jumps nav { grid-template-columns: minmax(0,1fr); }
   .approach-card { padding: 20px; }
   .meeting-filters { display: grid; gap: 8px; }
   .meeting-filters select { width: 100%; }
   .view-nav a { font-size: .875rem; }
+  .forecast-table table, .forecast-table tbody, .forecast-table tr, .forecast-table th, .forecast-table td, .forecast-table caption { display: block; }
+  .forecast-table thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .forecast-table tbody tr { margin-bottom: 20px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .forecast-table tbody th { background: var(--surface); font-weight: 400; }
+  .forecast-table tbody td { border-bottom: 0; }
+  .forecast-cell-label { display: block; color: var(--accent); font-weight: 650; margin-bottom: 8px; }
 }
 @media(max-width:400px) {
   .topic-menu { grid-template-columns: minmax(0,1fr); }
@@ -517,7 +540,7 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 }
 @media print {
   :root, :root[data-theme="light"], :root[data-theme="dark"] { color-scheme: light; --bg: #fff; --surface: #fff; --raised: #fff; --ink: #111; --muted: #333; --dim: #444; --line: #ccc; --accent: #164c48; --accent-wash: #f1f5f4; --link: #173c65; }
-  .theme-toggle, .entry-actions button, .copy-status, .return-search { display: none !important; }
+  .theme-toggle, .entry-actions button, .copy-status, .return-search, .meeting-tools { display: none !important; }
   .design-grid { display: block; }
   .design-grid figure { break-inside: avoid; margin-bottom: 24px; max-width: 420px; }
 }
