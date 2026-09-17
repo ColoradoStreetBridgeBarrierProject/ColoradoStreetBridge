@@ -407,10 +407,8 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .quiet, .note, .excerpt-verification, .remark-card > p.excerpt-verification, .source-detail, .evidence-links, .more-records, .locator-note, .directory-card p, .remark-sequence dd { font-size: .9375rem; line-height: 1.75; }
 .overview-summary { background: transparent; border: 0; padding: 0; }
 .overview-summary .large { max-width: 58ch; font-size: 1.2rem; }
-.project-status { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; margin: 24px 0; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.project-status dt { color: var(--accent); font-weight: 650; margin-bottom: 8px; }
-.project-status dd { margin: 0; line-height: 1.6; }
-.project-status small { display: block; color: var(--muted); font-size: .875rem; margin-top: 8px; }
+.overview-summary .overview-schedule { margin: 24px 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.overview-schedule strong { display: block; color: var(--accent); font-weight: 650; margin-bottom: 8px; }
 .next-cards { margin-top: 18px; }
 .next-card { background: var(--action-surface); border-color: var(--action-border); }
 .next-card span { font-size: .9375rem; }
@@ -454,7 +452,6 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .forecast-table th, .forecast-table td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 12px; font-size: .9375rem; }
 .forecast-table caption { text-align: left; margin: 8px 0 14px; color: var(--muted); }
 @media(max-width:900px) {
-  .project-status { grid-template-columns: 1fr; gap: 18px; }
   .intro { grid-template-columns: minmax(0,1fr) 170px; }
 }
 @media(max-width:600px) {

@@ -251,7 +251,16 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('In April 2018, the City Council chose to pursue a permanent barrier.'),'Do not repeat the introduction above the summary');
  assert(!html.includes('The temporary fence stayed while'),'Remove the superseded process summary');
  assert(!html.includes('<p></p>'),'Omitting the introduction must not leave an empty paragraph');
- assert.equal((html.match(/class="project-status"/g)||[]).length,1,'Retain the status cards');
+ assert(!html.includes('class="project-status"'),'Remove status cards that repeat the approved summary');
+ assert(!html.includes('The records reviewed for this guide do not show that a final design has been approved.'),'Do not repeat the design status');
+ assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
+ assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
+ assert(html.includes('The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.'),'Keep the design-versus-construction distinction');
+ assert.equal((html.match(/City project page checked September 13, 2026/g)||[]).length,1,'State the source-check date only once');
+ const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
+ assert(sourceArea.includes('<summary>Source dates and funding note</summary>'),'Keep verification details beside the source links');
+ assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
+ assert(sourceArea.includes('A funding request does not mean the money has been awarded.'),'Retain the funding qualification');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
@@ -379,7 +388,7 @@ console.log('September 17 audit regression checks passed');
 const plainTimeline=run('viewMarkup({view:"timeline"})');
 for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
 for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after costs the City had already agreed to pay','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
-assert(run('overview()').includes('Target date to finish the design'));
+assert(run('overview()').includes('What the 2028 date means'));
 assert(run('alternatives("netting")').includes('does not mean a completed design proved a net could not be built'));
 assert(run('speakerView()').includes('Not every quoted word was checked against the audio.'));
 assert(!run('speakerView()').includes('official-player passage locator'));
