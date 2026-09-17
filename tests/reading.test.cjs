@@ -39,6 +39,7 @@ for(const [theme,palette] of [['dark',dark],['light',light]]){
 }
 const template=read('index.template.html');
 assert.equal((template.match(/data-theme-toggle aria-pressed="false" hidden/g)||[]).length,2);
+assert.equal((template.match(/aria-label="Light reading mode"/g)||[]).length,2,'Toggle name stays constant when its decorative indicator changes');
 assert(template.indexOf('theme.js')<template.indexOf('styles.css'),'Saved preference applies before stylesheet paint');
 const tables=read('preserved-records/tables.html');assert(tables.includes('../theme.js'));assert(tables.includes('data-theme-toggle'));
 for(const file of ['2017-07-19_Public_Safety_Committee_Minutes.pdf','2018-04-18_Public_Safety_Committee_Minutes.pdf','2019-04-17_Public_Safety_Committee_Minutes.pdf','2019-05-15_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf'])assert(read('meetings-and-documents/index.html').includes(file));
