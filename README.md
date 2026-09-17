@@ -7,11 +7,11 @@ Independent searchable guide to Pasadena’s Colorado Street Bridge suicide prev
 The website is titled **Colorado Street Bridge Project Guide**. It is an independent research guide, not an official City website.
 
 - Project highlights and a decision timeline
-- Alternatives, earlier research, responses, and evidence limits
-- 71 selected entries for 19 speakers, with quotations distinguished from summaries
+- Alternatives, four attributed City illustrations, earlier research, responses, and evidence limits
+- 71 selected entries for 19 speakers, with an all-speaker selector, topic/year filters, and quotations distinguished from summaries
 - 34 dated meeting records with links to recordings and corresponding documents
 - 11 news and commentary links, plus the preserved City-records folder
-- Search across the guide, with shareable links to individual entries
+- Search across the guide, with shareable entry links and a return-to-results link
 
 The full paper, private research archives, and working transcripts are not included. Search covers the guide’s entries, not the contents of linked documents or videos. The larger bridge photograph loads only when opened.
 
@@ -33,7 +33,9 @@ Every section is rendered into HTML by the same view functions used by the inter
 
 The five script files are combined into one download, with data formatting compacted without changing the source records. The introduction appears only on Overview; other sections start with their own heading. Navigation stays in the sidebar or phone menu, without a floating control over the reading area. Versioned asset URLs help readers receive matching updates. The build supplies section titles, descriptions, canonical URLs, and a sitemap. Source verification dates remain separate from the site update date.
 
-The footer links to `/about/`, `/changes/`, and the project email address. About explains the research scope and corrections route without a byline. Changes records substantive content additions, not every website revision. Both pages use the shared renderer and are readable without JavaScript. The paper remains unpublished on this website.
+The footer links to `/about/`, `/changes/`, and the project email address. About explains the research scope and corrections route without a byline. Changes records substantive content and presentation changes, not every website revision. Both pages use the shared renderer and are readable without JavaScript. The paper remains unpublished on this website.
+
+The September 17 audit implementation adds a dated homepage status panel, grouped evidence destinations, a forecast comparison, meeting sorting, clearer source labels, and social-sharing metadata. All speaker source data remain unchanged. The September 16 removals remain in force. The illustrations are extracted from the City's July 17, 2024 presentation; provenance and image-specific limitations are documented in `assets/illustrations/README.md`. They do not establish a current shortlist or a September 2026 photograph of the fence.
 
 ## Local checks
 
@@ -48,4 +50,4 @@ node tests/site.test.cjs --bundle --no-resize-observer
 node tests/pages.test.cjs
 ```
 
-The checks cover both readable sources and the production bundle, including data, routing, page locators, source-note search, static pages, menu interactions, and enlarged-header offsets. They also verify the September 15 editorial cleanup: 71 entries including 35 from 15 other speakers, Overview-only introduction, distinct excerpt verification labels, and dated follow-ups retained while record-note blocks and the recurring-question callout are excluded from views and search. The page checks cover direct loads, local links at both deployment roots, old entry links, new-tab behavior, back/forward, shared rendering, the email and 988 links, and metadata. They are not a substitute for browser or physical-device testing.
+The checks cover both readable sources and the production bundle, including data, routing, page locators, source-note search, static pages, menu interactions, and enlarged-header offsets. They verify 71 entries (including the legacy 35-entry group), all 19 selector options, year filtering, entry-copy controls, Overview-only introduction, distinct excerpt verification labels, and dated follow-ups retained while record-note blocks and the recurring-question callout remain excluded from views and search. The page checks cover direct loads, local links at both deployment roots, old entry links, new-tab behavior, back/forward, shared rendering, the email and 988 links, metadata, and the four illustrations. They are not a substitute for browser or physical-device testing.

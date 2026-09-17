@@ -29,7 +29,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   assert(html.includes('data-route="about">About</a>')&&html.includes('data-route="changes">Changes</a>'),'Every footer must link to both information pages');
   const app=load(url,html),route=JSON.parse(app.run('JSON.stringify(readRoute())'));
   const prefix=page?'../'.repeat(page.split('/').filter(Boolean).length):'./';
-  const expected=app.run('viewMarkup(readRoute())').replace(/<h([12])>/,'<h$1 id="view-heading">').replace(new RegExp('href="'+new URL(base).pathname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?!/)','g'),'href="'+prefix);
+  const expected=app.run('viewMarkup(readRoute())').replace(/<h([12])>/,'<h$1 id="view-heading">').replace(new RegExp('(?:href|src)="'+new URL(base).pathname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?!/)','g'),(match)=>match.startsWith('src')?'src="'+prefix:'href="'+prefix);
   assert(html.includes(expected),page+': static content differs from the interactive renderer');
   assert.equal(app.run('siteBase'),new URL(base).pathname,page+': deployment root');
   if(page.startsWith('alternatives-studied/')&&page.split('/')[1])assert.equal(route.arg,page.split('/')[1]);
@@ -62,7 +62,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Last updated September 16, 2026'));
+assert(overview.includes('Last updated September 17, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -74,9 +74,9 @@ assert(!about.includes('Updating the website does not mean every claim has been 
 assert(!about.includes('Please identify the passage and include a supporting source when available.'));
 assert(about.includes('whether they support or challenge the guide’s reading'));
 const changesBody=changes.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
-assert.equal((changesBody.match(/<time /g)||[]).length,1);
+assert.equal((changesBody.match(/<time /g)||[]).length,3);
 assert(changesBody.includes('September 15, 2026'));
-assert(!changesBody.includes('September 16, 2026'));
+assert(changesBody.includes('September 16, 2026'));
 assert(changesBody.includes('the committee’s recorded action.'));
 assert(changesBody.includes('Retained the limits concerning outstanding commitments and federal ARPA accounting.'));
 assert(!/floating|permanent pages|meeting-record explanation|<h[1-6]>\s*<\/h[1-6]>/.test(changesBody));
@@ -87,3 +87,15 @@ assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
 assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
+
+for(const page of pages){
+ const html=read(page+'index.html');
+ assert(html.includes('property="og:title"'));
+ assert(html.includes('property="og:image:alt"'));
+ const body=html.match(/<main[^>]*>([\s\S]*?)<\/main>/)[1];
+ const headings=[...body.matchAll(/<h([1-6])\b/g)].map(m=>+m[1]);
+ assert(headings.every((h,i)=>!i||h<=headings[i-1]+1),page+': heading level jump');
+}
+assert.equal((read('alternatives-studied/index.html').match(/assets\/illustrations\/[^"]+\.jpeg/g)||[]).length,4);
+assert(read('preserved-records/tables.html').includes('aria-label="Guide sections"'));
+console.log('Audit static metadata, illustrations, and heading checks passed');
