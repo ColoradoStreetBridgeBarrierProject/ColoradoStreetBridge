@@ -26,7 +26,8 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   assert.equal(/class="intro"[^>]+ hidden/.test(html),page!=='');
   assert(html.includes('mailto:contact@coloradostreetbridgeproject.com'));
   assert(html.includes('href="tel:988"'));
-  assert(html.includes('data-route="about">About</a>')&&html.includes('data-route="changes">Changes</a>'),'Every footer must link to both information pages');
+  assert(html.includes('data-route="about">About</a>'),'Every footer must retain About');
+  assert(!html.includes('data-route="changes">Changes</a>'),'The Changes link must not appear in the footer');
   const app=load(url,html),route=JSON.parse(app.run('JSON.stringify(readRoute())'));
   const prefix=page?'../'.repeat(page.split('/').filter(Boolean).length):'./';
   const expected=app.run('viewMarkup(readRoute())').replace(/<h([12])>/,'<h$1 id="view-heading">').replace(new RegExp('(?:href|src)="'+new URL(base).pathname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?!/)','g'),(match)=>match.startsWith('src')?'src="'+prefix:'href="'+prefix);
