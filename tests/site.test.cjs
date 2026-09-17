@@ -107,10 +107,19 @@ assert.equal(snippetText('<p>2017<strong>–2021</strong>, $<em>1.48</em> millio
 assert.equal(snippetText('<p>First<br>Second<br />Third</p>'),'First Second Third');
 assert.equal(snippetText('<P>One.</P><P>Two.</P>'),'One. Two.');
 const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
-assert(sourceSnippet.includes('shown. This guide'),'Adjacent paragraphs must stay separated in the actual index');
-assert(!sourceSnippet.includes('shown.This'));
-assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. This'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,139,'Three excluded news entries have been removed');
+assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
+assert(!sourceSnippet.includes('shown.Selected'));
+assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
+assert.equal(index.length,140,'Add the decision-process explanation while keeping the three excluded news entries removed');
+const processResult=index.find(item=>item.route==='timeline/who-decides');
+assert(processResult&&processResult.title==='Who decides what?');
+assert(run('searchView("who decides")').includes('data-route="timeline/who-decides"'),'A newcomer’s decision-process query must have a useful destination');
+assert(run('overview()').includes('data-route="timeline/who-decides"'));
+assert(run('timelineView()').includes('They do not establish a confirmed date for the next Bridge decision.'));
+assert(run('evidence()').includes('curved-curved mesh (Option B, 44.5%)'));
+assert(run('alternatives("landscaping")').includes('Design Commission Chair Julianna Delgado'));
+assert(run('alternatives("staffing")').includes('Mayor Victor Gordo'));
+assert(!run('alternatives("staffing")').includes('Host/Guide-style'));
 for(const [date,source,folderId,kind] of folderCases){
  const filename=date+'_Public_Safety_Committee_'+kind+'.pdf';
  for(const query of [date,filename]){
@@ -135,7 +144,7 @@ assert(run('evidence()').includes('Staff said enough remained to finish design')
 assert(run('evidence()').includes('after costs the City had already agreed to pay'));
 assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
-assert(index.some(x=>x.title==='Option B led among respondents who ranked the mockups'));
+assert(index.some(x=>x.title==='Curved-curved mesh (Option B) led among respondents who ranked the mockups'));
 assert(run('evidence()').includes('73324'));
 assert(!run('evidence()').includes('Of 678 respondents'));
 assert(run('overview()').includes('Page excerpt'));
@@ -380,7 +389,7 @@ assert(run('designGallery()').includes('says this option was eliminated'));
 assert(!run('meetingsView()').includes('This is a future meeting'));
 assert(!run('alternatives()').includes('Keep this qualification'));
 assert(!run('alternatives("technology")').includes('This companion'));
-assert(run('aboutView()').includes('The full paper is not published here'));
+assert(run('aboutView()').includes('maintained as a personal research project'));
 run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cacti")');
 assert(elements.content.innerHTML.includes('Return to search results'));
 assert(elements.content.innerHTML.indexOf('Return to search results')<elements.content.innerHTML.indexOf('class="remark-card"'));
@@ -418,7 +427,7 @@ assert(!run('aboutView()').includes('Source notes explain whether the words are'
 assert(run('aboutView()').includes('Quotations, City-caption excerpts, working-transcript excerpts, and summaries are labeled separately.'));
 assert(run('aboutView()').includes('Checking who was speaking and when does not mean every quoted word was checked against the audio.'));
 assert(run('aboutView()').includes('whether they support or challenge the guide’s reading'));
-assert(run('aboutView()').includes('The full paper is not published here.'));
+assert(!/The guide and the paper|The fence everyone can see|the author’s/.test(run('aboutView()')),'About must stand on its own without paper references or a byline');
 console.log('Focused repetition and qualification-preservation checks passed');
 
 const fundingSearch=index.find(item=>item.route==='evidence/6');

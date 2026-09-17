@@ -8,7 +8,7 @@ function load(url,html){
   const nodes={},events={};
   const node=key=>nodes[key]??={innerHTML:'',value:'',dataset:{},attributes:{},setAttribute(k,v){this.attributes[k]=v;},getAttribute(k){return this.attributes[k];},addEventListener:noop,querySelector:()=>node('heading'),querySelectorAll:()=>[],focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;}};
   const links=[...html.matchAll(/<(a|img)\b([^>]+)>/g)].map(([,tag,attrs])=>{const element={...node('link-'+Object.keys(nodes).length),tagName:tag.toUpperCase(),attributes:{}};for(const [,name,value] of attrs.matchAll(/([\w-]+)="([^"]*)"/g))element.attributes[name]=value.replaceAll('&amp;','&');return element;});
-  const document={getElementById:node,querySelector:node,querySelectorAll:selector=>selector==='a[href],img[src]'?links:[],addEventListener:(name,fn)=>{events[name]=fn;},documentElement:{dataset:{siteRoot:html.match(/data-site-root="([^"]+)"/)[1]},style:{setProperty:noop},classList:{add:noop,remove:noop,toggle:noop}}};
+  const document={getElementById:node,querySelector:node,querySelectorAll:selector=>selector==='a[href],img[src]'?links:[],createElement:()=>({innerHTML:'',querySelectorAll:()=>[]}),addEventListener:(name,fn)=>{events[name]=fn;},documentElement:{dataset:{siteRoot:html.match(/data-site-root="([^"]+)"/)[1]},style:{setProperty:noop},classList:{add:noop,remove:noop,toggle:noop}}};
   const context={document,location:new URL(url),URL,URLSearchParams,addEventListener:(name,fn)=>{events[name]=fn;},history:{pushState(_,__,href){context.location=new URL(href,context.location);}}};
   vm.createContext(context);vm.runInContext(read('assets/guide.js'),context);
   return {context,nodes,events,links,run:code=>vm.runInContext(code,context)};
@@ -70,6 +70,42 @@ for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/d
  if(id)assert(app.nodes[id].scrolled,'Legacy entry focus '+id);
 }
 const who=read('who-said-what/index.html');
+// Skip links must move focus without changing routes, results, or active filters.
+const skipCases=[
+ ['#meetings/source-folder','index.html'],
+ ['#speakers/delgado/delgado-cacti','index.html'],
+ ['who-said-what/#speakers/all?topic=netting&year=2024','who-said-what/index.html'],
+ ['meetings-and-documents/#meetings?year=2024&order=newest','meetings-and-documents/index.html'],
+ ['search/#search?q=netting','search/index.html'],
+ ['timeline/#timeline/2020-02-03','timeline/index.html'],
+ ['about/','about/index.html']
+];
+for(const base of ['https://coloradostreetbridgeproject.com/','https://example.org/ColoradoStreetBridge/']){
+ for(const [suffix,file] of skipCases){
+  const app=load(base+suffix,read(file));
+  const before={url:app.context.location.href,route:app.run('JSON.stringify(readRoute())'),html:app.nodes.content.innerHTML};
+  app.nodes.content.focused=false;app.nodes.content.scrolled=false;
+  app.run('menuOpen=true');
+  let prevented=false;
+  app.events.click({button:0,target:{closest:selector=>selector==='a.skip[href="#content"]'?{}:null},preventDefault(){prevented=true;}});
+  assert(prevented,'Skip link must prevent a hash-route change: '+suffix);
+  assert.equal(app.context.location.href,before.url,'Skip must preserve the complete URL');
+  assert.equal(app.run('JSON.stringify(readRoute())'),before.route,'Skip must preserve filters and search');
+  assert.equal(app.nodes.content.innerHTML,before.html,'Skip must not replace content or reset disclosures');
+  assert(app.nodes.content.focused&&app.nodes.content.scrolled,'Skip must focus and reveal the reading area');
+  assert.equal(app.run('menuOpen'),false,'Skip must close an open phone menu');
+ }
+ const process=load(base+'timeline/#timeline/who-decides',read('timeline/index.html'));
+ const disclosure={tagName:'DETAILS',open:false,parentElement:null};
+ process.nodes['who-decides'].parentElement=disclosure;
+ process.run('render(true)');
+ assert.equal(process.run('readRoute().view'),'timeline');
+ assert(process.nodes['who-decides'].focused&&process.nodes['who-decides'].scrolled);
+ assert(disclosure.open,'The decision-process search destination must reveal its explanation');
+}
+assert(read('preserved-records/tables.html').includes('href="../meetings-and-documents/#source-folder"'));
+assert(read('index.template.html').includes('class="skip" href="#content"'),'Native skip fallback must remain available');
+console.log('Skip-link route/filter preservation and decision-process destination checks passed');
 const about=read('about/index.html');
 assert(!about.includes('Updating the website does not mean every claim has been checked again.'));
 assert(!about.includes('Please identify the passage and include a supporting source when available.'));

@@ -523,6 +523,11 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .remark-sequence dt { text-transform: none; letter-spacing: normal; }
 .remark-date, .directory-card .eyebrow { font-size: .8125rem; }
 .funding-detail, .directory-notes { margin: 18px 0 28px; }
+.decision-process { margin: 18px 0 28px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.decision-process > summary { font-size: 1rem; min-height: 44px; }
+.decision-process > div { max-width: 78ch; padding: 4px 0 8px; }
+.decision-process dt { font-weight: 700; margin-top: 14px; }
+.decision-process dd { margin: 4px 0 0; }
 .funding-detail > summary, .directory-notes > summary { font-size: 1rem; }
 .funding-detail > p:first-of-type { margin-top: 16px; }
 .meeting-filters { flex-wrap: wrap; }
