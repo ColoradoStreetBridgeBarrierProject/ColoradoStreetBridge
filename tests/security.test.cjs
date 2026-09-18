@@ -9,11 +9,11 @@ function htmlFiles(dir) {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') return [];
     const file = path.join(dir, entry.name);
     return entry.isDirectory() ? htmlFiles(file) :
-      entry.name.endsWith('.html') && entry.name !== 'index.template.html' ? [file] : [];
+      entry.name.endsWith('.html') && !entry.name.endsWith('.template.html') ? [file] : [];
   });
 }
 const pages = htmlFiles(root);
-assert.equal(pages.length, 14, 'Check every published HTML document');
+assert.equal(pages.length, 15, 'Check every published HTML document');
 for (const file of pages) {
   const html = fs.readFileSync(file, 'utf8');
   const label = path.relative(root, file);
@@ -44,7 +44,7 @@ for (const file of pages) {
     const source = attrs.match(/\bsrc="([^"]+)"/);
     assert(source && !content.trim(), label + ': only external local scripts');
     assert(!/^(?:[a-z]+:|\/\/)/i.test(source[1]), label + ': scripts stay on this origin');
-    assert(fs.existsSync(path.resolve(path.dirname(file), source[1].split('?')[0])), label + ': script exists');
+    assert(fs.existsSync(path.resolve(source[1].startsWith('/') ? root : path.dirname(file), source[1].split('?')[0].replace(/^\//,''))), label + ': script exists');
   }
   for (const [, attrs] of html.matchAll(/<a\b([^>]+)>/gi)) {
     if (/target="_blank"/i.test(attrs)) {
@@ -56,7 +56,7 @@ for (const file of pages) {
     if (!/rel="stylesheet"/i.test(attrs)) continue;
     const source = attrs.match(/\bhref="([^"]+)"/);
     assert(source && !/^(?:[a-z]+:|\/\/)/i.test(source[1]), label + ': styles stay on this origin');
-    assert(fs.existsSync(path.resolve(path.dirname(file), source[1].split('?')[0])), label + ': stylesheet exists');
+    assert(fs.existsSync(path.resolve(source[1].startsWith('/') ? root : path.dirname(file), source[1].split('?')[0].replace(/^\//,''))), label + ': stylesheet exists');
   }
 }
 console.log('Security checks passed for all ' + pages.length + ' published pages.');
