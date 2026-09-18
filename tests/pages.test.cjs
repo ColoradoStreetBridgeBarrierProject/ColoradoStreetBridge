@@ -63,7 +63,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Last updated September 17, 2026'));
+assert(overview.includes('Last updated September 18, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -139,7 +139,7 @@ for(const page of pages){
  const headings=[...body.matchAll(/<h([1-6])\b/g)].map(m=>+m[1]);
  assert(headings.every((h,i)=>!i||h<=headings[i-1]+1),page+': heading level jump');
 }
-assert.equal((read('alternatives-studied/index.html').match(/assets\/illustrations\/[^"]+\.jpeg/g)||[]).length,4);
+assert.equal((read('alternatives-studied/index.html').match(/<img src="[^"]*assets\/illustrations\/[^"]+\.jpeg/g)||[]).length,4);
 const alternatives=read('alternatives-studied/index.html');
 for(const [key,title] of Object.entries({netting:'Horizontal netting',landscaping:'Trees &amp; landscaping',staffing:'Staffing &amp; patrols',technology:'Cameras &amp; technology'})){
  const detail=read('alternatives-studied/'+key+'/index.html');

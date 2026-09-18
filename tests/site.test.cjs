@@ -294,7 +294,7 @@ for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
 }
 const rootEntries=fs.readdirSync(dir,{withFileTypes:true});
 assert(page.includes('href="mailto:contact@coloradostreetbridgeproject.com"'),'Footer email must use the confirmed project address');
-const allowedVisibleEntries=new Set(['index.html','index.template.html','theme.js','styles.css','noscript.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','robots.txt','about']);
+const allowedVisibleEntries=new Set(['404.html','404.template.html','print.js','index.html','index.template.html','theme.js','styles.css','noscript.css','search.js','speakers.js','other-speakers.js','resources.js','app.js','bridge-preview.webp','bridge.jpeg','README.md','CNAME','tests','scripts','assets','preserved-records','timeline','alternatives-studied','evidence-and-limits','who-said-what','meetings-and-documents','news-and-commentary','search','sitemap.xml','robots.txt','about']);
 const allowedHiddenEntries=new Set(['.nojekyll','.github']);
 const ignoredHiddenEntries=new Set(['.DS_Store','.git']);
 const visibleEntries=rootEntries.filter(entry=>!entry.name.startsWith('.')).map(entry=>entry.name);
@@ -464,3 +464,53 @@ assert.equal((run('forecastComparison()').match(/class="forecast-cell-label"/g)|
 assert(run('forecastComparison()').includes('role="table"'));
 assert(fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('class="utility-nav"'));
 console.log('Search refinement, visible meeting navigation, PDF labels, and narrow comparison checks passed');
+
+// Search keeps metadata and readable source-labeled prose separate.
+const remarkItems=index.filter(item=>item.type==='Selected remark');
+assert.equal(remarkItems.length,71);
+for(const item of remarkItems){
+ assert.equal(item.metadata.length,3);
+ const preview=json('SearchText.preview('+JSON.stringify(item)+',SearchText.terms('+JSON.stringify(item.title)+'))');
+ assert.equal(preview.label,'Summary');
+ assert(preview.text.length>0);
+ assert(!preview.text.startsWith(item.metadata.join(' ')));
+}
+const previewSample={title:'Jane Example — Netting',metadata:['July 17, 2024','Public Safety Committee','Netting'],text:'July 17, 2024 Netting. Background sentence. Helicopter rescue needs clearance. Checked against Minutes_2024.pdf.',previewFields:[{label:'Summary',text:'Background sentence. Helicopter rescue needs clearance.'},{label:'Source and verification',text:'Checked against Minutes_2024.pdf.'}]};
+assert.equal(json('SearchText.preview('+JSON.stringify(previewSample)+',["helicopter"])').text,'Helicopter rescue needs clearance.');
+assert.equal(json('SearchText.preview('+JSON.stringify(previewSample)+',["minutes_2024.pdf"])').label,'Source and verification');
+assert(json('SearchText.preview('+JSON.stringify(previewSample)+',["minutes_2024.pdf"])').text.includes('Minutes_2024.pdf'));
+assert.equal(json('SearchText.preview('+JSON.stringify(previewSample)+',["2024"])').text,'Background sentence.');
+const previews=run('searchView("netting")');
+assert(previews.includes('class="result-meta"'));
+assert(previews.includes('class="result-excerpt-label"'));
+assert.equal(index.filter(item=>run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,27,'Ranking and matching stay unchanged');
+
+// All gallery links retain a no-JavaScript image destination; native dialogs
+// retain full source captions and restore focus on close.
+const gallery=run('designGallery()');
+assert.equal((gallery.match(/data-enlarge-image=/g)||[]).length,8);
+let dialog,appended=false;
+const originalCreateElement=doc.createElement;
+doc.createElement=tag=>{
+ assert.equal(tag,'dialog');
+ dialog={attributes:{},events:{},setAttribute(name,value){this.attributes[name]=value;},addEventListener(type,fn){this.events[type]=fn;},showModal(){this.open=true;},remove(){this.removed=true;}};
+ return dialog;
+};
+doc.body={append(element){assert.equal(element,dialog);appended=true;}};
+context.imageTrigger={isConnected:true,focus(){this.focused=true;}};
+for(const item of json('designIllustrations')){
+ assert(gallery.includes('href="/assets/illustrations/'+item[0]+'.jpeg"'));
+ assert(run('openIllustration('+JSON.stringify(item[0])+',imageTrigger)'));
+ assert(appended&&dialog.open);
+ assert.equal(dialog.attributes['aria-labelledby'],'image-view-title');
+ assert(dialog.innerHTML.includes(run('esc('+JSON.stringify(item[6])+')')));
+ assert(dialog.innerHTML.includes('#page='+item[2]+'"'));
+ assert(dialog.innerHTML.includes('method="dialog"'));
+ assert(dialog.innerHTML.includes('autofocus'));
+ dialog.events.close();assert(dialog.removed&&context.imageTrigger.focused);
+}
+assert.equal(run('openIllustration("invalid",imageTrigger)'),false);
+doc.createElement=()=>({});
+assert.equal(run('openIllustration("canted-webmesh",imageTrigger)'),false,'Unsupported dialog keeps the ordinary link');
+doc.createElement=originalCreateElement;
+console.log('Readable search previews and progressive image-viewer checks passed');
