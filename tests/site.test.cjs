@@ -89,6 +89,9 @@ for(const key of ['all','other',...json('Object.keys(speakerDirectory)')])for(co
  const html=run(`speakerView('${key}','${topic}')`);assert(!html.includes('undefined'));assert(!html.includes('go to null'));
  assert.equal((html.match(/class="remark-card"/g)||[]).length,list.length);filters++;
 }
+assert(!run('speakerView()').includes('class="active-filter-summary"'),'Unfiltered entries must not show an active-filter summary');
+assert(run('speakerView("gordo","effectiveness","2018")').includes('<span class="active-filter-summary">Showing: Victor Gordo · Councilmember / mayor · Effectiveness and whether deaths move elsewhere · 2018</span>'),'Active filters must expose their complete labels and selected year');
+assert(run('speakerView("all","all","2024")').includes('<span class="active-filter-summary">Showing: 2024</span>'),'A year-only selection must be visible in the active-filter summary');
 const meetings=json('meetingRecords'),news=json('newsRecords');assert.equal(meetings.length,34);assert.equal(news.length,8);
 const excludedPublisher=/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i;
 for(const name of ['resources.js','speakers.js','other-speakers.js','app.js','assets/guide.js'])assert(!excludedPublisher.test(fs.readFileSync(path.join(dir,name),'utf8')),name+': excluded publisher returned');
