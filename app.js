@@ -368,7 +368,22 @@ function outcomeParts(remark) {
   if(mode==='last')return {event:text.slice(split),note:text.slice(0,split).trimEnd()};
   return {event:'',note:text};
 }
-function speakerRole(person){return person.role || (person.name.includes('Gordo')?'Councilmember / mayor':'Councilmember');}
+// Roles for the represented meetings; the selector spans both offices.
+// City biography: https://www.cityofpasadena.net/mayor/mayor-victor-gordo/
+const gordoRolesByDate=Object.freeze({'2018-04-23':'Councilmember','2021-08-18':'Mayor','2023-11-15':'Mayor','2024-07-17':'Mayor'});
+function speakerRole(person,remark){return (person===speakers.gordo&&remark&&gordoRolesByDate[remark.sortDate]) || person.role || (person===speakers.gordo?'Councilmember / mayor':'Councilmember');}
+// Share these small copy edits between the displayed entries and search, while
+// preserving the underlying speaker records and quotation/verification fields.
+const remarkCopyEdits=Object.freeze({
+  'johnson-regional':{
+    title:'Would deaths fall overall or move elsewhere?',
+    earlier:'Wilson had asked whether deaths would move to another location. Gordo followed with a question about deaths across the region at 01:31:15.'
+  },
+  'gordo-2018-regional':{
+    earlier:'Earlier in the same discussion, Wilson had asked whether deaths would move to another location. Public Health Director Michael Johnson had begun explaining the research.'
+  }
+});
+function readableRemark(remark){return {...remark,...remarkCopyEdits[remark.id]};}
 function speakerTopicLabel(key){return key==='effectiveness'?'Effectiveness and whether deaths move elsewhere':speakerTopics[key];}
 function sourceType(remark){
   if(!remark.quote)return remark.meeting?'Discussion summary':'Written-record summary';
@@ -409,9 +424,10 @@ function remarkExcerpt(remark) {
   return (verified?`<blockquote><p>${text}</p></blockquote>`:`<p class="remark-excerpt">${text}</p>`)+`<p class="excerpt-verification">${esc(verification)}</p>`;
 }
 function remarkCard(key, person, remark) {
+  remark=readableRemark(remark);
   const outcome=outcomeParts(remark);
   return `<article class="remark-card" id="${esc(remark.id)}" tabindex="-1">
-    <div class="remark-top"><p class="remark-person">${esc(person.name)}<span class="speaker-role">${esc(speakerRole(person))}</span></p><time class="remark-date" datetime="${esc(remark.sortDate)}">${esc(remark.date)}</time><span class="remark-topic">${esc(speakerTopicLabel(remark.topic))}</span></div>
+    <div class="remark-top"><p class="remark-person">${esc(person.name)}<span class="speaker-role">${esc(speakerRole(person,remark))}</span></p><time class="remark-date" datetime="${esc(remark.sortDate)}">${esc(remark.date)}</time><span class="remark-topic">${esc(speakerTopicLabel(remark.topic))}</span></div>
     <h4>${esc(remark.title)}</h4>
     <p class="remark-kind">${esc(sourceType(remark))}</p>
     ${remarkExcerpt(remark)}
@@ -538,7 +554,7 @@ function searchIndex() {
   result.push({type:'Project process',title:decisionProcess.title,text:[decisionProcess.intro,...decisionProcess.roles.flat(),decisionProcess.remaining,decisionProcess.status].join(' '),route:'timeline/who-decides'});
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
-  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Earlier work',text:r.earlier},{label:'Response and context',text:r.response},{label:'What followed',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source and verification',text:readableSourceNote(r.basis)}],route:'speakers/'+key+'/'+r.id}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.map(readableRemark).forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Earlier work',text:r.earlier},{label:'Response and context',text:r.response},{label:'What followed',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source and verification',text:readableSourceNote(r.basis)}],route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
