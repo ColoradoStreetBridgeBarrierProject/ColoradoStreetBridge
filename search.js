@@ -37,5 +37,18 @@ const SearchText = (() => {
     }
     return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
-  return {normalize, terms, separateBlocks, score, snippet, excerpt};
+  const preview = (item, words) => {
+    if (!item.previewFields) return {label:'',text:excerpt(snippet(item,words),words)};
+    // Metadata remains searchable, but does not get spliced into the prose.
+    const metadata=normalize([item.title,...(item.aliases||[]),...(item.metadata||[])].join(' '));
+    const contentWords=words.filter(word=>!metadata.includes(word));
+    const fields=item.previewFields.filter(field=>field.text);
+    const matchCount=text=>contentWords.filter(word=>normalize(text).includes(word)).length;
+    const field=fields.reduce((best,next)=>matchCount(next.text)>matchCount(best.text)?next:best,fields[0]);
+    if(!field)return {label:'',text:excerpt(snippet(item,words),words)};
+    const sentences=typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('en',{granularity:'sentence'}).segment(field.text)].map(part=>part.segment.trim()):[field.text];
+    const sentence=sentences.reduce((best,next)=>matchCount(next)>matchCount(best)?next:best,sentences[0]);
+    return {label:field.label,text:excerpt(sentence,contentWords)};
+  };
+  return {normalize, terms, separateBlocks, score, snippet, excerpt, preview};
 })();

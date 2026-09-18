@@ -47,7 +47,7 @@ A bounded finishing pass adds Julianna Delgado's full-name and initial variants 
 
 ## Local checks
 
-The build applies a Content Security Policy and `no-referrer` policy to all 14 HTML pages, including the source tables. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
+The build applies a Content Security Policy and `no-referrer` policy to all 15 HTML pages, including the source tables and custom 404. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
 
 This policy is delivered in HTML because the current host is GitHub Pages. HSTS, `X-Content-Type-Options`, and clickjacking protection through `frame-ancestors` require HTTP response headers and are not supplied by this change. Branch protections, account two-factor authentication, and registrar controls are separate settings; the presence of this workflow does not itself require a passing check before publishing.
 
@@ -61,6 +61,8 @@ Run these with Node.js. No external packages are required:
 
 ```sh
 node scripts/build.cjs
+node tests/security.test.cjs
+node tests/print.test.cjs
 node tests/site.test.cjs
 node tests/site.test.cjs --bundle
 node tests/site.test.cjs --no-resize-observer
@@ -88,3 +90,7 @@ The accepted independent-review follow-up fixes “Skip to content” so it focu
 Alternative summaries now identify people by full name and historical role on first use, and explain the Old Pasadena host/guide comparison from the existing selected exchange. The 2021 survey names the A/B/C mockup designs while retaining the original counts and limitations. About explains the guide as an independent personal research project without a byline or dependence on the unpublished paper. Generic excerpt-verification sentences are shortened where the adjacent source-type label already supplies the same information. Entry-specific verification qualifications, checked-quotation labels, raw speaker/source data, timestamps, and quotations remain intact. Images, milestone content, funding emphasis, and paper files are unchanged. The prior physical-iPhone confirmation applies to the earlier design; the new work has automated and live-browser checks, not a new physical-device test.
 
 The final usability pass makes ISO and numeric dates and the six displayed PDF filenames searchable. Four remaining source-reference locations use the document-specific folders, with separate links where both minutes and an agenda packet or two meetings are cited. Speaker source files remain byte-identical; the renderer supplies the updated destinations. Each alternative-detail page now has its own heading and short introduction. No styles, Dropbox permissions, source-check dates, or paper files were changed.
+
+The September 18 bounded usability pass separates remark-search metadata from sentence previews, labeling summaries, excerpts, and verification notes while keeping all 140 indexed records and existing ranking. The four design illustrations have native-dialog enlargement, full-size image links, unchanged captions, and separate City-presentation links. Ordinary image links work without JavaScript; closing a dialog restores focus. A custom, noindex 404 page uses root-relative recovery links for the production custom domain and does not load the guide renderer. GitHub Pages supplies the missing-path HTTP status.
+
+Before printing, guide pages and source tables open their collapsed disclosures; afterward they restore the reader’s prior choices. Modern browsers also receive a CSS disclosure fallback. Automated tests cover inclusion and restoration, including repeated print events. Final pagination in native print preview, physical iPhone behavior, and screen-reader output have not been newly verified. This pass leaves the compact speaker-view idea deferred and does not change research dates or source records.
