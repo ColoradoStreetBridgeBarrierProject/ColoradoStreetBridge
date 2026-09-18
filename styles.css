@@ -453,6 +453,10 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .evidence-section .feature-card:last-child { margin-bottom: 0; }
 .filter-bar { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 20px 0; border-block: 1px solid var(--line); margin-bottom: 16px; }
 .filter-bar .speaker-filter { display: grid; align-content: start; gap: 8px; margin: 0; flex: 1 1 180px; }
+.filter-bar .speaker-filter-person { flex-basis: 23rem; }
+.filter-bar .speaker-filter-topic { flex-basis: 28rem; }
+.filter-bar .speaker-filter-year { flex: 0 1 8rem; }
+.active-filter-summary { flex-basis: 100%; color: var(--muted); overflow-wrap: anywhere; }
 .speaker-filter select { font-size: 1rem; width: 100%; }
 .speaker-filter label { font-size: .9375rem; }
 .speaker-role { display: block; font-size: .875rem; color: var(--muted); font-weight: 400; margin-top: 4px; }
