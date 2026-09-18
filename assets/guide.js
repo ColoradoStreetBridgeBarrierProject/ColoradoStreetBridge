@@ -37,7 +37,20 @@ const SearchText = (() => {
     }
     return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
-  return {normalize, terms, separateBlocks, score, snippet, excerpt};
+  const preview = (item, words) => {
+    if (!item.previewFields) return {label:'',text:excerpt(snippet(item,words),words)};
+    // Metadata remains searchable, but does not get spliced into the prose.
+    const metadata=normalize([item.title,...(item.aliases||[]),...(item.metadata||[])].join(' '));
+    const contentWords=words.filter(word=>!metadata.includes(word));
+    const fields=item.previewFields.filter(field=>field.text);
+    const matchCount=text=>contentWords.filter(word=>normalize(text).includes(word)).length;
+    const field=fields.reduce((best,next)=>matchCount(next.text)>matchCount(best.text)?next:best,fields[0]);
+    if(!field)return {label:'',text:excerpt(snippet(item,words),words)};
+    const sentences=typeof Intl.Segmenter==='function'?[...new Intl.Segmenter('en',{granularity:'sentence'}).segment(field.text)].map(part=>part.segment.trim()):[field.text];
+    const sentence=sentences.reduce((best,next)=>matchCount(next)>matchCount(best)?next:best,sentences[0]);
+    return {label:field.label,text:excerpt(sentence,contentWords)};
+  };
+  return {normalize, terms, separateBlocks, score, snippet, excerpt, preview};
 })();
 
 const speakerTopics={"all":"All topics","design":"Design and direction","staffing":"Staffing and patrol","landscaping":"Landscaping","netting":"Netting and rescue","technology":"Technology","effectiveness":"Effectiveness and substitution"};
@@ -50,7 +63,7 @@ const speakerDirectory={...speakers,...otherSpeakers};
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-17',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-18',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -262,13 +275,30 @@ function overview(){return head('01','Why is the fence still there?','')+`
   <div class="overview-sources"><p>Supporting records</p>${link('City project page',urls.project)} ${link('April 2018 Council minutes · PDF pp. 4–5',urls.m2018+'#page=4')}<p>August 24, 2026 Finance/Audit packet, project row on p. 184: ${link('Page excerpt',urls.financeExcerpt)} ${link('Full packet',urls.q426)}</p><details class="source-detail"><summary>Source dates and funding note</summary><p>City project page checked ${formatDate(reviewDates.projectPage)}. The Finance/Audit report covers activity through June 30, 2026. A funding request does not mean the money has been awarded.</p></details></div>
   `;}
 
-function designGallery(){return `<section class="design-gallery" aria-labelledby="design-gallery-title"><h2 id="design-gallery-title">The temporary fence and proposed permanent barriers</h2><p class="topic-orientation">The temporary chain-link fence is different from the proposed permanent barriers. These images come from the City’s July 17, 2024 presentation. They show what the designs look like, not which options are still being considered.</p><div class="design-grid">
-${[
+const designIllustrations=[
 ['temporary-fence','Temporary chain-link fence',6,1389,525,'Photograph looking along the bridge roadway, with chain-link fencing on both sides.','Photograph reproduced on slide 6. The presentation does not say when the photograph was taken. This is not a photograph taken for the September 2026 update.'],
 ['metal-pickets','Metal picket concept',12,734,820,'City concept rendering with closely spaced vertical metal pickets beside the bridge lamps.','Design illustration, slide 12. Shows closely spaced upright metal bars, not a barrier that has been built.'],
 ['vertical-webmesh','Vertical webmesh concept',13,734,820,'City concept rendering with upright posts supporting fine mesh along the balustrade.','Design illustration, slide 13. Shows mesh held by upright posts, not a barrier that has been built.'],
 ['canted-webmesh','Canted webmesh concept',14,734,820,'City concept rendering with angled posts supporting mesh over the edge of the sidewalk.','Design illustration, slide 14. Shows mesh held by angled posts. Included for comparison. The summary of commission feedback on slide 16 says this option was eliminated.']
-].map(([file,title,page,width,height,alt,caption])=>`<figure><a href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer" aria-label="Open City presentation, slide ${page}: ${esc(title)}"><img src="${siteBase}assets/illustrations/${file}.jpeg" width="${width}" height="${height}" loading="lazy" decoding="async" alt="${esc(alt)}"></a><figcaption><strong>${esc(title)}</strong>${esc(caption)} <a class="source-link" href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer">City of Pasadena · July 17, 2024 · Slide ${page}</a></figcaption></figure>`).join('')}
+];
+function openIllustration(key,trigger){
+  const illustration=designIllustrations.find(item=>item[0]===key);
+  if(!illustration)return false;
+  const dialog=document.createElement('dialog');
+  if(typeof dialog.showModal!=='function')return false;
+  const [file,title,page,width,height,alt,caption]=illustration;
+  const imageUrl=siteBase+'assets/illustrations/'+file+'.jpeg';
+  dialog.className='image-viewer';
+  dialog.setAttribute('aria-labelledby','image-view-title');
+  dialog.setAttribute('aria-describedby','image-view-caption');
+  dialog.innerHTML=`<form method="dialog" class="image-view-close"><button type="submit" autofocus>Close image</button></form><h2 id="image-view-title">${esc(title)}</h2><figure><img src="${esc(imageUrl)}" width="${width}" height="${height}" alt="${esc(alt)}"><figcaption id="image-view-caption">${esc(caption)}</figcaption></figure><p class="image-view-links"><a href="${esc(imageUrl)}" target="_blank" rel="noopener noreferrer">Open full-size image</a><a href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer">View source presentation · City of Pasadena · July 17, 2024 · Slide ${page}</a></p>`;
+  dialog.addEventListener('close',()=>{dialog.remove();if(trigger.isConnected)trigger.focus({preventScroll:true});},{once:true});
+  document.body.append(dialog);
+  dialog.showModal();
+  return true;
+}
+function designGallery(){return `<section class="design-gallery" aria-labelledby="design-gallery-title"><h2 id="design-gallery-title">The temporary fence and proposed permanent barriers</h2><p class="topic-orientation">The temporary chain-link fence is different from the proposed permanent barriers. These images come from the City’s July 17, 2024 presentation. They show what the designs look like, not which options are still being considered.</p><div class="design-grid">
+${designIllustrations.map(([file,title,page,width,height,alt,caption])=>`<figure><a href="${siteBase}assets/illustrations/${file}.jpeg" data-enlarge-image="${file}" aria-label="Enlarge image: ${esc(title)}"><img src="${siteBase}assets/illustrations/${file}.jpeg" width="${width}" height="${height}" loading="lazy" decoding="async" alt="${esc(alt)}"></a><figcaption><strong>${esc(title)}</strong>${esc(caption)} <a class="image-enlarge-link" href="${siteBase}assets/illustrations/${file}.jpeg" data-enlarge-image="${file}" aria-label="Enlarge image: ${esc(title)}">Enlarge image</a><a class="source-link" href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer">View source presentation · City of Pasadena · July 17, 2024 · Slide ${page}</a></figcaption></figure>`).join('')}
 </div><p class="locator-note">Earlier curved-mesh mockups and the February 2020 enclosure request belong to different stages of the project. <a href="${esc(routeHref('timeline/2020-02-03'))}" data-route="timeline/2020-02-03">Read the February 2020 record.</a> Images are included to explain the designs and are credited to the City.</p></section>`;}
 
 const topicIntroductions = Object.freeze({
@@ -570,7 +600,7 @@ function searchIndex() {
   result.push({type:'Project process',title:decisionProcess.title,text:[decisionProcess.intro,...decisionProcess.roles.flat(),decisionProcess.remaining,decisionProcess.status].join(' '),route:'timeline/who-decides'});
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
-  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),route:'speakers/'+key+'/'+r.id}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Earlier work',text:r.earlier},{label:'Response and context',text:r.response},{label:'What followed',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source and verification',text:readableSourceNote(r.basis)}],route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source folder',title:'Preserved City records on Dropbox',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
@@ -595,7 +625,7 @@ function searchView(query) {
   if (!words.length) return heading+'<p class="search-empty">Try <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
   const matches=searchIndex().map(item=>({item,score:SearchText.score(item,words)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
   const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
-  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>`<li><p class="result-type">${esc(item.type)}</p><h3><a data-route="${esc(item.route)}" href="${esc(routeHref(item.route))}">${highlight(item.title,words)}</a></h3><p>${highlight(SearchText.excerpt(SearchText.snippet(item,words),words),words)}</p></li>`).join('')}</ol>`:'<p class="search-empty">No matching guide entries were found. Try fewer words, a surname, or a broader topic.</p>');
+  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>{const preview=SearchText.preview(item,words);return `<li><p class="result-type">${esc(item.type)}</p><h3><a data-route="${esc(item.route)}" href="${esc(routeHref(item.route))}">${highlight(item.title,words)}</a></h3>${item.metadata?`<p class="result-meta">${item.metadata.map(text=>highlight(text,words)).join(' · ')}</p>`:''}<p class="result-excerpt">${preview.label?`<span class="result-excerpt-label">${esc(preview.label)}: </span>`:''}${highlight(preview.text,words)}</p></li>`;}).join('')}</ol>`:'<p class="search-empty">No matching guide entries were found. Try fewer words, a surname, or a broader topic.</p>');
 }
 function readRoute() {
   const relative=(location.pathname||siteBase).slice(siteBase.length).replace(/index\.html$/,'').replace(/\/$/,'');
@@ -696,6 +726,8 @@ document.addEventListener('submit',e=>{
 });
 document.addEventListener('click',e=>{
   if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button>0)return;
+  const illustration=e.target.closest('[data-enlarge-image]');
+  if(illustration){if(openIllustration(illustration.dataset.enlargeImage,illustration))e.preventDefault();return;}
   const skip=e.target.closest('a.skip[href="#content"]');
   if(skip){e.preventDefault();if(menuOpen)closeMenu();content.focus({preventScroll:true});content.scrollIntoView({block:'start'});return;}
   const milestone=e.target.closest('[data-milestone]');
@@ -741,3 +773,19 @@ document.querySelectorAll('a[href],img[src]').forEach(element=>{
   }
 });
 render();
+
+'use strict';
+// Print the supporting records, then restore the reader's disclosure choices.
+(() => {
+  let closedBeforePrint=null;
+  addEventListener('beforeprint',()=>{
+    if(closedBeforePrint)return;
+    closedBeforePrint=[...document.querySelectorAll('details:not([open])')];
+    closedBeforePrint.forEach(detail=>{detail.open=true;});
+  });
+  addEventListener('afterprint',()=>{
+    if(!closedBeforePrint)return;
+    closedBeforePrint.forEach(detail=>{detail.open=false;});
+    closedBeforePrint=null;
+  });
+})();

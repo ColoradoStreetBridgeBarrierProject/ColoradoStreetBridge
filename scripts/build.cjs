@@ -9,7 +9,7 @@ const data=vm.createContext({});
 for(const name of ['speakers.js','other-speakers.js','resources.js'])vm.runInContext(read(name),data,{filename:name});
 const declarations=['speakerTopics','speakers','otherSpeakers','resourceUrls','meetingRecords','newsRecords'];
 const compact=declarations.map(name=>'const '+name+'='+vm.runInContext('JSON.stringify('+name+')',data)+';').join('\n');
-const script=read('search.js')+'\n'+compact+'\nconst speakerDirectory={...speakers,...otherSpeakers};\n'+read('app.js');
+const script=read('search.js')+'\n'+compact+'\nconst speakerDirectory={...speakers,...otherSpeakers};\n'+read('app.js')+'\n'+read('print.js');
 
 // Every static page and the interactive guide share the same view renderer.
 const noop=()=>{};
@@ -38,7 +38,10 @@ for(const page of pages){
 }
 fs.mkdirSync(path.join(root,'assets'),{recursive:true});
 fs.writeFileSync(path.join(root,'assets/guide.js'),script);
-fs.writeFileSync(path.join(root,'preserved-records/tables.html'),secureHtml(read('preserved-records/tables.html')));
+const errorValues={THEME_VERSION:hash(read('theme.js')),STYLE_VERSION:hash(read('styles.css'))};
+fs.writeFileSync(path.join(root,'404.html'),secureHtml(read('404.template.html').replace(/__([A-Z_]+)__/g,(_,key)=>errorValues[key])));
+const tables=read('preserved-records/tables.html').replace(/href="tables\.css(?:\?v=[^"]+)?"/,'href="tables.css?v='+hash(read('preserved-records/tables.css'))+'"').replace(/src="\.\.\/print\.js(?:\?v=[^"]+)?"/,'src="../print.js?v='+hash(read('print.js'))+'"');
+fs.writeFileSync(path.join(root,'preserved-records/tables.html'),secureHtml(tables));
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+pages.filter(p=>p.view!=='search').map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/tables.html</loc></url>\n</urlset>\n');
 const html=output.find(p=>p.path==='').html;
 const currentText=[html,read('styles.css'),read('theme.js'),script];
