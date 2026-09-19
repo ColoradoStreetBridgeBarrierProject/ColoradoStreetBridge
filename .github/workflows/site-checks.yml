@@ -40,5 +40,6 @@ jobs:
           node tests/milestones.test.cjs --bundle
           node tests/reading-paths.test.cjs
           node tests/reading-paths.test.cjs --bundle
+          node --test .github/maintenance/clean-email-history.test.mjs
           git diff --exit-code
           git diff --check
