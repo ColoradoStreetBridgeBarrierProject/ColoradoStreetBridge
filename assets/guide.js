@@ -579,8 +579,8 @@ function directoryLinks(items,recordId) {
   return '<ul class="directory-links">'+items.map(item=>{
     const url=item.url||urls[item.source];
     const files=preservedFileNames[item.source];
-    const label=locatorLabel(item.label)+(/\.pdf(?:[?#]|$)/i.test(url)&&! /\bPDF\b/i.test(item.label)?' · PDF':'');
-    return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(label)}${linkArrow(url)}</span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a>${files?'<p class="file-locator">File: '+files.map(file=>'<code>'+esc(file)+'</code>').join(' or ')+'.</p>':''}</li>`;
+    const label=files?(item.source.startsWith('agenda')?'Open agenda packet (PDF)':'Open minutes (PDF)'):locatorLabel(item.label)+(/\.pdf(?:[?#]|$)/i.test(url)&&! /\bPDF\b/i.test(item.label)?' · PDF':'');
+    return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span class="source-label">${esc(label)}${linkArrow(url)}</span>${item.note?'<small>'+esc(item.note)+'</small>':''}</a></li>`;
   }).join('')+'</ul>';
 }
 function meetingsView(year='all', order='oldest') {

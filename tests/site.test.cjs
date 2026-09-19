@@ -52,7 +52,9 @@ for(const [date,source,folderId,kind] of folderCases){
  const markup=run(`directoryLinks([${JSON.stringify(item)}],${JSON.stringify(record.id)})`);
  assert(markup.includes('href="'+target.replaceAll('&','&amp;')+'"'),source+': wrong rendered target');
  assert(markup.includes(date+'_Public_Safety_Committee_'+kind+'.pdf'),source+': wrong filename');
- assert.equal((markup.match(/<code>/g)||[]).length,1,'Each link identifies only its own PDF');
+ assert(markup.includes(kind==='Minutes'?'Open minutes (PDF)':'Open agenda packet (PDF)'),source+': clear document action');
+ assert(!markup.includes('file-locator'),'Remove redundant non-clickable filename labels');
+ assert(!markup.includes('<code>'),'Do not present the filename as a second, inactive document label');
  assert(!record.links.some(l=>l.source==='dropbox'),'Document entry must not fall back to the general archive');
 }
 assert.equal(folderTargets.size,6,'Minutes and agenda packet must have distinct destinations');
