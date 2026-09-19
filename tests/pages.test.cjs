@@ -63,7 +63,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Last updated September 18, 2026'));
+assert(overview.includes('Last updated September 19, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -126,7 +126,7 @@ assert.equal((read('news-and-commentary/index.html').match(/class="directory-car
 for(const page of pages)assert(!/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': excluded publisher returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
-assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,13);
+assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,14);
 assert(read('sitemap.xml').includes('/preserved-records/tables.html'));
 assert(read('robots.txt').includes('Sitemap: https://coloradostreetbridgeproject.com/sitemap.xml'));
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
@@ -194,3 +194,9 @@ const directory=read('meetings-and-documents/index.html');
 assert(directory.indexOf('id="meeting-year"')<directory.indexOf('id="source-folder"'));
 assert(metadataApp.run('meetingsView("2024","newest")').includes('Reset filters'));
 console.log('Route metadata, excerpt preservation, meeting navigation, and disclosure checks passed');
+
+const recordsPage=read("preserved-records/index.html");
+assert(recordsPage.includes("<h1>Preserved City records</h1>"));
+assert(read("sitemap.xml").includes("https://coloradostreetbridgeproject.com/preserved-records/</loc>"));
+for(const item of JSON.parse(read("preserved-records/city-records-manifest.json")))assert(recordsPage.includes(`href="${item.file}"`),item.file+": missing index link");
+for(const page of [...pages.map(p=>p+"index.html"),"preserved-records/index.html"])assert(!/dropbox\.com|In that folder, select/.test(read(page)),page+": obsolete Dropbox destination");

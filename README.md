@@ -10,7 +10,7 @@ The website is titled **Colorado Street Bridge Project Guide**. It is an indepen
 - Alternatives, four attributed City illustrations, earlier research, responses, and evidence limits
 - 71 selected entries for 19 speakers, with an all-speaker selector, topic/year filters, and quotations distinguished from summaries
 - 34 dated meeting records with links to recordings and corresponding documents
-- 8 news and commentary links, plus the preserved City-records folder
+- 8 news and commentary links, plus the preserved City-records collection
 - Search across the guide, with direct entry destinations and a return-to-results link
 
 The full paper, private research archives, and working transcripts are not included. Search covers the guide’s entries, not the contents of linked documents or videos. The larger bridge photograph loads only when opened.
@@ -19,7 +19,7 @@ The full paper, private research archives, and working transcripts are not inclu
 
 The comprehensive research baseline is September 1, 2026, with specific later checks and additions identified in the guide. Each speaker entry describes its quotation or summary provenance and the limits of its timestamp. A listed document is not a claim that it was read in full, and a selected exchange is not a complete record of a speaker’s contributions.
 
-Links open original City records, recordings, publishers, or the existing preserved-records folder. Some sources may require a subscription or become unavailable. Linked and reproduced material retains its original attribution. This repository does not grant a blanket reuse license for third-party material.
+Links open original City records, recordings, publishers, or preserved PDFs hosted on this website. Some sources may require a subscription or become unavailable. Linked and reproduced material retains its original attribution. This repository does not grant a blanket reuse license for third-party material.
 
 Source policy set by the author on September 17, 2026: do not use Pasadena Star-News in this guide or future bridge-paper citations and research. The three former news entries were removed from the guide and search. Do not restore them or substitute other Star-News articles; use original City records or other independently reviewed sources. This exclusion does not apply to Pasadena Now or other publishers. The full paper remains private and must not be added to this repository.
 
@@ -47,7 +47,7 @@ A bounded finishing pass adds Julianna Delgado's full-name and initial variants 
 
 ## Local checks
 
-The build applies a Content Security Policy and `no-referrer` policy to all 15 HTML pages, including the source tables and custom 404. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
+The build applies a Content Security Policy and `no-referrer` policy to all 16 HTML pages, including the source tables and custom 404. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
 
 This policy is delivered in HTML because the current host is GitHub Pages. HSTS, `X-Content-Type-Options`, and clickjacking protection through `frame-ancestors` require HTTP response headers and are not supplied by this change. Branch protections, account two-factor authentication, and registrar controls are separate settings; the presence of this workflow does not itself require a passing check before publishing.
 
@@ -98,3 +98,5 @@ Before printing, guide pages and source tables open their collapsed disclosures;
 A focused editorial correction gives Victor Gordo’s selected entries their meeting-specific role: Councilmember in April 2018 and Mayor in August 2021, November 2023, and July 2024. The speaker selector retains the combined role. Michael Johnson’s regional-effects heading and two nearby background sentences use plain language, shared by the displayed entries and search. The underlying speaker files, quotations, verification notes, source links, and research dates remain unchanged.
 
 The follow-up gives long speaker and topic filters more room and shows the full active selections in wrapping text below the native controls. The funding note explicitly identifies the 2026 project row as the record that does not break down the later spending total. Three entry summaries avoid repeating their adjacent quotation: Wilson’s May 2019 timetable comment, Mermell’s August 2021 return estimate, and Delgado’s January 2024 design objection. Displayed entries and search share these copy edits; source-record files, quotations, timestamps, verification notes, and research dates remain unchanged.
+
+On September 19, 2026, the six previously linked City PDFs were copied unchanged to `preserved-records/`, with a document index at `/preserved-records/`. Meeting, timeline, speaker, and collection links now open the local PDFs or index. A separate `city-records-manifest.json` records their sizes, page counts, and SHA-256 hashes. Original speaker data and document metadata are preserved. Displayed source notes describe the direct PDF links. Dropbox copies and sharing permissions are unchanged, and research verification dates have not advanced.

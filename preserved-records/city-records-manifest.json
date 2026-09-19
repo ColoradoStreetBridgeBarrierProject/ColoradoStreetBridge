@@ -1,0 +1,56 @@
+[
+  {
+    "key": "minutes20170719",
+    "file": "2017-07-19_Public_Safety_Committee_Minutes.pdf",
+    "bytes": 202507,
+    "pages": 4,
+    "sha256": "2c09c98b08ca3586873920ba942e5d0973d0d141d01e26566e451d632425570f",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  },
+  {
+    "key": "minutes20180418",
+    "file": "2018-04-18_Public_Safety_Committee_Minutes.pdf",
+    "bytes": 167249,
+    "pages": 4,
+    "sha256": "ecb03bd2ef8beb4a5482ce3d6726a85b72759904f3059d762dd77adbf900032a",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  },
+  {
+    "key": "minutes20190417",
+    "file": "2019-04-17_Public_Safety_Committee_Minutes.pdf",
+    "bytes": 207037,
+    "pages": 4,
+    "sha256": "cf55e8f7ce6437864699dba4fdd14644eef3fe02d3c6e690443b0d73f28abdb7",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  },
+  {
+    "key": "minutes20190515",
+    "file": "2019-05-15_Public_Safety_Committee_Minutes.pdf",
+    "bytes": 138783,
+    "pages": 3,
+    "sha256": "71ee4dea72687f42dc776a6886ade5066aa35a96df50943e7b0f94b2dcaba627",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  },
+  {
+    "key": "minutes20200203",
+    "file": "2020-02-03_Public_Safety_Committee_Minutes.pdf",
+    "bytes": 1535332,
+    "pages": 3,
+    "sha256": "33085ac4519e63587635477e7bc1fb330b043578cdc878eaa3061452e0ac3d90",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  },
+  {
+    "key": "agenda20200203",
+    "file": "2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf",
+    "bytes": 1218709,
+    "pages": 17,
+    "sha256": "6cc378101567dd59665ddf4bf0d5da8caad9ff01c6d830d3f41818af0d702737",
+    "source": "Preserved copy of an official City of Pasadena record previously linked by this guide.",
+    "preservation": "Original PDF copied without modification."
+  }
+]

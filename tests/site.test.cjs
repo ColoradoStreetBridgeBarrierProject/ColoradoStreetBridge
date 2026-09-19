@@ -19,11 +19,11 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),4);
-// Speaker records remain byte-identical. The resource hash also includes the six approved, document-specific Dropbox folder links.
+// Speaker records remain byte-identical. The resource hash includes the six approved, directly hosted PDF links.
 const preserved={
  'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
  'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'28f0e749eea86846e74eb586186532c2833ac19e011108b5fabd974d5402bba5'
+ 'resources.js':'efe5018a431b6a25ef8f5c2c510b96fadce139f33c216ded7bd6216a07980410'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -39,11 +39,15 @@ for(const [date,source,folderId,kind] of folderCases){
  const record=json(`meetingRecords.find(m=>m.id===${JSON.stringify('meeting-'+date)})`);
  const item=record.links.find(l=>l.source===source);
  assert(item,source+': missing document link');
- assert.equal(item.label,kind==='Minutes'?'Preserved minutes · Dropbox folder':'Preserved agenda packet · Dropbox folder');
+ assert.equal(item.label,kind==='Minutes'?'Preserved minutes · PDF':'Preserved agenda packet · PDF');
  const target=run(`urls[${JSON.stringify(source)}]`),url=new URL(target);
- assert.equal(url.origin,'https://www.dropbox.com');
- assert(url.pathname.startsWith('/scl/fo/'+folderId+'/'),source+': wrong folder');
- assert(url.searchParams.get('rlkey'));assert.equal(url.searchParams.get('dl'),'0');assert(!url.searchParams.has('st'));
+ assert.equal(url.origin,'https://coloradostreetbridgeproject.com');
+ assert.equal(url.pathname,'/preserved-records/'+date+'_Public_Safety_Committee_'+kind+'.pdf');
+ assert.equal(url.search,'');
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/city-records-manifest.json'),'utf8'));
+ const original=manifest.find(r=>r.key===source);
+ assert(original,source+': missing preservation record');
+ assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,'preserved-records',original.file))).digest('hex'),original.sha256);
  folderTargets.add(target);
  const markup=run(`directoryLinks([${JSON.stringify(item)}],${JSON.stringify(record.id)})`);
  assert(markup.includes('href="'+target.replaceAll('&','&amp;')+'"'),source+': wrong rendered target');
@@ -61,7 +65,7 @@ for(const [id,expected] of Object.entries({'kennedy-enclosure':['minutes20200203
  for(const source of expected){
   const target=run('urls['+JSON.stringify(source)+']');
   assert(markup.includes('href="'+target.replaceAll('&','&amp;')+'"'),id+': wrong document destination');
-  assert(!markup.includes(target.replaceAll('&','&amp;')+'#page='),'Folder links must not have PDF page fragments');
+  assert(!markup.includes(target.replaceAll('&','&amp;')+'#page='),'Unspecified page locators must not be invented');
  }
  assert.deepEqual(links.filter(l=>!expected.includes(l.source)),remark.links.filter(l=>l.source!=='dropbox'),'Other source links must remain unchanged');
 }
@@ -168,7 +172,7 @@ for(const item of JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/ma
 assert.equal(index.filter(x=>x.type==='Overview').length,1,'Only the retained short-version card is indexed');
 assert(!index.some(x=>x.title.includes('Three different decisions')),'Removed overview card must not appear in search');
 assert.equal(index.filter(x=>x.type==='Meeting & documents').length,34);
-for(const [q,want] of [['Delgado cacti','delgado-cacti'],['Kennedy','kennedy-review'],['Mermell three months','mermell-return'],['2019 minutes','meeting-2019-05-15'],['Dropbox','source-folder'],['Los Angeles Times','lat-2017'],['Kris','markarian-exhausted']]){
+for(const [q,want] of [['Delgado cacti','delgado-cacti'],['Kennedy','kennedy-review'],['Mermell three months','mermell-return'],['2019 minutes','meeting-2019-05-15'],['Preserved City records','source-folder'],['Los Angeles Times','lat-2017'],['Kris','markarian-exhausted']]){
  const routes=json(`searchIndex().filter(i=>SearchText.score(i,SearchText.terms(${JSON.stringify(q)}))>0).map(i=>i.route)`);assert(routes.some(r=>r.endsWith('/'+want)),q);
 }
 const delgadoRoutes=index.filter(i=>i.route.startsWith('speakers/delgado/')).map(i=>i.route).sort();
