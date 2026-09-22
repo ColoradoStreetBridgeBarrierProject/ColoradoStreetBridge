@@ -18,12 +18,13 @@ for(const name of bundled?['assets/guide.js']:['search.js','speakers.js','other-
 const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.stringify('+code+')'));
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
-assert.equal(run('Object.keys(speakers).length'),4);
-// Speaker records remain byte-identical. The resource hash includes the six approved, directly hosted PDF links.
+assert.equal(run('Object.keys(speakers).length'),8);
+// Reviewed September 22 data: four April summaries, Delgado's display name, and the closed April row check.
+// All 71 earlier remarks and quotations were compared with the prior release and preserved.
 const preserved={
- 'speakers.js':'222eb4f923658b098e7be0b5d8e952447da743fc1a0c6c0c0122612ff7484268',
- 'other-speakers.js':'9dc05b4bf8aee88ae57ba47450ec66b6c03625dcab0fd347b7e3b1dc2d8f544e',
- 'resources.js':'efe5018a431b6a25ef8f5c2c510b96fadce139f33c216ded7bd6216a07980410'
+ 'speakers.js':'03be621eb5dfecf42a02612a31a17ea6e53094eae9e9f0032afcb02c5eca3e4a',
+ 'other-speakers.js':'e6eca0a993f30708e785824531861e97423fb73a2fed1154d04fd68de436e413',
+ 'resources.js':'73c87646822ba1f5745679fa33a2f6fd7d8a7a5fb9f5a8f1de084eaf1b3d61f9'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -77,10 +78,10 @@ for(const source of ['minutes20200203','agenda20200203'])assert(februaryLinks.so
 assert(!februaryLinks.some(l=>l[1]===run('urls.dropbox')));
 
 assert.equal(run('Object.keys(otherSpeakers).length'),15);
-assert.equal(run('speakerEntries().length'),71);
+assert.equal(run('speakerEntries().length'),75);
 assert.equal(run('speakerEntries("other").length'),35);
 const metadata=json('speakerEntries().map(x=>x.remark)'), ids=metadata.map(x=>x.id);
-assert.equal(new Set(ids).size,71);
+assert.equal(new Set(ids).size,75);
 const written=metadata.filter(r=>!r.meeting);assert.equal(written.length,3);
 for(const r of metadata){
  if(r.meeting)assert(r.time.match(/^\d{2}:\d{2}:\d{2}$/),r.id);else assert.equal(r.time,null);
@@ -107,7 +108,7 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
  const html=run(`meetingsView('${year}')`);assert(!html.includes('undefined'));assert.equal((html.match(/class="directory-card"/g)||[]).length,meetings.filter(m=>year==='all'||m.date.startsWith(year)).length);
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,8);
-const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,71);
+const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,75);
 // Match actual DOM textContent: tags alone do not insert spaces.
 const snippetText=html=>run(`SearchText.separateBlocks(${JSON.stringify(html)})`).replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
 assert.equal(snippetText('<p>One.</p><p>Two.</p>'),'One. Two.');
@@ -119,7 +120,7 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,140,'Add the decision-process explanation while keeping the three excluded news entries removed');
+assert.equal(index.length,145,'Add the decision-process explanation while keeping the three excluded news entries removed');
 const processResult=index.find(item=>item.route==='timeline/who-decides');
 assert(processResult&&processResult.title==='Who decides what?');
 assert(run('searchView("who decides")').includes('data-route="timeline/who-decides"'),'A newcomer’s decision-process query must have a useful destination');
@@ -184,7 +185,7 @@ for(const query of ['Julianna Delgado','J. Delgado','J Delgado','Delgado']){
  assert.deepEqual(matches.sort(),delgadoRoutes,'All Delgado name variants must find all four remarks: '+query);
 }
 assert(run('searchView("Julianna Delgado cacti")').includes('delgado-cacti'),'Full name and topic must combine');
-assert(index.filter(i=>i.route.startsWith('speakers/delgado/')).every(i=>i.title.startsWith('J. Delgado · ')),'Search aliases must not rewrite preserved display names');
+assert(index.filter(i=>i.route.startsWith('speakers/delgado/')).every(i=>i.title.startsWith('Julianna Delgado · ')),'Display the full name while retaining the initial-based search aliases');
 assert.equal(index.find(i=>i.route==='evidence/5').title,'What remains unresolved');
 assert.equal(index.find(i=>i.route==='evidence/7').title,'How to use the sources');
 assert(!run('evidence()').includes('<h3>What the record leaves open</h3>'));
@@ -319,7 +320,7 @@ assert(!/data-copy-entry|class="entry-actions"|class="entry-link"|id="copy-statu
 assert(!/data-copy-entry|class="entry-actions"|class="entry-link"|id="copy-status"|>Entry link<|>Copy entry link</.test(fs.readFileSync(path.join(dir,'who-said-what/index.html'),'utf8')),'Static entries must omit sharing controls too');
 assert.equal(run('typeof copyEntryLink'),'undefined');
 assert.equal(run('typeof entryShare'),'undefined');
-assert.equal((html.match(/class="remark-card"/g)||[]).length,71);
+assert.equal((html.match(/class="remark-card"/g)||[]).length,75);
 assert.equal((html.match(/class="directory-card(?: news-card)?"/g)||[]).length,42);
 assert(!excludedPublisher.test(html),'Excluded publisher must not appear in rendered views');
 for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01-09','meeting-2024-01-09'],['speakers/delgado/delgado-cacti','delgado-cacti']]){
@@ -333,7 +334,7 @@ for(const view of ['overview','timeline','alternatives','evidence','speakers','m
  assert(elements.content.innerHTML.includes(view==='overview'?'<h2>':'<h1>'),view+': section heading');
 }
 assert(styleBlock('[hidden]').includes('display: none !important'),'Responsive display rules must not unhide the hero');
-assert(run('speakerView()').includes('All 19 speakers'));
+assert(run('speakerView()').includes('All 23 speakers'));
 assert(run('speakerView("other")').includes('35 entries from 15 people'));
 assert(!run('speakerView("madison")').includes('class="chronology-note"'));
 assert(!run('speakerView("other")').includes('Remarks are included when'));
@@ -363,7 +364,7 @@ for(const r of metadata){
   const excerpt=run(`remarkExcerpt(${JSON.stringify(r)})`);
   assert(excerpt.includes(run(`esc(${JSON.stringify(r.quote)})`)),r.id+': excerpt changed');
   assert.equal(excerpt.includes('<blockquote>'),['Author-confirmed excerpt','Author-checked quotation'].includes(r.kind));
-  assert(excerpt.includes('excerpt-verification'));
+  assert.equal(excerpt.includes('excerpt-verification'),['Author-confirmed excerpt','Author-checked quotation'].includes(r.kind)||['jones-continue','madison-response','gordo-staffing'].includes(r.id),'Only specific verification information repeats beside an excerpt');
  }
 }
 assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('author checked who was speaking and where the passage appears'));
@@ -378,10 +379,10 @@ assert(!run('overview()').includes('More supporting records'),'A single extra so
 assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('In 2018, Pasadena decided to pursue'));
 assert(run('overview()').includes('records reviewed for this guide'));
-console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:19,entries:71,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:(html.match(/data-copy-entry=/g)||[]).length,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
+console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:23,entries:75,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:(html.match(/data-copy-entry=/g)||[]).length,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
 const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
-assert.equal((personOptions.match(/<option /g)||[]).length,20);
+assert.equal((personOptions.match(/<option /g)||[]).length,24);
 assert(run('speakerView("kramer")').includes('1 entry'));
 assert(!run('speakerView("kramer")').includes('1 entries'));
 for(const y of ['2018','2021','2024','2026']){
@@ -417,7 +418,7 @@ assert(run('alternatives("netting")').includes('does not mean a completed design
 assert(run('speakerView()').includes('Not every quoted word was checked against the audio.'));
 assert(!run('speakerView()').includes('official-player passage locator'));
 assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whether deaths move elsewhere');
-assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('starting time in the official recording')),'Search uses the displayed source-note wording');
+assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('The starting time is approximate.')),'Search uses the displayed source-note wording');
 assert(run('meetingsView()').includes('Automatically recognized text may contain errors.'));
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
 assert(tablePage.includes('after costs the City had already agreed to pay'));
@@ -476,7 +477,7 @@ console.log('Search refinement, visible meeting navigation, PDF labels, and narr
 
 // Search keeps metadata and readable source-labeled prose separate.
 const remarkItems=index.filter(item=>item.type==='Selected remark');
-assert.equal(remarkItems.length,71);
+assert.equal(remarkItems.length,75);
 for(const item of remarkItems){
  assert.equal(item.metadata.length,3);
  const preview=json('SearchText.preview('+JSON.stringify(item)+',SearchText.terms('+JSON.stringify(item.title)+'))');
@@ -523,3 +524,33 @@ doc.createElement=()=>({});
 assert.equal(run('openIllustration("canted-webmesh",imageTrigger)'),false,'Unsupported dialog keeps the ordinary link');
 doc.createElement=originalCreateElement;
 console.log('Readable search previews and progressive image-viewer checks passed');
+
+// September 22: expose already reviewed evidence without upgrading its verification scope.
+const aprilEntries=json('speakerEntries("all","all","2026")');
+assert.deepEqual(aprilEntries.map(x=>[x.id,x.remark.time]),[
+ ['hawkesworth','00:08:10'],['devinck','00:09:15'],['cole','01:59:13'],['maue','02:00:24']
+]);
+for(const {remark} of aprilEntries){
+ assert.equal(remark.sortDate,'2026-04-20');
+ assert.equal(remark.body,'Finance Committee / City Council');
+ assert.equal(remark.quote,null);
+ assert.equal(remark.kind,'Discussion summary');
+ assert.equal(remark.topic,'funding');
+}
+const publicSpeakerPage=run('speakerView()');
+assert.equal((publicSpeakerPage.match(/class="source-legend"/g)||[]).length,1);
+assert.equal((publicSpeakerPage.match(/<details class="source-detail">/g)||[]).length,75);
+assert(!publicSpeakerPage.includes('<option value="2025"'),'Do not offer an empty year');
+assert(publicSpeakerPage.includes('Julianna Delgado'));
+for(const phrase of ['retained in','sent account','reviewed source note']){
+ assert(!publicSpeakerPage.includes(phrase),phrase+': internal language exposed');
+ assert(!index.filter(x=>x.type==='Selected remark').some(x=>x.text.includes(phrase)),phrase+': internal search text exposed');
+}
+const localCountMarkup=run('localCounts()');
+assert.equal((localCountMarkup.match(/<table /g)||[]).length,2);
+for(const [period,value] of [['2015',4],['2016',2],['2017',10],['2018',4],['2019',1],['2020',0],['2021 through June 13 only',1],['2022',4],['2023 as of the November 15 meeting',2]])assert(localCountMarkup.includes('<th scope="row">'+period+'</th><td>'+value+'</td>'));
+for(const phrase of ['nine deaths in 2017','not a full-year 2021 count','missing years as zero','separate incident categories','00:25:22','00:56:12'])assert(localCountMarkup.includes(phrase));
+assert(run('evidence()').indexOf('id="local-counts"')<run('evidence()').indexOf('id="research"'));
+assert(index.some(x=>x.route==='evidence/9'));
+assert(!run('meetingsView()').includes('exact row association still needs visual verification'));
+console.log('September 22 reader-facing evidence and scope checks passed');

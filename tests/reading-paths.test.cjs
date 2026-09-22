@@ -21,7 +21,7 @@ for(const topic of ['netting','landscaping','staffing','technology']){
 assert(!run('speakerView("all","effectiveness")').includes('data-route="alternatives/effectiveness"'),'Do not invent a topic page');
 const entries=json('speakerEntries()'),records=json('meetingRecords');
 const matches=records.filter(record=>entries.some(({remark})=>remark.sortDate===record.date&&remark.body===record.body));
-assert.equal(matches.length,8);
+assert.equal(matches.length,9);
 let matchedEntries=0;
 for(const record of records){
   const expected=entries.filter(({remark})=>remark.sortDate===record.date&&remark.body===record.body);
@@ -35,7 +35,7 @@ for(const record of records){
     assert(run('meetingDocumentsLink('+JSON.stringify(remark)+')').includes('data-route="meetings/'+record.id+'"'));
   }
 }
-assert.equal(matchedEntries,70);
+assert.equal(matchedEntries,74);
 const interview=entries.find(({remark})=>remark.body==='Published interview').remark;
 assert.equal(run('meetingDocumentsLink('+JSON.stringify(interview)+')'),'','An interview is not a City meeting');
 assert.equal(run('meetingRecordFor({sortDate:"2024-07-17",body:"City Council"})'),null,'Date alone must not match');
@@ -43,15 +43,15 @@ run('meetingRecords.push({...meetingRecords.find(m=>m.id==="meeting-2024-07-17")
 assert.equal(run('meetingRecordFor({sortDate:"2024-07-17",body:"Public Safety Committee"})'),null,'An ambiguous match must not generate a link');
 run('meetingRecords.pop()');
 const who=read('who-said-what/index.html');
-assert(who.includes('Jump to a date (9)'));
+assert(who.includes('Jump to a date (10)'));
 assert(who.includes('aria-label="Selected dates"'));
 assert(who.includes('Published interview (1)'));
 assert(!who.includes('Jump to a meeting'));
 assert(!who.includes('Choose another meeting'));
-assert.equal((who.match(/class="meeting-record-link"/g)||[]).length,8);
-assert.equal((read('meetings-and-documents/index.html').match(/class="record-related"/g)||[]).length,8);
+assert.equal((who.match(/class="meeting-record-link"/g)||[]).length,9);
+assert.equal((read('meetings-and-documents/index.html').match(/class="record-related"/g)||[]).length,9);
 for(const topic of ['netting','landscaping','staffing','technology'])assert(read('alternatives-studied/'+topic+'/index.html').includes('data-route="speakers/all?topic='+topic+'"'));
 const css=read('styles.css');
 assert(/\.related-reading a, \.meeting-record-link, \.record-related a\s*\{[^}]*min-height:\s*44px/.test(css));
 assert(/\.filter-actions\s*\{[^}]*flex-wrap:\s*wrap/.test(css));
-console.log(JSON.stringify({mode:process.argv.includes('--bundle')?'bundle':'source',topicPaths:4,matchedMeetings:8,matchedEntries,publishedInterviewsUnmatched:1,checks:'topic round trips, exact date/body matching, ambiguity guard, selected-exchange counts, valid destinations, accurate date index, and touch-size guards passed'}));
+console.log(JSON.stringify({mode:process.argv.includes('--bundle')?'bundle':'source',topicPaths:4,matchedMeetings:9,matchedEntries,publishedInterviewsUnmatched:1,checks:'topic round trips, exact date/body matching, ambiguity guard, selected-exchange counts, valid destinations, accurate date index, and touch-size guards passed'}));

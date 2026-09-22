@@ -54,7 +54,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   const previous=base+'who-said-what/';
   app.context.location=new URL(previous);app.events.popstate();
   assert.equal(app.run('readRoute().view'),'speakers','Back/forward must read the pathname');
-  assert.equal((app.nodes.content.innerHTML.match(/class="remark-card"/g)||[]).length,71);
+  assert.equal((app.nodes.content.innerHTML.match(/class="remark-card"/g)||[]).length,75);
   const beforeClick=app.context.location.href;
   app.events.click({ctrlKey:true,target:{closest(){throw new Error('Modified click was intercepted');}}});
   assert.equal(app.context.location.href,beforeClick);
@@ -63,7 +63,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Last updated September 19, 2026'));
+assert(overview.includes('Last updated September 22, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -120,7 +120,7 @@ const removedRoute=load('https://coloradostreetbridgeproject.com/#changes',overv
 assert.equal(removedRoute.run('readRoute().view'),'overview','Old hash links must not render the removed page');
 assert.equal(removedRoute.run('Object.hasOwn(sectionPaths,"changes")'),false);
 assert.equal(removedRoute.run('typeof changesView'),'undefined');
-assert.equal((who.match(/class="remark-card"/g)||[]).length,71);
+assert.equal((who.match(/class="remark-card"/g)||[]).length,75);
 assert.equal((read('meetings-and-documents/index.html').match(/class="directory-card"/g)||[]).length,34);
 assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,8);
 for(const page of pages)assert(!/star[\s\u2010-\u2015-]*news|pasadenastarnews|psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': excluded publisher returned');
@@ -183,7 +183,7 @@ metadataApp.context.location=new URL('https://coloradostreetbridgeproject.com/al
 assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of patrols, staffing costs, response time, and the limits of continuous coverage.','Colorado Street Bridge Project Guide | Staffing & patrols','https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');
 assert.equal((alternatives.match(/class="approach-card"/g)||[]).length,4);
 assert(!alternatives.includes('aria-current="page">Horizontal netting'),'Overview must not silently select one alternative');
-assert.equal((who.match(/class="earlier-work"/g)||[]).length,71,'Keep every earlier-work passage in an accessible disclosure');
+assert.equal((who.match(/class="earlier-work"/g)||[]).length,75,'Keep every earlier-work passage in an accessible disclosure');
 assert(who.includes('Jump to a date'));
 assert(!who.includes('for this website update'),'Routine update history belongs in the internal handoff');
 assert(!who.includes('No new listening'));

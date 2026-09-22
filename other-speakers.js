@@ -2,7 +2,7 @@
 // Roles identify the period of these remarks, not current officeholders.
 const otherSpeakers = {
   "delgado": {
-    "name": "J. Delgado",
+    "name": "Julianna Delgado",
     "role": "Design Commission chair",
     "remarks": [
       {

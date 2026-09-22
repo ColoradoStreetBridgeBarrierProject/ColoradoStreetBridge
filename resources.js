@@ -641,7 +641,7 @@ const meetingRecords = [
         "url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-04-20-Finance-Committee-and-or-City-Council-Agenda-Supplemental-Correspondence-Item-1-FY26-CIP-Available-Balance.pdf#page=2"
       }
     ],
-    "note": "Relevant parts of the recording begin around 00:08:10, 00:09:15, 01:59:13, and 02:00:24. The records reviewed do not fully explain which funding program was discussed, the amount under consideration, or how much the City would need to contribute. It has not been visually confirmed which project row the note on the supplemental sheet refers to.",
+    "note": "Relevant parts of the recording begin around 00:08:10, 00:09:15, 01:59:13, 02:00:24, 02:00:54, and 02:01:11. Visual review on September 21, 2026 confirmed that the $1,336,791 available balance and $4.5 million federal-earmark shortlist note belong to Bridge project 73324. The records do not identify the federal program, establish the required matching amount, or explain the available-balance calculation. The dated balance is not a statement of money available today.",
     "kind": "Funding discussion"
   },
   {
