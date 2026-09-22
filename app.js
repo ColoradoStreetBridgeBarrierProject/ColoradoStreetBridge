@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-19',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-09-22',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -32,6 +32,7 @@ const urls = {
   ocr2022: 'https://coloradostreetbridgeproject.com/preserved-records/2022-09-21-searchable.pdf',
   hpc2021: 'https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-04-20-Historic-Preservation-Commission-Minutes.pdf#page=2',
   v2026: 'https://pasadena.granicus.com/MediaPlayer.php?clip_id=8492&view_id=35',
+  balance2026: 'https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-04-20-Finance-Committee-and-or-City-Council-Agenda-Supplemental-Correspondence-Item-1-FY26-CIP-Available-Balance.pdf',
   project: 'https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/',
   rfp: 'https://www.cityofpasadena.net/city-manager/wp-content/uploads/sites/2/2023-02-09-CM-Weekly-Newsletter.pdf#page=2',
   hemmer: 'https://doi.org/10.1371/journal.pone.0169625',
@@ -256,8 +257,15 @@ function alternatives(key){
   return head('03',esc(t.name),esc(topicIntroductions[key]))+`<p class="quick-links"><a href="${esc(routeHref('alternatives'))}" data-route="alternatives">← All barrier designs and alternatives</a></p><article class="topic-answer"><h3 id="topic-title" class="scroll-focus" tabindex="-1">${esc(t.title.replace(/\.$/,''))}</h3><p>${esc(t.answer)}</p></article><div class="topic-layout">${navigation}<div class="topic-main">${steps(t.steps)}<div class="note"><p><strong>Findings and limits</strong></p><p>${esc(t.limit)}</p>${citations(t.limitPage,t.limitRefs)}</div>${topicExchangeLink(key)}</div></div>`;
 }
 
+function localCounts(){return `<section class="evidence-section" id="local-counts" tabindex="-1"><h2>What the local death counts show</h2><article data-evidence-id="9" class="feature-card wide"><h3>Available counts, with gaps and partial years</h3><p>The available figures do not give a complete total since the full-length temporary fence was installed in September 2018. The police table and later oral updates cover different periods and are shown separately below.</p>
+<table class="local-counts-table"><caption>Police Department table presented August 18, 2021</caption><thead><tr><th scope="col">Year or period</th><th scope="col">Deaths</th></tr></thead><tbody><tr><th scope="row">2015</th><td>4</td></tr><tr><th scope="row">2016</th><td>2</td></tr><tr><th scope="row">2017</th><td>10</td></tr><tr><th scope="row">2018</th><td>4</td></tr><tr><th scope="row">2019</th><td>1</td></tr><tr><th scope="row">2020</th><td>0</td></tr><tr><th scope="row">2021 through June 13 only</th><td>1</td></tr></tbody></table>
+<p class="quiet">The table covers January 1, 2015 through June 13, 2021. Another contemporaneous City account reported nine deaths in 2017, rather than ten. That difference remains unexplained. The 2018 figure covers time both before and after full-length fencing. The final row is not a full-year 2021 count.</p><p>${link('2021 staff report · Police tables · p. 2',urls.r2021+'#page=2')} ${link('Transcribed death and incident tables',urls.transcriptions+'#police-2021')}</p>
+<table class="local-counts-table"><caption>Separate oral update at Public Safety on November 15, 2023</caption><thead><tr><th scope="col">Year or period reported</th><th scope="col">Deaths reported</th></tr></thead><tbody><tr><th scope="row">2022</th><td>4</td></tr><tr><th scope="row">2023 as of the November 15 meeting</th><td>2</td></tr></tbody></table>
+<p>Police Lieutenant Brad May reported these figures and distinguished deaths from attempts. Public Works Director Tony Olmos later repeated them and specified that they concerned the bridge.</p><p>${link('May’s oral update · go to 00:25:22',urls.v2023)} ${link('Olmos’s clarification · go to 00:56:12',urls.v2023)}</p>
+<p class="quiet">The oral figures and approximate times were previously checked against the official recording. They are not a reconciled annual dataset. The reviewed records do not supply the rest of 2021 or complete counts for 2023–2026. Do not combine these fragments into a complete “since the fence” total, treat missing years as zero, or use the table alone to measure the fence’s effect. Death counts and the report’s separate incident categories should not be added together.</p></article></section>`;}
+
 function evidence(){return head('04','What does the evidence tell us?','Read the prevention studies, local surveys, and financial records, with the limits of each.')+`
-  <nav class="section-jumps" aria-label="On this page"><a href="${esc(routeHref('evidence/research'))}" data-route="evidence/research">Research findings</a><a href="${esc(routeHref('evidence/design-criteria'))}" data-route="evidence/design-criteria">Design questions</a><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">Local surveys</a><a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">Funding and schedule</a><a href="${esc(routeHref('evidence/unresolved'))}" data-route="evidence/unresolved">Unresolved questions</a><a href="${esc(routeHref('evidence/sources'))}" data-route="evidence/sources">Using the sources</a></nav>
+  <nav class="section-jumps" aria-label="On this page"><a href="${esc(routeHref('evidence/local-counts'))}" data-route="evidence/local-counts">Local death counts</a><a href="${esc(routeHref('evidence/research'))}" data-route="evidence/research">Research findings</a><a href="${esc(routeHref('evidence/design-criteria'))}" data-route="evidence/design-criteria">Design questions</a><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">Local surveys</a><a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">Funding and schedule</a><a href="${esc(routeHref('evidence/unresolved'))}" data-route="evidence/unresolved">Unresolved questions</a><a href="${esc(routeHref('evidence/sources'))}" data-route="evidence/sources">Using the sources</a></nav>${localCounts()}
   <div class="evidence-copy"><section class="evidence-section" id="research" tabindex="-1"><h2>What prevention research supports</h2><article data-evidence-id="1" class="feature-card lead"><span class="pill">Why a barrier can help</span><h3>A barrier can create time</h3><p>The research describes how interrupting access can allow an immediate crisis to ease or create an opportunity for intervention. The Clifton Suspension Bridge study reported fewer deaths and staff accounts of more time to intervene, even without fewer incidents.</p><p class="quiet">Clifton also used cameras and patrols, so the study cannot show that extra time alone explained the results. Research on how long a crisis lasts also does not give one timeline that applies to everyone.</p>${citations(18,'19, 29',[['Bennewith, Nowers & Gunnell · 2011 · European Journal of Public Health',urls.clifton],['2024 presentation · p. 43',urls.p2024+'#page=43']])}</article>
 <article data-evidence-id="2" class="feature-card"><span class="pill">Would deaths move elsewhere?</span><h3>Deaths do not necessarily move to another site</h3><p>The research summarized here challenges the assumption that restricting one site simply moves every death elsewhere. Longer follow-up can also change an initial finding, as it did at Toronto’s Bloor Viaduct.</p><p class="quiet">The 2025 review combined results from several studies. It found no clear increase at other sites and fewer deaths using the same method overall. It did not detect a reduction across all suicide methods combined, and some comparison-site data were limited.</p>${citations(32,'30',[['2025 review',urls.too]])}</article></section>
 <section class="evidence-section" id="design-criteria" tabindex="-1"><h2>What the research does not decide about Pasadena’s design</h2><article data-evidence-id="3" class="feature-card"><span class="pill">Local design choice</span><h3>Research does not identify one best design for every bridge</h3><p>The Swiss study cited in the early City presentations grouped complete vertical barriers and nets together. It did not establish that one type was more effective than the other.</p><p class="quiet">Pasadena’s preference also reflected its own assessment of architecture, engineering, and emergency-services concerns. The 2024 netting assessment still had unfinished engineering work.</p>${citations(26,'5, 16–17',[['Swiss study',urls.hemmer],['Preliminary assessment · p. 37',urls.p2024+'#page=37']])}</article>
@@ -400,39 +408,54 @@ function sourceType(remark){
   if(/transcript/i.test(remark.kind))return 'Working-transcript excerpt';
   return 'Quotation';
 }
-function readableSourceNote(note){
-  return note
-    .replaceAll('The Dropbox link opens the preserved-record folder, not a specific PDF.','The source link opens the preserved minutes PDF directly.')
-    .replaceAll('The Dropbox link opens the preserved-record folder.','The source links open the preserved minutes PDFs directly.')
-    .replaceAll('This website update did not add a new word-for-word listening check.','')
-    .replaceAll('This is not a verbatim quotation or a new listening check.','This is a discussion summary, not a verbatim quotation.')
-    .replaceAll('This website presents a summary and performed no new listening.','This entry summarizes the discussion.')
-    .replaceAll('This was not a new full-presentation or audio verification.','This excerpt does not represent a review of the full presentation.')
-    .replace(/(?:retained )?Source (\d+)/g,(_,n)=>sourceRecords[n]?sourceRecords[n][0].replaceAll(' · ', ', '):'the supporting record')
-    .replaceAll('retained research account','underlying research')
-    .replaceAll('sent research account and source note','underlying recording research')
-    .replaceAll('The player locators are inherited at their documented scope.','The times locate the surrounding passages.')
-    .replaceAll('Discussion summary carried from the retained source note and supporting record.','Summary of the linked discussion.')
-    .replaceAll('Inherited original-minutes reading','Reading of the original committee minutes')
-    .replaceAll('Inherited reading of','Reading of')
-    .replaceAll('official-player passage locator','starting time in the official recording')
-    .replaceAll('official-player locator','time in the official recording')
-    .replaceAll('passage locator','starting time for the discussion')
-    .replaceAll('player locator','time in the recording')
-    .replaceAll('speaker handoffs','changes of speaker')
-    .replaceAll('locators','times')
-    .replaceAll('not an exact utterance boundary','not the exact start of the quoted words')
-    .replace(/(?:No new listening check was performed for this website\.|No new listening was performed for this website\.|No fresh listening was performed\.|No new listening was performed\.|This website did not perform new listening\.|No new word-for-word listening check was performed for this website\.)/g,'')
-    .replace(/\s+/g,' ').trim();
+// Plain-language notes preserve each check's scope without exposing research bookkeeping.
+const publicSourceNotes=Object.freeze({
+  'madison-2018-motion':'The official Council minutes, page 5, document the action. The time marks the motion-and-approval sequence, not a verbatim statement by Madison.',
+  'madison-safety':'The time marks the start of the surrounding discussion, not necessarily the quoted words.',
+  'madison-response':'The author checked the changes of speaker and approximate times against the video. The displayed time starts Madison’s passage, not the quoted phrase. Not every quoted word was checked against the audio.',
+  'gordo-decoupling':'This is Gordo’s interpretation of the local record, not a causal estimate. The time locates the surrounding discussion.',
+  'gordo-staffing':'The author checked the changes of speaker and approximate times against the video, not every quoted word. The amount mentioned was not an approved staffing budget.',
+  'gordo-rescue-clarification':'Summary of the City-caption exchange around 01:08:36–01:09:40, where the next speaker is addressed as mayor. These times come from captions, not a separate check of the audio.',
+  'hampton-2018-action':'The official Council minutes, page 5, document the request and second. The time locates the motion-and-approval sequence, not Hampton’s separate temporary-fencing request.',
+  'hampton-right':'The time locates the surrounding discussion. The phrase alone does not establish that the requested consideration was redundant.',
+  'hampton-urgency':'Working-transcript wording. The minutes also document the request. The time marks the surrounding discussion.',
+  'hampton-cushion':'Discussion summary. The time marks the surrounding follow-up. The May 2026 equipment list is a separate written record, not a new equipment inspection or an answer to the capacity question.',
+  'jones-continue':'Words from the City’s video captions. The author checked the speaker, passage, and approximate time against the recording. Caption times differ slightly.',
+  'jones-design':'The author checked the 01:18:55–01:19:30 passage against the official recording. The excerpt is a continuous portion of that passage.',
+  'delgado-cacti':'Working-transcript excerpt from the January 9 discussion, with earlier listening notes. The responding voice is not identified as staff or a consultant.',
+  'kennedy-review':'The brief quotation is presented with Kennedy’s support for narrowing the options and setting a timetable, not as a complete statement of his position.',
+  'kennedy-staffing':'The time locates the surrounding discussion. These selected remarks do not identify a private motive or measure how much delay any individual caused.',
+  'kennedy-enclosure':'Summary of the City Clerk-supplied February 3, 2020 minutes, pages 2–3. No recording was recovered. The source link opens the minutes PDF.',
+  'tornek-consensus':'Quoted wording from the April 2018 working transcript. The time marks the surrounding passage in the official recording.',
+  'tornek-urgency':'Summary of the April 17 and May 15, 2019 committee minutes. No recording was available for these exchanges. The links open the two minutes PDFs.',
+  'wilson-timetable':'The written Council report supports the schedule and contract changes. The recording time marks the surrounding quoted passage.',
+  'markarian-procurement':'The author checked 00:14:14–00:14:32 against the official recording. This summary covers the procurement and fabrication issues discussed in that passage.',
+  'markarian-buys-time':'The author checked this phrase in the November 2023 recording. The time is approximate.',
+  'markarian-structural':'The author checked 00:27:24–00:27:57 against the official recording. The summary preserves the unfinished connections and need for further study.',
+  'mermell-opening':'Short quotation from the opening discussion, also checked in the City-hosted captions. The recording time is approximate.',
+  'olmos-next-steps':'The author checked the speaker and approximate time for the 01:02:09 closing proposal against the official recording.',
+  'olmos-pause':'The author checked the change of speaker and approximate time against the November 2023 recording. This entry summarizes the discussion.',
+  'olmos-health':'The author checked the change of speaker and approximate time against the November 2023 recording. This entry summarizes the discussion.',
+  'augustin-cushion':'Summary of the recorded discussion and local operating limits. The May 2026 equipment list is a separate written record, not proof that the 2024 question was answered.',
+  'kramer-education':'The phrase was checked in selected City-hosted captions. The time locates the surrounding passage. This does not claim a full presentation or audio check.',
+  'mossman-preservation':'Summary of the June 18, 2018 Los Angeles magazine interview, read as text. The August 2021 minutes and Winter 2026 column are separate written sources. No recording time is claimed.'
+});
+function readableSourceNote(note,remark={}) {
+  if(publicSourceNotes[remark.id])return publicSourceNotes[remark.id];
+  if(note.startsWith('Excerpt read in the preserved City-hosted captions'))return 'City-hosted captions. The time marks the approximate discussion start.';
+  if(note.startsWith('Wording from the preserved working transcript'))return 'Working-transcript wording. The time marks the approximate discussion start.';
+  if(note.startsWith('Summary of the recorded discussion retained')||note.startsWith('Discussion summary carried'))return 'Summary of the linked official recording, not a verbatim quotation. The starting time is approximate.';
+  return note;
 }
+function sourceLegend(){return `<details class="source-legend"><summary>What the source labels mean</summary><dl><dt>Quotation</dt><dd>Selected quoted words. The entry’s source note identifies any specific recording check.</dd><dt>Caption excerpt</dt><dd>Words from City-hosted video captions, with punctuation and capitalization adjusted for reading. A caption excerpt is not automatically a word-for-word audio check.</dd><dt>Working-transcript excerpt</dt><dd>Words from a working transcript. Any separate recording check is stated in the entry.</dd><dt>Discussion or written-record summary</dt><dd>A paraphrase of the linked recording or written record, not the speaker’s exact words.</dd></dl><p>Times locate approximately where a discussion starts. Open the recording and move to the displayed time. Recording checks apply only to the passages and details stated in the entry.</p></details>`;}
 function remarkExcerpt(remark) {
   if(!remark.quote)return '';
   const verified=['Author-confirmed excerpt','Author-checked quotation'].includes(remark.kind);
-  let verification=verified?'Previously checked against the recording.':'See the source note for verification details.';
+  let verification=verified?'Checked against the recording.':'';
   if(remark.id==='jones-continue')verification='Words from the City’s video captions. The author checked who was speaking and where the passage appears in the recording.';
   if(['madison-response','gordo-staffing'].includes(remark.id))verification='The author checked who was speaking and where the exchange appears in the recording. Not every quoted word was checked against the audio.';
   const text=`“${esc(remark.quote)}”`;
-  return (verified?`<blockquote><p>${text}</p></blockquote>`:`<p class="remark-excerpt">${text}</p>`)+`<p class="excerpt-verification">${esc(verification)}</p>`;
+  return (verified?`<blockquote><p>${text}</p></blockquote>`:`<p class="remark-excerpt">${text}</p>`)+(verification?`<p class="excerpt-verification">${esc(verification)}</p>`:'');
 }
 function remarkCard(key, person, remark) {
   remark=readableRemark(remark);
@@ -450,8 +473,8 @@ function remarkCard(key, person, remark) {
       ${outcome.event?`<div><dt>What followed</dt><dd>${esc(outcome.event)}</dd></div>`:''}
     </dl>
     <details class="exchange-records"><summary>Sources for this entry</summary><ul>${remarkLinks(remark)}</ul></details>
-    <details class="source-detail"><summary>Source and verification</summary><p>${esc(readableSourceNote(remark.basis))}</p></details>
-  </article>`;
+    <details class="source-detail"><summary>Source and verification</summary><p>${esc(readableSourceNote(remark.basis,remark))}</p></details>
+  </article>`.replace(/^[\t ]+$/gm,'');
 }
 function speakerEntries(key='all', topic='all', year='all') {
   return Object.entries(speakerDirectory).filter(([id])=>key==='all'||key===id||(key==='other'&&Object.hasOwn(otherSpeakers,id)))
@@ -489,12 +512,12 @@ function speakerView(key='all', topic='all', year='all') {
   }
   return head('05','Questions, answers, and decisions','Read selected exchanges in date order, with their background, responses, and supporting records.')+`
     <div class="filter-bar scroll-focus" id="speaker-controls" tabindex="-1" aria-label="Speaker filters">
-    <div class="speaker-filter speaker-filter-person"><label for="speaker-person">Choose a speaker</label><select id="speaker-person"><option value="all">All 19 speakers</option>${key==='other'?'<option value="other" selected>Other speakers (legacy selection)</option>':''}${Object.entries(speakerDirectory).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([id,p])=>`<option value="${id}" ${id===key?'selected':''}>${esc(p.name)} · ${esc(speakerRole(p))}</option>`).join('')}</select></div>
+    <div class="speaker-filter speaker-filter-person"><label for="speaker-person">Choose a speaker</label><select id="speaker-person"><option value="all">All ${Object.keys(speakerDirectory).length} speakers</option>${key==='other'?'<option value="other" selected>Other speakers (legacy selection)</option>':''}${Object.entries(speakerDirectory).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([id,p])=>`<option value="${id}" ${id===key?'selected':''}>${esc(p.name)} · ${esc(speakerRole(p))}</option>`).join('')}</select></div>
     <div class="speaker-filter speaker-filter-topic"><label for="speaker-topic">Follow a topic</label><select id="speaker-topic">${Object.keys(speakerTopics).map(id=>`<option value="${id}" ${id===topic?'selected':''}>${esc(speakerTopicLabel(id))}</option>`).join('')}</select></div>
     <div class="speaker-filter speaker-filter-year"><label for="speaker-year">Choose a year</label><select id="speaker-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select></div></div>
     <p class="filter-actions">${activeFilters.length?`<span class="active-filter-summary">Showing: ${esc(activeFilters.join(' · '))}</span><a href="${esc(routeHref('speakers'))}" data-route="speakers">Clear filters</a>`:''}${Object.hasOwn(topics,topic)?`<a href="${esc(routeHref('alternatives/'+topic))}" data-route="alternatives/${esc(topic)}">Read the ${esc(topics[topic].name.toLowerCase())} overview →</a>`:''}</p>
     ${groups.length>1?`<section class="meeting-jumps scroll-focus" id="meeting-index" tabindex="-1" aria-labelledby="meeting-index-heading"><h2 id="meeting-index-heading">Jump to a date (${groups.length})</h2><nav aria-label="Selected dates">${groups.map(g=>{const entry=g.items[0];const params=new URLSearchParams();if(topic!=='all')params.set('topic',topic);if(year!=='all')params.set('year',year);const route='speakers/'+key+'/'+entry.remark.id+(params.toString()?'?'+params:'');return `<a href="${esc(routeHref(route))}" data-route="${esc(route)}">${esc(g.date)} · ${esc(g.body)} (${g.items.length})</a>`;}).join('')}</nav></section>`:''}
-    <p class="locator-note">The roles shown are the ones people held at the time, not necessarily their current positions.</p>
+    <p class="locator-note">The roles shown are the ones people held at the time, not necessarily their current positions.</p>${sourceLegend()}
     <div class="speaker-heading"><h2>${esc(name)}</h2><p role="status">${countLabel(entries.length)} · oldest first</p></div>
     ${key==='other'?'<p class="locator-note">35 entries from 15 people in the former “Other speakers” group.</p>':''}
     ${key==='all'?'<p class="locator-note">These are selected exchanges, not a complete record of anyone’s contributions. Remarks are included when they bear on a decision, an alternative, or the schedule, whether they support or challenge this guide’s reading of the record.</p>':''}
@@ -566,7 +589,7 @@ function searchIndex() {
   result.push({type:'Project process',title:decisionProcess.title,text:[decisionProcess.intro,...decisionProcess.roles.flat(),decisionProcess.remaining,decisionProcess.status].join(' '),route:'timeline/who-decides'});
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
-  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.map(readableRemark).forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Earlier work',text:r.earlier},{label:'Response and context',text:r.response},{label:'What followed',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source and verification',text:readableSourceNote(r.basis)}],route:'speakers/'+key+'/'+r.id}));
+  for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.map(readableRemark).forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis,r)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Earlier work',text:r.earlier},{label:'Response and context',text:r.response},{label:'What followed',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source and verification',text:readableSourceNote(r.basis,r)}],route:'speakers/'+key+'/'+r.id}));
   meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source collection',title:'Preserved City records',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});

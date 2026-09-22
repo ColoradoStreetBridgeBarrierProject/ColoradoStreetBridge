@@ -7,9 +7,78 @@ const speakerTopics = {
   "landscaping": "Landscaping",
   "netting": "Netting and rescue",
   "technology": "Technology",
-  "effectiveness": "Effectiveness and substitution"
+  "effectiveness": "Effectiveness and substitution",
+  "funding": "Funding and project costs"
 };
 const speakers = {
+  "hawkesworth": {
+    "name": "Matt Hawkesworth",
+    "role": "Acting city manager",
+    "remarks": [{
+      "id": "hawkesworth-bridge-funds",
+      "title": "Considering other uses for unspent Bridge money",
+      "meeting": "v2026", "time": "00:08:10", "topic": "funding", "quote": null,
+      "context": "Hawkesworth raised the possibility of redirecting unspent Bridge money to other priorities. He also said the City had made a shortlist for a possible $4.5 million federal earmark in the next budget cycle.",
+      "earlier": "The Council had funded the design-phase project. Two approved transfers in 2025 had reduced its budget to $2,874,000. Construction required separate funding.",
+      "response": "Public Works Director Greg de Vinck responded that redirecting the remaining money would leave the City without the matching funds needed for the shortlisted application. This exchange discussed a possible reallocation, not an adopted decision to abandon the project.",
+      "outcome": "The records reviewed do not identify April’s federal program or reconcile its $4.5 million with Rep. Chu’s separate $4 million disclosure.",
+      "links": [{"label":"de Vinck’s response","source":"v2026","time":"00:09:15"},{"label":"Available-balance sheet","source":"balance2026","page":2},{"label":"Approved budget and transfers","source":"fundingRecords"}],
+      "refs": "31, 41", "kind": "Discussion summary",
+      "basis": "Summary of the official recording. The speaker and approximate starting time were checked in the earlier April recording review. The shortlist was not a funding award.",
+      "sortDate": "2026-04-20", "date": "April 20, 2026", "body": "Finance Committee / City Council"
+    }]
+  },
+  "devinck": {
+    "name": "Greg de Vinck",
+    "role": "Public Works director",
+    "remarks": [{
+      "id": "devinck-matching-funds",
+      "title": "Explaining why the remaining money mattered to a funding application",
+      "meeting": "v2026", "time": "00:09:15", "topic": "funding", "quote": null,
+      "context": "de Vinck described a shortlisted grant application and said redirecting the Bridge money would leave Pasadena without the required matching funds.",
+      "earlier": "Hawkesworth had just raised possible reallocation and described a $4.5 million federal earmark shortlist. The existing project budget covered design-phase work, not a funded construction contract.",
+      "response": "The April available-balance sheet associates project 73324 with $1,336,791 and a note about retaining funds for a match and final design. It does not identify the federal program, establish the required matching amount, or explain how the balance was calculated.",
+      "outcome": "The funding-program linkage and project-level balance calculation remain unresolved.",
+      "links": [{"label":"Hawkesworth’s preceding discussion","source":"v2026","time":"00:08:10"},{"label":"Available-balance sheet","source":"balance2026","page":2},{"label":"Design and construction explanation","source":"v2026","time":"02:00:24"}],
+      "refs": "31", "kind": "Discussion summary",
+      "basis": "Summary of the official recording, using the earlier checked speaker and approximate starting time. The balance-sheet row was visually verified on September 21, 2026. Its amount is a dated report figure, not a current available balance.",
+      "sortDate": "2026-04-20", "date": "April 20, 2026", "body": "Finance Committee / City Council"
+    }]
+  },
+  "cole": {
+    "name": "Rick Cole",
+    "role": "Councilmember",
+    "remarks": [{
+      "id": "cole-spending-and-completion",
+      "title": "Asking what had been spent and what the remaining money would finish",
+      "meeting": "v2026", "time": "01:59:13", "topic": "funding", "quote": null,
+      "context": "Cole asked how much Pasadena had already spent and whether the remaining money would pay for a completed barrier.",
+      "earlier": "The meeting’s earlier discussion had addressed possible reallocation and matching funds. The design-phase account also covered earlier fencing, maintenance, mockups, environmental assessment, and outreach, not only architects’ fees.",
+      "response": "City Engineer Brent Maue explained that the remaining money was expected to finish design, not construction. Staff described about $1.5 million spent, about $1.3 million remaining for design, and a separate construction estimate of roughly $4 million.",
+      "outcome": "This exchange distinguished the design account from the additional money needed to build the barrier.",
+      "links": [{"label":"Maue’s explanation","source":"v2026","time":"02:00:24"},{"label":"Construction estimate","source":"v2026","time":"02:00:54"},{"label":"Earlier account uses","source":"r2021","page":5}],
+      "refs": "9, 31", "kind": "Discussion summary",
+      "basis": "Summary of the official recording. Speaker assignments and the approximate starting times come from the earlier checked April passages. The rounded oral figures are not a project-accounting reconciliation.",
+      "sortDate": "2026-04-20", "date": "April 20, 2026", "body": "Finance Committee / City Council"
+    }]
+  },
+  "maue": {
+    "name": "Brent Maue",
+    "role": "City engineer",
+    "remarks": [{
+      "id": "maue-design-not-construction",
+      "title": "Distinguishing the cost of finishing design from building the barrier",
+      "meeting": "v2026", "time": "02:00:24", "topic": "funding", "quote": null,
+      "context": "Maue said the remaining balance was expected to finish design, not build the permanent barrier. He then gave a construction estimate of roughly $4 million at 02:00:54 and discussed the $4.5 million shortlist at 02:01:11.",
+      "earlier": "Cole had asked whether the money left in the project account would deliver a finished barrier. Earlier in the meeting, staff had raised the need to retain matching funds.",
+      "response": "The design balance, construction estimate, and possible federal funding were different amounts at different stages. The reviewed records do not identify April’s federal program or establish that its $4.5 million was the same request as Rep. Chu’s published $4 million request.",
+      "outcome": "A later House committee report recommended $1 million, which was not an award or secured construction funding.",
+      "links": [{"label":"Cole’s question","source":"v2026","time":"01:59:13"},{"label":"Construction estimate","source":"v2026","time":"02:00:54"},{"label":"Shortlist discussion","source":"v2026","time":"02:01:11"},{"label":"Available-balance sheet","source":"balance2026","page":2}],
+      "refs": "31, 34", "kind": "Discussion summary",
+      "basis": "Summary of the official recording, using the earlier checked speaker and approximate starting times. An estimate, a funding request, and an award are separate stages.",
+      "sortDate": "2026-04-20", "date": "April 20, 2026", "body": "Finance Committee / City Council"
+    }]
+  },
   "madison": {
     "name": "Steve Madison",
     "remarks": [

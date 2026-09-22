@@ -8,7 +8,7 @@ The website is titled **Colorado Street Bridge Project Guide**. It is an indepen
 
 - Project highlights and a decision timeline
 - Alternatives, four attributed City illustrations, earlier research, responses, and evidence limits
-- 71 selected entries for 19 speakers, with an all-speaker selector, topic/year filters, and quotations distinguished from summaries
+- 75 selected entries for 23 speakers, with an all-speaker selector, topic/year filters, and quotations distinguished from summaries
 - 34 dated meeting records with links to recordings and corresponding documents
 - 8 news and commentary links, plus the preserved City-records collection
 - Search across the guide, with direct entry destinations and a return-to-results link
@@ -16,6 +16,8 @@ The website is titled **Colorado Street Bridge Project Guide**. It is an indepen
 The full paper, private research archives, and working transcripts are not included. Search covers the guide’s entries, not the contents of linked documents or videos. The larger bridge photograph loads only when opened.
 
 ## Research scope
+
+The September 22 reader-facing update adds four April 20, 2026 funding-discussion summaries, a local-counts section that separates the 2015–2021 police table from the 2022–2023 oral updates, and a shared source-label legend. Entry-specific verification limits remain in expandable notes. Julianna Delgado's full name is now displayed. The April available-balance row note reflects the documented September 21 visual verification; the funding-program and available-balance reconciliation gaps remain open. All 71 earlier remarks and quotations, the source PDFs, and the independent guide's scope are preserved. This is not a fresh listening session or an extension of the comprehensive evidence cutoff.
 
 The comprehensive research baseline is September 1, 2026, with specific later checks and additions identified in the guide. Each speaker entry describes its quotation or summary provenance and the limits of its timestamp. A listed document is not a claim that it was read in full, and a selected exchange is not a complete record of a speaker’s contributions.
 
