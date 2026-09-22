@@ -411,9 +411,9 @@ const speakers = {
             "source": "p2024"
           },
           {
-            "label": "Later ground-cover exchange",
+            "label": "Later alternatives exchange",
             "source": "v2024",
-            "time": "01:06:01"
+            "time": "01:06:24"
           }
         ],
         "sortDate": "2024-07-17",
@@ -423,14 +423,19 @@ const speakers = {
         "id": "madison-ground-cover",
         "title": "Have all the options been exhausted?",
         "meeting": "v2024",
-        "time": "01:06:01",
+        "time": "01:06:35",
         "topic": "landscaping",
-        "quote": "Do you feel like we’ve really done our level best to exhaust all the options?",
-        "context": "Madison asked about ground cover in combination with other measures, consultation with Caltech, and whether the City had fully explored the alternatives.",
+        "quote": "Do you feel like we’ve really done our level best to exhaust all the feasible options?",
+        "context": "At 01:06:24, Madison said leadership sometimes requires proceeding without a great option. At 01:06:35, he asked Markarian whether the City had exhausted the feasible options. The broader discussion included ground cover, combined measures, and consultation with Caltech.",
         "earlier": "Landscaping had been addressed by the 2018 task force and again in November 2023. The July meeting returned with the requested wider engineering and rescue review.",
-        "response": "Markarian described seven years of work and said, “we have truly exhausted looking at various mitigation measures.” In the later ground-cover exchange, she explained why the fall distance limited measures at ground level.",
+        "response": "Beginning at 01:06:45, Markarian described more than seven years on the project and experts with different perspectives. She said, “we have truly exhausted various mitigation measures,” then discussed the Golden Gate comparison. In the later ground-cover exchange, she explained why the fall distance limited measures at ground level.",
         "outcome": "Madison continued to ask about combined measures and then a layered-net concept. The proposals were related to earlier questions but were not identical.",
         "links": [
+          {
+            "label": "Leadership prelude and context",
+            "source": "v2024",
+            "time": "01:06:24"
+          },
           {
             "label": "2018 landscaping finding",
             "source": "r2018",
@@ -444,7 +449,7 @@ const speakers = {
           {
             "label": "Markarian describes the work",
             "source": "v2024",
-            "time": "01:06:47"
+            "time": "01:06:45"
           },
           {
             "label": "Ground-level response",
@@ -458,8 +463,8 @@ const speakers = {
           }
         ],
         "refs": "5, 14, 18, 22",
-        "kind": "Caption excerpt",
-        "basis": "Excerpt read in the preserved City-hosted captions, with punctuation and capitalization adjusted for reading. The displayed time is an approximate passage locator. No new listening check was performed for this website.",
+        "kind": "Author-checked quotation",
+        "basis": "The author manually checked the official recording on September 22, 2026, confirming the question’s wording, including “feasible,” and the locators: leadership prelude at 01:06:24, question at 01:06:35, and Markarian’s answer at 01:06:45. The last time marks the start of her answer, not the exact instant of her quoted phrase. This check does not cover the whole meeting.",
         "sortDate": "2024-07-17",
         "date": "July 17, 2024",
         "body": "Public Safety Committee"
