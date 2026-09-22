@@ -19,11 +19,11 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),8);
-// Reviewed September 22 data: four April summaries, Delgado's display name, and the closed April row check.
-// All 71 earlier remarks and quotations were compared with the prior release and preserved.
+// Reviewed September 22 data, including the author's Madison–Markarian audio check.
+// The two exchange entries and one context link changed; all other remarks remain preserved.
 const preserved={
- 'speakers.js':'03be621eb5dfecf42a02612a31a17ea6e53094eae9e9f0032afcb02c5eca3e4a',
- 'other-speakers.js':'e6eca0a993f30708e785824531861e97423fb73a2fed1154d04fd68de436e413',
+ 'speakers.js':'fc944016ec86c2c9817dbbbaef8e8aa9db67b703c0670bbdd468bc71ffda1f2f',
+ 'other-speakers.js':'2cc317c28f0cd6eb28377508b8e687bfd0f9fd1461830d475aad20d8c67b504b',
  'resources.js':'73c87646822ba1f5745679fa33a2f6fd7d8a7a5fb9f5a8f1de084eaf1b3d61f9'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');

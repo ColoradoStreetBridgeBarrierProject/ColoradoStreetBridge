@@ -695,18 +695,23 @@ const otherSpeakers = {
         "id": "markarian-exhausted",
         "title": "Responding when below-bridge alternatives returned",
         "meeting": "v2024",
-        "time": "01:06:47",
+        "time": "01:06:45",
         "topic": "landscaping",
-        "quote": "we have truly exhausted looking at various mitigation measures",
-        "context": "After Madison asked about ground cover and other below-bridge impediments, Markarian said the City had spent years reviewing mitigation measures with specialists.",
+        "quote": "we have truly exhausted various mitigation measures",
+        "context": "Madison asked at 01:06:35 whether the City had exhausted all the feasible options. Markarian’s answer began at 01:06:45. She described more than seven years on the project and experts from different backgrounds and perspectives, then discussed the Golden Gate comparison.",
         "earlier": "The earlier task-force report had assessed landscaping. The current presentation had also returned to netting, rescue, staffing, and technology.",
         "response": "Her answer emphasized the work already performed. The continuing discussion still included questions about particular below-bridge arrangements.",
         "outcome": "No permanent design was selected at this meeting. The statement does not prove every possible intervention had been tested.",
         "links": [
           {
-            "label": "Madison’s ground-cover question",
+            "label": "Madison’s question about feasible options",
             "source": "v2024",
-            "time": "01:06:01"
+            "time": "01:06:35"
+          },
+          {
+            "label": "Leadership prelude and context",
+            "source": "v2024",
+            "time": "01:06:24"
           },
           {
             "label": "2018 landscaping findings",
@@ -719,8 +724,8 @@ const otherSpeakers = {
           }
         ],
         "refs": "5, 18",
-        "kind": "Caption excerpt",
-        "basis": "Excerpt read in the preserved City-hosted captions, with punctuation and capitalization adjusted for reading. The time is an approximate passage locator. Caption cue starts can differ from the retained player locator. No new listening was performed for this website.",
+        "kind": "Author-checked quotation",
+        "basis": "The author manually checked the official recording on September 22, 2026, confirming the quoted wording and the exchange locators. The displayed 01:06:45 marks the start of Markarian’s answer, not the exact instant of the quoted phrase. Her introductory account and the Golden Gate discussion are summarized. This check does not cover the whole meeting.",
         "sortDate": "2024-07-17",
         "date": "July 17, 2024",
         "body": "Public Safety Committee"
