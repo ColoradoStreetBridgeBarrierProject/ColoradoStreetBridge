@@ -180,7 +180,7 @@ for(const [route,page] of [['alternatives/landscaping','alternatives-studied/lan
  assertMetadata(metadataApp,desc,title,'https://coloradostreetbridgeproject.com/'+page,page==='search/'?'noindex, follow':'index, follow');
 }
 metadataApp.context.location=new URL('https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');metadataApp.events.popstate();
-assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of patrols, staffing costs, response time, and the limits of continuous coverage.','Colorado Street Bridge Project Guide | Staffing & patrols','https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');
+assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of patrols, staffing costs, response time, and the limits of continuous coverage.','Staffing & patrols | Colorado Street Bridge Project Guide','https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');
 assert.equal((alternatives.match(/class="approach-card"/g)||[]).length,4);
 assert(!alternatives.includes('aria-current="page">Horizontal netting'),'Overview must not silently select one alternative');
 assert.equal((who.match(/class="earlier-work"/g)||[]).length,75,'Keep every earlier-work passage in an accessible disclosure');
@@ -200,3 +200,41 @@ assert(recordsPage.includes("<h1>Preserved City records</h1>"));
 assert(read("sitemap.xml").includes("https://coloradostreetbridgeproject.com/preserved-records/</loc>"));
 for(const item of JSON.parse(read("preserved-records/city-records-manifest.json")))assert(recordsPage.includes(`href="${item.file}"`),item.file+": missing index link");
 for(const page of [...pages.map(p=>p+"index.html"),"preserved-records/index.html"])assert(!/dropbox\.com|In that folder, select/.test(read(page)),page+": obsolete Dropbox destination");
+
+// Evidence shortcuts have real static destinations and retain the older routes.
+const evidencePage=read('evidence-and-limits/index.html');
+const evidenceIds=['local-counts','research','design-criteria','surveys','funding','unresolved','sources'];
+for(const base of ['https://coloradostreetbridgeproject.com/','https://example.org/ColoradoStreetBridge/']){
+ for(const id of evidenceIds){
+  assert(evidencePage.includes('id="'+id+'"'),'Missing native section '+id);
+  assert(evidencePage.includes('id="evidence/'+id+'" class="route-anchor"'),'Missing legacy native target '+id);
+  const app=load(base+'evidence-and-limits/',evidencePage);
+  assert.equal(app.run('routeHref("evidence/'+id+'")'),new URL('evidence-and-limits/#'+id,base).pathname+'#'+id);
+  app.run('navigate("evidence/'+id+'")');
+  assert(app.nodes[id].focused&&app.nodes[id].scrolled,'Native shortcut must focus its section: '+id);
+  const legacy=load(base+'evidence-and-limits/#evidence/'+id,evidencePage);
+  legacy.run('render(true)');
+  assert(legacy.nodes[id].focused&&legacy.nodes[id].scrolled,'Older shortcut must focus its section: '+id);
+ }
+}
+assert(!/\.route-anchor\s*\{[^}]*(?:display:\s*none|visibility:\s*hidden)/.test(read('styles.css')));
+// The metadata describes the whole collection, independently of active filters.
+metadataApp.run('speakerDirectory.wilson.remarks.push({...speakerDirectory.wilson.remarks[0],id:"count-only-test"})');
+assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 76 selected exchanges'));
+metadataApp.run('speakerDirectory.wilson.remarks.pop()');
+assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 75 selected exchanges'));
+const chronology=read('timeline/index.html');
+for(const entry of chronology.matchAll(/<article class="timeline-item"[^>]*>([\s\S]*?)<\/article>/g)){
+ assert(entry[1].includes('<h3>'),'Chronology entries belong beneath the chronology H2');
+ assert(!entry[1].includes('<h2>'));
+}
+const stableTimelineIds=['0','1','2','3','2020-02-03','4','5','6','7','8','9'];
+assert.deepEqual(JSON.parse(metadataApp.run('JSON.stringify(timeline.map(t=>t.id))')),stableTimelineIds);
+for(const id of stableTimelineIds)assert(chronology.includes('id="timeline/'+id+'"'),'Native timeline destination '+id);
+for(const card of alternatives.matchAll(/<article class="approach-card">([\s\S]*?)<\/article>/g))assert(card[1].includes('<h3>'));
+for(const record of directory.matchAll(/<article class="directory-card"[^>]*>([\s\S]*?)<\/article>/g))assert(/<h2><time class="meeting-heading-date" datetime="\d{4}-\d{2}-\d{2}">/.test(record[1]),'Meeting heading must include its date');
+for(const list of directory.matchAll(/<ul class="directory-links">([\s\S]*?)<\/ul>/g))for(const anchor of list[1].matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g))assert(!anchor[1].includes('<small'),'Link notes must sit outside the anchor');
+for(const [,id] of directory.matchAll(/aria-describedby="([^"]+-link-note-\d+)"/g))assert(directory.includes('<small id="'+id+'">'),'Each link note must stay programmatically associated');
+for(const page of ['preserved-records/index.html','preserved-records/tables.html'])assert(read(page).includes('<nav aria-label="About and contact">'));
+assert(read('preserved-records/tables.html').includes('Prepared September 13, 2026'));
+console.log('Section targets, native fallbacks, dynamic counts, heading relationships, and link-note checks passed');
