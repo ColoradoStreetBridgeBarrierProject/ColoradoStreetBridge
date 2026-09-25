@@ -283,6 +283,7 @@ details[open] > summary { margin-bottom: 7px; }
 .directory-links .source-link { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; line-height: 1.55; }
 .directory-links .source-label { display: inline-flex; align-items: center; gap: 6px; }
 .directory-links small { display: block; font-size: .75rem; color: var(--dim); line-height: 1.65; margin: 4px 0 0; font-weight: 400; }
+.meeting-heading-date { display: block; font-size: .9375rem; font-weight: 400; color: var(--muted); margin-bottom: 6px; }
 .source-folder { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-width: 0; padding: 24px; border: 1px solid #3d6869; border-radius: var(--radius); background: var(--accent-wash); margin-bottom: 22px; scroll-margin-top: 24px; }
 .source-folder h3 { font-size: 1.125rem; margin-bottom: 8px; }
 .source-folder p { max-width: 670px; font-size: .875rem; color: var(--muted); }
@@ -307,6 +308,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .info-copy h2 { margin-top: 28px; font-size: 1.25rem; color: var(--ink); }
 .info-copy h2:first-child { margin-top: 0; }
 .scroll-focus { scroll-margin-top: 24px; }
+.route-anchor { display: block; scroll-margin-top: 24px; }
 
 @media (max-width: 1180px) {
   .app-layout { grid-template-columns: 218px minmax(0,1fr); }
@@ -473,7 +475,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .speaker-heading h2 { font-size: 1.4rem; margin-bottom: 0; }
 .return-search { position: sticky; top: 0; z-index: 8; padding: 6px 0; margin: 0 0 24px; border-bottom: 1px solid var(--line); background: var(--bg); }
 .return-search a { display: inline-flex; min-height: 44px; align-items: center; }
-.timeline-entry h2 { font-size: 1.15rem; }
+.timeline-entry h3 { font-size: 1.15rem; }
 .topic-answer h2, .directory-card h2, .search-results h2 { font-size: 1.3rem; }
 .design-gallery { margin: 28px 0 38px; }
 .design-gallery > h2 { font-size: 1.55rem; }
@@ -510,7 +512,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
   .design-grid { grid-template-columns: 1fr; }
   .filter-bar { display: grid; grid-template-columns: minmax(0,1fr); }
   .section-jumps { display: grid; gap: 0; }
-  .evidence-section { scroll-margin-top: calc(var(--mobile-header-height,var(--mobile-header-fallback)) + 20px); }
+  .evidence-section, .route-anchor { scroll-margin-top: calc(var(--mobile-header-height,var(--mobile-header-fallback)) + 20px); }
   .evidence-section > h2 { font-size: 1.35rem; }
   .remark-card { padding: 20px; }
   .forecast-table { overflow-x: auto; }
@@ -532,7 +534,7 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .file-locator code { font: inherit; overflow-wrap: anywhere; }
 .approach-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; margin: 24px 0 36px; }
 .approach-card { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; background: var(--surface); }
-.approach-card h2 { font-size: 1.3rem; }
+.approach-card h3 { font-size: 1.3rem; }
 .approach-card p { color: var(--muted); font-size: 1rem; line-height: 1.75; }
 .approach-link, .filter-actions a, .meeting-jumps a { display: inline-flex; align-items: center; min-height: 44px; }
 .filter-actions { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0 0 16px; }
