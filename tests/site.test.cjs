@@ -24,7 +24,7 @@ assert.equal(run('Object.keys(speakers).length'),8);
 const preserved={
  'speakers.js':'fc944016ec86c2c9817dbbbaef8e8aa9db67b703c0670bbdd468bc71ffda1f2f',
  'other-speakers.js':'2cc317c28f0cd6eb28377508b8e687bfd0f9fd1461830d475aad20d8c67b504b',
- 'resources.js':'73c87646822ba1f5745679fa33a2f6fd7d8a7a5fb9f5a8f1de084eaf1b3d61f9'
+ 'resources.js':'700620706a300f29e0d0d613270f66087134e3d19f084d25328e9f640caa2cf5'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -554,3 +554,12 @@ assert(run('evidence()').indexOf('id="local-counts"')<run('evidence()').indexOf(
 assert(index.some(x=>x.route==='evidence/9'));
 assert(!run('meetingsView()').includes('exact row association still needs visual verification'));
 console.log('September 22 reader-facing evidence and scope checks passed');
+
+// October 1 source-link maintenance preserves the historical recording note and destinations.
+const zoom2023=json('meetingRecords.find(m=>m.id==="meeting-2023-02-22")');
+assert.equal(zoom2023.note,"The recording link is the one listed by the City. Its playback and continuing availability were not verified in this update.");
+assert.equal(zoom2023.links[0].url,"https://us02web.zoom.us/rec/share/gzTld8ZUtAQsW4Whr_091UtnK_6ItwVHh6qOdW7gA-QdFQkWYrd5rTkZAvp1u2-7.uj6ZtRON1D2DrjYW?startTime=1677119497000");
+assert.equal(zoom2023.links[0].note,"Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified.");
+const april2018=json('meetingRecords.find(m=>m.id==="meeting-2018-04-18")');
+assert.equal(april2018.links[0].label,"April 23 Council report (through April 18 Public Safety Committee)");
+assert.equal(april2018.links[0].url,"https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2018-04-18-Colorado-Street-Bridge-Agenda.pdf");

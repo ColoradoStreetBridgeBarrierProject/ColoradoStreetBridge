@@ -73,7 +73,7 @@ const meetingRecords = [
     "title": "Task-force recommendation",
     "links": [
       {
-        "label": "Agenda report",
+        "label": "April 23 Council report (through April 18 Public Safety Committee)",
         "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2018-04-18-Colorado-Street-Bridge-Agenda.pdf"
       },
       {
@@ -430,7 +430,8 @@ const meetingRecords = [
     "links": [
       {
         "label": "Recording on Zoom",
-        "url": "https://us02web.zoom.us/rec/share/gzTld8ZUtAQsW4Whr_091UtnK_6ItwVHh6qOdW7gA-QdFQkWYrd5rTkZAvp1u2-7.uj6ZtRON1D2DrjYW?startTime=1677119497000"
+        "url": "https://us02web.zoom.us/rec/share/gzTld8ZUtAQsW4Whr_091UtnK_6ItwVHh6qOdW7gA-QdFQkWYrd5rTkZAvp1u2-7.uj6ZtRON1D2DrjYW?startTime=1677119497000",
+        "note": "Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified."
       },
       {
         "label": "Presentation",
