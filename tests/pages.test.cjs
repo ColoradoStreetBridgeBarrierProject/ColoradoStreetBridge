@@ -63,7 +63,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Last updated September 24, 2026'));
+assert(overview.includes('Last updated October 1, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -238,3 +238,7 @@ for(const [,id] of directory.matchAll(/aria-describedby="([^"]+-link-note-\d+)"/
 for(const page of ['preserved-records/index.html','preserved-records/tables.html'])assert(read(page).includes('<nav aria-label="About and contact">'));
 assert(read('preserved-records/tables.html').includes('Prepared September 13, 2026'));
 console.log('Section targets, native fallbacks, dynamic counts, heading relationships, and link-note checks passed');
+
+assert(directory.includes('aria-describedby="meeting-2023-02-22-link-note-0"'));
+assert(directory.includes("Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified."));
+assert(directory.includes("April 23 Council report (through April 18 Public Safety Committee) · PDF"));
