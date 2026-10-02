@@ -1,0 +1,100 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), crypto = require('node:crypto');
+const {secureHtml} = require('./security.cjs');
+const root = path.resolve(__dirname, '..');
+const paper = JSON.parse(fs.readFileSync(path.join(root, 'paper/content.json'), 'utf8'));
+const esc = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+const version = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').slice(0, 12);
+const sectionPath = section => 'paper/' + (section.slug ? section.slug + '/' : '');
+const references = new Map();
+
+// A citation has a stable address in its section. The Sources page also provides
+// ordinary return links, so the whole reading path works without JavaScript.
+for (const [index, section] of paper.sections.entries()) {
+  section.number = index + 1;
+  const prefix = section.slug ? '../../' : '../';
+  let occurrence = 0;
+  section.html = section.html.replace(/<a\b([^>]*class="csb-cite"[^>]*)>([\s\S]*?)<\/a>/g, (match, attrs, label) => {
+    const source = attrs.match(/href="#csb-source-(\d+)"/)[1];
+    const id = 'citation-' + (++occurrence);
+    const href = prefix + 'paper/sources/?from=' + (section.slug || 'opening') + '&amp;cite=' + id + '#csb-source-' + source;
+    if (!references.has(source)) references.set(source, []);
+    references.get(source).push({path: sectionPath(section), id, title: section.title, number: section.number});
+    return '<a class="csb-cite" id="' + id + '" href="' + href + '" aria-label="Source ' + source + '">' + label + '</a>';
+  }).replaceAll('ASSET_ROOT', prefix);
+  // The existing manuscript heading becomes the page heading.
+  section.html = section.html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/, '<h1$1>$2</h1>');
+}
+
+function contents(current, prefix) {
+  return `<details class="paper-contents"><summary>Contents <span>${current ? 'Section ' + current + ' of ' + paper.sections.length : 'Sources'}</span></summary><nav aria-label="Paper contents"><ol>${paper.sections.map(s => `<li><a href="${prefix}${sectionPath(s)}#paper-top"${s.number === current ? ' aria-current="page"' : ''}>${esc(s.title)}</a></li>`).join('')}<li><a href="${prefix}paper/sources/#paper-top"${!current ? ' aria-current="page"' : ''}>Sources</a></li></ol></nav></details>`;
+}
+
+function pageHtml({route, current, title, content, table = false}) {
+  const prefix = '../'.repeat(route.split('/').filter(Boolean).length);
+  const canonical = 'https://coloradostreetbridgeproject.com/' + route;
+  const description = current === 1 ? 'An analytical history of Pasadena’s Colorado Street Bridge barrier project, with linked sources.' : title + ' · The fence everyone can see, an analytical history of the Colorado Street Bridge barrier project.';
+  const previous = current > 1 ? paper.sections[current - 2] : null;
+  const next = current && current < paper.sections.length ? paper.sections[current] : null;
+  return secureHtml(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182021">
+  <meta name="color-scheme" content="dark light">
+  <title>${esc(title)} | ${current === 1 ? 'Colorado Street Bridge' : esc(paper.title)}</title>
+  <meta name="description" content="${esc(description)}">
+  <link rel="canonical" href="${canonical}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${esc(description)}">
+  <meta property="og:url" content="${canonical}">
+  <meta property="og:image" content="https://coloradostreetbridgeproject.com/bridge-preview.webp">
+  <script src="${prefix}theme.js?v=${version('theme.js')}"></script>
+  <link rel="stylesheet" href="${prefix}paper/reader.css?v=${version('paper/reader.css')}">
+  ${current ? '' : `<script src="${prefix}paper/sources.js?v=${version('paper/sources.js')}" defer></script>`}
+</head>
+<body id="paper-top">
+  <a class="skip" href="#reading">Skip to reading</a>
+  <header class="site-head"><a href="${prefix}">Colorado Street Bridge <span>Project guide</span></a><button type="button" class="theme-toggle" data-theme-toggle aria-label="Light reading mode" aria-pressed="false" hidden>Light reading mode</button></header>
+  <div class="paper-shell${table ? ' table-page' : ''}">
+    <div class="paper-orientation"><a href="${prefix}paper/#paper-top">${esc(paper.title)}</a><span>${current ? 'Section ' + current + ' of ' + paper.sections.length : 'Sources'}</span></div>
+    ${contents(current, prefix)}
+    <main id="reading" tabindex="-1" class="paper-copy">
+      ${current === 1 ? `<header class="paper-title"><p class="eyebrow">An analytical history</p><h1>${esc(paper.title)}</h1><p class="edition">Reading edition · ${paper.edition}<br>Comprehensive evidence cutoff · ${paper.evidenceCutoff}</p></header>` : ''}
+      ${content}
+    </main>
+    <nav class="pagination" aria-label="Paper pages">
+      ${previous ? `<a rel="prev" href="${prefix}${sectionPath(previous)}#paper-top"><span>← Previous</span><small>${esc(previous.title)}</small></a>` : `<a href="${prefix}paper/#paper-top"><span>↑ Beginning</span><small>${esc(paper.title)}</small></a>`}
+      ${next ? `<a rel="next" href="${prefix}${sectionPath(next)}#paper-top"><span>Next →</span><small>${esc(next.title)}</small></a>` : current ? `<a rel="next" href="${prefix}paper/sources/#paper-top"><span>Next →</span><small>Sources</small></a>` : `<a rel="prev" href="${prefix}paper/in-memory/#paper-top"><span>← Previous</span><small>In memory</small></a>`}
+    </nav>
+    <footer class="paper-footer"><p>${current ? 'Section ' + current + ' of ' + paper.sections.length + ' · ' : ''}<a href="${prefix}paper/sources/">Sources</a> · <a href="#paper-top">Back to top</a></p><p>Reading edition · ${paper.edition}. Comprehensive evidence cutoff · ${paper.evidenceCutoff}.</p><p><a href="${prefix}about/">About the guide</a> · <a href="mailto:contact@coloradostreetbridgeproject.com">Questions or corrections</a></p><p>If you or someone you know is struggling or in crisis, call or text <a href="tel:988">988</a>.</p></footer>
+  </div>
+</body>
+</html>
+`.replace(/[ \t]+$/gm, ''));
+}
+
+function buildPaper() {
+  const output = [];
+  for (const section of paper.sections) {
+    output.push({path: sectionPath(section), html: pageHtml({route: sectionPath(section), current: section.number, title: section.number === 1 ? paper.title : section.title, content: section.html, table: section.table})});
+  }
+  let sources = paper.sources.replace(/(<div id="csb-source-(\d+)" class="csb-source">)([\s\S]*?)(?=<div id="csb-source-|$)/g, (match, open, number, rest) => {
+    // Insert return links before this source's own closing div, never into its note.
+    const refs = references.get(number) || [];
+    const links = refs.map((r, i) => `<li><a href="../../${r.path}#${r.id}" data-citation-return>Section ${r.number} · ${esc(r.title)}${refs.filter(x => x.path === r.path).length > 1 ? ' · reference ' + (i + 1) : ''}</a></li>`).join('');
+    const returns = `<a class="return-to-passage" data-return-to-passage hidden>Return to passage ↑</a><details class="source-passages"><summary>Passages citing this source</summary><ul>${links}</ul></details>`;
+    return open + rest.replace('</div>', returns + '</div>');
+  });
+  sources = '<h1>Sources</h1>' + sources;
+  output.push({path: 'paper/sources/', html: pageHtml({route: 'paper/sources/', title: 'Sources', content: sources})});
+  for (const page of output) {
+    const target = path.join(root, page.path, 'index.html');
+    fs.mkdirSync(path.dirname(target), {recursive: true});
+    fs.writeFileSync(target, page.html);
+  }
+  return output;
+}
+module.exports = {buildPaper};

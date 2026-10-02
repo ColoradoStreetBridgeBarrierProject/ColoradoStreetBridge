@@ -13,7 +13,13 @@ The website is titled **Colorado Street Bridge Project Guide**. It is an indepen
 - 8 news and commentary links, plus the preserved City-records collection
 - Search across the guide, with direct entry destinations and a return-to-results link
 
-The full paper, private research archives, and working transcripts are not included. Search covers the guide’s entries, not the contents of linked documents or videos. The larger bridge photograph loads only when opened.
+The reading edition of **The fence everyone can see** is available at `/paper/`, with 13 sequential sections and a separate Sources page. Private research archives and working transcripts are not included. Search covers the guide’s entries, not the contents of linked documents or videos. The larger bridge photograph loads only when opened.
+
+## Reading edition
+
+The October 2 web edition preserves the current manuscript narrative, all ten images and their alternative text, and all 41 source entries. Two comparison sections follow the complete 2024 and 2025–2026 accounts. The comprehensive evidence cutoff remains September 1, 2026; publication is not a new research audit.
+
+Edit `paper/content.json` for reader content, `paper/reader.css` for typography, and `scripts/build-paper.cjs` for the page shell. The main build generates all section pages and adds them to the sitemap. Narrative text, table cells, and source notes share the same reading typeface and size. Previous, Next, Contents, and citations are ordinary links. The Sources page lists every citing passage; its small enhancement selects the exact return link when arriving from a citation. No reader navigation depends on JavaScript. The guide search still covers the guide entries, not the full paper.
 
 ## Research scope
 
@@ -29,7 +35,7 @@ The comprehensive research baseline is September 1, 2026, with specific later ch
 
 Links open original City records, recordings, publishers, or preserved PDFs hosted on this website. Some sources may require a subscription or become unavailable. Linked and reproduced material retains its original attribution. This repository does not grant a blanket reuse license for third-party material.
 
-Source policy set by the author on September 17, 2026: do not use Pasadena Star-News in this guide or future bridge-paper citations and research. The three former news entries were removed from the guide and search. Do not restore them or substitute other Star-News articles; use original City records or other independently reviewed sources. This exclusion does not apply to Pasadena Now or other publishers. The full paper remains private and must not be added to this repository.
+Source policy set by the author on September 17, 2026: do not use Pasadena Star-News in this guide or future bridge-paper citations and research. The three former news entries were removed from the guide and search. Do not restore them or substitute other Star-News articles; use original City records or other independently reviewed sources. This exclusion does not apply to Pasadena Now or other publishers. The October 2 author-authorized reading edition is now included. Private manuscript source files, handoffs, ledgers, archives, and task settings remain excluded.
 
 A read-only check on September 17 covered the September 15 clean and highlighted Word and PDF paper files, including their 41 source notes, document text, Word XML relationships and field content, and PDF link annotations. No excluded-publisher references or URL targets were found. Clean/highlighted text and external-link targets matched within each format. No paper edits, citation renumbering, or re-export were needed; the paper files were left unchanged and unpublished. This was a publisher-dependency check, not a new verification of every source's contents.
 
@@ -37,7 +43,7 @@ A read-only check on September 17 covered the September 15 clean and highlighted
 
 In repository **Settings → Pages**, select **Deploy from a branch**, choose **main** and **/(root)**, and save. The root `index.html` is the website entry point. GitHub serves the committed build files without an additional deployment build. See [GitHub’s publishing instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 
-The site uses pre-rendered section pages and relative asset links so it can run at the custom domain or under this repository’s project address. Edit `index.template.html`, `styles.css`, or the readable root JavaScript sources, then run the build and checks below. Commit all generated section `index.html` files, `sitemap.xml`, and `assets/guide.js` alongside the source changes. Keep the paper and private research files out of this public repository.
+The site uses pre-rendered section pages and relative asset links so it can run at the custom domain or under this repository’s project address. Edit `index.template.html`, `styles.css`, or the readable root JavaScript sources, then run the build and checks below. Commit all generated section `index.html` files, `sitemap.xml`, and `assets/guide.js` alongside the source changes. Keep private manuscript source files and private research files out of this public repository.
 
 The interface uses a dark charcoal palette, teal accents, and system fonts. A persistent sidebar serves larger screens. On phones, a compact header opens the section menu, and forms and cards adapt to the available width. Keyboard navigation, visible focus, and reduced-motion preferences are supported.
 
@@ -45,7 +51,7 @@ Every section is rendered into HTML by the same view functions used by the inter
 
 The five script files are combined into one download, with data formatting compacted without changing the source records. The introduction appears only on Overview; other sections start with their own heading. Navigation stays in the sidebar or phone menu, without a floating control over the reading area. Versioned asset URLs help readers receive matching updates. The build supplies section titles, descriptions, canonical URLs, and a sitemap. Source verification dates remain separate from the site update date.
 
-The footer links to `/about/` and the project email address. About explains the research scope and corrections route without a byline and is readable without JavaScript. At the author’s request, the Changes page, its route, and its sitemap entry have been removed; earlier versions remain in Git history. The paper remains unpublished on this website.
+The footer links to `/about/` and the project email address. About explains the research scope and corrections route without a byline and is readable without JavaScript. At the author’s request, the Changes page, its route, and its sitemap entry have been removed; earlier versions remain in Git history. The October 2 reading edition is published at `/paper/`.
 
 The September 17 audit implementation adds a dated homepage status panel, grouped evidence destinations, a forecast comparison, meeting sorting, clearer source labels, and social-sharing metadata. All speaker source data remain unchanged. The September 16 removals remain in force. The illustrations are extracted from the City's July 17, 2024 presentation; provenance and image-specific limitations are documented in `assets/illustrations/README.md`. They do not establish a current shortlist or a September 2026 photograph of the fence.
 
@@ -55,7 +61,7 @@ A bounded finishing pass adds Julianna Delgado's full-name and initial variants 
 
 ## Local checks
 
-The build applies a Content Security Policy and `no-referrer` policy to all 16 HTML pages, including the source tables and custom 404. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
+The build applies a Content Security Policy and `no-referrer` policy to all 30 HTML pages, including the source tables and custom 404. Scripts and styles load only from this site; inline scripts, inline styles, third-party scripts, network API calls, frames, plug-ins, and base-URL changes are blocked. The no-JavaScript layout styles and table styles/layout script are separate local files. Run `node scripts/build.cjs` after edits and commit the generated HTML alongside the sources. `node tests/security.test.cjs` checks these protections and external-tab link isolation. The **Site checks** GitHub Actions workflow runs this check and the full regression suite on pull requests and pushes to main, with a read-only token and actions pinned to commit IDs.
 
 This policy is delivered in HTML because the current host is GitHub Pages. HSTS, `X-Content-Type-Options`, and clickjacking protection through `frame-ancestors` require HTTP response headers and are not supplied by this change. Branch protections, account two-factor authentication, and registrar controls are separate settings; the presence of this workflow does not itself require a passing check before publishing.
 
@@ -70,6 +76,7 @@ Run these with Node.js. No external packages are required:
 ```sh
 node scripts/build.cjs
 node tests/security.test.cjs
+node tests/paper.test.cjs
 node tests/print.test.cjs
 node tests/site.test.cjs
 node tests/site.test.cjs --bundle
