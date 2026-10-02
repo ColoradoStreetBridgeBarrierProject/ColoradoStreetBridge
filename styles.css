@@ -604,3 +604,10 @@ main:has(.return-search) :is(.remark-card,.timeline-item,.feature-card,.director
   .design-grid { display: block; }
   .design-grid figure { break-inside: avoid; margin-bottom: 24px; max-width: 420px; }
 }
+
+/* A direct entry to the full reading edition. */
+.paper-feature { margin:28px 0; padding:26px; border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; background:var(--surface); }
+.paper-feature h3 { margin:8px 0 12px; font-size:1.5rem; }
+.paper-feature h3 a { color:var(--ink); }
+.paper-feature p { max-width:68ch; color:var(--muted); }
+.paper-feature>a { display:inline-block; min-height:44px; padding:8px 0; }
