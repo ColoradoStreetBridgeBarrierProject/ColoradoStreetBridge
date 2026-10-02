@@ -407,6 +407,10 @@ const meetingRecords = [
     "title": "Project status and next design phase",
     "links": [
       {
+        "label": "Official meeting recording",
+        "url": "https://pasadena.granicus.com/MediaPlayer.php?view_id=35&clip_id=6395"
+      },
+      {
         "label": "Staff report · Scanned PDF · 4 pages",
         "source": "r2022"
       },

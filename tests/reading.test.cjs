@@ -30,6 +30,7 @@ function luminance(hex){const c=hex.slice(1).match(/../g).map(v=>parseInt(v,16)/
 function contrast(a,b){const x=luminance(a),y=luminance(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);}
 let minimum=99,checks=0;
 for(const [theme,palette] of [['dark',dark],['light',light]]){
+  for(const background of ['bg','surface'])assert(contrast(palette['input-border'],palette[background])>=3,theme+': search field boundary');
   for(const ink of ['ink','muted','dim','link','accent'])for(const bg of ['bg','surface','raised','sidebar','accent-wash','action-surface']){
     const ratio=contrast(palette[ink],palette[bg]);assert(ratio>=4.5,theme+' '+ink+' on '+bg+': '+ratio);minimum=Math.min(minimum,ratio);checks++;
   }

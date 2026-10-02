@@ -1086,7 +1086,7 @@ const otherSpeakers = {
         "quote": null,
         "context": "Augustin described a roughly 100-foot cushion rating, bridge portions reaching roughly 150 feet, and constraints on positioning equipment below the bridge.",
         "earlier": "Hampton had returned to below-bridge measures after the netting and rescue presentation.",
-        "response": "Hampton then asked whether higher-capacity equipment existed. Staff did not know and agreed to investigate.",
+        "response": "Hampton then asked whether higher-capacity equipment existed. Fire did not know and agreed to investigate.",
         "outcome": "The reviewed record does not establish that a higher-capacity cushion was acquired. The May 2026 Fire equipment list names a cushion but supplies no rating.",
         "links": [
           {

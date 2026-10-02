@@ -1094,7 +1094,7 @@ const speakers = {
         "kind": "Transcript excerpt",
         "quote": "the horizontal wouldn’t be an idea I’d tell you to completely cancel out",
         "context": "Later in the same meeting, Hampton continued to favor considering horizontal netting after staff’s recommendation against it and Fire’s explanation of rescue concerns. He described it as the most attractive-looking option.",
-        "outcome": "He had also asked whether a higher-capacity rescue cushion existed. Staff did not know and agreed to investigate. That question was distinct from his preference for vertical mesh earlier in the meeting.",
+        "outcome": "He had also asked whether a higher-capacity rescue cushion existed. Fire did not know and agreed to investigate. That question was distinct from his preference for vertical mesh earlier in the meeting.",
         "basis": "Wording from the preserved working transcript, with typographic apostrophes. The approximate player locator is retained in the reviewed source note. No new word-for-word listening check was performed for this website.",
         "refs": "20–21",
         "topic": "netting",

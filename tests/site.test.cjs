@@ -19,12 +19,13 @@ const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.s
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
 assert.equal(run('Object.keys(speakers).length'),8);
-// Reviewed September 22 data, including the author's Madison–Markarian audio check.
-// The two exchange entries and one context link changed; all other remarks remain preserved.
+// October 2 bounded update: two cushion summaries identify Fire consistently,
+// and the September 2022 directory now includes its existing official recording.
+// Quotations and the September 22 author-audio-checked exchange remain unchanged.
 const preserved={
- 'speakers.js':'fc944016ec86c2c9817dbbbaef8e8aa9db67b703c0670bbdd468bc71ffda1f2f',
- 'other-speakers.js':'2cc317c28f0cd6eb28377508b8e687bfd0f9fd1461830d475aad20d8c67b504b',
- 'resources.js':'700620706a300f29e0d0d613270f66087134e3d19f084d25328e9f640caa2cf5'
+ 'speakers.js':'c7fe204f77282ce0d92b6db28bc812815f1fb7909ff8412cb2c2c813c615ec49',
+ 'other-speakers.js':'964b30f9679e1a573bea6fc8c598b27475f6e618b888cbbaab7056c40b84a712',
+ 'resources.js':'67be8b85c5732aeb92f366d7a0e62e966869b0b64f216dd1abd4456bb832ec49'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[

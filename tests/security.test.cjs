@@ -37,6 +37,9 @@ for (const file of pages) {
   assert(!directives.has('frame-ancestors'), 'Framing protection requires an HTTP header, not meta');
   assert.equal((html.match(/<meta name="referrer" content="no-referrer">/g) || []).length, 1, label + ': referrer privacy');
   assert.equal(secureHtml(html), html, label + ': metadata refresh is deterministic');
+  for (const mail of html.matchAll(/<a\b[^>]*href="mailto:[^"]+"[^>]*>[\s\S]*?<\/a>/gi)) {
+    assert(html.includes('<!--email_off-->' + mail[0] + '<!--/email_off-->'), label + ': email works without a decode script');
+  }
   assert(!/<style\b|\sstyle\s*=|\son\w+\s*=/i.test(html), label + ': no inline styles or event handlers');
   assert(!/<base\b|<iframe\b|<object\b|<embed\b/i.test(html), label + ': no embedded active content');
   assert(!/\b(?:href|src|action)\s*=\s*["']\s*(?:javascript:|http:)/i.test(html), label + ': no unsafe URLs');
