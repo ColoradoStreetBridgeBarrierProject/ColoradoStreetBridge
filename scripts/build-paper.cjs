@@ -81,7 +81,7 @@ function pageHtml({route, current, title, content, table = false}) {
     <div class="paper-orientation"><a href="${prefix}paper/#paper-top">${esc(paper.title)}</a><span>${current ? 'Section ' + current + ' of ' + paper.sections.length : 'Sources'}</span></div>
     ${contents(current, prefix)}
     <main id="reading" tabindex="-1" class="paper-copy">
-      ${current === 1 ? `<header class="paper-title"><p class="eyebrow">An analytical history</p><h1>${esc(paper.title)}</h1><p class="edition">Reading edition · ${paper.edition}</p><p class="research-scope">The main research review covers material through ${paper.evidenceCutoff}. Later checks and additions are dated where they appear.</p></header>` : ''}
+      ${current === 1 ? `<header class="paper-title"><p class="eyebrow">An analytical history</p><h1>${esc(paper.title)}</h1><p class="byline">By Christopher Clark</p><p class="edition">Reading edition · ${paper.edition}</p><p class="research-scope">The main research review covers material through ${paper.evidenceCutoff}. Later checks and additions are dated where they appear.</p></header>` : ''}
       ${content}
     </main>
     <nav class="pagination" aria-label="Paper pages">
