@@ -17,9 +17,15 @@ The reading edition of **The fence everyone can see** is available at `/paper/`,
 
 ## Reading edition
 
-The October 2 web edition preserves the current manuscript narrative, all ten images and their alternative text, and all 41 source entries. Two comparison sections follow the complete 2024 and 2025–2026 accounts. The comprehensive evidence cutoff remains September 1, 2026; publication is not a new research audit.
+The October 2 web edition began from the current manuscript and retains all ten images and their alternative text and all 41 source entries. Two comparison sections follow the complete 2024 and 2025–2026 accounts. The main research review covers material through September 1, 2026; publication is not a new research audit.
 
 Edit `paper/content.json` for reader content, `paper/reader.css` for typography, and `scripts/build-paper.cjs` for the page shell. The main build generates all section pages and adds them to the sitemap. Narrative text, table cells, and source notes share the same reading typeface and size. Previous, Next, Contents, and citations are ordinary links. The Sources page lists every citing passage; its small enhancement selects the exact return link when arriving from a citation. No reader navigation depends on JavaScript. The guide search still covers the guide entries, not the full paper.
+
+The October 2 follow-up corrects the web edition's Labor Day citation, attributes the reported nine deaths to Pasadena Now quoting Steve Mermell, anchors the elapsed design discussion to the April 2018 Council decision, and brings the documented phrase count into the narrative. It removes two unsupported uses of “still” and specifies the additional staffing assessment requested in 2023. The cushion paragraph follows the City-hosted caption sequence and names Fire Chief Chad Augustin while retaining the unresolved equipment question. This bounded caption check is dated in Source 21; it is not new listening. The paired PDF and DOCX are not changed by these web edits.
+
+The guide now links the September 21, 2022 recording already cited by the paper, uses Markarian's historical title, and consistently attributes the unresolved cushion response to Fire. The July 2024 and November 2023 caption checks were limited to the relevant passages. Quotations, approximate locators, prior audio-verification limits, source originals, and the parked funding investigation are unchanged.
+
+Reader maintenance separates Sources from the 13-section counter, clarifies research dates, outlines a targeted source, separates adjacent table citations, and supplies ordinary full-image links. Citation URLs use only the Sources path and fragment. Session storage remembers a citing passage for the exact return link, with the full passage list available without scripts. Previously published citation IDs and query-based links remain supported. Contact anchors use Cloudflare's documented per-address HTML exemption so they do not require its decoding script. No account setting changes are required. Archive navigation, small guide text, search-field contrast, and social metadata are also aligned. Versioned assets remain part of the existing build.
 
 ## Research scope
 

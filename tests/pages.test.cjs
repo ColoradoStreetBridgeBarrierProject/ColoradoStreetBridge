@@ -31,7 +31,8 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
   const app=load(url,html),route=JSON.parse(app.run('JSON.stringify(readRoute())'));
   const prefix=page?'../'.repeat(page.split('/').filter(Boolean).length):'./';
   const expected=app.run('viewMarkup(readRoute())').replace(/<h([12])>/,'<h$1 id="view-heading">').replace(new RegExp('(?:href|src)="'+new URL(base).pathname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?!/)','g'),(match)=>match.startsWith('src')?'src="'+prefix:'href="'+prefix);
-  assert(html.includes(expected),page+': static content differs from the interactive renderer');
+  // Cloudflare's no-script email exemption does not change rendered content.
+  assert(html.replace(/<!--\/?email_off-->/g,'').includes(expected),page+': static content differs from the interactive renderer');
   assert.equal(app.run('siteBase'),new URL(base).pathname,page+': deployment root');
   if(page.startsWith('alternatives-studied/')&&page.split('/')[1])assert.equal(route.arg,page.split('/')[1]);
   for(const [,attr,raw] of html.matchAll(/(href|src)="([^"]+)"/g)){

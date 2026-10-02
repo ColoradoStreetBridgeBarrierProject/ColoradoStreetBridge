@@ -1,5 +1,5 @@
 'use strict';
-const fs = require('node:fs'), path = require('node:path'), assert = require('node:assert/strict');
+const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), assert = require('node:assert/strict');
 const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const paper = JSON.parse(read('paper/content.json'));
@@ -19,7 +19,19 @@ for (const [file, html] of rendered) {
   assert(!/\bhidden(?:="")?[^>]*data-csb-chapter|data-csb-chapter|guide\.js/.test(html), file + ': no embedded chapter switching');
   assert(!/sandbox:|\/workspace\/|libfile_|file_000000|data:image|private preview/.test(html), file + ': no internal references');
   assert(html.includes('href="tel:988"'));
-  assert(html.includes('Comprehensive evidence cutoff · September 1, 2026'));
+  assert(html.includes('The main research review covers material through September 1, 2026. Later checks and additions are dated where they appear.'));
+  assert(html.includes('not an official City website'));
+  assert(html.includes('property="og:site_name"'));
+  assert(html.includes('name="twitter:card"'));
+  for (const [,id,href] of html.matchAll(/<a class="csb-cite" id="([^"]+)" href="([^"]+)"/g)) {
+    assert(!href.includes('?'), 'Citations use one canonical Sources URL');
+    const source = href.match(/#csb-source-(\d+)$/)[1];
+    const entry = rendered.get('paper/sources/index.html').split('<div id="csb-source-'+source+'"')[1].split('</div>')[0];
+    assert(entry.includes('../../' + file.replace('index.html', '') + '#' + id), 'Each source retains the exact citing passage');
+  }
+  const contents = html.match(/<nav aria-label="Paper contents">([\s\S]*?)<\/nav>/)[1];
+  assert.equal((contents.match(/<li>/g)||[]).length,13,'Sources is separate from the 13 numbered sections');
+  assert(contents.indexOf('contents-sources')>contents.indexOf('</ol>'));
   for (const base of ['https://coloradostreetbridgeproject.com/', 'https://example.org/ColoradoStreetBridge/']) {
     for (const [, attribute, encoded] of html.matchAll(/\b(href|src)="([^"]+)"/g)) {
       const value = decode(encoded);
@@ -30,11 +42,6 @@ for (const [file, html] of rendered) {
       if (target.endsWith('/')) target += 'index.html';
       assert(fs.existsSync(path.join(root, target)), file + ': missing ' + value);
       if (url.hash && target.endsWith('.html')) assert(ids(read(target)).includes(decodeURIComponent(url.hash.slice(1))), file + ': missing target ' + value);
-      if (url.searchParams.has('cite')) {
-        const cite = url.searchParams.get('cite');
-        assert(ids(html).includes(cite), 'Citation must return to a real passage');
-        assert(read(target).includes('../../' + file.replace('index.html', '') + '#' + cite), 'Sources must retain exact return link');
-      }
       checked++;
     }
   }
@@ -64,4 +71,25 @@ assert(routes.indexOf('paper/forecasts/') === routes.indexOf('paper/2025-2026/')
 assert(!rendered.get('paper/questions/index.html').includes('rescue cushion'));
 assert.equal(paper.sections.filter(s => s.table).length, 2);
 assert(read('paper/reader.css').includes('.csb-table { font:inherit;'));
+// Exercise citation return behavior with real generated links, including storage
+// failures, prior shared URLs, hash navigation, and back/forward restoration.
+const sampleHref = 'https://example.org/ColoradoStreetBridge/paper/2024/#citation-2';
+function returnContext({url='https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21', stored, blocked=false}={}) {
+  const events={}, storage=new Map(stored ? [['csb-paper-return:csb-source-21',stored]] : []);
+  const back={hidden:true,setAttribute(k,v){this[k]=v;}};
+  const fallback={href:sampleHref,getAttribute(){return sampleHref;}};
+  const source={id:'csb-source-21',classList:{contains:()=>true},querySelectorAll:()=>[fallback],querySelector:()=>back};
+  const citation={href:'https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21',id:'citation-2',addEventListener(k,fn){this[k]=fn;}};
+  const context={URL,URLSearchParams,location:new URL(url),sessionStorage:{getItem(k){if(blocked)throw Error('Denied');return storage.get(k);},setItem(k,v){if(blocked)throw Error('Denied');storage.set(k,v);}},addEventListener(k,fn){events[k]=fn;},document:{querySelectorAll(s){return s==='.csb-cite'?[citation]:[back];},getElementById(id){return id===source.id?source:null;}}};
+  vm.runInNewContext(read('paper/sources.js'),context);
+  return {context,back,citation,events,storage};
+}
+const expected = '/ColoradoStreetBridge/paper/2024/#citation-2';
+const active=returnContext({stored:expected});assert(!active.back.hidden);assert.equal(active.back.href,sampleHref);
+active.context.location.hash='';active.events.hashchange();assert(active.back.hidden);
+active.context.location.hash='#csb-source-21';active.events.pageshow();assert(!active.back.hidden);
+const reader=returnContext({url:sampleHref});reader.citation.click();assert.equal(reader.storage.get('csb-paper-return:csb-source-21'),expected);
+for(const options of [{blocked:true},{stored:'/other-site/#citation-2'},{url:'https://example.org/ColoradoStreetBridge/paper/sources/?from=../../other&cite=citation-2#csb-source-21'}])assert(returnContext(options).back.hidden);
+const denied=returnContext({url:sampleHref,blocked:true});assert.doesNotThrow(()=>denied.citation.click());
+const legacy=returnContext({url:'https://example.org/ColoradoStreetBridge/paper/sources/?from=2024&cite=citation-2#csb-source-21'});assert(!legacy.back.hidden);assert.equal(legacy.back.href,sampleHref);
 console.log(JSON.stringify({readingSections: 13, sourceEntries: 41, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));
