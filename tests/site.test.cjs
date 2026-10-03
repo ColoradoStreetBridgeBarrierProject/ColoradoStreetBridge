@@ -503,7 +503,9 @@ assert(run('directoryLinks([{url:"https://example.org/report.pdf#page=2",label:"
 assert(!run('directoryLinks([{url:"https://example.org/folder",label:"Minutes folder"}])').includes(' · PDF'));
 assert.equal((run('forecastComparison()').match(/class="forecast-cell-label"/g)||[]).length,6);
 assert(run('forecastComparison()').includes('role="table"'));
-assert(fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('class="utility-nav"'));
+assert(!fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('class="utility-nav"'));
+assert(fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('href="__ROOT__about/" data-route="about">About</a>'));
+assert(run('viewMarkup({view:"overview"})').includes('Read from the beginning →'));
 console.log('Search refinement, visible meeting navigation, PDF labels, and narrow comparison checks passed');
 
 // Search keeps metadata and readable source-labeled prose separate.
