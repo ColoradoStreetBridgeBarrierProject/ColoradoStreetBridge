@@ -4,7 +4,7 @@ const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const paper = JSON.parse(read('paper/content.json'));
 const routes = paper.sections.map(s => 'paper/' + (s.slug ? s.slug + '/' : ''));
-const files = [...routes, 'paper/sources/'].map(route => route + 'index.html');
+const files = [...routes, 'paper/all/', 'paper/sources/'].map(route => route + 'index.html');
 const rendered = new Map(files.map(file => [file, read(file)]));
 const ids = html => [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const decode = text => text.replaceAll('&amp;', '&');
@@ -62,8 +62,18 @@ for (const [index, route] of routes.entries()) {
   }
   assert(read('sitemap.xml').includes('/' + route + '</loc>'));
 }
-assert.equal(images, 10);
-assert(citations > 190);
+assert.equal(images, 20,'The same ten images appear in both reading formats');
+const continuous=rendered.get('paper/all/index.html');
+assert.equal((continuous.match(/class="csb-cite"/g)||[]).length,citations/2,'Every chapter citation appears in the continuous edition');
+assert.equal((continuous.match(/class="continuous-section"/g)||[]).length,13);
+assert(!continuous.includes('class="csb-source"'),'Sources stay on their own page');
+assert(continuous.includes('By Christopher Clark'));
+assert(continuous.includes('About 35 minutes, excluding Sources'));
+for(const section of paper.sections){
+ const key=section.slug||'opening';assert(continuous.includes('id="section-'+key+'"'));
+ for(const [,id] of section.html.matchAll(/\bid="([^"]+)"/g))assert(continuous.includes('id="all-'+key+'-'+id+'"'),'Continuous reading preserves a unique form of each passage/citation ID');
+}
+assert(citations > 380);
 assert(rendered.get('paper/2018-2019/index.html').includes('provided the City approved additional construction funding'));
 assert(rendered.get('paper/forecasts/index.html').includes('October – December 2025, then January – March 2026, and then April – June 2026'));
 assert(routes.indexOf('paper/questions/') === routes.indexOf('paper/2024/') + 1);
@@ -74,12 +84,12 @@ assert(read('paper/reader.css').includes('.csb-table { font:inherit;'));
 // Exercise citation return behavior with real generated links, including storage
 // failures, prior shared URLs, hash navigation, and back/forward restoration.
 const sampleHref = 'https://example.org/ColoradoStreetBridge/paper/2024/#citation-2';
-function returnContext({url='https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21', stored, blocked=false}={}) {
+function returnContext({url='https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21', stored, blocked=false, target=sampleHref, citeId='citation-2'}={}) {
   const events={}, storage=new Map(stored ? [['csb-paper-return:csb-source-21',stored]] : []);
   const back={hidden:true,setAttribute(k,v){this[k]=v;}};
-  const fallback={href:sampleHref,getAttribute(){return sampleHref;}};
+  const fallback={href:target,getAttribute(){return target;}};
   const source={id:'csb-source-21',classList:{contains:()=>true},querySelectorAll:()=>[fallback],querySelector:()=>back};
-  const citation={href:'https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21',id:'citation-2',addEventListener(k,fn){this[k]=fn;}};
+  const citation={href:'https://example.org/ColoradoStreetBridge/paper/sources/#csb-source-21',id:citeId,addEventListener(k,fn){this[k]=fn;}};
   const context={URL,URLSearchParams,location:new URL(url),sessionStorage:{getItem(k){if(blocked)throw Error('Denied');return storage.get(k);},setItem(k,v){if(blocked)throw Error('Denied');storage.set(k,v);}},addEventListener(k,fn){events[k]=fn;},document:{querySelectorAll(s){return s==='.csb-cite'?[citation]:[back];},getElementById(id){return id===source.id?source:null;}}};
   vm.runInNewContext(read('paper/sources.js'),context);
   return {context,back,citation,events,storage};
@@ -92,4 +102,8 @@ const reader=returnContext({url:sampleHref});reader.citation.click();assert.equa
 for(const options of [{blocked:true},{stored:'/other-site/#citation-2'},{url:'https://example.org/ColoradoStreetBridge/paper/sources/?from=../../other&cite=citation-2#csb-source-21'}])assert(returnContext(options).back.hidden);
 const denied=returnContext({url:sampleHref,blocked:true});assert.doesNotThrow(()=>denied.citation.click());
 const legacy=returnContext({url:'https://example.org/ColoradoStreetBridge/paper/sources/?from=2024&cite=citation-2#csb-source-21'});assert(!legacy.back.hidden);assert.equal(legacy.back.href,sampleHref);
+const continuousId=continuous.match(/id="([^"]+)" href="\.\.\/\.\.\/paper\/sources\/#csb-source-21"/)[1];
+const fullTarget='https://example.org/ColoradoStreetBridge/paper/all/#'+continuousId;
+const full=returnContext({url:fullTarget,target:fullTarget,citeId:continuousId});full.citation.click();
+const fullReturn=returnContext({stored:full.storage.get('csb-paper-return:csb-source-21'),target:fullTarget});assert(!fullReturn.back.hidden);assert.equal(fullReturn.back.href,fullTarget,'Return stays in the continuous edition at the exact citation');
 console.log(JSON.stringify({readingSections: 13, sourceEntries: 41, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));

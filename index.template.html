@@ -37,6 +37,10 @@
   <div class="app-layout">
   <aside class="site-sidebar" id="site-sidebar" aria-label="Project navigation">
     <a class="sidebar-brand" href="__ROOT__" data-route="overview"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 17h38M8 17v22m32-22v22M8 32c4-15 10-15 16 0 6-15 12-15 16 0M5 39h38M14 17v-5m10 5v-5m10 5v-5"/></svg><span>Colorado<br>Street Bridge<small>PROJECT GUIDE</small></span></a>
+    <form id="search-form" class="search-form sidebar-search" role="search" aria-label="Search this site" tabindex="-1">
+      <label for="search-input">Search this site</label>
+      <div class="search-controls"><input id="search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search"><button type="submit">Search</button></div>
+    </form>
     <p class="nav-label">In this guide</p>
     <nav class="view-nav" aria-label="Guide sections">
       <a id="tab-overview" href="__LINK_OVERVIEW__" data-view="overview" aria-current="__CURRENT_OVERVIEW__"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg><span>Overview</span></a>
@@ -48,12 +52,8 @@
       <a id="tab-news" href="__LINK_NEWS__" data-view="news" aria-current="__CURRENT_NEWS__"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13v16H5a2 2 0 0 1-2-2V7m14 1h4v10a2 2 0 0 1-4 0M7 8h6m-6 4h6m-6 4h6"/></svg><span>News &amp; commentary</span></a>
     </nav>
     <nav class="utility-nav" aria-label="Guide information"><a href="__ROOT__paper/">Read the paper</a><a href="__LINK_ABOUT__" data-route="about">About this guide</a></nav>
-    <form id="search-form" class="search-form sidebar-search" role="search" aria-label="Search this guide" tabindex="-1">
-      <label for="search-input">Search this guide</label>
-      <div class="search-controls"><input id="search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search"><button type="submit">Search</button></div>
-    </form>
     <button class="theme-toggle" type="button" aria-label="Light reading mode" data-theme-toggle aria-pressed="false" hidden>Light reading mode</button>
-    <div class="sidebar-bottom"><span class="independent-badge"><i aria-hidden="true"></i>Independent guide</span><p>The history of Pasadena’s permanent-barrier project, with links to the records.</p><a href="__ROOT__preserved-records/">Preserved City records</a></div>
+    <div class="sidebar-bottom"><span class="independent-badge"><i aria-hidden="true"></i>Independent guide</span><a href="__ROOT__preserved-records/">Preserved City records</a></div>
   </aside>
   <div class="shell">
     <section class="intro" aria-labelledby="site-title" __HERO_HIDDEN__>
@@ -70,7 +70,7 @@
     <main id="content" aria-labelledby="view-heading" tabindex="-1">__CONTENT__</main>
     <noscript><p>Every section and its source links are available without JavaScript. Enable JavaScript to use search and filters. You can also visit the <a href="https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/">City’s project page</a>.</p></noscript>
     <footer class="footer">
-      <p>Last updated __SITE_UPDATE_DATE__</p>
+      <p>Site updated __SITE_UPDATE_DATE__</p>
       <p>This is not an official City website.</p>
       <button class="theme-toggle" type="button" aria-label="Light reading mode" data-theme-toggle aria-pressed="false" hidden>Light reading mode</button>
       <nav class="footer-nav" aria-label="About and contact">

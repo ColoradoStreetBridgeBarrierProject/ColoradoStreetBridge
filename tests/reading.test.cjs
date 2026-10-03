@@ -2,12 +2,13 @@
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
 const root=path.resolve(__dirname,'..'),read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const key='csb-reading-theme';
-function themeContext(saved,blocked=false){
+function themeContext(saved,blocked=false,systemLight=false){
   const events={},storage=new Map([[key,saved]]),buttons=[{},{}],meta={};
   for(const button of buttons){button.hidden=true;button.attrs={};button.setAttribute=(k,v)=>button.attrs[k]=v;button.addEventListener=(event,fn)=>button[event]=fn;}
   const document={documentElement:{dataset:{}},querySelector:()=>({setAttribute:(k,v)=>meta[k]=v}),querySelectorAll:()=>buttons,addEventListener:(event,fn)=>events[event]=fn};
-  const context={document,localStorage:{getItem:k=>{if(blocked)throw Error('Storage denied');return storage.get(k);},setItem:(k,v)=>{if(blocked)throw Error('Storage denied');storage.set(k,v);}},addEventListener:(event,fn)=>events[event]=fn};
-  vm.runInNewContext(read('theme.js'),context);return{document,buttons,events,storage,meta};
+  const media={matches:systemLight,addEventListener:(event,fn)=>events['system-'+event]=fn};
+  const context={document,matchMedia:()=>media,localStorage:{getItem:k=>{if(blocked)throw Error('Storage denied');return storage.get(k);},setItem:(k,v)=>{if(blocked)throw Error('Storage denied');storage.set(k,v);}},addEventListener:(event,fn)=>events[event]=fn};
+  vm.runInNewContext(read('theme.js'),context);return{document,buttons,events,storage,meta,media};
 }
 for(const initial of [undefined,'dark','light','untrusted-value']){
   const app=themeContext(initial);assert.equal(app.document.documentElement.dataset.theme,initial==='light'?'light':'dark');
@@ -21,6 +22,14 @@ for(const initial of [undefined,'dark','light','untrusted-value']){
   app.events.storage({key:null,newValue:null});assert.equal(app.document.documentElement.dataset.theme,'dark');
 }
 const blocked=themeContext(undefined,true);blocked.events.DOMContentLoaded();blocked.buttons[1].click();assert.equal(blocked.document.documentElement.dataset.theme,'light','Blocked storage must not prevent switching');
+for(const saved of [undefined,'untrusted-value','light','dark']){
+ const app=themeContext(saved,false,true);assert.equal(app.document.documentElement.dataset.theme,saved==='dark'?'dark':'light','Saved choice overrides system light');
+ app.events.DOMContentLoaded();app.media.matches=false;app.events['system-change']();
+ assert.equal(app.document.documentElement.dataset.theme,saved==='light'?'light':'dark','System changes only govern an unsaved preference');
+ app.buttons[0].click();const choice=app.document.documentElement.dataset.theme;app.media.matches=true;app.events['system-change']();assert.equal(app.document.documentElement.dataset.theme,choice);
+ app.events.storage({key:null,newValue:null});assert.equal(app.document.documentElement.dataset.theme,'light','Cleared preference returns to system');
+}
+assert.equal(themeContext(undefined,true,true).document.documentElement.dataset.theme,'light','System works with blocked storage');
 
 const css=read('styles.css');
 const tokens=block=>Object.fromEntries([...block.matchAll(/--([a-z-]+):\s*(#[0-9a-f]{6})/g)].map(m=>[m[1],m[2]]));
@@ -45,5 +54,5 @@ assert(template.indexOf('theme.js')<template.indexOf('styles.css'),'Saved prefer
 const tables=read('preserved-records/tables.html');assert(tables.includes('../theme.js'));assert(tables.includes('data-theme-toggle'));
 for(const file of ['2017-07-19_Public_Safety_Committee_Minutes.pdf','2018-04-18_Public_Safety_Committee_Minutes.pdf','2019-04-17_Public_Safety_Committee_Minutes.pdf','2019-05-15_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf'])assert(read('meetings-and-documents/index.html').includes(file));
 assert(read('news-and-commentary/index.html').includes('an interview with Didi Hirsch’s Kita Curry'));
-assert(read('about/index.html').includes('maintained as a personal research project'));
+assert(read('about/index.html').includes('Christopher Clark researches and maintains this independent guide'));
 console.log(JSON.stringify({themeTests:'pre-paint preference, toggle, persistence, storage failure, cross-tab reset',contrastPairs:checks,minimumTextContrast:Number(minimum.toFixed(2)),recordLocators:6,limitations:'Token contrast and source checks are not physical-device or screen-reader tests.'}));

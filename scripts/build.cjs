@@ -5,11 +5,14 @@ const {secureHtml}=require('./security.cjs');
 const root=path.resolve(__dirname,'..');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex').slice(0,12);
+const {searchRecords}=require('./paper-data.cjs');
+const paperSearch='\'use strict\';\n// Generated from paper/content.json. Do not edit this index directly.\nconst PaperSearchData='+JSON.stringify(searchRecords)+';\n';
+fs.writeFileSync(path.join(root,'paper/search-data.js'),paperSearch);
 const data=vm.createContext({});
 for(const name of ['speakers.js','other-speakers.js','resources.js'])vm.runInContext(read(name),data,{filename:name});
 const declarations=['speakerTopics','speakers','otherSpeakers','resourceUrls','meetingRecords','newsRecords'];
 const compact=declarations.map(name=>'const '+name+'='+vm.runInContext('JSON.stringify('+name+')',data)+';').join('\n');
-const script=read('search.js')+'\n'+compact+'\nconst speakerDirectory={...speakers,...otherSpeakers};\n'+read('app.js')+'\n'+read('print.js');
+const script=read('search.js')+'\n'+paperSearch+'\n'+compact+'\nconst speakerDirectory={...speakers,...otherSpeakers};\n'+read('app.js')+'\n'+read('print.js');
 
 // Every static page and the interactive guide share the same view renderer.
 const noop=()=>{};
@@ -43,6 +46,9 @@ fs.writeFileSync(path.join(root,'404.html'),secureHtml(read('404.template.html')
 const tables=read('preserved-records/tables.html').replace(/href="tables\.css(?:\?v=[^"]+)?"/,'href="tables.css?v='+hash(read('preserved-records/tables.css'))+'"').replace(/src="\.\.\/print\.js(?:\?v=[^"]+)?"/,'src="../print.js?v='+hash(read('print.js'))+'"');
 fs.writeFileSync(path.join(root,'preserved-records/tables.html'),secureHtml(tables));
 fs.writeFileSync(path.join(root,'preserved-records/index.html'),secureHtml(read('preserved-records/index.html').replace(/href="tables\.css(?:\?v=[^"]+)?"/,'href="tables.css?v='+hash(read('preserved-records/tables.css'))+'"')));
+for(const file of ['preserved-records/index.html','preserved-records/tables.html']){
+  fs.writeFileSync(path.join(root,file),read(file).replace(/src="\.\.\/theme\.js(?:\?v=[^"]+)?"/,'src="../theme.js?v='+hash(read('theme.js'))+'"'));
+}
 const paperPages=require('./build-paper.cjs').buildPaper();
 fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...pages.filter(p=>p.view!=='search'),...paperPages].map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/</loc></url>\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/tables.html</loc></url>\n</urlset>\n');
 const html=output.find(p=>p.path==='').html;
