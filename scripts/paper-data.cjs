@@ -22,7 +22,8 @@ const searchRecords = paper.sections.map((section,index) => {
     if (text) passages.push({id,text});
   }
   const route='paper/'+(section.slug?section.slug+'/':'');
-  return {type:'Paper',title:'Section '+(index+1)+' · '+section.title,aliases:index===0?[paper.title,paper.author]:[],text:passages.map(p=>p.text).join(' '),route,path:route,passages};
+  const work=index===0?{title:paper.title,author:paper.author,description:'An analytical history of Pasadena’s Colorado Street Bridge barrier project, with linked sources.'}:undefined;
+  return {type:'Paper',title:'Section '+(index+1)+' · '+section.title,aliases:index===0?[paper.title,paper.author]:[],work,text:passages.map(p=>p.text).join(' '),route,path:route,passages};
 });
 const words = searchRecords.reduce((total, section) => total + section.text.split(/\s+/).length, 0);
 const readingMinutes = Math.ceil(words / 220 / 5) * 5;
