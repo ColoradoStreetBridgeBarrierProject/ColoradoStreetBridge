@@ -575,8 +575,6 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .meeting-filters { flex-wrap: wrap; }
 .meeting-filters select { width: auto; max-width: 100%; }
 .topic-layout { margin-top: 24px; }
-.utility-nav { margin: 8px 0 0; padding: 0 12px; }
-.utility-nav a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
 .figure-links { gap: 0 14px; margin-top: 4px; }
 .figure-links a { padding: 4px 0; border: 0; border-radius: 0; background: none; color: var(--link); font-size: .8125rem; font-weight: 400; text-decoration: underline; }
 .figure-links a:hover, .figure-links a:focus-visible { background: none; }
