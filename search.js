@@ -50,5 +50,12 @@ const SearchText = (() => {
     const sentence=sentences.reduce((best,next)=>matchCount(next)>matchCount(best)?next:best,sentences[0]);
     return {label:field.label,text:excerpt(sentence,contentWords)};
   };
-  return {normalize, terms, separateBlocks, score, snippet, excerpt, preview};
+  const paperResult = (item, words) => {
+    const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
+    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(words.join(' '))?2:0);
+    const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
+    const found=count(passage)>0;
+    return {...item, href:item.path+'#'+(found?passage.id:'paper-top'), summary:found?passage.text:[item.title,...item.aliases].join(' · '), metadata:['The fence everyone can see · Christopher Clark']};
+  };
+  return {normalize, terms, separateBlocks, score, snippet, excerpt, preview, paperResult};
 })();

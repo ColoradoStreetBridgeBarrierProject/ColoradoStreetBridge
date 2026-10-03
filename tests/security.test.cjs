@@ -13,7 +13,7 @@ function htmlFiles(dir) {
   });
 }
 const pages = htmlFiles(root);
-assert.equal(pages.length, 30, 'Check every published HTML document');
+assert.equal(pages.length, 31, 'Check every published HTML document, including continuous reading');
 for (const file of pages) {
   const html = fs.readFileSync(file, 'utf8');
   const label = path.relative(root, file);

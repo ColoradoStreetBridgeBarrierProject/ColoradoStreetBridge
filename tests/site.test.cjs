@@ -14,7 +14,7 @@ const context={document:doc,location:{hash:'',pathname:'/',href:'https://colorad
 if(!process.argv.includes('--no-resize-observer'))context.ResizeObserver=TestResizeObserver;
 vm.createContext(context);
 const bundled=process.argv.includes('--bundle');
-for(const name of bundled?['assets/guide.js']:['search.js','speakers.js','other-speakers.js','resources.js','app.js']) vm.runInContext(fs.readFileSync(dir+'/'+name,'utf8'),context,{filename:name});
+for(const name of bundled?['assets/guide.js']:['search.js','paper/search-data.js','speakers.js','other-speakers.js','resources.js','app.js']) vm.runInContext(fs.readFileSync(dir+'/'+name,'utf8'),context,{filename:name});
 const run=code=>vm.runInContext(code,context), json=code=>JSON.parse(run('JSON.stringify('+code+')'));
 assert.equal(cssProperties['--mobile-header-height'],'68px','Initial render measures the mobile header');
 if(context.ResizeObserver)assert.equal(resizeTarget,elements['.topbar']);
@@ -121,13 +121,27 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,145,'Add the decision-process explanation while keeping the three excluded news entries removed');
+assert.equal(index.length,158,'Retain 145 guide entries and add 13 paper chapters');
+assert.equal(index.filter(x=>x.type==='Paper').length,13);
+for(const [query,target] of [['Christopher Clark','paper/'],['The fence everyone can see','paper/'],['La La Land','paper/'],['higher-capacity cushion','paper/2024/'],['not a rush','paper/2018-2019/']]){
+ const matches=index.filter(x=>x.type==='Paper'&&run(`SearchText.score(${JSON.stringify(x)},SearchText.terms(${JSON.stringify(query)}))`)>0);
+ assert(matches.some(x=>x.path===target),query+': paper search match');
+ assert.equal(new Set(matches.map(x=>x.path)).size,matches.length,'Group paper results by chapter');
+ const output=run(`searchView(${JSON.stringify(query)})`);
+ assert(output.includes('class="result-type">Paper</p>'));
+ assert(output.includes('href="/'+target+'#'),'Paper result links directly to its passage');
+ assert(!output.includes('data-route="paper/'),'Paper links use ordinary navigation');
+}
+for(const chapter of index.filter(x=>x.type==='Paper')){
+ const chapterHtml=fs.readFileSync(path.join(dir,chapter.path,'index.html'),'utf8');
+ for(const passage of chapter.passages)assert(chapterHtml.includes('id="'+passage.id+'"'),chapter.path+': stable passage target');
+}
 const processResult=index.find(item=>item.route==='timeline/who-decides');
 assert(processResult&&processResult.title==='Who decides what?');
 assert(run('searchView("who decides")').includes('data-route="timeline/who-decides"'),'A newcomer’s decision-process query must have a useful destination');
 assert(run('overview()').includes('data-route="timeline/who-decides"'));
 assert(run('timelineView()').includes('They do not establish a confirmed date for the next Bridge decision.'));
-assert(run('evidence()').includes('curved-curved mesh (Option B, 44.5%)'));
+assert(run('evidence()').includes('Curved-curved mesh (Option B)</th><td>462</td><td>44.5%'));
 assert(run('alternatives("landscaping")').includes('Design Commission Chair Julianna Delgado'));
 assert(run('alternatives("staffing")').includes('Mayor Victor Gordo'));
 assert(!run('alternatives("staffing")').includes('Host/Guide-style'));
@@ -283,7 +297,8 @@ for(const html of [page,run('overview()')]){
  assert(html.includes('The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.'),'Keep the design-versus-construction distinction');
  assert.equal((html.match(/City project page checked September 13, 2026/g)||[]).length,1,'State the source-check date only once');
  const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
- assert(sourceArea.includes('<summary>Source dates and funding note</summary>'),'Keep verification details beside the source links');
+ assert(sourceArea.includes('<summary>Financial reporting period and funding note</summary>'),'Keep the report period beside the source links');
+ assert(html.includes('<p class="status-dates">Main research review through September 1, 2026. City project page checked September 13, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');
  assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
  assert(sourceArea.includes('A funding request does not mean the money has been awarded.'),'Retain the funding qualification');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
@@ -404,7 +419,7 @@ assert(run('designGallery()').includes('says this option was eliminated'));
 assert(!run('meetingsView()').includes('This is a future meeting'));
 assert(!run('alternatives()').includes('Keep this qualification'));
 assert(!run('alternatives("technology")').includes('This companion'));
-assert(run('aboutView()').includes('maintained as a personal research project'));
+assert(run('aboutView()').includes('Christopher Clark researches and maintains this independent guide'));
 run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cacti")');
 assert(elements.content.innerHTML.includes('Return to search results'));
 assert(elements.content.innerHTML.indexOf('Return to search results')<elements.content.innerHTML.indexOf('class="remark-card"'));
@@ -494,7 +509,8 @@ assert.equal(json('SearchText.preview('+JSON.stringify(previewSample)+',["2024"]
 const previews=run('searchView("netting")');
 assert(previews.includes('class="result-meta"'));
 assert(previews.includes('class="result-excerpt-label"'));
-assert.equal(index.filter(item=>run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,27,'Ranking and matching stay unchanged');
+assert.equal(index.filter(item=>item.type!=='Paper'&&run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,27,'Existing guide matching stays unchanged');
+assert.equal(index.filter(item=>item.type==='Paper'&&run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,6,'Paper matches are grouped into six chapters');
 
 // All gallery links retain a no-JavaScript image destination; native dialogs
 // retain full source captions and restore focus on close.
