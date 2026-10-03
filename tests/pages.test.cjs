@@ -113,7 +113,7 @@ console.log('Skip-link route/filter preservation and decision-process destinatio
 const about=read('about/index.html');
 assert(!about.includes('Updating the website does not mean every claim has been checked again.'));
 assert(!about.includes('Please identify the passage and include a supporting source when available.'));
-assert(about.includes('whether they support or challenge the guide’s reading'));
+assert(about.includes('whether they support or challenge my reading of the record'));
 assert(!fs.existsSync(path.join(root,'changes/index.html')),'The Changes page must not be published');
 assert(!read('assets/guide.js').includes('Changes to this guide'),'Removed page content must not remain in the bundle');
 assert(!read('sitemap.xml').includes('/changes/'),'Removed page must not remain in the sitemap');
@@ -184,7 +184,10 @@ metadataApp.context.location=new URL('https://coloradostreetbridgeproject.com/al
 assertMetadata(metadataApp,'Compare the Colorado Street Bridge discussions of patrols, staffing costs, response time, and the limits of continuous coverage.','Staffing & patrols | Colorado Street Bridge Project Guide','https://coloradostreetbridgeproject.com/alternatives-studied/staffing/');
 assert.equal((alternatives.match(/class="approach-card"/g)||[]).length,4);
 assert(!alternatives.includes('aria-current="page">Horizontal netting'),'Overview must not silently select one alternative');
-assert.equal((who.match(/class="earlier-work"/g)||[]).length,75,'Keep every earlier-work passage in an accessible disclosure');
+assert.equal((who.match(/class="earlier-work"/g)||[]).length,59,'Keep the selected background passages in accessible disclosures');
+assert(who.includes('Earlier landscaping findings did not evaluate this exact layered configuration.'),'Retain the scope of the earlier netting review');
+assert(who.includes('Hampton had proposed continuous staffing, and Gordo had suggested a host or guide model.'),'Use staffing background for Kennedy’s staffing entry');
+assert(about.includes('id="sources"'),'Shared source method has a stable destination');
 assert(who.includes('Jump to a date'));
 assert(!who.includes('for this website update'),'Routine update history belongs in the internal handoff');
 assert(!who.includes('No new listening'));

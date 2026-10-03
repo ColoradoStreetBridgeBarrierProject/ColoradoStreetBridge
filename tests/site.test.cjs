@@ -152,7 +152,7 @@ const processResult=index.find(item=>item.route==='timeline/who-decides');
 assert(processResult&&processResult.title==='Who decides what?');
 assert(run('searchView("who decides")').includes('data-route="timeline/who-decides"'),'A newcomer’s decision-process query must have a useful destination');
 assert(run('overview()').includes('data-route="timeline/who-decides"'));
-assert(run('timelineView()').includes('They do not establish a confirmed date for the next Bridge decision.'));
+assert(run('timelineView()').includes('with no confirmed date for the next Bridge decision.'));
 assert(run('evidence()').includes('Curved-curved mesh (Option B)</th><td>462</td><td>44.5%'));
 assert(run('alternatives("landscaping")').includes('Design Commission Chair Julianna Delgado'));
 assert(run('alternatives("staffing")').includes('Mayor Victor Gordo'));
@@ -187,7 +187,7 @@ assert(!run('evidence()').includes('Of 678 respondents'));
 assert(run('overview()').includes('Page excerpt'));
 assert(run('overview()').includes('What alternatives were studied?'));
 assert(run('forecastComparison()').includes('August 2020, if the City approved the funding'));
-assert(run('forecastComparison()').includes('does not promise when the barrier will be built'));
+assert(run('forecastComparison()').includes('Construction funding remained unidentified.'));
 assert.equal((run('forecastComparison()').match(/scope="row"/g)||[]).length,3);
 assert(run('speakerView()').includes('whether they support or challenge'));
 assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
@@ -309,10 +309,10 @@ for(const html of [page,run('overview()')]){
  assert(html.includes('The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.'),'Keep the design-versus-construction distinction');
  assert.equal((html.match(/City project page checked September 13, 2026/g)||[]).length,1,'State the source-check date only once');
  const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
- assert(sourceArea.includes('<summary>Financial reporting period and funding note</summary>'),'Keep the report period beside the source links');
+ assert(sourceArea.includes('<summary>Financial reporting period</summary>'),'Keep the report period beside the source links');
  assert(html.includes('<p class="status-dates">Main research review through September 1, 2026. City project page checked September 13, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');
  assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
- assert(sourceArea.includes('A funding request does not mean the money has been awarded.'),'Retain the funding qualification');
+ assert(html.includes('secured construction funding'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
@@ -365,8 +365,8 @@ assert(styleBlock('[hidden]').includes('display: none !important'),'Responsive d
 assert(run('speakerView()').includes('All 23 speakers'));
 assert(run('speakerView("other")').includes('35 entries from 15 people'));
 assert(!run('speakerView("madison")').includes('class="chronology-note"'));
-assert(!run('speakerView("other")').includes('Remarks are included when'));
-assert(run('speakerView()').includes('Remarks are included when'));
+assert(!run('speakerView("other")').includes('I selected exchanges that bear on'));
+assert(run('speakerView()').includes('I selected exchanges that bear on'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
 assert(run('overview()').includes('do not show an approved permanent design or secured construction funding.'));
@@ -378,8 +378,8 @@ assert(!run('newsView()').includes('San Gabriel Valley Tribune · publisher home
 for(const view of ['timeline','alternatives','speakers']){
  assert(!run('viewMarkup('+JSON.stringify({view})+')').includes('Record note'),view+': record-note blocks removed');
 }
-assert(run('speakerView()').includes('<dt>What followed</dt>'));
-assert(run('speakerView()').includes('Sources for this entry'));
+assert(run('speakerView()').includes('<strong>Later</strong>'));
+assert(run('speakerView()').includes('<summary>Sources</summary>'));
 assert(!run('searchIndex().map(r=>r.text).join(" ")').includes('This exchange records the intended distinction'));
 assert(!run('steps([{date:"2026",title:"Test",text:"Visible",result:"Hidden record note"}])').includes('Hidden record note'));
 assert(run('searchView("final mesh type")').includes('timeline/2020-02-03'),'Search includes the February source note');
@@ -395,7 +395,7 @@ for(const r of metadata){
   assert.equal(excerpt.includes('excerpt-verification'),['Author-confirmed excerpt','Author-checked quotation'].includes(r.kind)||['jones-continue','madison-response','gordo-staffing'].includes(r.id),'Only specific verification information repeats beside an excerpt');
  }
 }
-assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('author checked who was speaking and where the passage appears'));
+assert(run('remarkExcerpt(speakers.jones.remarks.find(r=>r.id==="jones-continue"))').includes('Speaker and passage checked against the recording.'));
 const aprilLinks=run('citations(7,"5–7",[["Council minutes",urls.m2018],["Task-force report",urls.r2018]])');
 assert(!aprilLinks.includes('href="'+run('urls.m2018')+'"'));
 assert(aprilLinks.includes('href="'+run('urls.m2018')+'#page=4"'));
@@ -431,7 +431,7 @@ assert(run('designGallery()').includes('says this option was eliminated'));
 assert(!run('meetingsView()').includes('This is a future meeting'));
 assert(!run('alternatives()').includes('Keep this qualification'));
 assert(!run('alternatives("technology")').includes('This companion'));
-assert(run('aboutView()').includes('Christopher Clark researches and maintains this independent guide'));
+assert(run('aboutView()').includes('I’m Christopher Clark. I research and maintain this independent guide'));
 run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cacti")');
 assert(elements.content.innerHTML.includes('Return to search results'));
 assert(elements.content.innerHTML.indexOf('Return to search results')<elements.content.innerHTML.indexOf('class="remark-card"'));
@@ -442,11 +442,11 @@ const plainTimeline=run('viewMarkup({view:"timeline"})');
 for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
 for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after costs the City had already agreed to pay','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
 assert(run('overview()').includes('What the 2028 date means'));
-assert(run('alternatives("netting")').includes('does not mean a completed design proved a net could not be built'));
-assert(run('speakerView()').includes('Not every quoted word was checked against the audio.'));
+assert(run('alternatives("netting")').includes('Engineers had not designed the connections'));
+assert(run('aboutView()').includes('A word-for-word audio check is identified separately.'));
 assert(!run('speakerView()').includes('official-player passage locator'));
 assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whether deaths move elsewhere');
-assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('The starting time is approximate.')),'Search uses the displayed source-note wording');
+assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('Speaker and passage at 01:02:09 checked against the recording.')),'Search uses the displayed source-note wording');
 assert(run('meetingsView()').includes('Automatically recognized text may contain errors.'));
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
 assert(tablePage.includes('after costs the City had already agreed to pay'));
@@ -466,10 +466,10 @@ assert(run('evidence()').includes('Read the prevention studies, local surveys, a
 assert(!run('evidence()').includes('READING THE MONEY AND DATES'));
 assert(run('speakerView()').includes('Read selected exchanges in date order, with their background, responses, and supporting records.'));
 assert(!run('aboutView()').includes('Source notes explain whether the words are'));
-assert(run('aboutView()').includes('Quotations, City-caption excerpts, working-transcript excerpts, and summaries are labeled separately.'));
-assert(run('aboutView()').includes('Checking who was speaking and when does not mean every quoted word was checked against the audio.'));
-assert(run('aboutView()').includes('whether they support or challenge the guide’s reading'));
-assert(!/The guide and the paper|The fence everyone can see|the author’s/.test(run('aboutView()')),'About must stand on its own without paper references or a byline');
+assert(run('aboutView()').includes('Its label tells you where the wording comes from.'));
+assert(run('aboutView()').includes('A word-for-word audio check is identified separately.'));
+assert(run('aboutView()').includes('whether they support or challenge my reading of the record'));
+assert(!/The guide and the paper|The fence everyone can see|the author’s/.test(run('aboutView()')),'About identifies ownership in the first person and explains the guide on its own');
 console.log('Focused repetition and qualification-preservation checks passed');
 
 const fundingSearch=index.find(item=>item.route==='evidence/6');
@@ -568,7 +568,10 @@ for(const {remark} of aprilEntries){
 }
 const publicSpeakerPage=run('speakerView()');
 assert.equal((publicSpeakerPage.match(/class="source-legend"/g)||[]).length,1);
-assert.equal((publicSpeakerPage.match(/<details class="source-detail">/g)||[]).length,75);
+assert.equal((publicSpeakerPage.match(/<details class="exchange-records">/g)||[]).length,75);
+assert(!publicSpeakerPage.includes('<details class="source-detail">'),'Source links and unique notes share one disclosure');
+assert(!publicSpeakerPage.includes('The author'),'Reader copy uses direct attribution');
+assert(!publicSpeakerPage.includes('does not establish that the requested consideration was redundant'));
 assert(!publicSpeakerPage.includes('<option value="2025"'),'Do not offer an empty year');
 assert(publicSpeakerPage.includes('Julianna Delgado'));
 for(const phrase of ['retained in','sent account','reviewed source note']){

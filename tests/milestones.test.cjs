@@ -52,8 +52,8 @@ for(const entry of entries){
   assert(html.includes(run('esc('+JSON.stringify(entry.text)+')')),'Original chronology text retained');
 }
 assert(html.includes('https://www.nps.gov/places/colorado-street-bridge.htm'));
-assert(html.includes('Selected milestones, not a time-scaled chart.'));
-assert(html.includes('not a new live-status check'));
+assert(html.includes('Selected milestones from the reviewed record.'));
+assert(html.includes('The dates above each entry show when the work took place.'));
 assert(!html.includes('assets/illustrations/'),'Do not misdate existing images as historical snapshots');
 const css=read('styles.css');
 assert(/\.milestone-controls\s*\{[^}]*flex-wrap:\s*wrap/.test(css));
