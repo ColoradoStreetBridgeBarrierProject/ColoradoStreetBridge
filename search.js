@@ -5,11 +5,13 @@ const SearchText = (() => {
   // textContent joins adjacent block elements. Separate them in the detached
   // search copy, while leaving inline markup and its punctuation untouched.
   const separateBlocks = html => String(html).replace(/(<\/(?:p|h[1-6]|div|li|dt|dd|ul|ol|dl|section|article|aside|details|summary)\s*>|<br\b[^>]*>|<hr\b[^>]*>)/gi, '$1 ');
-  const score = (item, words) => {
+  const score = (item, words, query = words.join(' ')) => {
     const title = normalize([item.title, ...(item.aliases || [])].join(' '));
     const body = normalize(item.text);
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
-    return 1 + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
+    const phrase = normalize(query);
+    const exactPhrase = phrase.includes(' ') && (title + ' ' + body).includes(phrase);
+    return 1 + (exactPhrase ? words.length * 10 + 1 : 0) + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
   };
   // Prefer explanatory sentences over headings and display statistics. Keep the
   // full indexed text available when a query matches a source label or detail.
@@ -50,9 +52,9 @@ const SearchText = (() => {
     const sentence=sentences.reduce((best,next)=>matchCount(next)>matchCount(best)?next:best,sentences[0]);
     return {label:field.label,text:excerpt(sentence,contentWords)};
   };
-  const paperResult = (item, words) => {
+  const paperResult = (item, words, query = words.join(' ')) => {
     const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
-    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(words.join(' '))?2:0);
+    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(normalize(query))?2:0);
     const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
     const found=count(passage)>0;
     return {...item, href:item.path+'#'+(found?passage.id:'paper-top'), summary:found?passage.text:[item.title,...item.aliases].join(' · '), metadata:['The fence everyone can see · Christopher Clark']};

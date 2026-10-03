@@ -123,6 +123,8 @@ assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
 assert.equal(index.length,158,'Retain 145 guide entries and add 13 paper chapters');
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
+const filmSearch=run('searchView("La La Land")');
+assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
 for(const [query,target] of [['Christopher Clark','paper/'],['The fence everyone can see','paper/'],['La La Land','paper/'],['higher-capacity cushion','paper/2024/'],['not a rush','paper/2018-2019/']]){
  const matches=index.filter(x=>x.type==='Paper'&&run(`SearchText.score(${JSON.stringify(x)},SearchText.terms(${JSON.stringify(query)}))`)>0);
  assert(matches.some(x=>x.path===target),query+': paper search match');

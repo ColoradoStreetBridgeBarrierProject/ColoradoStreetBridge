@@ -69,6 +69,9 @@ assert.equal((continuous.match(/class="continuous-section"/g)||[]).length,13);
 assert(!continuous.includes('class="csb-source"'),'Sources stay on their own page');
 assert(continuous.includes('By Christopher Clark'));
 assert(continuous.includes('About 35 minutes, excluding Sources'));
+assert(rendered.get('paper/index.html').includes('href="../paper/all/#paper-top">Read on one page'),'Opening the continuous edition starts at its title');
+assert(continuous.includes('href="#paper-top"><span>↑ Beginning</span>'),'Continuous beginning link stays in the continuous edition');
+
 for(const section of paper.sections){
  const key=section.slug||'opening';assert(continuous.includes('id="section-'+key+'"'));
  for(const [,id] of section.html.matchAll(/\bid="([^"]+)"/g))assert(continuous.includes('id="all-'+key+'-'+id+'"'),'Continuous reading preserves a unique form of each passage/citation ID');
