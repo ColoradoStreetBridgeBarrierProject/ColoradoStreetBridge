@@ -432,6 +432,8 @@ assert(!run('meetingsView()').includes('This is a future meeting'));
 assert(!run('alternatives()').includes('Keep this qualification'));
 assert(!run('alternatives("technology")').includes('This companion'));
 assert(run('aboutView()').includes('I’m Christopher Clark, a longtime Pasadena resident and registered nurse'));
+assert(!run('aboutView()').includes('Certified Crisis Specialist'));
+assert(!run('aboutView()').includes('suicidology.org'));
 assert(run('aboutView()').includes('I research and maintain this independent guide'));
 run('navigate("search?q=netting")');run('navigate("speakers/delgado/delgado-cacti")');
 assert(elements.content.innerHTML.includes('Return to search results'));

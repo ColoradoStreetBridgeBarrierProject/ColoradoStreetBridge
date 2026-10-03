@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-02',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-03',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -773,7 +773,7 @@ function readRoute() {
 function aboutView() {
   return `<div class="section-head"><div><h2>About this guide</h2></div></div>
     <div class="info-copy">
-      <p>I’m Christopher Clark, a longtime Pasadena resident and registered nurse with a background in urgent care, emergency care, and pediatric and adult trauma. I also hold the American Association of Suicidology’s <a href="https://suicidology.org/services/certification/crisis-specialist-training-and-certification-course/" target="_blank" rel="noopener noreferrer">Certified Crisis Specialist credential</a>.</p>
+      <p>I’m Christopher Clark, a longtime Pasadena resident and registered nurse with a background in urgent care, emergency care, and pediatric and adult trauma.</p>
       <p>I started following the project in the summer of 2023 because I wanted to understand why it was taking so long. The City was presenting a new round of barrier designs, and I began reading public comments, watching presentations, and going back through earlier meetings. As I continued following the project, I grew frustrated hearing the same questions come up repeatedly, sometimes from people who had participated in the earlier discussions. I wanted to understand what had already been considered, what remained unresolved, and how the decisions fit together.</p>
       <p>I research and maintain this independent guide to Pasadena’s effort to develop a permanent suicide prevention barrier for the Colorado Street Bridge. I built it to help readers follow the decisions, alternatives, and schedule, and check the supporting records for themselves. The website brings together the paper, City reports, meeting minutes, presentations, and recordings.</p>
       <h2>Research and source checks</h2>

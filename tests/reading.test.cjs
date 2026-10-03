@@ -55,5 +55,7 @@ const tables=read('preserved-records/tables.html');assert(tables.includes('../th
 for(const file of ['2017-07-19_Public_Safety_Committee_Minutes.pdf','2018-04-18_Public_Safety_Committee_Minutes.pdf','2019-04-17_Public_Safety_Committee_Minutes.pdf','2019-05-15_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Minutes.pdf','2020-02-03_Public_Safety_Committee_Agenda_Packet.pdf'])assert(read('meetings-and-documents/index.html').includes(file));
 assert(read('news-and-commentary/index.html').includes('an interview with Didi Hirsch’s Kita Curry'));
 assert(read('about/index.html').includes('I’m Christopher Clark, a longtime Pasadena resident and registered nurse'));
+assert(!read('about/index.html').includes('Certified Crisis Specialist'));
+assert(!read('about/index.html').includes('suicidology.org'));
 assert(read('about/index.html').includes('I research and maintain this independent guide'));
 console.log(JSON.stringify({themeTests:'pre-paint preference, toggle, persistence, storage failure, cross-tab reset',contrastPairs:checks,minimumTextContrast:Number(minimum.toFixed(2)),recordLocators:6,limitations:'Token contrast and source checks are not physical-device or screen-reader tests.'}));
