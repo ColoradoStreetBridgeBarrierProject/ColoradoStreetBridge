@@ -125,6 +125,16 @@ assert.equal(index.length,158,'Retain 145 guide entries and add 13 paper chapter
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
 const filmSearch=run('searchView("La La Land")');
 assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
+for(const query of ['The fence everyone can see','  THE fence  everyone can SEE  ']){
+ const result=run(`searchView(${JSON.stringify(query)})`).match(/<ol class="search-results"><li>([\s\S]*?)<\/li>/)[1];
+ assert(result.includes('href="/paper/#paper-top"'),'Exact title opens the beginning');
+ assert(result.includes('By Christopher Clark'));
+ assert(result.replace(/<[^>]*>/g,'').includes('The fence everyone can see'));
+ assert(result.includes('<p class="result-excerpt">An analytical history of Pasadena’s Colorado Street Bridge barrier project, with linked sources.</p>'),'Title match shows an unhighlighted introduction, not incidental prose words');
+}
+const graftonSearch=run('searchView("Grafton")');
+assert(/href="\/paper\/where-that-leaves-pasadena\/#passage-\d+"/.test(graftonSearch),'A prose search still links to its matching passage');
+assert(graftonSearch.includes('<mark>Grafton</mark>'));
 for(const [query,target] of [['Christopher Clark','paper/'],['The fence everyone can see','paper/'],['La La Land','paper/'],['higher-capacity cushion','paper/2024/'],['not a rush','paper/2018-2019/']]){
  const matches=index.filter(x=>x.type==='Paper'&&run(`SearchText.score(${JSON.stringify(x)},SearchText.terms(${JSON.stringify(query)}))`)>0);
  assert(matches.some(x=>x.path===target),query+': paper search match');

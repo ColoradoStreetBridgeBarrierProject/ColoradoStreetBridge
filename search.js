@@ -53,6 +53,10 @@ const SearchText = (() => {
     return {label:field.label,text:excerpt(sentence,contentWords)};
   };
   const paperResult = (item, words, query = words.join(' ')) => {
+    // A title lookup is a request for the work, before any passage-word matches.
+    if (item.work && normalize(query) === normalize(item.work.title)) {
+      return {...item,title:item.work.title,href:item.path+'#paper-top',summary:item.work.description,metadata:['By '+item.work.author],titleMatch:true};
+    }
     const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
     const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(normalize(query))?2:0);
     const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
