@@ -5,11 +5,13 @@ const SearchText = (() => {
   // textContent joins adjacent block elements. Separate them in the detached
   // search copy, while leaving inline markup and its punctuation untouched.
   const separateBlocks = html => String(html).replace(/(<\/(?:p|h[1-6]|div|li|dt|dd|ul|ol|dl|section|article|aside|details|summary)\s*>|<br\b[^>]*>|<hr\b[^>]*>)/gi, '$1 ');
-  const score = (item, words) => {
+  const score = (item, words, query = words.join(' ')) => {
     const title = normalize([item.title, ...(item.aliases || [])].join(' '));
     const body = normalize(item.text);
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
-    return 1 + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
+    const phrase = normalize(query);
+    const exactPhrase = phrase.includes(' ') && (title + ' ' + body).includes(phrase);
+    return 1 + (exactPhrase ? words.length * 10 + 1 : 0) + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
   };
   // Prefer explanatory sentences over headings and display statistics. Keep the
   // full indexed text available when a query matches a source label or detail.
@@ -50,9 +52,9 @@ const SearchText = (() => {
     const sentence=sentences.reduce((best,next)=>matchCount(next)>matchCount(best)?next:best,sentences[0]);
     return {label:field.label,text:excerpt(sentence,contentWords)};
   };
-  const paperResult = (item, words) => {
+  const paperResult = (item, words, query = words.join(' ')) => {
     const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
-    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(words.join(' '))?2:0);
+    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(normalize(query))?2:0);
     const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
     const found=count(passage)>0;
     return {...item, href:item.path+'#'+(found?passage.id:'paper-top'), summary:found?passage.text:[item.title,...item.aliases].join(' · '), metadata:['The fence everyone can see · Christopher Clark']};
@@ -691,7 +693,7 @@ function searchView(query) {
   const words=SearchText.terms(query);
   const heading=head('','Search this site','Search the guide and paper by topic, name, date, filename, decision, or phrase. Paper matches are grouped by chapter and link to a matching passage. Search does not look inside linked reports, articles, or recordings.')+`<form id="results-search-form" class="search-form results-search" role="search" aria-label="Search results"><label for="results-search-input">Search again or change your terms</label><div class="search-controls"><input id="results-search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search" value="${esc(query)}"><button type="submit">Search</button></div></form>`;
   if (!words.length) return heading+'<p class="search-empty">Try <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
-  const matches=searchIndex().map(item=>({item:item.type==='Paper'?SearchText.paperResult(item,words):item,score:SearchText.score(item,words)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+  const matches=searchIndex().map(item=>({item:item.type==='Paper'?SearchText.paperResult(item,words,query):item,score:SearchText.score(item,words,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
   const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
   return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>{const preview=SearchText.preview(item,words);return `<li><p class="result-type">${esc(item.type)}</p><h3><a ${item.type==='Paper'?'':'data-route="'+esc(item.route)+'"'} href="${esc(item.type==='Paper'?siteBase+item.href:routeHref(item.route))}">${highlight(item.title,words)}</a></h3>${item.metadata?`<p class="result-meta">${item.metadata.map(text=>highlight(text,words)).join(' · ')}</p>`:''}<p class="result-excerpt">${preview.label?`<span class="result-excerpt-label">${esc(preview.label)}: </span>`:''}${highlight(preview.text,words)}</p></li>`;}).join('')}</ol>`:'<p class="search-empty">No matching site content was found. Try fewer words, a surname, or a broader topic.</p>');
 }
