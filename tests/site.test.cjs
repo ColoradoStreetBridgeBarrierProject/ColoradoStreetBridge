@@ -218,7 +218,7 @@ assert(run('steps(timeline,true)').includes('data-timeline-id="2020-02-03"'));
 assert(run('steps(timeline,true)').includes('committee received and filed'));
 assert(run('evidence()').includes('$130,000 on June 9 and $46,000 on July 21'));
 assert(run('evidence()').includes('Staff said enough remained to finish design'));
-assert(run('evidence()').includes('after costs the City had already agreed to pay'));
+assert(run('evidence()').includes('The amount remaining after outstanding commitments is unresolved, as is the project’s federal ARPA accounting.'));
 assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert(index.some(x=>x.title==='Curved-curved mesh (Option B) led among respondents who ranked the mockups'));
@@ -484,7 +484,7 @@ console.log('September 17 audit regression checks passed');
 // The approved plain-language pass changes explanations, not evidence or quotations.
 const plainTimeline=run('viewMarkup({view:"timeline"})');
 for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
-for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after costs the City had already agreed to pay','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
+for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after outstanding commitments is unresolved','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
 assert(run('overview()').includes('What the 2028 date means'));
 assert(run('alternatives("netting")').includes('Engineers had not designed the connections'));
 assert(run('aboutView()').includes('A word-for-word audio check is identified separately.'));
@@ -493,7 +493,7 @@ assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whethe
 assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('Speaker and passage at 01:02:09 checked against the recording.')),'Search uses the displayed source-note wording');
 assert(run('meetingsView()').includes('Automatically recognized text may contain errors.'));
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
-assert(tablePage.includes('after costs the City had already agreed to pay'));
+assert(tablePage.includes('after outstanding commitments is unresolved'));
 console.log('Plain-language copy and preservation checks passed');
 
 // Remove repeated editorial labels without losing the underlying explanations.
