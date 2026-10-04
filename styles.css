@@ -189,7 +189,8 @@ details[open] > summary { margin-bottom: 7px; }
 .year-timeline { max-width: 950px; }
 .year-timeline .timeline-item { grid-template-columns: 120px minmax(0,1fr); }
 .year-timeline .timeline-entry { padding-bottom: 32px; }
-.bridge-history-note { max-width: 76ch; color: var(--muted); font-size: .875rem; margin: 0 0 24px; }
+.bridge-history-note { max-width: 76ch; color: var(--muted); font-size: 1rem; margin: 0 0 24px; }
+.bridge-history-note > h2 { font-size: 1.25rem; margin-bottom: 8px; }
 .milestone-explorer { margin: 0 0 32px; }
 .milestone-explorer > h2 { font-size: 1.25rem; margin-bottom: 8px; }
 .milestone-intro { color: var(--muted); font-size: .9375rem; }

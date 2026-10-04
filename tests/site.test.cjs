@@ -25,7 +25,7 @@ assert.equal(run('Object.keys(speakers).length'),8);
 const preserved={
  'speakers.js':'c7fe204f77282ce0d92b6db28bc812815f1fb7909ff8412cb2c2c813c615ec49',
  'other-speakers.js':'964b30f9679e1a573bea6fc8c598b27475f6e618b888cbbaab7056c40b84a712',
- 'resources.js':'06425ddc332a0a7eb0c5e2db24bedaa43491348ef1bcbc5f2babf307f594da2c'
+ 'resources.js':'f845db3baa839b89aad56ed905d958ddb6c328e773202464be75c34ddbb55f02'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -100,7 +100,7 @@ for(const key of ['all','other',...json('Object.keys(speakerDirectory)')])for(co
 assert(!run('speakerView()').includes('class="active-filter-summary"'),'Unfiltered entries must not show an active-filter summary');
 assert(run('speakerView("gordo","effectiveness","2018")').includes('<span class="active-filter-summary">Showing: Victor Gordo · Councilmember / mayor · Effectiveness and whether deaths move elsewhere · 2018</span>'),'Active filters must expose their complete labels and selected year');
 assert(run('speakerView("all","all","2024")').includes('<span class="active-filter-summary">Showing: 2024</span>'),'A year-only selection must be visible in the active-filter summary');
-const meetings=json('meetingRecords'),news=json('newsRecords');assert.equal(meetings.length,34);assert.equal(news.length,25);
+const meetings=json('meetingRecords'),news=json('newsRecords');assert.equal(meetings.length,34);assert.equal(news.length,28);
 const excludedPublisher=/psn-2018-barriers|psn-2018-fence|psn-2020/i;
 const reviewedStarNews="https://www.pasadenastarnews.com/2019/11/26/unsightly-but-necessary-pasadena-reacts-to-colorado-street-bridge-suicide-barriers/";
 assert.deepEqual(news.filter(n=>/pasadenastarnews\.com/i.test(n.url)).map(n=>n.url),[reviewedStarNews]);
@@ -110,7 +110,7 @@ for(const m of meetings)for(const l of m.links)assert(l.url||run(`Object.hasOwn(
 for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
  const html=run(`meetingsView('${year}')`);assert(!html.includes('undefined'));assert.equal((html.match(/class="directory-card"/g)||[]).length,meetings.filter(m=>year==='all'||m.date.startsWith(year)).length);
 }
-assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,25);
+assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,28);
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,75);
 // Match actual DOM textContent: tags alone do not insert spaces.
 const snippetText=html=>run(`SearchText.separateBlocks(${JSON.stringify(html)})`).replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
@@ -123,7 +123,7 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,175,'Retain earlier search entries and add the 17 reviewed source records');
+assert.equal(index.length,178,'Retain earlier search entries and add the three approved history and meeting reports');
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
 const filmSearch=run('searchView("La La Land")');
 assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
@@ -351,7 +351,7 @@ assert(!/data-copy-entry|class="entry-actions"|class="entry-link"|id="copy-statu
 assert.equal(run('typeof copyEntryLink'),'undefined');
 assert.equal(run('typeof entryShare'),'undefined');
 assert.equal((html.match(/class="remark-card"/g)||[]).length,75);
-assert.equal((html.match(/class="directory-card(?: news-card)?"/g)||[]).length,59);
+assert.equal((html.match(/class="directory-card(?: news-card)?"/g)||[]).length,62);
 assert(!excludedPublisher.test(html),'Removed unreviewed entries must not appear in rendered views');
 for(const [route,id] of [['news/lat-1989','lat-1989'],['meetings/meeting-2024-01-09','meeting-2024-01-09'],['speakers/delgado/delgado-cacti','delgado-cacti']]){
  run('navigate('+JSON.stringify(route)+')');

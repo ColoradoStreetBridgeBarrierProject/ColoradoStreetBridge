@@ -9,7 +9,7 @@ const rendered = new Map(files.map(file => [file, read(file)]));
 const ids = html => [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const decode = text => text.replaceAll('&amp;', '&');
 assert.equal(routes.length, 13);
-assert.equal((rendered.get('paper/sources/index.html').match(/class="csb-source"/g) || []).length, 47);
+assert.equal((rendered.get('paper/sources/index.html').match(/class="csb-source"/g) || []).length, 50);
 assert.equal((paper.sources.match(/data-docx-paragraph=/g) || []).length,
   (rendered.get('paper/sources/index.html').match(/data-docx-paragraph=/g) || []).length);
 let citations = 0, checked = 0, images = 0;
@@ -109,4 +109,4 @@ const continuousId=continuous.match(/id="([^"]+)" href="\.\.\/\.\.\/paper\/sourc
 const fullTarget='https://example.org/ColoradoStreetBridge/paper/all/#'+continuousId;
 const full=returnContext({url:fullTarget,target:fullTarget,citeId:continuousId});full.citation.click();
 const fullReturn=returnContext({stored:full.storage.get('csb-paper-return:csb-source-21'),target:fullTarget});assert(!fullReturn.back.hidden);assert.equal(fullReturn.back.href,fullTarget,'Return stays in the continuous edition at the exact citation');
-console.log(JSON.stringify({readingSections: 13, sourceEntries: 47, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));
+console.log(JSON.stringify({readingSections: 13, sourceEntries: 50, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));

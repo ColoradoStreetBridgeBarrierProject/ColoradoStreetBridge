@@ -123,7 +123,7 @@ assert.equal(removedRoute.run('Object.hasOwn(sectionPaths,"changes")'),false);
 assert.equal(removedRoute.run('typeof changesView'),'undefined');
 assert.equal((who.match(/class="remark-card"/g)||[]).length,75);
 assert.equal((read('meetings-and-documents/index.html').match(/class="directory-card"/g)||[]).length,34);
-assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,25);
+assert.equal((read('news-and-commentary/index.html').match(/class="directory-card news-card"/g)||[]).length,28);
 for(const page of pages)assert(!/psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': unreviewed news entry returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
