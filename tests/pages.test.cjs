@@ -64,7 +64,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Site updated October 3, 2026'));
+assert(overview.includes('Page revised: October 3, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -106,6 +106,13 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
  assert(process.nodes['who-decides'].focused&&process.nodes['who-decides'].scrolled);
  assert(disclosure.open,'The decision-process search destination must reveal its explanation');
  assert(process.nodes['who-decides'].open,'Direct disclosure destinations must open and keep their summary in view');
+ const historical=load(base+'search/#search?q=Scoville',read('search/index.html'));
+ historical.run('navigate("timeline/history")');
+ assert.equal(historical.context.location.href,base+'timeline/#bridge-history-heading');
+ assert(historical.nodes['bridge-history-heading'].focused&&historical.nodes['bridge-history-heading'].scrolled,'The historical search match focuses its heading');
+ historical.run('render()');
+ assert.equal(historical.run('readRoute().anchor'),'bridge-history-heading','History destination survives route reload');
+ assert(read('timeline/index.html').includes('id="bridge-history-heading" class="scroll-focus" tabindex="-1"'),'The same target is available without JavaScript');
 }
 assert(read('preserved-records/tables.html').includes('href="../meetings-and-documents/#source-folder"'));
 assert(read('index.template.html').includes('class="skip" href="#content"'),'Native skip fallback must remain available');

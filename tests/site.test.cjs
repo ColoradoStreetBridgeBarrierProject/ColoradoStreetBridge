@@ -25,7 +25,7 @@ assert.equal(run('Object.keys(speakers).length'),8);
 const preserved={
  'speakers.js':'c7fe204f77282ce0d92b6db28bc812815f1fb7909ff8412cb2c2c813c615ec49',
  'other-speakers.js':'964b30f9679e1a573bea6fc8c598b27475f6e618b888cbbaab7056c40b84a712',
- 'resources.js':'f845db3baa839b89aad56ed905d958ddb6c328e773202464be75c34ddbb55f02'
+ 'resources.js':'307e2400042b21f3488b91035dc0c6570cfdcd4bb025f9305d665fc5695d4ee6'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -145,8 +145,24 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,178,'Retain earlier search entries and add the three approved history and meeting reports');
+assert.equal(index.length,179,'Retain earlier search entries and index the Timeline historical introduction');
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
+const historyResult=index.find(item=>item.route==='timeline/history');
+assert(historyResult&&historyResult.text.includes('Scoville'));
+assert.equal(historyResult.text,run('bridgeHistory.paragraphs.join(" ")'),'Search and Timeline share the same historical introduction');
+assert(run('searchView("Scoville")').includes('href="/timeline/#bridge-history-heading"'));
+const fundingResults=json('rankedSearchResults("funding")');
+assert.equal(fundingResults[0].item.route,'evidence/6','The funding explanation wins the demonstrated relevance tie');
+assert.equal(fundingResults[0].score,fundingResults.find(x=>x.item.type==='Selected remark').score);
+for(const query of ['funding','netting','landscaping','staffing','technology']){
+ const ranked=json('rankedSearchResults('+JSON.stringify(query)+')');
+ assert(ranked.every((r,i)=>!i||ranked[i-1].score>=r.score),'Summary preference cannot overtake a higher relevance score');
+}
+for(const query of ['Greg de Vinck','funding application','truly exhausted','July 17, 2024','2020-02-03']){
+ const scoreOrder=json('searchIndex().map(item=>({item,score:SearchText.score(item,SearchText.terms('+JSON.stringify(query)+'),'+JSON.stringify(query)+')})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.item.route||x.item.path)');
+ const ranked=json('rankedSearchResults('+JSON.stringify(query)+').map(x=>x.item.route||x.item.path)');
+ assert.deepEqual(ranked,scoreOrder,query+': names, phrases, and dates retain their relevance order');
+}
 const filmSearch=run('searchView("La La Land")');
 assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
 for(const query of ['The fence everyone can see','  THE fence  everyone can SEE  ']){
@@ -322,7 +338,7 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('class="status-list"'),'Removed policy/design/construction list must not remain');
  assert(html.includes('THE SHORT VERSION'),'Keep the opening explanation');
  assert(html.includes('In 2018, Pasadena decided to pursue a permanent suicide prevention barrier on the Colorado Street Bridge. More than eight years later, the temporary fence remains.'),'Use the approved opening paragraph');
- assert(html.includes('The City has studied designs and alternatives, built full-size examples, and gathered public feedback. But as of September 2026, the records reviewed for this guide do not show an approved permanent design or secured construction funding.'),'Use the approved project summary');
+ assert(html.includes('The project has gone through successive design rounds without reaching agreement on a permanent concept.'),'Use the approved project summary');
  assert(!html.includes('In April 2018, the City Council chose to pursue a permanent barrier.'),'Do not repeat the introduction above the summary');
  assert(!html.includes('The temporary fence stayed while'),'Remove the superseded process summary');
  assert(!html.includes('<p></p>'),'Omitting the introduction must not leave an empty paragraph');
@@ -330,13 +346,13 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('The records reviewed for this guide do not show that a final design has been approved.'),'Do not repeat the design status');
  assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
- assert(html.includes('The City’s target for finishing the design is June 30, 2028. That is not a date for completing the barrier.'),'Keep the design-versus-construction distinction');
- assert.equal((html.match(/City project page checked September 13, 2026/g)||[]).length,1,'State the source-check date only once');
+ assert(html.includes('The City’s target for finishing the design is June 30, 2028. Building the barrier still requires construction funding and contract authorization.'),'Keep the design-versus-construction distinction');
+ assert.equal((html.match(/City project page checked: September 13, 2026/g)||[]).length,1,'State the source-check date only once');
  const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
  assert(sourceArea.includes('<summary>Financial reporting period</summary>'),'Keep the report period beside the source links');
- assert(html.includes('<p class="status-dates">Main research review through September 1, 2026. City project page checked September 13, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');
+ assert(html.includes('<p class="status-dates">Main research cutoff: September 1, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');
  assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
- assert(html.includes('secured construction funding'),'Keep construction funding status in the main summary');
+ assert(html.includes('construction funding as unidentified'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
@@ -393,7 +409,8 @@ assert(!run('speakerView("other")').includes('I selected exchanges that bear on'
 assert(run('speakerView()').includes('I selected exchanges that bear on'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
-assert(run('overview()').includes('do not show an approved permanent design or secured construction funding.'));
+assert(run('overview()').includes('continuing design work, with no approved permanent design.'));
+assert(run('overview()').includes('design funding as secured and construction funding as unidentified.'));
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
@@ -616,11 +633,11 @@ assert(index.some(x=>x.route==='evidence/9'));
 assert(!run('meetingsView()').includes('exact row association still needs visual verification'));
 console.log('September 22 reader-facing evidence and scope checks passed');
 
-// October 1 source-link maintenance preserves the historical recording note and destinations.
+// October 3 consolidation retains the October 1 finding and original destination.
 const zoom2023=json('meetingRecords.find(m=>m.id==="meeting-2023-02-22")');
-assert.equal(zoom2023.note,"The recording link is the one listed by the City. Its playback and continuing availability were not verified in this update.");
+assert.equal(zoom2023.note,"");
 assert.equal(zoom2023.links[0].url,"https://us02web.zoom.us/rec/share/gzTld8ZUtAQsW4Whr_091UtnK_6ItwVHh6qOdW7gA-QdFQkWYrd5rTkZAvp1u2-7.uj6ZtRON1D2DrjYW?startTime=1677119497000");
-assert.equal(zoom2023.links[0].note,"Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified.");
+assert.equal(zoom2023.links[0].note,"Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified. The original City-listed URL is retained as a source for the historical account.");
 const april2018=json('meetingRecords.find(m=>m.id==="meeting-2018-04-18")');
 assert.equal(april2018.links[0].label,"April 23 Council report (through April 18 Public Safety Committee)");
 assert.equal(april2018.links[0].url,"https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2018-04-18-Colorado-Street-Bridge-Agenda.pdf");
