@@ -743,6 +743,15 @@ const newsRecords = [
     "note": ""
   },
   {
+    "id": "cbs-2017-community",
+    "date": "2017-03-15",
+    "publisher": "CBS Los Angeles",
+    "title": "Pasadena Looks To Deter Jumps From Notorious 'Suicide Bridge' With Development Underway",
+    "url": "https://www.cbsnews.com/losangeles/news/public-meeting-held-in-pasadena-to-discuss-detering-suicides-from-notorious-suicide-bridge/",
+    "kind": "News report",
+    "note": ""
+  },
+  {
     "id": "lat-2017",
     "date": "2017-07-19",
     "publisher": "Los Angeles Times",
@@ -770,6 +779,132 @@ const newsRecords = [
     "note": ""
   },
   {
+    "id": "pnow-2019-community",
+    "date": "2019-10-30",
+    "publisher": "Pasadena Now",
+    "title": "Permanent Colorado Street Bridge Suicide Deterrent Focus is On Ten Foot Tall Steel Mesh Fencing",
+    "url": "https://pasadenanow.com/main/residents-consider-design-elements-for-colorado-street-bridge-suicide-deterrent-fencing",
+    "kind": "Meeting report",
+    "note": "Preferences expressed at the meeting were informal. They are separate from the City’s later public survey."
+  },
+  {
+    "id": "psn-2019-designs",
+    "date": "2019-11-26",
+    "publisher": "Pasadena Star-News",
+    "title": "Unsightly, but necessary: Pasadena reacts to Colorado Street Bridge suicide barriers",
+    "url": "https://www.pasadenastarnews.com/2019/11/26/unsightly-but-necessary-pasadena-reacts-to-colorado-street-bridge-suicide-barriers/",
+    "kind": "News report",
+    "note": "The article’s suggestion that netting had never been considered conflicts with the City’s earlier alternatives review. Golden Gate net construction was still underway in 2019."
+  },
+  {
+    "id": "pnow-2020-budget",
+    "date": "2020-04-20",
+    "publisher": "Pasadena Now",
+    "title": "Colorado Street Bridge Enhancements Could be Delayed",
+    "url": "https://pasadenanow.com/main/colorado-street-bridge-enhancements-could-be-delayed",
+    "kind": "Budget reporting",
+    "note": ""
+  },
+  {
+    "id": "pnow-2020-mockups",
+    "date": "2020-09-22",
+    "publisher": "Pasadena Now",
+    "title": "Full-Scale Mock-Ups of Colorado Street Bridge Anti-Suicide Barriers to Be Installed in November",
+    "url": "https://pasadenanow.com/main/council-oks-purchase-of-mock-ups-for-colorado-st-bridge-anti-suicide-barriers",
+    "kind": "Council report",
+    "note": "The November installation date was a forecast. The mockups were installed in March 2021."
+  },
+  {
+    "id": "pnow-2021-survey",
+    "date": "2021-03-04",
+    "publisher": "Pasadena Now",
+    "title": "Public Invited to View, Weigh In on Barrier Mock-Ups on Colorado Street Bridge",
+    "url": "https://pasadenanow.com/main/public-invited-to-view-weigh-in-on-barrier-mock-ups-on-colorado-street-bridge",
+    "kind": "News report",
+    "note": "The survey invitation is historical. The results and their separate response groups are discussed in the paper’s 2021 section."
+  },
+  {
+    "id": "pnow-2021-hanson",
+    "date": "2021-04-01",
+    "publisher": "Pasadena Now",
+    "title": "Guest Opinion | Brad Hanson, Pasadena Beautiful: Colorado Street Bridge Barrier Options Impair Views, Degrade Walking Experience",
+    "url": "https://pasadenanow.com/main/guest-opinion-brad-hanson-pasadena-beautiful-foundation-president-colorado-street-bridge-barrier-options-impair-views-degrades-walking-experience",
+    "kind": "Brad Hanson opinion",
+    "note": "The engineering and effectiveness claims are the writer’s arguments. The article’s 2016 date for the temporary ten-foot barrier is incorrect."
+  },
+  {
+    "id": "pnow-2021-heritage",
+    "date": "2021-05-11",
+    "publisher": "Pasadena Now",
+    "title": "Pasadena Heritage Wants Community, Public Works Dept. to Keep Looking for Additional Solutions to Bridge Suicide Barriers Being Considered",
+    "url": "https://pasadenanow.com/main/pasadena-heritage-wants-community-public-works-dept-to-keep-looking-for-better-solutions-to-bridge-sucide-barriers",
+    "kind": "Reporting on an organizational letter",
+    "note": ""
+  },
+  {
+    "id": "wpra-2021-letter",
+    "date": "2021-06-08",
+    "publisher": "West Pasadena Residents’ Association",
+    "title": "The WPRA Letter to Mayor Gordo about the Colorado Street Bridge Barriers",
+    "url": "https://wpra.net/2021/06/19/the-wpra-letter-to-mayor-gordo-about-the-colorado-street-bridge-barriers/",
+    "kind": "Organizational letter",
+    "note": "The signed letter is dated June 8, 2021. The webpage was posted June 19. It records the association’s position before the August committee review."
+  },
+  {
+    "id": "pnow-2021-miller",
+    "date": "2021-08-18",
+    "publisher": "Pasadena Now",
+    "title": "Letter to the Editor: Crossing the Arroyo, Memories of the Colorado Bridge",
+    "url": "https://pasadenanow.com/main/letter-to-the-editor-crossing-the-arroyo-memories-of-the-colorado-bridge",
+    "kind": "Kathleen Clary Miller letter",
+    "note": ""
+  },
+  {
+    "id": "pnow-2021-deferral",
+    "date": "2021-08-19",
+    "publisher": "Pasadena Now",
+    "title": "City Committee Wants Further Review of Recommended Suicide Prevention Barriers for Colorado Street Bridge",
+    "url": "https://pasadenanow.com/main/city-committee-wants-further-review-of-recommended-suicide-prevention-barriers-for-colorado-street-bridge",
+    "kind": "Committee report",
+    "note": "The article’s survey-ranking description and spending typography contain errors. The City report and the paper’s 2021 table provide the figures used in this guide."
+  },
+  {
+    "id": "pnow-2022-delay",
+    "date": "2022-09-01",
+    "publisher": "Pasadena Now",
+    "title": "Four Years After Decisive Incident, Final Barriers Still Not Up On Colorado Street Bridge",
+    "url": "https://pasadenanow.com/main/four-years-after-local-emergency-final-barriers-still-not-up-on-colorado-street-bridge",
+    "kind": "News report",
+    "note": ""
+  },
+  {
+    "id": "pnow-2022-reset",
+    "date": "2022-09-22",
+    "publisher": "Pasadena Now",
+    "title": "Final Design Concepts for Colorado Street Bridge Barriers Likely Not Ready Until 2023",
+    "url": "https://pasadenanow.com/main/final-design-concepts-for-colorado-street-bridge-barriers-likely-not-ready-until-2023",
+    "kind": "Committee report",
+    "note": "The article misdates the Council’s vertical-barrier decision and describes the City’s death figures as attempts. The guide uses the official records for those points."
+  },
+  {
+    "id": "pnow-2023-reset",
+    "date": "2023-02-10",
+    "publisher": "Pasadena Now",
+    "title": "Colorado Street Bridge Mockup Barriers Removed, Community Set to Discuss Next Steps in Suicide Mitigation Project",
+    "url": "https://pasadenanow.com/main/colorado-street-bridge-mockup-barriers-removed-community-set-to-discuss-next-steps-in-suicide-mitigation-project",
+    "kind": "News report",
+    "note": "The body describes removal of the middle mockup as expected on February 10, rather than confirming that all removal was already complete."
+  },
+  {
+    "id": "laist-2023-designs",
+    "date": "2023-09-01",
+    "publisher": "LAist",
+    "title": "New Designs For Colorado Street Bridge Are Aimed At Keeping People Safe",
+    "url": "https://laist.com/news/pasadenas-colorado-street-bridge-is-getting-new-barriers-to-prevent-jumpers-and-the-city-wants-your-input",
+    "kind": "News report",
+    "note": "This covers the August concepts, before the three-design set presented in November. Survey deadlines and approval forecasts are historical."
+  },
+  {
     "id": "pnow-2024",
     "date": "2024-07-15",
     "publisher": "Pasadena Now",
@@ -777,6 +912,24 @@ const newsRecords = [
     "url": "https://pasadenanow.com/main/pasadena-city-council-committee-to-review-update-on-colorado-street-bridge-barrier-designs",
     "kind": "Meeting preview",
     "note": ""
+  },
+  {
+    "id": "pnow-2024-testimony",
+    "date": "2024-07-18",
+    "publisher": "Pasadena Now",
+    "title": "Mother’s Emotional Testimony Urges Swift Action to Prevent Suicides at Colorado Street Bridge",
+    "url": "https://pasadenanow.com/main/mothers-emotional-testimony-urges-swift-action-to-prevent-suicides-at-colorado-street-bridge",
+    "kind": "Committee report",
+    "note": "The official minutes support the paper’s account of the testimony. The meeting produced no final permanent-design recommendation."
+  },
+  {
+    "id": "pnow-2025-response",
+    "date": "2025-07-16",
+    "publisher": "Pasadena Now",
+    "title": "Ahead of Bridge Party, Pasadena Neighborhood Group Urges Action on Colorado Street Bridge Safety Barriers",
+    "url": "https://pasadenanow.com/main/ahead-of-bridge-party-pasadena-neighborhood-group-urges-action-on-colorado-street-bridge-safety-barriers",
+    "kind": "News report and City response",
+    "note": "The proposed review sequence was a forecast. The historical background incorrectly dates the Labor Day emergency to 2017 rather than 2018."
   },
   {
     "id": "wpra-2026",
