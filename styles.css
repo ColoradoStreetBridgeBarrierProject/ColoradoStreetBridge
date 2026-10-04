@@ -352,7 +352,6 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
   .sidebar-brand, .nav-label, .sidebar-bottom { display: none; }
   .view-nav { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
   .view-nav a { border-color: var(--line); font-size: .875rem; }
-  .view-nav a:last-child { grid-column: 1/-1; }
   .shell { padding: 28px 24px 0; }
   .intro { grid-template-columns: minmax(0,1fr) 220px; }
   .intro h1 { font-size: 2.2rem; }

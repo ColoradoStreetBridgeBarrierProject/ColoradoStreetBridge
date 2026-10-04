@@ -41,7 +41,7 @@ function renderSection(section, continuous=false) {
     return `<a class="paper-image-link" href="${src}" target="_blank" rel="noopener noreferrer" aria-label="Open figure at full size">${image}</a><a class="paper-image-open" href="${src}" target="_blank" rel="noopener noreferrer">Open image</a>`;
   });
   // The existing manuscript heading becomes the page heading.
-  if (!continuous) html = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/, '<h1$1>$2</h1>');
+  if (!continuous) html = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/, '<h1$1>$2</h1>').replace(/<(\/?)h3\b/g, '<$1h2');
   return html;
 }
 
