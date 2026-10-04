@@ -260,7 +260,7 @@ function alternatives(key){
 
 function localCounts(){return `<section class="evidence-section" id="local-counts" tabindex="-1"><h2>What the local death counts show</h2><article data-evidence-id="9" class="feature-card wide"><h3>Available counts, with gaps and partial years</h3><p>The available figures do not give a complete total since the full-length temporary fence was installed in September 2018. The police table and later oral updates cover different periods and are shown separately below.</p>
 <table class="local-counts-table"><caption>Police Department table presented August 18, 2021</caption><thead><tr><th scope="col">Year or period</th><th scope="col">Deaths</th></tr></thead><tbody><tr><th scope="row">2015</th><td>4</td></tr><tr><th scope="row">2016</th><td>2</td></tr><tr><th scope="row">2017</th><td>10</td></tr><tr><th scope="row">2018</th><td>4</td></tr><tr><th scope="row">2019</th><td>1</td></tr><tr><th scope="row">2020</th><td>0</td></tr><tr><th scope="row">2021 through June 13 only</th><td>1</td></tr></tbody></table>
-<p class="quiet">The table covers January 1, 2015 through June 13, 2021. Another contemporaneous City account reported nine deaths in 2017, rather than ten. That difference remains unexplained. The 2018 figure covers time both before and after full-length fencing. The final row is not a full-year 2021 count.</p><p>${link('2021 staff report · Police tables · p. 2',urls.r2021+'#page=2')} ${link('Transcribed death and incident tables',urls.transcriptions+'#police-2021')}</p>
+<p class="quiet">The table covers January 1, 2015 through June 13, 2021. Pasadena Now quoted then-City Manager Steve Mermell in September 2018 as saying that nine people had died at the bridge in 2017. That difference remains unexplained. The 2018 figure covers time both before and after full-length fencing. The final row is not a full-year 2021 count.</p><p>${link('2021 staff report · Police tables · p. 2',urls.r2021+'#page=2')} ${link('Transcribed death and incident tables',urls.transcriptions+'#police-2021')}</p>
 <table class="local-counts-table"><caption>Separate oral update at Public Safety on November 15, 2023</caption><thead><tr><th scope="col">Year or period reported</th><th scope="col">Deaths reported</th></tr></thead><tbody><tr><th scope="row">2022</th><td>4</td></tr><tr><th scope="row">2023 as of the November 15 meeting</th><td>2</td></tr></tbody></table>
 <p>Police Lieutenant Brad May reported these figures and distinguished deaths from attempts. Public Works Director Tony Olmos later repeated them and specified that they concerned the bridge.</p><p>${link('May’s oral update · go to 00:25:22',urls.v2023)} ${link('Olmos’s clarification · go to 00:56:12',urls.v2023)}</p>
 <p class="quiet">The oral figures and approximate times were previously checked against the official recording. They are not a reconciled annual dataset. The reviewed records do not supply the rest of 2021 or complete counts for 2023–2026. Do not combine these fragments into a complete “since the fence” total, treat missing years as zero, or use the table alone to measure the fence’s effect. Death counts and the report’s separate incident categories should not be added together.</p></article></section>`;}
@@ -725,10 +725,21 @@ const newsRelevance={
  "pnow-2021-open-house":"Reports the designers’ reasons for favoring mesh and their concerns about the height, light-standard changes, and visual effects of straight pickets.",
  "pnow-2024-design-commission":"Reports the lack of consensus and differing views of Julianna Delgado, Robert Carpenter, Srinivas Rao, and Marie-Claude Fares about the three concepts."
 };
-function newsView(){
-  const groups=[['Project reporting and commentary',newsRecords.filter(n=>n.date.slice(0,4)>='2017')],['Earlier history and prevention efforts',newsRecords.filter(n=>n.date.slice(0,4)<'2017')]];
-  return head('07','News & commentary','Browse reporting, interviews, organizational letters, and personal perspectives about the bridge.')+`<p class="locator-note">Links open the original publisher sites. Some require a subscription.</p>`+
-    groups.map(([title,records])=>`<section class="news-section"><h2>${title}</h2><div class="directory-grid">${records.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${newsRelevance[n.id]?'<p>'+esc(newsRelevance[n.id])+'</p>':''}<p>${link('Read at the publisher',n.url)}</p>${n.note?'<details class="source-detail"><summary>Source and access note</summary><p>'+esc(n.note)+'</p></details>':''}</article>`).join('')}</div></section>`).join('');
+function newsView(year='all',order='oldest'){
+  const selected=newsRecords.filter(n=>year==='all'||n.date.slice(0,4)===year);
+  if(order==='newest')selected.reverse();
+  const years=[...new Set(newsRecords.map(n=>n.date.slice(0,4)))].sort();
+  const groups=[['news-project','Project reporting and commentary',selected.filter(n=>n.date.slice(0,4)>='2017')],['news-history','Earlier history and prevention efforts',selected.filter(n=>n.date.slice(0,4)<'2017')]].filter(([, ,records])=>records.length);
+  return head('07','News & commentary','Browse reporting, interviews, organizational letters, and personal perspectives about the bridge.')+
+    `<div class="meeting-filters speaker-filter"><label for="news-year">Choose a year</label><select id="news-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><label for="news-order">Order within each section</label><select id="news-order"><option value="oldest" ${order==='oldest'?'selected':''}>Oldest first</option><option value="newest" ${order==='newest'?'selected':''}>Newest first</option></select><span role="status">${countLabel(selected.length,'article or letter','articles and letters')}</span></div>`+
+    (year!=='all'||order!=='oldest'?`<p class="filter-actions"><a href="${esc(routeHref('news'))}" data-route="news">Reset filters</a></p>`:'')+
+    (groups.length>1?`<p class="quick-links"><a href="${esc(routeHref('news'))}#news-history" data-scroll-target="news-history">Earlier history and prevention efforts ↓</a></p>`:'')+
+    `<p class="locator-note">Links open the original publisher sites. Some require a subscription.</p>`+
+    groups.map(([id,title,records])=>`<section class="news-section scroll-focus" id="${id}" tabindex="-1"><h2>${title}</h2><div class="directory-grid">${records.map(n=>{
+      let description=esc(newsRelevance[n.id]||'');
+      if(n.id==='pnow-2020-budget')description=description.replace('Source 47',`<a href="${esc(siteBase+'paper/sources/#csb-source-47')}">Source 47</a>`);
+      return `<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${description?'<p>'+description+'</p>':''}<p>${link('Read at the publisher',n.url)}</p>${n.note?'<details class="source-detail"><summary>Source and access note</summary><p>'+esc(n.note)+'</p></details>':''}</article>`;
+    }).join('')}</div></section>`).join('');
 }
 
 // Search aliases supplement the preserved speaker records; quotations and display names stay unchanged.
@@ -786,7 +797,7 @@ function readRoute() {
   const view=Object.hasOwn(sectionPaths,raw)?raw:'overview';
   const params=new URLSearchParams(queryString);
   const filter=Object.hasOwn(speakerTopics,params.get('topic'))?params.get('topic'):'all';
-  const year=meetingRecords.some(m=>m.date.slice(0,4)===params.get('year'))?params.get('year'):'all';
+  const year=(view==='news'?newsRecords:meetingRecords).some(m=>m.date.slice(0,4)===params.get('year'))?params.get('year'):'all';
   const order=params.get('order')==='newest'?'newest':'oldest';
   return {view,arg,detail,filter,year,order,query:(params.get('q')||'').slice(0,200),anchor:legacy?'':hash};
 }
@@ -816,7 +827,7 @@ function forecastComparison(){return `<section aria-labelledby="forecast-heading
 function viewMarkup({view,arg,filter='all',year='all',order='oldest',query=''}) {
   const topic=Object.hasOwn(topics,arg)?arg:'netting';
   const person=arg==='other'||Object.hasOwn(speakerDirectory,arg)?arg:'all';
-  let markup=view==='overview'?overview():view==='timeline'?timelineView():view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView():view==='about'?aboutView():searchView(query);
+  let markup=view==='overview'?overview():view==='timeline'?timelineView():view==='alternatives'?alternatives(Object.hasOwn(topics,arg)?arg:undefined):view==='evidence'?evidence():view==='speakers'?speakerView(person,filter,year):view==='meetings'?meetingsView(year,order):view==='news'?newsView(year,order):view==='about'?aboutView():searchView(query);
   if(view!=='overview')markup=markup.replace('<h2>','<h1>').replace('</h2>','</h1>');
   if(['meetings','search'].includes(view))markup=markup.replace(/<h3([^>]*)>([\s\S]*?)<\/h3>/g,(_,attributes,text)=>`<h2${attributes}>${text}</h2>`);
   if(view==='alternatives' && Object.hasOwn(topics,arg))markup=markup.replace('<h3 id="topic-title"','<h2 id="topic-title"').replace(/(<h2 id="topic-title"[^>]*>[\s\S]*?)<\/h3>/,'$1</h2>');
@@ -900,10 +911,11 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('change',e=>{
   const route=readRoute(),id=e.target.id;
-  if(['meeting-year','meeting-order'].includes(id)){
-    const year=id==='meeting-year'?e.target.value:route.year,order=id==='meeting-order'?e.target.value:route.order;
+  if(['meeting-year','meeting-order','news-year','news-order'].includes(id)){
+    const directory=id.startsWith('news-')?'news':'meetings';
+    const year=id.endsWith('-year')?e.target.value:route.year,order=id.endsWith('-order')?e.target.value:route.order;
     const params=new URLSearchParams();if(year!=='all')params.set('year',year);if(order==='newest')params.set('order',order);
-    navigate('meetings'+(params.toString()?'?'+params:''),false);document.getElementById(id).focus();return;
+    navigate(directory+(params.toString()?'?'+params:''),false);document.getElementById(id).focus();return;
   }
   if(!['speaker-person','other-speaker','speaker-topic','speaker-year'].includes(id))return;
   const person=['speaker-person','other-speaker'].includes(id)?e.target.value:(route.arg==='other'||Object.hasOwn(speakerDirectory,route.arg)?route.arg:'all');

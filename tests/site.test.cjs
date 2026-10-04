@@ -111,6 +111,28 @@ for(const year of ['all',...new Set(meetings.map(m=>m.date.slice(0,4)))]){
  const html=run(`meetingsView('${year}')`);assert(!html.includes('undefined'));assert.equal((html.match(/class="directory-card"/g)||[]).length,meetings.filter(m=>year==='all'||m.date.startsWith(year)).length);
 }
 assert.equal((run('newsView()').match(/class="directory-card news-card"/g)||[]).length,28);
+// News filters must retain the correct records and survive a route reload,
+// including historical years outside the meeting directory's date range.
+const newsIds=markup=>[...markup.matchAll(/class="directory-card news-card" id="([^"]+)"/g)].map(m=>m[1]);
+for(const year of [...new Set(news.map(n=>n.date.slice(0,4)))]){
+  const expected=news.filter(n=>n.date.slice(0,4)===year).map(n=>n.id);
+  assert.deepEqual(newsIds(run(`newsView(${JSON.stringify(year)})`)),expected);
+  assert.deepEqual(newsIds(run(`newsView(${JSON.stringify(year)},"newest")`)),expected.slice().reverse());
+  context.location.hash='#news?year='+year+'&order=newest';
+  assert.equal(run('readRoute().year'),year);
+  run('render()');assert.deepEqual(newsIds(elements.content.innerHTML),expected.slice().reverse());
+}
+context.location.hash='#news?year=2021';
+listeners['document:change']({target:{id:'news-order',value:'newest'}});
+assert.equal(context.location.hash,'#news?year=2021&order=newest');
+listeners['document:change']({target:{id:'news-year',value:'1989'}});
+assert.equal(context.location.hash,'#news?year=1989&order=newest');
+assert.deepEqual(newsIds(elements.content.innerHTML),['lat-1989']);
+context.location.hash='#news?year=invalid';assert.equal(run('readRoute().year'),'all');
+assert(run('newsView()').includes('data-scroll-target="news-history"'));
+assert(!run('newsView("2024")').includes('data-scroll-target="news-history"'));
+assert(run('newsView()').includes('paper/sources/#csb-source-47'));
+context.location.hash='';
 const index=json('searchIndex()');assert.equal(index.filter(x=>x.type==='Selected remark').length,75);
 // Match actual DOM textContent: tags alone do not insert spaces.
 const snippetText=html=>run(`SearchText.separateBlocks(${JSON.stringify(html)})`).replace(/<[^>]*>/g,'').replace(/\s+/g,' ').trim();
@@ -588,7 +610,7 @@ for(const phrase of ['retained in','sent account','reviewed source note']){
 const localCountMarkup=run('localCounts()');
 assert.equal((localCountMarkup.match(/<table /g)||[]).length,2);
 for(const [period,value] of [['2015',4],['2016',2],['2017',10],['2018',4],['2019',1],['2020',0],['2021 through June 13 only',1],['2022',4],['2023 as of the November 15 meeting',2]])assert(localCountMarkup.includes('<th scope="row">'+period+'</th><td>'+value+'</td>'));
-for(const phrase of ['nine deaths in 2017','not a full-year 2021 count','missing years as zero','separate incident categories','00:25:22','00:56:12'])assert(localCountMarkup.includes(phrase));
+for(const phrase of ['Pasadena Now quoted then-City Manager Steve Mermell in September 2018','nine people had died at the bridge in 2017','That difference remains unexplained','not a full-year 2021 count','missing years as zero','separate incident categories','00:25:22','00:56:12'])assert(localCountMarkup.includes(phrase));
 assert(run('evidence()').indexOf('id="local-counts"')<run('evidence()').indexOf('id="research"'));
 assert(index.some(x=>x.route==='evidence/9'));
 assert(!run('meetingsView()').includes('exact row association still needs visual verification'));
