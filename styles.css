@@ -508,6 +508,7 @@ mark { color: var(--mark-ink); background: var(--mark-bg); border-radius: 2px; p
 .error-brand { display: inline-block; margin-bottom: 36px; font-weight: 650; }
 .error-links { display: grid; gap: 12px; padding-left: 22px; margin-top: 24px; }
 .design-grid figcaption strong { display: block; color: var(--ink); }
+.design-status { display: block; margin: .4rem 0 .65rem; padding-left: .65rem; border-left: 3px solid var(--line); color: var(--ink); font-size: .875rem; font-weight: 600; }
 .design-grid a { display: block; }
 .topic-orientation { max-width: 72ch; margin-bottom: 24px; }
 .forecast-table { margin: 20px 0 28px; }

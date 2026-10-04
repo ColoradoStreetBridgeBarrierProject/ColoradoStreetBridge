@@ -19,7 +19,7 @@ for (const [file, html] of rendered) {
   assert(!/\bhidden(?:="")?[^>]*data-csb-chapter|data-csb-chapter|guide\.js/.test(html), file + ': no embedded chapter switching');
   assert(!/sandbox:|\/workspace\/|libfile_|file_000000|data:image|private preview/.test(html), file + ': no internal references');
   assert(html.includes('href="tel:988"'));
-  assert(html.includes('The main research review covers material through September 1, 2026. Later checks and additions are dated where they appear.'));
+  assert(html.includes('Main research cutoff: September 1, 2026. Later checks and additions are dated where they appear.'));
   assert(html.includes('not an official City website'));
   assert(html.includes('property="og:site_name"'));
   assert(html.includes('name="twitter:card"'));

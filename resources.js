@@ -435,14 +435,14 @@ const meetingRecords = [
       {
         "label": "Recording on Zoom",
         "url": "https://us02web.zoom.us/rec/share/gzTld8ZUtAQsW4Whr_091UtnK_6ItwVHh6qOdW7gA-QdFQkWYrd5rTkZAvp1u2-7.uj6ZtRON1D2DrjYW?startTime=1677119497000",
-        "note": "Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified."
+        "note": "Availability checked October 1, 2026. Zoom displayed “This recording does not exist.” No replacement recording was verified. The original City-listed URL is retained as a source for the historical account."
       },
       {
         "label": "Presentation",
         "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2023-02-22-Community-Outreach-Meeting-Presentation.pdf"
       }
     ],
-    "note": "The recording link is the one listed by the City. Its playback and continuing availability were not verified in this update.",
+    "note": "",
     "kind": "Project meeting"
   },
   {
