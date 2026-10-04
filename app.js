@@ -703,11 +703,28 @@ const newsRelevance={
  'lamag-2018':'Interviews on the tension between prevention measures and historic preservation during the early task-force period.',
  'pnow-2018':'Reports the emergency decision to extend temporary fencing along the bridge in September 2018.',
  'pnow-2024':'Previews the July 2024 review of barrier concepts, commission feedback, surveys, and other prevention measures.',
- 'wpra-2026':'Sue Mossman places the lengthy barrier process alongside other unresolved Pasadena preservation projects.'
+ 'wpra-2026':'Sue Mossman places the lengthy barrier process alongside other unresolved Pasadena preservation projects.',
+ "cbs-2017-community":"Residents discuss protection before emergency fencing.",
+ "pnow-2019-community":"Reports residents’ and officials’ responses to the October 2019 concepts, including mesh transparency, alcoves, and the balance between protection and appearance.",
+ "psn-2019-designs":"Reports preservation commissioners’ mixed reactions to the early designs and requests for full-scale mockups, alongside differing views about netting.",
+ "pnow-2020-budget":"Reports the pandemic-era budget proposal to omit a planned new $2 million appropriation for the Bridge. The paper’s Source 47 links the adopted budget outcome.",
+ "pnow-2020-mockups":"Covers the Council’s approval of a mockup contract capped at $160,210 and the installation and review schedule anticipated at the time.",
+ "pnow-2021-survey":"Describes the launch of public viewing and the survey for the three full-scale mockups, including the different vantage points available to visitors.",
+ "pnow-2021-hanson":"Pasadena Beautiful’s president argues for reconsidering horizontal netting and describes the board’s objections to the vertical mockups.",
+ "pnow-2021-heritage":"Reports Pasadena Heritage’s reasons for finding none of the three mockups acceptable as presented and its request for more compatible options.",
+ "wpra-2021-letter":"WPRA asks the City to delay implementing the proposed vertical barriers while alternatives receive further study, including technology and lower barriers.",
+ "pnow-2021-miller":"A former resident recalls the bridge’s place in her life, supports a permanent barrier, and hopes the design will preserve its character.",
+ "pnow-2021-deferral":"Reports the committee’s decision to seek further work, along with members’ differing views on enclosure, staffing, design choices, and timing.",
+ "pnow-2022-delay":"Reports contemporary frustration with the project’s pace, including comments from Sue Mossman and a resident, four years after the emergency fence.",
+ "pnow-2022-reset":"Covers the design reset, the projected 2023 review sequence, construction-funding uncertainty, and Madison’s call to hold to the proposed timetable.",
+ "pnow-2023-reset":"Reports removal of the earlier mockups, a second consultant solicitation, and plans for the February community meeting.",
+ "laist-2023-designs":"Explains the four concepts shown in August 2023, with design illustrations, the public-feedback invitation, and the City’s anticipated next steps.",
+ "pnow-2024-testimony":"Reports Bonnie Tang’s testimony about her son Nicholas and summarizes the committee’s discussion of barriers, netting, patrols, technology, and funding.",
+ "pnow-2025-response":"Reports the San Rafael Neighborhoods Association’s call for a decision and Brent Maue’s response about internal mockup testing and anticipated summer and fall reviews."
 };
 function newsView(){
   const groups=[['Project reporting and commentary',newsRecords.filter(n=>n.date.slice(0,4)>='2017')],['Earlier history and prevention efforts',newsRecords.filter(n=>n.date.slice(0,4)<'2017')]];
-  return head('07','News & commentary','Browse reporting, interviews, historical coverage, and preservation commentary about the bridge.')+`<p class="locator-note">Links open the original publisher sites. Some require a subscription.</p>`+
+  return head('07','News & commentary','Browse reporting, interviews, organizational letters, and personal perspectives about the bridge.')+`<p class="locator-note">Links open the original publisher sites. Some require a subscription.</p>`+
     groups.map(([title,records])=>`<section class="news-section"><h2>${title}</h2><div class="directory-grid">${records.map(n=>`<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${newsRelevance[n.id]?'<p>'+esc(newsRelevance[n.id])+'</p>':''}<p>${link('Read at the publisher',n.url)}</p>${n.note?'<details class="source-detail"><summary>Source and access note</summary><p>'+esc(n.note)+'</p></details>':''}</article>`).join('')}</div></section>`).join('');
 }
 
