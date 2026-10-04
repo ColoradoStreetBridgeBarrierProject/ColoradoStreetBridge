@@ -77,6 +77,27 @@ for(const section of paper.sections){
  for(const [,id] of section.html.matchAll(/\bid="([^"]+)"/g))assert(continuous.includes('id="all-'+key+'-'+id+'"'),'Continuous reading preserves a unique form of each passage/citation ID');
 }
 assert(citations > 380);
+// Author-approved October 4 style edits keep evidence, stable links, and the
+// selected closing lines while reducing repeated corrective formulations.
+const approvedText = new Map([
+ ['questions', 'A suicide-prevention specialist explained how restricting access can give an immediate crisis time to ease or create an opportunity for intervention.'],
+ ['2024', 'Gordo asked about cameras and real-time remote communication with a person on the bridge during a crisis. Staff considered these tools possible additions to a physical barrier.'],
+ ['2017-2018', 'The full-length fence changed the bridge’s appearance and restricted access. Lower death counts followed its installation. The temporary fence remained in place as Pasadena continued reviewing permanent designs.'],
+ ['delays', 'Staff repeatedly returned with work intended to narrow the choices. Some questions led to additional engineering, cost, and rescue analysis. Other discussions revisited alternatives the City had already studied.'],
+ ['where-that-leaves-pasadena', 'Its effect on the bridge is visible every day. The deaths it may prevent are not.']
+]);
+for (const [slug, text] of approvedText) {
+ assert(rendered.get('paper/'+slug+'/index.html').includes(text), 'Approved wording in chapter '+slug);
+ assert(continuous.includes(text), 'Approved wording in continuous edition '+slug);
+}
+const conceptAlt = 'Three Apexx Architecture concept renderings from November 2023. From left to right, angled posts supporting webmesh, upright posts supporting webmesh, and closely spaced vertical metal pickets along the bridge.';
+assert(rendered.get('paper/2023/index.html').includes('alt="'+conceptAlt+'"'));
+assert(continuous.includes('alt="'+conceptAlt+'"'));
+assert(!continuous.includes('This is a proposal, not a photograph of an installed barrier.'));
+assert(continuous.includes('The years that followed were not a rush.'));
+assert(rendered.get('paper/where-that-leaves-pasadena/index.html').includes('id="passage-143"><span id="passage-144"></span>'));
+const budgetQualification = 'The cited records establish the approved project budget. The amount remaining after outstanding commitments is unresolved, as is the project’s federal ARPA accounting.';
+for (const file of ['app.js','evidence-and-limits/index.html','preserved-records/tables.html']) assert(read(file).includes(budgetQualification), 'Shared approved funding qualification: '+file);
 assert(rendered.get('paper/2018-2019/index.html').includes('provided the City approved additional construction funding'));
 assert(rendered.get('paper/forecasts/index.html').includes('October – December 2025, then January – March 2026, and then April – June 2026'));
 assert(routes.indexOf('paper/questions/') === routes.indexOf('paper/2024/') + 1);
