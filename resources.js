@@ -743,6 +743,15 @@ const newsRecords = [
     "note": ""
   },
   {
+    "id": "pbs-2013-history",
+    "date": "2013-11-22",
+    "publisher": "PBS SoCal",
+    "title": "Colorado Street Bridge: The Birth of a Pasadena Landmark",
+    "url": "https://www.pbssocal.org/shows/lost-la/colorado-street-bridge-the-birth-of-a-pasadena-landmark",
+    "kind": "Historical background",
+    "note": "The article gives engineer Waddell’s first name as Joseph. The Library of Congress catalog identifies him as John Alexander Low Waddell."
+  },
+  {
     "id": "cbs-2017-community",
     "date": "2017-03-15",
     "publisher": "CBS Los Angeles",
@@ -824,6 +833,15 @@ const newsRecords = [
     "note": "The survey invitation is historical. The results and their separate response groups are discussed in the paper’s 2021 section."
   },
   {
+    "id": "pnow-2021-open-house",
+    "date": "2021-03-26",
+    "publisher": "Pasadena Now",
+    "title": "‘Open House’ Details Colorado Street Bridge Barrier Options",
+    "url": "https://pasadenanow.com/main/open-house-details-colorado-street-bridge-barrier-options",
+    "kind": "Meeting report",
+    "note": "Covers the March 25 open house. Statements about climb resistance and service life are claims made during the presentation."
+  },
+  {
     "id": "pnow-2021-hanson",
     "date": "2021-04-01",
     "publisher": "Pasadena Now",
@@ -903,6 +921,15 @@ const newsRecords = [
     "url": "https://laist.com/news/pasadenas-colorado-street-bridge-is-getting-new-barriers-to-prevent-jumpers-and-the-city-wants-your-input",
     "kind": "News report",
     "note": "This covers the August concepts, before the three-design set presented in November. Survey deadlines and approval forecasts are historical."
+  },
+  {
+    "id": "pnow-2024-design-commission",
+    "date": "2024-01-10",
+    "publisher": "Pasadena Now",
+    "title": "No Consensus, No Approvals of New Colorado Street Bridge Suicide Mitigation Barrier Concepts at Design Commission Meeting",
+    "url": "https://pasadenanow.com/main/no-consensus-no-approvals-of-new-colorado-street-bridge-suicide-mitigation-barrier-concepts-at-design-commission-meeting",
+    "kind": "Commission report",
+    "note": "Covers the January 9 advisory review. The City’s historical report says the light poles were repaired and reused in 1993, while their four-arm, four-globe portions were reconstructed. The funding figure describes the allocation reported at that time."
   },
   {
     "id": "pnow-2024",

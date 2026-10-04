@@ -10,12 +10,14 @@ The website is titled **Colorado Street Bridge Project Guide**. It is an indepen
 - Alternatives, four attributed City illustrations, earlier research, responses, and evidence limits
 - 75 selected entries for 23 speakers, with an all-speaker selector, topic/year filters, and quotations distinguished from summaries
 - 34 dated meeting records with links to recordings and corresponding documents
-- 25 news, commentary, and organizational-letter links, plus the preserved City-records collection
+- 28 news, commentary, and organizational-letter links, plus the preserved City-records collection
 - Search across the guide and paper, with matching passage excerpts and direct destinations
 
 The reading edition of **The fence everyone can see** is available at `/paper/`, with 13 sequential sections and a separate Sources page. Private research archives and working transcripts are not included. Search covers the guide’s entries and all paper chapters, not the contents of external linked documents or videos. The larger bridge photograph loads only when opened.
 
 ## Reading edition
+
+The October 3 historical follow-up expands the paper’s opening with the Scoville crossing, bridge construction and opening, Route 66, and restoration. The Timeline carries a shorter historical introduction. Three additional publisher links support this history and attributed accounts of the March 2021 open house and January 2024 commission preferences. Sources 48–50 bring the paper to 50 source entries, while the directory contains 28 records and search contains 178 records. Existing passage and citation IDs, all earlier source entries, quotations, illustrations, and the memorial remain intact. The evidence baseline remains September 1, 2026.
 
 The October 3 edition adds the approved 2021 community positions, Kathleen Clary Miller’s letter, Bonnie Tang’s testimony from official minutes, the July 2025 City response, and the verified April 2020 budget context. Sources 42–47 supply the new references, while Source 18 supports the testimony. All earlier passage and citation IDs, the original 41 source entries, images, and the memorial remain. One 2025 paragraph is divided to place the July account before the later quarterly reports. An empty link in Source 24 is removed. The guide adds 17 individually reviewed reporting, opinion, and correspondence links, giving 25 directory records and 175 total search records. The main September 1 evidence baseline and September 13 project-page check remain separately dated.
 
@@ -59,7 +61,7 @@ The site uses pre-rendered section pages and relative asset links so it can run 
 
 The interface uses a dark charcoal palette, teal accents, and system fonts. A persistent sidebar serves larger screens. On phones, a compact header opens the section menu, and forms and cards adapt to the available width. Keyboard navigation, visible focus, and reduced-motion preferences are supported.
 
-Every section is rendered into HTML by the same view functions used by the interactive guide. Permanent paths are `/timeline/`, `/alternatives-studied/`, `/evidence-and-limits/`, `/who-said-what/`, `/meetings-and-documents/`, and `/news-and-commentary/`. Each of the four alternatives also has a readable subpage. Ordinary navigation links work without JavaScript and can open in a new tab. JavaScript enhances navigation, search, and filters. Old hash links, including individual entry links, remain supported. The full 75 selected entries, 34 meetings, and 25 news records are in their sections’ HTML. A `/search/` page hosts the interactive search; search itself requires JavaScript.
+Every section is rendered into HTML by the same view functions used by the interactive guide. Permanent paths are `/timeline/`, `/alternatives-studied/`, `/evidence-and-limits/`, `/who-said-what/`, `/meetings-and-documents/`, and `/news-and-commentary/`. Each of the four alternatives also has a readable subpage. Ordinary navigation links work without JavaScript and can open in a new tab. JavaScript enhances navigation, search, and filters. Old hash links, including individual entry links, remain supported. The full 75 selected entries, 34 meetings, and 28 news records are in their sections’ HTML. A `/search/` page hosts the interactive search; search itself requires JavaScript.
 
 The guide scripts and generated paper search index are combined into one download, with data formatting compacted without changing the source records. The introduction appears only on Overview; other sections start with their own heading. Navigation stays in the sidebar or phone menu, without a floating control over the reading area. Versioned asset URLs help readers receive matching updates. The build supplies section titles, descriptions, canonical URLs, and a sitemap. Source verification dates remain separate from the site update date.
 
