@@ -22,10 +22,11 @@ assert.equal(run('Object.keys(speakers).length'),8);
 // October 2 bounded update: two cushion summaries identify Fire consistently,
 // and the September 2022 directory now includes its existing official recording.
 // Quotations and the September 22 author-audio-checked exchange remain unchanged.
+// October 4: reviewed directory wording and the full September agenda-packet review.
 const preserved={
  'speakers.js':'c7fe204f77282ce0d92b6db28bc812815f1fb7909ff8412cb2c2c813c615ec49',
  'other-speakers.js':'964b30f9679e1a573bea6fc8c598b27475f6e618b888cbbaab7056c40b84a712',
- 'resources.js':'307e2400042b21f3488b91035dc0c6570cfdcd4bb025f9305d665fc5695d4ee6'
+ 'resources.js':'b8aeeed999082b7e66788c12886ecbaaa4bf227ca42b4e970304dda2e680e10f'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -232,6 +233,24 @@ assert.equal((run('forecastComparison()').match(/scope="row"/g)||[]).length,3);
 assert(run('speakerView()').includes('whether they support or challenge'));
 assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
 assert.notEqual(run('reviewDates.baseline'),run('reviewDates.siteUpdated'));
+assert.equal(run('reviewDates.baseline'),'2026-09-01','A scoped agenda review must not advance the main research cutoff');
+assert.equal(run('reviewDates.projectPage'),'2026-10-04','Record the fresh City project-page check');
+for(const key of ['heightFAQ','scannedReports','financeRow'])assert.equal(run('reviewDates.'+key),'2026-09-13','Keep unrelated source-check dates: '+key);
+const septemberAgenda=json('meetingRecords.find(m=>m.id==="meeting-2026-09-16")');
+assert.equal(septemberAgenda.title,'No Bridge project item on the agenda');
+assert.equal(septemberAgenda.kind,'Agenda review','Do not present a packet review as a meeting outcome');
+assert.equal(septemberAgenda.note,'Full agenda packet reviewed October 4, 2026.');
+assert.equal(septemberAgenda.links[0].label,'Agenda packet · 160 pages');
+const meetingHtml=run('meetingsView()');
+assert(meetingHtml.includes(septemberAgenda.note));
+assert(!/pages 1–6|full 160-page packet was not read|in this update|recording was not recovered/i.test(meetingHtml),'Remove obsolete working-log wording from the directory');
+for(const id of ['meeting-2017-07-19','meeting-2018-04-18','meeting-2019-04-17','meeting-2019-05-15']){
+ assert(run('meetingRecords.find(m=>m.id==='+JSON.stringify(id)+').note').includes('No recording was available for review.'),'Retain written-record limitations: '+id);
+}
+assert(run('meetingRecords.find(m=>m.id==="meeting-2020-02-03").note').includes('The Clerk reported having no recording.'),'Retain the Clerk’s specific recording response');
+const projectGatewayLinks=json('meetingRecords.flatMap(m=>m.links).filter(l=>l.url===urls.project&&l.note)');
+assert.equal(projectGatewayLinks.length,8);
+assert(projectGatewayLinks.every(l=>l.note==='This link opens the City project page, where the document is listed.'),'Store the plain-language destination note directly');
 const tablePage=fs.readFileSync(path.join(dir,'preserved-records/tables.html'),'utf8');
 for(const id of ['survey-2021','police-2021','fiscal-2021','schedule-2022','finance-2026'])assert(tablePage.includes('id="'+id+'"'));
 for(const item of JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/manifest.json'),'utf8'))){
@@ -347,7 +366,7 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
  assert(html.includes('The City’s target for finishing the design is June 30, 2028. Building the barrier still requires construction funding and contract authorization.'),'Keep the design-versus-construction distinction');
- assert.equal((html.match(/City project page checked: September 13, 2026/g)||[]).length,1,'State the source-check date only once');
+ assert.equal((html.match(/City project page checked: October 4, 2026/g)||[]).length,1,'State the source-check date only once');
  const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
  assert(sourceArea.includes('<summary>Financial reporting period</summary>'),'Keep the report period beside the source links');
  assert(html.includes('<p class="status-dates">Main research cutoff: September 1, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');

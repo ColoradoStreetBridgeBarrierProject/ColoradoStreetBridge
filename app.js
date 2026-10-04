@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-04',projectPage:'2026-09-13',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-04',projectPage:'2026-10-04',heightFAQ:'2026-09-13',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -688,7 +688,7 @@ function directoryLinks(items,recordId) {
     const files=preservedFileNames[item.source];
     const label=files?(item.source.startsWith('agenda')?'Open agenda packet (PDF)':'Open minutes (PDF)'):locatorLabel(item.label)+(/\.pdf(?:[?#]|$)/i.test(url)&&! /\bPDF\b/i.test(item.label)?' · PDF':'');
     const noteId=recordId+'-link-note-'+index;
-    const note=item.note==='The City lists this document, but its direct file could not be recovered in this update.'?'This link opens the City project page, where the document is listed.':item.note;
+    const note=item.note;
     return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"${note?` aria-describedby="${esc(noteId)}"`:''}><span class="source-label">${esc(label)}${linkArrow(url)}</span></a>${note?`<small id="${esc(noteId)}">${esc(note)}</small>`:''}</li>`;
   }).join('')+'</ul>';
 }
@@ -700,7 +700,7 @@ function meetingsView(year='all', order='oldest') {
     `<div class="meeting-filters speaker-filter"><label for="meeting-year">Choose a year</label><select id="meeting-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><label for="meeting-order">Order</label><select id="meeting-order"><option value="oldest" ${order==='oldest'?'selected':''}>Oldest first</option><option value="newest" ${order==='newest'?'selected':''}>Newest first</option></select><span role="status">${countLabel(selected.length,'meeting or related record','meeting and related records')}</span></div>
 ${year!=='all'||order!=='oldest'?`<p class="filter-actions"><a href="${esc(routeHref('meetings'))}" data-route="meetings">Reset filters</a></p>`:''}
     <details class="directory-notes"><summary>About the directory and preserved records</summary><aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>Six original City PDFs are available directly on this website, including minutes for early meetings where recordings were unavailable. The files retain their original contents and metadata. This guide also provides tables copied and checked by hand, searchable copies of two scanned reports, and a labeled page showing the project’s finances.</p>${link('Read the tables and preservation notes',urls.transcriptions)}</div>${link('Browse the preserved City PDFs',urls.dropbox)}</aside>
-    <p class="locator-note">This directory brings together links from the City’s project page and the reviewed source records. Some presentations open through the City’s link list. As checked ${formatDate(reviewDates.projectPage)}, the City project page still listed a tentative Summer 2024 meeting as upcoming. That listing is outdated and should not be used as a current meeting schedule.</p>
+    <p class="locator-note">Some presentations are linked through the City’s project page. Its “upcoming” meeting list still shows Summer 2024 (checked ${formatDate(reviewDates.projectPage)}). Use the ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')} for current meeting dates.</p>
     </details>
     <div class="directory-grid">${selected.map(m=>`<article class="directory-card" id="${esc(m.id)}" tabindex="-1"><p class="eyebrow">${esc(m.kind)}</p><p class="directory-date">${esc(m.body)}</p><h3><time class="meeting-heading-date" datetime="${esc(m.date)}">${esc(formatDate(m.date))}</time>${esc(m.title)}</h3>${m.note?'<p>'+esc(m.note)+'</p>':''}${directoryLinks(m.links,m.id)}${meetingExchangesLink(m)}</article>`).join('')}</div>
     <p class="directory-tail">${link('City project page and meeting list',urls.project)} · ${link('Public Safety agenda archive','https://www.cityofpasadena.net/commissions/city-council-public-safety-committee/past-agendas/')}</p>`;

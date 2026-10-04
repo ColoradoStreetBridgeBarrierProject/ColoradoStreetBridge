@@ -1,5 +1,5 @@
 'use strict';
-// Directory additions checked at their stated scope on September 12, 2026.
+// Directory additions checked September 12, 2026; later reviews are dated in their entries.
 const resourceUrls = {
   "dropbox": "https://coloradostreetbridgeproject.com/preserved-records/",
   "minutes20170719": "https://coloradostreetbridgeproject.com/preserved-records/2017-07-19_Public_Safety_Committee_Minutes.pdf",
@@ -31,7 +31,7 @@ const meetingRecords = [
         "source": "minutes20170719"
       }
     ],
-    "note": "The reviewed record uses written minutes and the presentation. A recording was not recovered.",
+    "note": "Based on the minutes and presentation. No recording was available for review.",
     "kind": "Project meeting"
   },
   {
@@ -85,7 +85,7 @@ const meetingRecords = [
         "source": "minutes20180418"
       }
     ],
-    "note": "A recording was not recovered. The preserved minutes document the committee’s recommendation.",
+    "note": "The minutes document the committee’s recommendation. No recording was available for review.",
     "kind": "Project meeting"
   },
   {
@@ -151,7 +151,7 @@ const meetingRecords = [
         "source": "minutes20190417"
       }
     ],
-    "note": "Preserved minutes, pages 2–3, record the discussion. A recording was not recovered.",
+    "note": "The discussion is recorded in the minutes, pages 2–3. No recording was available for review.",
     "kind": "Project meeting"
   },
   {
@@ -169,7 +169,7 @@ const meetingRecords = [
         "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2019-05-15-Public-Safety-Committee-Minutes.pdf"
       }
     ],
-    "note": "The City project page labels its 46-page packet “Minutes.” Use the preserved minutes, pages 2–3, for the recorded motion and vote. A recording was not recovered.",
+    "note": "The motion and vote are in the preserved minutes, pages 2–3. The City’s link labeled “Minutes” opens a 46-page agenda packet. No recording was available for review.",
     "kind": "Project meeting"
   },
   {
@@ -225,7 +225,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Meeting notice",
@@ -262,12 +262,12 @@ const meetingRecords = [
       {
         "label": "Staff memo via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       }
     ],
     "note": "",
@@ -296,7 +296,7 @@ const meetingRecords = [
         "source": "agenda20200203"
       }
     ],
-    "note": "The City Clerk supplied agenda and minutes in September 2026. A recording was not recovered.",
+    "note": "Based on the City Clerk’s agenda and minutes. The Clerk reported having no recording.",
     "kind": "Project meeting"
   },
   {
@@ -330,7 +330,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Staff memo",
@@ -458,7 +458,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Meeting postcard",
@@ -481,7 +481,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       }
     ],
     "note": "The linked meeting and recording are dated October 26. An introductory paragraph on the City page instead says October 27.",
@@ -518,7 +518,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Minutes",
@@ -549,7 +549,7 @@ const meetingRecords = [
       {
         "label": "Presentation via City project page",
         "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "The City lists this document, but its direct file could not be recovered in this update."
+        "note": "This link opens the City project page, where the document is listed."
       },
       {
         "label": "Minutes",
@@ -703,15 +703,15 @@ const meetingRecords = [
     "id": "meeting-2026-09-16",
     "date": "2026-09-16",
     "body": "Public Safety Committee",
-    "title": "Agenda monitored for a possible Bridge return",
+    "title": "No Bridge project item on the agenda",
     "links": [
       {
         "label": "Agenda packet · 160 pages",
         "url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-09-16-Public-Safety-Committee-Meeting-Agenda.pdf"
       }
     ],
-    "note": "Agenda review for the September 16, 2026 meeting: no Bridge-specific item was listed on pages 1–6, read September 12. No meeting outcome is established by that agenda review. The full 160-page packet was not read for this guide.",
-    "kind": "Agenda monitoring"
+    "note": "Full agenda packet reviewed October 4, 2026.",
+    "kind": "Agenda review"
   }
 ];
 const newsRecords = [
