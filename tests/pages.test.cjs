@@ -124,6 +124,12 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
  }
 }
 assert(read('preserved-records/tables.html').includes('href="../meetings-and-documents/#source-folder"'));
+for(const [id,destination] of [['survey-2021','evidence-and-limits/#surveys'],['police-2021','evidence-and-limits/#local-counts'],['fiscal-2021','evidence-and-limits/#funding'],['schedule-2022','paper/forecasts/'],['appropriations','evidence-and-limits/#funding'],['finance-2026','evidence-and-limits/#funding']]){
+ const section=read('preserved-records/tables.html').split('<section id="'+id+'">')[1]?.split('</section>')[0];
+ assert(section?.includes('<p class="guide-context"><a href="../'+destination+'">'),id+': direct arrivals can reach the explanation');
+ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.org/ColoradoStreetBridge/'])assert.equal(new URL('../'+destination,base+'preserved-records/tables.html').href,base+destination);
+}
+assert(read('preserved-records/tables.css').includes('.guide-context a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}'));
 assert(read('index.template.html').includes('class="skip" href="#content"'),'Native skip fallback must remain available');
 console.log('Skip-link route/filter preservation and decision-process destination checks passed');
 const about=read('about/index.html');
