@@ -330,7 +330,9 @@ function openIllustration(key,trigger){
   dialog.showModal();
   return true;
 }
-function designGallery(){return `<section class="design-gallery" aria-labelledby="design-gallery-title"><h2 id="design-gallery-title">The temporary fence and proposed permanent barriers</h2><p class="topic-orientation">These images come from the City’s July 17, 2024 presentation. The labels describe the temporary fence and the permanent concepts’ positions in that review.</p><div class="design-grid">
+const designGalleryTitle='The temporary fence and proposed permanent barriers';
+const designGalleryIntro='These images come from the City’s July 17, 2024 presentation. The labels describe the temporary fence and the permanent concepts’ positions in that review.';
+function designGallery(){return `<section class="design-gallery" aria-labelledby="design-gallery-title"><h2 id="design-gallery-title" class="scroll-focus" tabindex="-1">${designGalleryTitle}</h2><p class="topic-orientation">${designGalleryIntro}</p><div class="design-grid">
 ${designIllustrations.map(([file,title,page,width,height,alt,caption])=>`<figure><a href="${siteBase}assets/illustrations/${file}.jpeg" data-enlarge-image="${file}" aria-label="Enlarge image: ${esc(title)}"><img src="${siteBase}assets/illustrations/${file}.jpeg" width="${width}" height="${height}" loading="lazy" decoding="async" alt="${esc(alt)}"></a><figcaption><strong>${esc(title)}</strong><span class="design-status">${esc(designStatuses[file])}</span>${esc(caption)} <a class="image-enlarge-link" href="${siteBase}assets/illustrations/${file}.jpeg" data-enlarge-image="${file}" aria-label="Enlarge image: ${esc(title)}">Enlarge image</a><a class="source-link" href="${esc(urls.p2024+'#page='+page)}" target="_blank" rel="noopener noreferrer">View source presentation · City of Pasadena · July 17, 2024 · Slide ${page}</a></figcaption></figure>`).join('')}
 </div><p class="locator-note">Earlier curved-mesh mockups and the February 2020 enclosure request belong to different stages of the project. <a href="${esc(routeHref('timeline/2020-02-03'))}" data-route="timeline/2020-02-03">Read the February 2020 record.</a> Images are included to explain the designs and are credited to the City.</p></section>`;}
 
@@ -407,6 +409,8 @@ function routeHref(route) {
   const base=siteBase+(sectionPaths[view]?sectionPaths[view]+'/':'');
   if(view==='alternatives' && Object.hasOwn(topics,arg))return base+arg+'/';
   if(view==='timeline' && arg==='history' && !query)return base+'#bridge-history-heading';
+  if(view==='alternatives' && arg==='gallery' && !query)return base+'#design-gallery-title';
+  if(view==='about' && arg==='corrections' && !query)return base+'#corrections';
   if(view==='evidence' && evidenceSections.includes(arg) && !query)return base+'#'+arg;
   return base+(arg||query?'#'+route:'');
 }
@@ -775,11 +779,12 @@ function directoryLinks(items,recordId) {
     return `<li><a class="source-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"${note?` aria-describedby="${esc(noteId)}"`:''}><span class="source-label">${esc(label)}${linkArrow(url)}</span></a>${note?`<small id="${esc(noteId)}">${esc(note)}</small>`:''}</li>`;
   }).join('')+'</ul>';
 }
+const meetingsIntro='Find meeting recordings, agendas, presentations, minutes, and related funding documents.';
 function meetingsView(year='all', order='oldest') {
   const selected=meetingRecords.filter(m=>year==='all'||m.date.startsWith(year));
   if(order==='newest')selected.reverse();
   const years=[...new Set(meetingRecords.map(m=>m.date.slice(0,4)))];
-  return head('06','Meetings & documents','Find meeting recordings, agendas, presentations, minutes, and related funding documents.')+
+  return head('06','Meetings & documents',meetingsIntro)+
     `<div class="meeting-filters speaker-filter"><label for="meeting-year">Choose a year</label><select id="meeting-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select><label for="meeting-order">Order</label><select id="meeting-order"><option value="oldest" ${order==='oldest'?'selected':''}>Oldest first</option><option value="newest" ${order==='newest'?'selected':''}>Newest first</option></select><span role="status">${countLabel(selected.length,'meeting or related record','meeting and related records')}</span></div>
 ${year!=='all'||order!=='oldest'?`<p class="filter-actions"><a href="${esc(routeHref('meetings'))}" data-route="meetings">Reset filters</a></p>`:''}
     <details class="directory-notes"><summary>About the directory and preserved records</summary><aside id="source-folder" class="source-folder" tabindex="-1"><div><h3>Preserved City records</h3><p>Six original City PDFs are available directly on this website, including minutes for early meetings where recordings were unavailable. The files retain their original contents and metadata. This guide also provides tables copied and checked by hand, searchable copies of two scanned reports, and a labeled page showing the project’s finances.</p>${link('Read the tables and preservation notes',urls.transcriptions)}</div>${link('Browse the preserved City PDFs',urls.dropbox)}</aside>
@@ -850,6 +855,10 @@ function searchIndex() {
   const result=[];
   result.push({type:'Timeline',title:bridgeHistory.title,text:bridgeHistory.paragraphs.join(' '),route:'timeline/history'});
   result.push({type:'Project process',title:decisionProcess.title,text:[decisionProcess.intro,...decisionProcess.roles.flat(),decisionProcess.remaining,decisionProcess.status].join(' '),route:'timeline/who-decides'});
+  result.push({type:'Design gallery',title:designGalleryTitle,text:[designGalleryIntro,...designIllustrations.flatMap(([file,title,,,,alt,caption])=>[title,designStatuses[file],alt,caption])].join(' '),summary:designGalleryIntro,route:'alternatives/gallery'});
+  result.push({type:'Directory',title:'Meetings & documents',text:meetingsIntro,route:'meetings'});
+  result.push({type:'About',title:'About this guide',text:aboutIdentity+' '+aboutIntro,route:'about'});
+  result.push({type:'About',title:'Questions and corrections',text:'Email contact@coloradostreetbridgeproject.com.',route:'about/corrections'});
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
   for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.map(readableRemark).forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis,r)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Background',text:r.earlier},{label:'Response',text:r.response},{label:'Later',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source note',text:readableSourceNote(r.basis,r)}],route:'speakers/'+key+'/'+r.id}));
@@ -882,20 +891,36 @@ const searchSummaryRoutes = Object.freeze({funding:'evidence/6',netting:'alterna
 // the ordinary relevance rules. No claims or keywords are added to source text.
 const searchQuestions = Object.freeze([
   {queries:['delay','delays','project delays','why so long','why is it taking so long','why has it taken so long','why is the fence still there','why is the temporary fence still there'],routes:['overview/0','paper/delays/','evidence/5']},
-  {queries:['displacement','displacement effect','move elsewhere','would deaths move elsewhere','do deaths move elsewhere','will people just go somewhere else'],routes:['evidence/2']},
-  {queries:['do barriers work','do suicide barriers work','does a barrier work','do fences work','barrier effectiveness','barriers effectiveness','why would a barrier help'],routes:['evidence/1','evidence/2','evidence/3']}
+  {queries:['displacement','displacement effect','move elsewhere','would deaths move elsewhere','do deaths move elsewhere','will people just go somewhere else','they will go somewhere else','substitution'],routes:['evidence/2'],relatedQuery:'displacement'},
+  {queries:['do barriers work','do suicide barriers work','does a barrier work','do fences work','barrier effectiveness','barriers effectiveness','why would a barrier help','means restriction','does fencing save lives'],routes:['evidence/1','evidence/2','evidence/3']},
+  {queries:['where did the money go','money spent','how much has been spent','who is paying'],routes:['evidence/6'],relatedQuery:'funding'},
+  {queries:['current status','what happens next','when will it be finished','when will the fence come down'],routes:['overview/0','paper/forecasts/']},
+  {queries:['who approves the design','who is responsible'],routes:['timeline/who-decides']},
+  {queries:['net','nets','why not a net','why not netting'],routes:['alternatives/netting'],relatedQuery:'netting'},
+  {queries:['guards','security guards'],routes:['alternatives/staffing'],relatedQuery:'patrols'},
+  {queries:['statistics','suicide statistics','how many deaths'],routes:['evidence/9']},
+  {queries:['barrier designs','what will it look like','metal pickets','mesh'],routes:['alternatives/gallery']},
+  {queries:['survey results','poll'],routes:['evidence/8','evidence/4']},
+  ...['2021','2024'].map(year=>({queries:[year+' survey results','survey results '+year,year+' survey','survey '+year,year+' poll','poll '+year],routes:[year==='2021'?'evidence/8':'evidence/4']})),
+  {queries:['meeting recordings','video','original documents'],routes:['meetings','meetings/source-folder']},
+  {queries:['who runs this site'],routes:['about']},
+  {queries:['contact','corrections'],routes:['about/corrections','about']}
 ]);
-function searchQuestionRoutes(query) {
+function searchQuestionGroup(query) {
   const key=SearchText.normalize(query).replace(/\?+$/,'').trim();
-  return searchQuestions.find(group=>group.queries.includes(key))?.routes||[];
+  return searchQuestions.find(group=>group.queries.includes(key));
 }
+function searchQuestionRoutes(query) {return searchQuestionGroup(query)?.routes||[];}
 function rankedSearchResults(query) {
   const words=SearchText.terms(query);
   const preferred=searchSummaryRoutes[SearchText.normalize(query)];
-  const explanations=searchQuestionRoutes(query);
+  const group=searchQuestionGroup(query);
+  const explanations=group?.routes||[];
+  const relatedQuery=group?.relatedQuery;
   return searchIndex().map(item=>{
     const position=explanations.indexOf(item.route);
-    const score=SearchText.score(item,words,query)+(position<0?0:(explanations.length-position)*1000);
+    const relatedScore=relatedQuery?SearchText.score(item,SearchText.terms(relatedQuery),relatedQuery):0;
+    const score=Math.max(SearchText.score(item,words,query),relatedScore)+(position<0?0:(explanations.length-position)*1000);
     const result=item.type==='Paper'?SearchText.paperResult(item,words,query):{...item};
     if(position>=0)result.explanationMatch=true;
     if(position>=0&&item.type==='Paper'){
@@ -929,12 +954,14 @@ function readRoute() {
   const order=params.get('order')==='newest'?'newest':'oldest';
   return {view,arg,detail,filter,year,order,query:(params.get('q')||'').slice(0,200),anchor:legacy?'':hash};
 }
+const aboutIdentity='I’m Christopher Clark, a longtime Pasadena resident and registered nurse with a background in urgent care, emergency care, and pediatric and adult trauma.';
+const aboutIntro='I research and maintain this independent guide to Pasadena’s effort to develop a permanent suicide prevention barrier for the Colorado Street Bridge. I built it to help readers follow the decisions, alternatives, and schedule, and check the supporting records for themselves. The website brings together the paper, City reports, meeting minutes, presentations, and recordings.';
 function aboutView() {
   return `<div class="section-head"><div><h2>About this guide</h2></div></div>
     <div class="info-copy">
-      <p>I’m Christopher Clark, a longtime Pasadena resident and registered nurse with a background in urgent care, emergency care, and pediatric and adult trauma.</p>
+      <p>${aboutIdentity}</p>
       <p>I have followed and researched the project since 2021. I wanted to understand why it was taking so long, so I began reading public comments, watching presentations, and going back through earlier meetings. As I continued following the project, I grew frustrated hearing the same questions come up repeatedly, sometimes from people who had participated in the earlier discussions. I wanted to understand what had already been considered, what remained unresolved, and how the decisions fit together.</p>
-      <p>I research and maintain this independent guide to Pasadena’s effort to develop a permanent suicide prevention barrier for the Colorado Street Bridge. I built it to help readers follow the decisions, alternatives, and schedule, and check the supporting records for themselves. The website brings together the paper, City reports, meeting minutes, presentations, and recordings.</p>
+      <p>${aboutIntro}</p>
       <h2>Research and source checks</h2>
       <p>Main research cutoff: September 1, 2026. Later checks and additions are dated where they appear.</p>
       <p>I selected exchanges that bear on a decision, an alternative, or the schedule, whether they support or challenge my reading of the record. Background and later developments appear where they help explain an exchange.</p>
@@ -943,7 +970,7 @@ function aboutView() {
       <dl class="source-method"><dt>Quotation</dt><dd>Selected quoted words. “Checked against the recording” identifies wording checked in the audio.</dd><dt>Caption excerpt</dt><dd>Words from City-hosted video captions, with punctuation and capitalization adjusted for reading.</dd><dt>Working-transcript excerpt</dt><dd>Words from a working transcript. A separate audio check is stated where completed.</dd><dt>Discussion or written-record summary</dt><dd>A paraphrase of the linked recording or written record.</dd></dl>
       <p>“Speaker and passage checked” identifies a check of who was speaking and where the exchange appears. A word-for-word audio check is identified separately. Checks apply to the selected passages and details stated in each entry.</p>
       <p>Times locate approximately where a passage begins. Open the recording and move to the displayed time. Minutes and other written City records supply the account where recordings were unavailable.</p>
-      <h2>Questions and corrections</h2>
+      <h2 id="corrections" class="scroll-focus" tabindex="-1">Questions and corrections</h2>
       <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>.</p>
     </div>`;
 }
