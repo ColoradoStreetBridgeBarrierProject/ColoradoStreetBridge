@@ -64,7 +64,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Page revised: October 4, 2026'));
+assert(overview.includes('Page revised: October 5, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -149,9 +149,47 @@ assert.equal((read('news-and-commentary/index.html').match(/class="directory-car
 for(const page of pages)assert(!/psn-2018-barriers|psn-2018-fence|psn-2020/i.test(read(page+'index.html')),page+': unreviewed news entry returned');
 assert(read('timeline/index.html').includes('committee received and filed'));
 assert(read('evidence-and-limits/index.html').includes('$2,874,000'));
-assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,29);
+assert.equal((read('sitemap.xml').match(/<loc>/g)||[]).length,28);
 assert(read('sitemap.xml').includes('/preserved-records/tables.html'));
 assert(read('robots.txt').includes('Sitemap: https://coloradostreetbridgeproject.com/sitemap.xml'));
+// Editorial consistency and explicit chapter-first search policy.
+const evidenceEditorial=read('evidence-and-limits/index.html');
+const countLimit='The reviewed records include only partial counts for 2021 and 2023 and do not supply counts for 2024–2026.';
+assert.equal(evidenceEditorial.split(countLimit).length-1,2);
+assert(evidenceEditorial.includes('approved project budget of $2,874,000'));
+assert(!evidenceEditorial.includes('The $2,874,000 figure'));
+assert(evidenceEditorial.includes('7 feet 6 inches above the highest foothold'));
+assert(evidenceEditorial.includes('City FAQ, checked October 5, 2026'));
+assert(evidenceEditorial.includes('Source row checked September 13, 2026'));
+assert(read('paper/sources/index.html').includes('City project FAQ</a>, checked October 5, 2026'));
+assert(read('paper/sources/index.html').includes('Colorado Street Bridge project page</a>, checked October 5, 2026'));
+assert(read('paper/forecasts/index.html').includes('when checked on October 5, 2026'));
+assert(read('meetings-and-documents/index.html').includes('Consideration of barrier design options'));
+assert(!read('meetings-and-documents/index.html').includes('Recommendation of a barrier design option'));
+assert(read('timeline/index.html').includes('printed p. 203 · PDF p. 207'));
+assert(read('timeline/index.html').includes('CRPT-119hrpt686.pdf#page=207'));
+assert(read('about/index.html').includes('I run and fund the site myself and don’t represent the City or an organization involved in the project.'));
+for(const file of ['preserved-records/index.html','preserved-records/tables.html']){
+  const html=read(file),nav=html.match(/<nav class="guide-nav"[\s\S]*?<\/nav>/)[0];
+  assert(nav.includes('href="../paper/">Read the paper'));
+  assert(nav.includes('href="../search/">Search'));
+  assert(html.includes('Page navigation updated October 5, 2026'));
+}
+const continuousEditorial=read('paper/all/index.html');
+assert(continuousEditorial.includes('<meta name="robots" content="noindex, follow">'));
+assert(continuousEditorial.includes('<title>The fence everyone can see · Read on one page | Colorado Street Bridge</title>'));
+assert(!read('robots.txt').includes('Disallow: /paper/all/'));
+assert(!read('sitemap.xml').includes('/paper/all/'));
+const sitemapDates=require('../scripts/page-dates.json');
+for(const entry of read('sitemap.xml').matchAll(/<url><loc>https:\/\/coloradostreetbridgeproject.com\/(.*?)<\/loc><lastmod>(.*?)<\/lastmod><\/url>/g)){
+  assert.equal(entry[2],sitemapDates[entry[1]]);
+  const file=entry[1].endsWith('.html')?entry[1]:entry[1]+'index.html';
+  assert(!read(file).includes('content="noindex'));
+  assert(read(file).includes('rel="canonical" href="https://coloradostreetbridgeproject.com/'+entry[1]+'"'));
+}
+assert.equal((read('sitemap.xml').match(/<lastmod>/g)||[]).length,28);
+assert.equal(sitemapDates['paper/in-memory/'],'2026-10-02','Unchanged chapters retain their content dates');
+assert.equal(sitemapDates['paper/forecasts/'],'2026-10-05');
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
 
 for(const page of pages){
