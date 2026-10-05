@@ -849,6 +849,28 @@ function searchDateAliases(value) {
   const [,year,month,day]=match;
   return [value,Number(month)+'/'+Number(day)+'/'+year,month+'/'+day+'/'+year];
 }
+function meetingSearchMetadata(meeting) {
+  const kinds=new Set();
+  for(const record of meeting.links){
+    const label=record.label;
+    if(/recording/i.test(label)){
+      const checked=record.note?.match(/Availability checked ([^.]+)\./)?.[1];
+      kinds.add(checked&&/does not exist/.test(record.note)?'Recording link (unavailable at '+checked+' check)':'Recording link');
+    }
+    if(/minutes/i.test(label))kinds.add(/approved/i.test(label)?'Approved minutes':'Minutes');
+    if(/agenda packet/i.test(label))kinds.add('Agenda packet');
+    else if(/agenda/i.test(label)&&!/agenda report/i.test(label))kinds.add('Agenda');
+    if(/staff report|agenda report/i.test(label))kinds.add('Staff report');
+    if(/memo/i.test(label))kinds.add('Staff memo');
+    if(/presentation/i.test(label))kinds.add('Presentation');
+    if(/searchable copy/i.test(label))kinds.add('Searchable copy');
+    if(/hand.checked|transcription/i.test(label))kinds.add('Transcribed tables');
+    if(/single.page excerpt/i.test(label))kinds.add('Page excerpt');
+    if(/balance sheet|funding exhibit/i.test(label))kinds.add('Financial record');
+    if(/flyer|notice|postcard/i.test(label))kinds.add('Meeting notice');
+  }
+  return ['Linked records: '+[...kinds].join(', ')];
+}
 let indexCache;
 function searchIndex() {
   if (indexCache) return indexCache;
@@ -862,7 +884,7 @@ function searchIndex() {
   for (const [key,t] of Object.entries(topics)) result.push({type:'Topic',title:t.name,text:[t.title,t.answer,...t.steps.flatMap(s=>[s.date,s.title,s.text]),t.limit].join(' '),route:'alternatives/'+key});
   timeline.forEach((t,i)=>result.push({type:'Timeline',title:t.date+' · '+t.title,aliases:searchDateAliases(t.id),text:[t.text,t.note,t.milestone?.bridge].filter(Boolean).join(' '),route:'timeline/'+(t.id??i)}));
   for (const [key,person] of Object.entries(speakerDirectory)) person.remarks.map(readableRemark).forEach(r=>result.push({type:'Selected remark',title:person.name+' · '+r.title,aliases:[...(speakerNameAliases[key]||[]),...searchDateAliases(r.sortDate)],text:[r.date,r.time,r.body,speakerTopicLabel(r.topic),r.quote,r.context,r.earlier,r.response,outcomeParts(r).event,...remarkSourceLinks(r).flatMap(l=>[l.label,l.time]),readableSourceNote(r.basis,r)].join(' '),metadata:[r.date+(r.time?' · '+r.time:''),r.body,speakerTopicLabel(r.topic)],previewFields:[{label:'Summary',text:r.context},{label:sourceType(r),text:r.quote},{label:'Background',text:r.earlier},{label:'Response',text:r.response},{label:'Later',text:outcomeParts(r).event},{label:'Supporting record',text:remarkSourceLinks(r).flatMap(l=>[l.label,l.time]).filter(Boolean).join(' · ')},{label:'Source note',text:readableSourceNote(r.basis,r)}],route:'speakers/'+key+'/'+r.id}));
-  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),route:'meetings/'+m.id}));
+  meetingRecords.forEach(m=>result.push({type:'Meeting & documents',title:formatDate(m.date)+' · '+m.body,aliases:searchDateAliases(m.date),text:[m.title,m.kind,m.note,...m.links.flatMap(l=>[l.label,...(preservedFileNames[l.source]||[])])].filter(Boolean).join(' · '),summary:[m.title,m.kind,m.note].filter(Boolean).map(text=>/[.!?]$/.test(text)?text:text+'.').join(' '),metadata:meetingSearchMetadata(m),route:'meetings/'+m.id}));
   newsRecords.forEach(n=>result.push({type:'News & commentary',title:n.publisher+' · '+n.title,aliases:searchDateAliases(n.date),text:[formatDate(n.date),n.kind,newsRelevance[n.id],n.note].filter(Boolean).join(' '),route:'news/'+n.id}));
   result.push({type:'Source collection',title:'Preserved City records',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
@@ -871,7 +893,9 @@ function searchIndex() {
     div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
       const h=a.querySelector('h3,.eyebrow');
       const sectionHeading=a.closest('section')?.querySelector('h2')?.textContent;
-      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:view==='overview'&&i===0?pageHeading:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),aliases:[i===0?pageHeading:null,sectionHeading].filter(Boolean),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),route:view+'/'+(a.dataset?.evidenceId??i)});
+      const route=view+'/'+(a.dataset?.evidenceId??i);
+      const metadata={'evidence/8':['2021 survey'],'evidence/4':['2024 survey'],'evidence/6':['Spending through '+formatDate(financePeriod)]}[route];
+      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:view==='overview'&&i===0?pageHeading:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),aliases:[i===0?pageHeading:null,sectionHeading].filter(Boolean),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),metadata,route});
     });
   }
   if (typeof PaperSearchData !== 'undefined') result.push(...PaperSearchData);
@@ -890,37 +914,44 @@ const searchSummaryRoutes = Object.freeze({funding:'evidence/6',netting:'alterna
 // substring triggers: a speaker name, date or quotation added to a query keeps
 // the ordinary relevance rules. No claims or keywords are added to source text.
 const searchQuestions = Object.freeze([
-  {queries:['delay','delays','project delays','why so long','why is it taking so long','why has it taken so long','why is the fence still there','why is the temporary fence still there'],routes:['overview/0','paper/delays/','evidence/5']},
+  {queries:['delay','delays','project delays','why so long','why is it taking so long','why has it taken so long','why is the fence still there','why is the temporary fence still there',"why haven't they finished",'why have they not finished',"why isn't it finished",'why is it not finished'],routes:['overview/0','paper/delays/','evidence/5']},
   {queries:['displacement','displacement effect','move elsewhere','would deaths move elsewhere','do deaths move elsewhere','will people just go somewhere else','they will go somewhere else','substitution'],routes:['evidence/2'],relatedQuery:'displacement'},
   {queries:['do barriers work','do suicide barriers work','does a barrier work','do fences work','barrier effectiveness','barriers effectiveness','why would a barrier help','means restriction','does fencing save lives'],routes:['evidence/1','evidence/2','evidence/3']},
-  {queries:['where did the money go','money spent','how much has been spent','who is paying'],routes:['evidence/6'],relatedQuery:'funding'},
-  {queries:['current status','what happens next','when will it be finished','when will the fence come down'],routes:['overview/0','paper/forecasts/']},
-  {queries:['who approves the design','who is responsible'],routes:['timeline/who-decides']},
+  {queries:['where did the money go','money spent','how much has been spent','who is paying','how much did this cost','how much does it cost','how much will it cost','what is the cost','how much has it cost','who is paying for this','who is paying for it','who pays for this','where is the money coming from'],routes:['evidence/6'],relatedQuery:'funding'},
+  {queries:['current status','what happens next','when will it be finished','when will the fence come down','when are they taking the fence down','when is the fence coming down','when will the project be finished','when will it be done','what is the current status','what is next','when will construction start'],routes:['overview/0','paper/forecasts/']},
+  {queries:['who decides','who decides what','who approves the design','who is responsible'],routes:['timeline/who-decides']},
   {queries:['net','nets','why not a net','why not netting'],routes:['alternatives/netting'],relatedQuery:'netting'},
-  {queries:['guards','security guards'],routes:['alternatives/staffing'],relatedQuery:'patrols'},
-  {queries:['statistics','suicide statistics','how many deaths'],routes:['evidence/9']},
-  {queries:['barrier designs','what will it look like','metal pickets','mesh'],routes:['alternatives/gallery']},
-  {queries:['survey results','poll'],routes:['evidence/8','evidence/4']},
-  ...['2021','2024'].map(year=>({queries:[year+' survey results','survey results '+year,year+' survey','survey '+year,year+' poll','poll '+year],routes:[year==='2021'?'evidence/8':'evidence/4']})),
-  {queries:['meeting recordings','video','original documents'],routes:['meetings','meetings/source-folder']},
+  {queries:['guard','guards','security guard','security guards'],routes:['alternatives/staffing'],relatedQuery:'patrols'},
+  {queries:['statistics','suicide statistics','how many deaths','death count','death counts'],routes:['evidence/9']},
+  {queries:['barrier design','barrier designs','what will it look like','metal picket','metal pickets','mesh'],routes:['alternatives/gallery']},
+  {queries:['survey result','survey results','poll','polls'],routes:['evidence/8','evidence/4']},
+  ...['2021','2024'].map(year=>({queries:['survey result','survey results','survey','surveys','poll','polls'].flatMap(term=>[year+' '+term,term+' '+year]),routes:[year==='2021'?'evidence/8':'evidence/4']})),
+  {queries:['meeting recording','meeting recordings','recording','recordings','video','videos','original document','original documents'],routes:['meetings','meetings/source-folder']},
   {queries:['who runs this site'],routes:['about']},
   {queries:['contact','corrections'],routes:['about/corrections','about']}
 ]);
+// Normalize only the explicit question vocabulary. Literal matching of names,
+// quotations, filenames, and dates still uses the original query unchanged.
+const questionContractions=Object.freeze({"who's":'who is',"what's":'what is',"when's":'when is',"why's":'why is',"haven't":'have not',"hasn't":'has not',"isn't":'is not'});
+function searchQuestionKey(query) {
+  return SearchText.normalize(query).replace(/[’‘]/g,"'").replace(/[?!.]+$/,'').trim().replace(/\b(?:who's|what's|when's|why's|haven't|hasn't|isn't)\b/g,word=>questionContractions[word]);
+}
 function searchQuestionGroup(query) {
-  const key=SearchText.normalize(query).replace(/\?+$/,'').trim();
-  return searchQuestions.find(group=>group.queries.includes(key));
+  const key=searchQuestionKey(query);
+  return searchQuestions.find(group=>group.queries.some(candidate=>searchQuestionKey(candidate)===key));
 }
 function searchQuestionRoutes(query) {return searchQuestionGroup(query)?.routes||[];}
 function rankedSearchResults(query) {
-  const words=SearchText.terms(query);
-  const preferred=searchSummaryRoutes[SearchText.normalize(query)];
+  const preferred=searchSummaryRoutes[searchQuestionKey(query)];
+  const literalQuery=preferred?searchQuestionKey(query):query;
+  const words=SearchText.terms(literalQuery);
   const group=searchQuestionGroup(query);
   const explanations=group?.routes||[];
   const relatedQuery=group?.relatedQuery;
   return searchIndex().map(item=>{
     const position=explanations.indexOf(item.route);
     const relatedScore=relatedQuery?SearchText.score(item,SearchText.terms(relatedQuery),relatedQuery):0;
-    const score=Math.max(SearchText.score(item,words,query),relatedScore)+(position<0?0:(explanations.length-position)*1000);
+    const score=Math.max(SearchText.score(item,words,literalQuery),relatedScore)+(position<0?0:(explanations.length-position)*1000);
     const result=item.type==='Paper'?SearchText.paperResult(item,words,query):{...item};
     if(position>=0)result.explanationMatch=true;
     if(position>=0&&item.type==='Paper'){
@@ -930,13 +961,14 @@ function rankedSearchResults(query) {
     return {item:result,score};
   }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || (preferred ? Number(b.item.route===preferred)-Number(a.item.route===preferred) : 0));
 }
+function searchRecoveryLinks(){return `<nav class="section-jumps" aria-label="Browse topics after an unsuccessful search">${[['evidence/funding','Funding'],['overview/0','Project status'],['alternatives/gallery','Designs'],['evidence/local-counts','Death counts'],['meetings','Meeting records']].map(([route,label])=>`<a href="${esc(routeHref(route))}" data-route="${esc(route)}">${label}</a>`).join('')}</nav>`;}
 function searchView(query) {
   const words=SearchText.terms(query);
-  const heading=head('','Search this site','Search the guide and paper by topic, name, date, filename, decision, or phrase. Paper matches are grouped by chapter and link to a matching passage. Search does not look inside linked reports, articles, or recordings.')+`<form id="results-search-form" class="search-form results-search" role="search" aria-label="Search results"><label for="results-search-input">Search again or change your terms</label><div class="search-controls"><input id="results-search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search" value="${esc(query)}"><button type="submit">Search</button></div></form>`;
+  const heading=head('','Search this site','Search the guide and paper by topic, name, date, filename, decision, or phrase. Paper matches are grouped by chapter and link to a matching passage. Search doesn’t look inside linked reports, articles, or recordings.')+`<form id="results-search-form" class="search-form results-search" role="search" aria-label="Search results"><label for="results-search-input">Search again or change your terms</label><div class="search-controls"><input id="results-search-input" name="q" type="search" maxlength="200" placeholder="Topic or name" enterkeyhint="search" value="${esc(query)}"><button type="submit">Search</button></div></form>`;
   if (!words.length) return heading+'<p class="search-empty">Try <button class="inline-search" data-query="netting">netting</button>, <button class="inline-search" data-query="funding">funding</button>, or <button class="inline-search" data-query="Madison">Madison</button>.</p>';
   const matches=rankedSearchResults(query);
   const count=`${matches.length} ${matches.length===1?'result':'results'} for “${query}”`;
-  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>{const excerptWords=item.titleMatch?[]:words;const preview=SearchText.preview(item,excerptWords);return `<li><p class="result-type">${esc(item.type)}</p><h3><a ${item.type==='Paper'?'':'data-route="'+esc(item.route)+'"'} href="${esc(item.type==='Paper'?siteBase+item.href:routeHref(item.route))}">${highlight(item.title,words)}</a></h3>${item.metadata?`<p class="result-meta">${item.metadata.map(text=>highlight(text,words)).join(' · ')}</p>`:''}<p class="result-excerpt">${preview.label?`<span class="result-excerpt-label">${esc(preview.label)}: </span>`:''}${highlight(preview.text,excerptWords)}</p></li>`;}).join('')}</ol>`:'<p class="search-empty">No matching site content was found. Try fewer words, a surname, or a broader topic.</p>');
+  return heading+`<p class="result-count" role="status">${esc(count)}</p>`+(matches.length?`<ol class="search-results">${matches.map(({item})=>{const excerptWords=item.titleMatch?[]:words;const preview=SearchText.preview(item,excerptWords);return `<li><p class="result-type">${esc(item.type)}</p><h3><a ${item.type==='Paper'?'':'data-route="'+esc(item.route)+'"'} href="${esc(item.type==='Paper'?siteBase+item.href:routeHref(item.route))}">${highlight(item.title,words)}</a></h3>${item.metadata?`<p class="result-meta">${item.metadata.map(text=>highlight(text,words)).join(' · ')}</p>`:''}<p class="result-excerpt">${preview.label?`<span class="result-excerpt-label">${esc(preview.label)}: </span>`:''}${highlight(preview.text,excerptWords)}</p></li>`;}).join('')}</ol>`:`<div class="search-empty"><p>We couldn’t find a match in the guide or paper. Try fewer words, or browse a topic below.</p>${searchRecoveryLinks()}</div>`);
 }
 function readRoute() {
   const relative=(location.pathname||siteBase).slice(siteBase.length).replace(/index\.html$/,'').replace(/\/$/,'');

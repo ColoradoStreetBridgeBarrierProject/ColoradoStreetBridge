@@ -219,6 +219,40 @@ assert(run('searchView("statistics")').includes('do not give a complete total'),
 assert(run('searchView("barrier designs")').includes('July 17, 2024'),'Gallery-query preview dates the review');
 assert(run('searchView("corrections")').includes('href="/about/#corrections"'));
 for(const query of ['plexiglass','transparent panels','transcripts'])assert.deepEqual(json(`searchQuestionRoutes(${JSON.stringify(query)})`),[],query+': no unsupported shortcut');
+const naturalQuestionCases=[
+ ["Who's paying for this?",'evidence/6'],['Who’s paying for this?!','evidence/6'],['How much did this cost?','evidence/6'],["What's the cost?",'evidence/6'],
+ ['When are they taking the fence down?','overview/0'],['When’s the fence coming down?','overview/0'],["What's next?",'overview/0'],
+ ["Why haven't they finished?",'overview/0'],['Why haven’t they finished?!','overview/0'],['Why have they not finished?','overview/0'],["Why isn't it finished?",'overview/0'],
+ ['Security guard!','alternatives/staffing'],['guards.','alternatives/staffing'],['barrier design.','alternatives/gallery'],['metal picket?','alternatives/gallery'],
+ ['survey result?','evidence/8'],['polls!','evidence/8'],['2024 polls?','evidence/4'],['surveys 2021.','evidence/8'],
+ ['meeting recording?','meetings'],['videos!','meetings'],['original document.','meetings'],['death count?','evidence/9'],['Who decides?','timeline/who-decides']
+];
+for(const [query,route] of naturalQuestionCases)assert.equal(json(`rankedSearchResults(${JSON.stringify(query)})`)[0]?.item.route,route,query);
+for(const topic of ['funding','netting','staffing','landscaping','technology'])assert.deepEqual(json(`rankedSearchResults(${JSON.stringify(topic+'?!')}).map(x=>[x.item.route,x.score])`),json(`rankedSearchResults(${JSON.stringify(topic)}).map(x=>[x.item.route,x.score])`),topic+': sentence-ending punctuation preserves topic ranking');
+for(const query of ['Greg de Vinck','Madison substitution','2020-02-03','7/17/2024','2021-08-18-searchable.pdf','"security guard"','“who is paying”',"'who is paying'",'security guard Jones','polls 2023','why haven’t they finished Gordo']){
+ assert.deepEqual(json(`searchQuestionRoutes(${JSON.stringify(query)})`),[],query+': no broad shortcut');
+ const original=json(`searchIndex().map(item=>({item,score:SearchText.score(item,SearchText.terms(${JSON.stringify(query)}),${JSON.stringify(query)})})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.item.route)`);
+ assert.deepEqual(json(`rankedSearchResults(${JSON.stringify(query)}).map(x=>x.item.route)`),original,query+': literal relevance stays unchanged');
+}
+const questionKeys=json('searchQuestions.flatMap(g=>g.queries.map(searchQuestionKey))');
+assert.equal(new Set(questionKeys).size,questionKeys.length,'Question aliases must be unambiguous');
+assert.deepEqual(index.find(x=>x.route==='evidence/8').metadata,['2021 survey']);
+assert.deepEqual(index.find(x=>x.route==='evidence/4').metadata,['2024 survey']);
+assert.deepEqual(index.find(x=>x.route==='evidence/6').metadata,['Spending through June 30, 2026']);
+assert(run('searchView("survey results")').includes('<p class="result-meta">2021 <mark>survey</mark></p>'));
+assert(run('searchView("money spent")').includes('Spending through June 30, 2026'));
+const meetingMeta=id=>index.find(x=>x.route==='meetings/meeting-'+id).metadata.join(' ');
+assert(meetingMeta('2018-04-23').includes('Approved minutes'));
+assert(meetingMeta('2020-02-03').includes('Agenda packet'));
+assert(meetingMeta('2026-09-16').includes('Agenda packet'));
+assert(!/minutes|recording/i.test(meetingMeta('2026-09-16')),'Agenda-only review cannot acquire outcome records');
+assert(meetingMeta('2023-02-22').includes('Recording link (unavailable at October 1, 2026 check)'));
+assert(index.filter(x=>x.type==='Meeting & documents').every(x=>x.metadata[0].length>'Linked records: '.length));
+const recovery=run('searchView("some unrelated words")');
+assert(recovery.includes('0 results')&&recovery.includes('We couldn’t find a match'));
+assert(!recovery.includes('class="search-results"'),'Browse links are not presented as matching results');
+for(const [route,label] of [['evidence/funding','Funding'],['overview/0','Project status'],['alternatives/gallery','Designs'],['evidence/local-counts','Death counts'],['meetings','Meeting records']])assert(recovery.includes(`data-route="${route}">${label}</a>`),label+': recovery link');
+assert(!run('searchView("money spent")').includes('Browse topics after an unsuccessful search'));
 const delayExplanation=json('rankedSearchResults("why so long")')[1].item;
 assert(json(`SearchText.preview(${JSON.stringify(delayExplanation)},["why","so","long"])`).text.startsWith('Not all of the time'),'A mapped chapter uses its opening explanation, not an incidental word match');
 const filmSearch=run('searchView("La La Land")');
