@@ -2,14 +2,17 @@
 const SearchText = (() => {
   const normalize = value => String(value).toLocaleLowerCase('en-US').replace(/[–—−]/g, '-').replace(/\s+/g, ' ').trim();
   const terms = query => [...new Set(normalize(query).split(' ').filter(Boolean))];
+  // A deliberately small inflection rule; do not stem names, dates or filenames.
+  const matchingText = value => normalize(value).replace(/\bdelays\b/g, 'delay');
   // textContent joins adjacent block elements. Separate them in the detached
   // search copy, while leaving inline markup and its punctuation untouched.
   const separateBlocks = html => String(html).replace(/(<\/(?:p|h[1-6]|div|li|dt|dd|ul|ol|dl|section|article|aside|details|summary)\s*>|<br\b[^>]*>|<hr\b[^>]*>)/gi, '$1 ');
   const score = (item, words, query = words.join(' ')) => {
-    const title = normalize([item.title, ...(item.aliases || [])].join(' '));
-    const body = normalize(item.text);
+    const title = matchingText([item.title, ...(item.aliases || [])].join(' '));
+    const body = matchingText(item.text);
+    words = words.map(matchingText);
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
-    const phrase = normalize(query);
+    const phrase = matchingText(query);
     const exactPhrase = phrase.includes(' ') && (title + ' ' + body).includes(phrase);
     return 1 + (exactPhrase ? words.length * 10 + 1 : 0) + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
   };
@@ -40,6 +43,7 @@ const SearchText = (() => {
     return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
   const preview = (item, words) => {
+    if (item.explanationMatch) return {label:'',text:excerpt(item.summary||item.text,[])};
     if (!item.previewFields) return {label:'',text:excerpt(snippet(item,words),words)};
     // Metadata remains searchable, but does not get spliced into the prose.
     const metadata=normalize([item.title,...(item.aliases||[]),...(item.metadata||[])].join(' '));
@@ -57,8 +61,8 @@ const SearchText = (() => {
     if (item.work && normalize(query) === normalize(item.work.title)) {
       return {...item,title:item.work.title,href:item.path+'#paper-top',summary:item.work.description,metadata:['By '+item.work.author],titleMatch:true};
     }
-    const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
-    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(normalize(query))?2:0);
+    const count = passage => words.filter(word => matchingText(passage.text).includes(matchingText(word))).length;
+    const rank = passage => count(passage)*10+(words.length>1 && matchingText(passage.text).includes(matchingText(query))?2:0);
     const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
     const found=count(passage)>0;
     return {...item, href:item.path+'#'+(found?passage.id:'paper-top'), summary:found?passage.text:[item.title,...item.aliases].join(' · '), metadata:['The fence everyone can see · Christopher Clark']};
