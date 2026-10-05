@@ -374,7 +374,7 @@ const meetingRecords = [
     "id": "meeting-2021-08-18",
     "date": "2021-08-18",
     "body": "Public Safety Committee",
-    "title": "Recommendation of a barrier design option",
+    "title": "Consideration of barrier design options",
     "links": [
       {
         "label": "Recording",
