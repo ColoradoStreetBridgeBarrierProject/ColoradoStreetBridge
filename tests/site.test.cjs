@@ -460,7 +460,7 @@ for(const html of [page,run('overview()')]){
  assert.equal((html.match(/City project page checked: October 4, 2026/g)||[]).length,1,'State the source-check date only once');
  const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
  assert(sourceArea.includes('<summary>Financial reporting period</summary>'),'Keep the report period beside the source links');
- assert(html.includes('<p class="status-dates">Main research cutoff: September 1, 2026. Later checks are dated with their sources.</p>'),'Show the research cutoff and scoped project-page check beside the summary');
+ assert(!html.includes('Later checks are dated with their sources.'),'Keep the removed research-cutoff sentence out of the homepage summary');
  assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
  assert(html.includes('construction funding as unidentified'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
