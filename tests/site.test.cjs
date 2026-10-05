@@ -3,7 +3,18 @@ const dir=path.resolve(__dirname,'..');
 const listeners={}, elements={};
 const strip=s=>s.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
 function node(id='') {return elements[id]??= {innerHTML:'',value:'',dataset:{view:'overview'},attributes:{},setAttribute(key,value){this.attributes[key]=value;},addEventListener(type,fn){listeners[id+':'+type]=fn;},querySelector(){return node('heading');},querySelectorAll(){return [];},focus(){this.focused=true;},scrollIntoView(){this.scrolled=true;this.headerAtScroll=cssProperties['--mobile-header-height'];}};}
-const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:()=>({innerHTML:'',querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>({dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1],searchTitle:(m[0].match(/data-search-title="([^"]+)"/)||[])[1]},textContent:m[2].replace(/<[^>]*>/g,''),querySelector:()=>({textContent:strip((m[2].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)||[])[1]||'Project overview')}),querySelectorAll:()=>[...m[2].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(p=>({textContent:p[1].replace(/<[^>]*>/g,'')}))}));}})};
+const headingNode=(html,pattern)=>{const match=html.match(pattern);return match?{textContent:strip(match[1]).trim()}:null;};
+function searchDocument(){return {innerHTML:'',
+ querySelector(){return headingNode(this.innerHTML,/<h[12][^>]*>([\s\S]*?)<\/h[12]>/);},
+ querySelectorAll(){return [...this.innerHTML.matchAll(/<(article|aside)\b[^>]*class="[^"]*feature-card[^>]*>([\s\S]*?)<\/\1>/g)].map(m=>{
+  const before=this.innerHTML.slice(0,m.index),section=before.slice(before.lastIndexOf('<section'));
+  return {dataset:{evidenceId:(m[0].match(/data-evidence-id="(\d+)"/)||[])[1],searchTitle:(m[0].match(/data-search-title="([^"]+)"/)||[])[1]},textContent:m[2].replace(/<[^>]*>/g,''),
+   closest:()=>section.includes('</section>')?null:{querySelector:()=>headingNode(section,/<h2[^>]*>([\s\S]*?)<\/h2>/)},
+   querySelector:()=>headingNode(m[2],/<h3[^>]*>([\s\S]*?)<\/h3>/)||headingNode(m[2],/<p class="eyebrow">([\s\S]*?)<\/p>/),
+   querySelectorAll:()=>[...m[2].matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(p=>({textContent:p[1].replace(/<[^>]*>/g,'')}))};
+ });}
+};}
+const doc={getElementById:node,querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){listeners['document:'+type]=fn;},createElement:searchDocument};
 const classes=new Set(),cssProperties={};
 let headerHeight=68,headerWrites=0,heightReadLabels=[];
 node('.topbar').getBoundingClientRect=()=>{heightReadLabels.push(node('mobile-view').textContent);return {height:headerHeight};};
@@ -159,11 +170,37 @@ for(const query of ['funding','netting','landscaping','staffing','technology']){
  const ranked=json('rankedSearchResults('+JSON.stringify(query)+')');
  assert(ranked.every((r,i)=>!i||ranked[i-1].score>=r.score),'Summary preference cannot overtake a higher relevance score');
 }
-for(const query of ['Greg de Vinck','funding application','truly exhausted','July 17, 2024','2020-02-03']){
+for(const query of ['Greg de Vinck','funding application','truly exhausted','July 17, 2024','2020-02-03','Markarian delays','Gordo move elsewhere','barriers 2024']){
  const scoreOrder=json('searchIndex().map(item=>({item,score:SearchText.score(item,SearchText.terms('+JSON.stringify(query)+'),'+JSON.stringify(query)+')})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.item.route||x.item.path)');
  const ranked=json('rankedSearchResults('+JSON.stringify(query)+').map(x=>x.item.route||x.item.path)');
  assert.deepEqual(ranked,scoreOrder,query+': names, phrases, and dates retain their relevance order');
 }
+const readerSearchCases=[
+ ['why is the fence still there','overview/0'],['delays','overview/0'],['delay','overview/0'],['why so long','overview/0'],
+ ['displacement','evidence/2'],['move elsewhere','evidence/2'],['do barriers work','evidence/1'],['death counts','evidence/9'],
+ ['netting','alternatives/netting'],['funding','evidence/6'],['construction funding','timeline/9'],['who decides','timeline/who-decides'],
+ ['next decision','timeline/who-decides'],['Greg de Vinck','speakers/devinck/'],['Scoville','timeline/history']
+];
+for(const [query,route] of readerSearchCases){
+ const matches=json(`rankedSearchResults(${JSON.stringify(query)})`);
+ assert(matches[0]?.item.route.startsWith(route),query+': expected '+route+', got '+matches[0]?.item.route);
+ assert.equal(new Set(matches.map(x=>x.item.route)).size,matches.length,query+': no duplicate records');
+}
+for(const group of json('searchQuestions'))for(const query of group.queries){
+ for(const variant of [query,'  '+query.toUpperCase()+'?  ']){
+  const results=json(`rankedSearchResults(${JSON.stringify(variant)})`);
+  assert.deepEqual(results.slice(0,group.routes.length).map(x=>x.item.route),group.routes,variant+': existing explanations lead');
+ }
+}
+assert.deepEqual(json('rankedSearchResults("delay").map(x=>[x.item.route,x.score])'),json('rankedSearchResults("delays").map(x=>[x.item.route,x.score])'),'Singular and plural delays have identical matching and ranking');
+for(const query of ['Markarian delays','delay 2021','do barriers work Gordo','displacement 2024','"why so long"','some unrelated words'])assert.deepEqual(json(`searchQuestionRoutes(${JSON.stringify(query)})`),[],query+': whole-query mappings only');
+assert.equal(json('rankedSearchResults("why is the fence still there?")')[0].item.title,'Why is the fence still there?','Use the visible heading for the homepage search result');
+assert.equal(json('rankedSearchResults("why so long")')[1].item.href,'paper/delays/#paper-top','Question search opens the explanatory chapter');
+for(const query of ['What prevention research supports','What the local death counts show','What the records say about funding and the schedule'])assert(json(`rankedSearchResults(${JSON.stringify(query)})`).length>0,query+': visible section heading indexed');
+assert.equal(json('rankedSearchResults("some unrelated words")').length,0);
+assert.equal(json('searchIndex().filter(item=>item.explanationMatch)').length,0,'Query-specific preview metadata must not change the cached index');
+const delayExplanation=json('rankedSearchResults("why so long")')[1].item;
+assert(json(`SearchText.preview(${JSON.stringify(delayExplanation)},["why","so","long"])`).text.startsWith('Not all of the time'),'A mapped chapter uses its opening explanation, not an incidental word match');
 const filmSearch=run('searchView("La La Land")');
 assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
 for(const query of ['The fence everyone can see','  THE fence  everyone can SEE  ']){

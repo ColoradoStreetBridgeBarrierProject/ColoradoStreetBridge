@@ -2,14 +2,17 @@
 const SearchText = (() => {
   const normalize = value => String(value).toLocaleLowerCase('en-US').replace(/[–—−]/g, '-').replace(/\s+/g, ' ').trim();
   const terms = query => [...new Set(normalize(query).split(' ').filter(Boolean))];
+  // A deliberately small inflection rule; do not stem names, dates or filenames.
+  const matchingText = value => normalize(value).replace(/\bdelays\b/g, 'delay');
   // textContent joins adjacent block elements. Separate them in the detached
   // search copy, while leaving inline markup and its punctuation untouched.
   const separateBlocks = html => String(html).replace(/(<\/(?:p|h[1-6]|div|li|dt|dd|ul|ol|dl|section|article|aside|details|summary)\s*>|<br\b[^>]*>|<hr\b[^>]*>)/gi, '$1 ');
   const score = (item, words, query = words.join(' ')) => {
-    const title = normalize([item.title, ...(item.aliases || [])].join(' '));
-    const body = normalize(item.text);
+    const title = matchingText([item.title, ...(item.aliases || [])].join(' '));
+    const body = matchingText(item.text);
+    words = words.map(matchingText);
     if (!words.length || !words.every(word => (title + ' ' + body).includes(word))) return 0;
-    const phrase = normalize(query);
+    const phrase = matchingText(query);
     const exactPhrase = phrase.includes(' ') && (title + ' ' + body).includes(phrase);
     return 1 + (exactPhrase ? words.length * 10 + 1 : 0) + words.reduce((total, word) => total + (title.includes(word) ? 10 : 0), 0);
   };
@@ -40,6 +43,7 @@ const SearchText = (() => {
     return (start ? '…' : '') + clean.slice(start, end) + (end < clean.length ? '…' : '');
   };
   const preview = (item, words) => {
+    if (item.explanationMatch) return {label:'',text:excerpt(item.summary||item.text,[])};
     if (!item.previewFields) return {label:'',text:excerpt(snippet(item,words),words)};
     // Metadata remains searchable, but does not get spliced into the prose.
     const metadata=normalize([item.title,...(item.aliases||[]),...(item.metadata||[])].join(' '));
@@ -57,8 +61,8 @@ const SearchText = (() => {
     if (item.work && normalize(query) === normalize(item.work.title)) {
       return {...item,title:item.work.title,href:item.path+'#paper-top',summary:item.work.description,metadata:['By '+item.work.author],titleMatch:true};
     }
-    const count = passage => words.filter(word => normalize(passage.text).includes(word)).length;
-    const rank = passage => count(passage)*10+(words.length>1 && normalize(passage.text).includes(normalize(query))?2:0);
+    const count = passage => words.filter(word => matchingText(passage.text).includes(matchingText(word))).length;
+    const rank = passage => count(passage)*10+(words.length>1 && matchingText(passage.text).includes(matchingText(query))?2:0);
     const passage = item.passages.reduce((best, next) => rank(next) > rank(best) ? next : best, item.passages[0]);
     const found=count(passage)>0;
     return {...item, href:item.path+'#'+(found?passage.id:'paper-top'), summary:found?passage.text:[item.title,...item.aliases].join(' · '), metadata:['The fence everyone can see · Christopher Clark']};
@@ -854,9 +858,11 @@ function searchIndex() {
   result.push({type:'Source collection',title:'Preserved City records',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
     const div=document.createElement('div');div.innerHTML=SearchText.separateBlocks(html);
+    const pageHeading=div.querySelector('h1,h2')?.textContent;
     div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
       const h=a.querySelector('h3,.eyebrow');
-      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),route:view+'/'+(a.dataset?.evidenceId??i)});
+      const sectionHeading=a.closest('section')?.querySelector('h2')?.textContent;
+      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:view==='overview'&&i===0?pageHeading:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),aliases:[i===0?pageHeading:null,sectionHeading].filter(Boolean),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),route:view+'/'+(a.dataset?.evidenceId??i)});
     });
   }
   if (typeof PaperSearchData !== 'undefined') result.push(...PaperSearchData);
@@ -871,10 +877,33 @@ function highlight(text, words) {
 // Only these complete broad-topic queries prefer their explanatory destination,
 // and only when relevance scores tie. Names, phrases, and dates keep score order.
 const searchSummaryRoutes = Object.freeze({funding:'evidence/6',netting:'alternatives/netting',landscaping:'alternatives/landscaping',staffing:'alternatives/staffing',technology:'alternatives/technology'});
+// Whole-query reader vocabulary points to existing explanations. These are not
+// substring triggers: a speaker name, date or quotation added to a query keeps
+// the ordinary relevance rules. No claims or keywords are added to source text.
+const searchQuestions = Object.freeze([
+  {queries:['delay','delays','project delays','why so long','why is it taking so long','why has it taken so long','why is the fence still there','why is the temporary fence still there'],routes:['overview/0','paper/delays/','evidence/5']},
+  {queries:['displacement','displacement effect','move elsewhere','would deaths move elsewhere','do deaths move elsewhere','will people just go somewhere else'],routes:['evidence/2']},
+  {queries:['do barriers work','do suicide barriers work','does a barrier work','do fences work','barrier effectiveness','barriers effectiveness','why would a barrier help'],routes:['evidence/1','evidence/2','evidence/3']}
+]);
+function searchQuestionRoutes(query) {
+  const key=SearchText.normalize(query).replace(/\?+$/,'').trim();
+  return searchQuestions.find(group=>group.queries.includes(key))?.routes||[];
+}
 function rankedSearchResults(query) {
   const words=SearchText.terms(query);
   const preferred=searchSummaryRoutes[SearchText.normalize(query)];
-  return searchIndex().map(item=>({item:item.type==='Paper'?SearchText.paperResult(item,words,query):item,score:SearchText.score(item,words,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || (preferred ? Number(b.item.route===preferred)-Number(a.item.route===preferred) : 0));
+  const explanations=searchQuestionRoutes(query);
+  return searchIndex().map(item=>{
+    const position=explanations.indexOf(item.route);
+    const score=SearchText.score(item,words,query)+(position<0?0:(explanations.length-position)*1000);
+    const result=item.type==='Paper'?SearchText.paperResult(item,words,query):{...item};
+    if(position>=0)result.explanationMatch=true;
+    if(position>=0&&item.type==='Paper'){
+      result.href=item.path+'#paper-top';
+      result.summary=item.passages.find(p=>p.text.length>100)?.text||item.title;
+    }
+    return {item:result,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || (preferred ? Number(b.item.route===preferred)-Number(a.item.route===preferred) : 0));
 }
 function searchView(query) {
   const words=SearchText.terms(query);

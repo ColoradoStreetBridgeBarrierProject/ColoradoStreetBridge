@@ -775,9 +775,11 @@ function searchIndex() {
   result.push({type:'Source collection',title:'Preserved City records',text:'Agendas, minutes, and preserved official records supporting the project history.',route:'meetings/source-folder'});
   for (const [view,html] of [['evidence',evidence()],['overview',overview()]]) {
     const div=document.createElement('div');div.innerHTML=SearchText.separateBlocks(html);
+    const pageHeading=div.querySelector('h1,h2')?.textContent;
     div.querySelectorAll('article.feature-card,aside.feature-card').forEach((a,i)=>{
       const h=a.querySelector('h3,.eyebrow');
-      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),route:view+'/'+(a.dataset?.evidenceId??i)});
+      const sectionHeading=a.closest('section')?.querySelector('h2')?.textContent;
+      result.push({type:view==='evidence'?'Evidence & limits':'Overview',title:view==='overview'&&i===0?pageHeading:a.dataset?.searchTitle||(h?h.textContent:'Project overview'),aliases:[i===0?pageHeading:null,sectionHeading].filter(Boolean),text:a.textContent,summary:[...a.querySelectorAll('p')].map(p=>p.textContent).join(' '),route:view+'/'+(a.dataset?.evidenceId??i)});
     });
   }
   if (typeof PaperSearchData !== 'undefined') result.push(...PaperSearchData);
@@ -792,10 +794,33 @@ function highlight(text, words) {
 // Only these complete broad-topic queries prefer their explanatory destination,
 // and only when relevance scores tie. Names, phrases, and dates keep score order.
 const searchSummaryRoutes = Object.freeze({funding:'evidence/6',netting:'alternatives/netting',landscaping:'alternatives/landscaping',staffing:'alternatives/staffing',technology:'alternatives/technology'});
+// Whole-query reader vocabulary points to existing explanations. These are not
+// substring triggers: a speaker name, date or quotation added to a query keeps
+// the ordinary relevance rules. No claims or keywords are added to source text.
+const searchQuestions = Object.freeze([
+  {queries:['delay','delays','project delays','why so long','why is it taking so long','why has it taken so long','why is the fence still there','why is the temporary fence still there'],routes:['overview/0','paper/delays/','evidence/5']},
+  {queries:['displacement','displacement effect','move elsewhere','would deaths move elsewhere','do deaths move elsewhere','will people just go somewhere else'],routes:['evidence/2']},
+  {queries:['do barriers work','do suicide barriers work','does a barrier work','do fences work','barrier effectiveness','barriers effectiveness','why would a barrier help'],routes:['evidence/1','evidence/2','evidence/3']}
+]);
+function searchQuestionRoutes(query) {
+  const key=SearchText.normalize(query).replace(/\?+$/,'').trim();
+  return searchQuestions.find(group=>group.queries.includes(key))?.routes||[];
+}
 function rankedSearchResults(query) {
   const words=SearchText.terms(query);
   const preferred=searchSummaryRoutes[SearchText.normalize(query)];
-  return searchIndex().map(item=>({item:item.type==='Paper'?SearchText.paperResult(item,words,query):item,score:SearchText.score(item,words,query)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || (preferred ? Number(b.item.route===preferred)-Number(a.item.route===preferred) : 0));
+  const explanations=searchQuestionRoutes(query);
+  return searchIndex().map(item=>{
+    const position=explanations.indexOf(item.route);
+    const score=SearchText.score(item,words,query)+(position<0?0:(explanations.length-position)*1000);
+    const result=item.type==='Paper'?SearchText.paperResult(item,words,query):{...item};
+    if(position>=0)result.explanationMatch=true;
+    if(position>=0&&item.type==='Paper'){
+      result.href=item.path+'#paper-top';
+      result.summary=item.passages.find(p=>p.text.length>100)?.text||item.title;
+    }
+    return {item:result,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score || (preferred ? Number(b.item.route===preferred)-Number(a.item.route===preferred) : 0));
 }
 function searchView(query) {
   const words=SearchText.terms(query);
