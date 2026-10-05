@@ -157,7 +157,7 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,179,'Retain earlier search entries and index the Timeline historical introduction');
+assert.equal(index.length,183,'Retain earlier search entries and add the gallery, directory, About, and corrections destinations');
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
 const historyResult=index.find(item=>item.route==='timeline/history');
 assert(historyResult&&historyResult.text.includes('Scoville'));
@@ -170,7 +170,7 @@ for(const query of ['funding','netting','landscaping','staffing','technology']){
  const ranked=json('rankedSearchResults('+JSON.stringify(query)+')');
  assert(ranked.every((r,i)=>!i||ranked[i-1].score>=r.score),'Summary preference cannot overtake a higher relevance score');
 }
-for(const query of ['Greg de Vinck','funding application','truly exhausted','July 17, 2024','2020-02-03','Markarian delays','Gordo move elsewhere','barriers 2024']){
+for(const query of ['Greg de Vinck','funding application','truly exhausted','July 17, 2024','2020-02-03','Markarian delays','Gordo move elsewhere','barriers 2024','Justin Jones netting','Augustin netting','Hampton mesh','survey results 2023','Madison substitution','"money spent"','video 2024']){
  const scoreOrder=json('searchIndex().map(item=>({item,score:SearchText.score(item,SearchText.terms('+JSON.stringify(query)+'),'+JSON.stringify(query)+')})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).map(x=>x.item.route||x.item.path)');
  const ranked=json('rankedSearchResults('+JSON.stringify(query)+').map(x=>x.item.route||x.item.path)');
  assert.deepEqual(ranked,scoreOrder,query+': names, phrases, and dates retain their relevance order');
@@ -179,7 +179,18 @@ const readerSearchCases=[
  ['why is the fence still there','overview/0'],['delays','overview/0'],['delay','overview/0'],['why so long','overview/0'],
  ['displacement','evidence/2'],['move elsewhere','evidence/2'],['do barriers work','evidence/1'],['death counts','evidence/9'],
  ['netting','alternatives/netting'],['funding','evidence/6'],['construction funding','timeline/9'],['who decides','timeline/who-decides'],
- ['next decision','timeline/who-decides'],['Greg de Vinck','speakers/devinck/'],['Scoville','timeline/history']
+ ['next decision','timeline/who-decides'],['Greg de Vinck','speakers/devinck/'],['Scoville','timeline/history'],
+ ['where did the money go','evidence/6'],['money spent','evidence/6'],['how much has been spent','evidence/6'],['who is paying','evidence/6'],
+ ['current status','overview/0'],['what happens next','overview/0'],['when will it be finished','overview/0'],['when will the fence come down','overview/0'],
+ ['who approves the design','timeline/who-decides'],['who is responsible','timeline/who-decides'],
+ ['nets','alternatives/netting'],['why not a net','alternatives/netting'],['why not netting','alternatives/netting'],
+ ['guards','alternatives/staffing'],['security guards','alternatives/staffing'],
+ ['statistics','evidence/9'],['suicide statistics','evidence/9'],['how many deaths','evidence/9'],
+ ['means restriction','evidence/1'],['does fencing save lives','evidence/1'],['they will go somewhere else','evidence/2'],['substitution','evidence/2'],
+ ['barrier designs','alternatives/gallery'],['what will it look like','alternatives/gallery'],['metal pickets','alternatives/gallery'],['mesh','alternatives/gallery'],
+ ['survey results','evidence/8'],['poll','evidence/8'],['2021 survey results','evidence/8'],['2024 survey results','evidence/4'],
+ ['meeting recordings','meetings'],['video','meetings'],['original documents','meetings'],
+ ['who runs this site','about'],['contact','about/corrections'],['corrections','about/corrections']
 ];
 for(const [query,route] of readerSearchCases){
  const matches=json(`rankedSearchResults(${JSON.stringify(query)})`);
@@ -199,6 +210,15 @@ assert.equal(json('rankedSearchResults("why so long")')[1].item.href,'paper/dela
 for(const query of ['What prevention research supports','What the local death counts show','What the records say about funding and the schedule'])assert(json(`rankedSearchResults(${JSON.stringify(query)})`).length>0,query+': visible section heading indexed');
 assert.equal(json('rankedSearchResults("some unrelated words")').length,0);
 assert.equal(json('searchIndex().filter(item=>item.explanationMatch)').length,0,'Query-specific preview metadata must not change the cached index');
+for(const query of ['nets','why not netting','security guards','substitution','where did the money go'])assert(json(`rankedSearchResults(${JSON.stringify(query)})`).some(x=>x.item.type==='Selected remark'),query+': keep supporting exchanges after the explanation');
+assert.deepEqual(json('rankedSearchResults("poll").slice(0,2).map(x=>x.item.route)'),['evidence/8','evidence/4']);
+assert.deepEqual(json('rankedSearchResults("current status").slice(0,2).map(x=>x.item.route)'),['overview/0','paper/forecasts/']);
+assert(index.find(x=>x.route==='alternatives/gallery').text.includes('Listed as eliminated in the July 2024 review'));
+assert(index.find(x=>x.route==='about').text.includes('Christopher Clark'));
+assert(run('searchView("statistics")').includes('do not give a complete total'),'Count-query preview retains incomplete coverage');
+assert(run('searchView("barrier designs")').includes('July 17, 2024'),'Gallery-query preview dates the review');
+assert(run('searchView("corrections")').includes('href="/about/#corrections"'));
+for(const query of ['plexiglass','transparent panels','transcripts'])assert.deepEqual(json(`searchQuestionRoutes(${JSON.stringify(query)})`),[],query+': no unsupported shortcut');
 const delayExplanation=json('rankedSearchResults("why so long")')[1].item;
 assert(json(`SearchText.preview(${JSON.stringify(delayExplanation)},["why","so","long"])`).text.startsWith('Not all of the time'),'A mapped chapter uses its opening explanation, not an incidental word match');
 const filmSearch=run('searchView("La La Land")');
