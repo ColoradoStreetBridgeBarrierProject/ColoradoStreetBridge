@@ -50,7 +50,21 @@ for(const file of ['preserved-records/index.html','preserved-records/tables.html
   fs.writeFileSync(path.join(root,file),read(file).replace(/src="\.\.\/theme\.js(?:\?v=[^"]+)?"/,'src="../theme.js?v='+hash(read('theme.js'))+'"'));
 }
 const paperPages=require('./build-paper.cjs').buildPaper();
-fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+[...pages.filter(p=>p.view!=='search'),...paperPages].map(p=>'  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc></url>').join('\n')+'\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/</loc></url>\n  <url><loc>https://coloradostreetbridgeproject.com/preserved-records/tables.html</loc></url>\n</urlset>\n');
+// Chapters are the search editions. Keep the continuous reading option crawlable,
+// but noindex it rather than incorrectly canonicalizing it to just chapter one.
+const sitemapPages=[...pages.filter(p=>p.view!=='search'),...paperPages.filter(p=>p.path!=='paper/all/'),{path:'preserved-records/'},{path:'preserved-records/tables.html'}];
+// Maintained dates of substantive page/content/link changes, not build times.
+// Initial historical dates were checked against first-parent page-content diffs.
+// Update the affected route when its content changes. Asset hashes and shared
+// edition/footer timestamps alone do not advance a page's date.
+const pageDates=require('./page-dates.json');
+if(Object.keys(pageDates).length!==sitemapPages.length)throw new Error('Sitemap date inventory differs from indexable routes');
+const sitemapEntries=sitemapPages.map(p=>{
+  const date=pageDates[p.path];
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date||'')||!Number.isFinite(Date.parse(date))||new Date(date).toISOString().slice(0,10)!==date)throw new Error('Missing or invalid sitemap date: '+p.path);
+  return '  <url><loc>https://coloradostreetbridgeproject.com/'+p.path+'</loc><lastmod>'+date+'</lastmod></url>';
+});
+fs.writeFileSync(path.join(root,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+sitemapEntries.join('\n')+'\n</urlset>\n');
 const html=output.find(p=>p.path==='').html;
 const currentText=[html,read('styles.css'),read('theme.js'),script];
 const report={initialRequests:5,initialUncompressedBytes:currentText.reduce((n,s)=>n+Buffer.byteLength(s),0)+fs.statSync(path.join(root,'bridge-preview.webp')).size,gzipTextBytes:currentText.reduce((n,s)=>n+zlib.gzipSync(s).length,0),largerImageClickOnly:true};

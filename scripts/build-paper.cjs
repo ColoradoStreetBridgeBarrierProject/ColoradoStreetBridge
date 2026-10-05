@@ -62,9 +62,10 @@ function pageHtml({route, current, title, content, table = false, continuous=fal
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#182021">
   <meta name="color-scheme" content="dark light">
-  <title>${esc(title)} | ${current === 1 ? 'Colorado Street Bridge' : esc(paper.title)}</title>
+  <title>${esc(title)} | ${current === 1 || continuous ? 'Colorado Street Bridge' : esc(paper.title)}</title>
   <meta name="description" content="${esc(description)}">
   <link rel="canonical" href="${canonical}">
+  <meta name="robots" content="${continuous ? 'noindex, follow' : 'index, follow'}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Colorado Street Bridge Project Guide">
   <meta property="og:title" content="${esc(title)}">
