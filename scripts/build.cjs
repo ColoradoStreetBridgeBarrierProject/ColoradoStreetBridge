@@ -47,7 +47,8 @@ const tables=read('preserved-records/tables.html').replace(/href="tables\.css(?:
 fs.writeFileSync(path.join(root,'preserved-records/tables.html'),secureHtml(tables));
 fs.writeFileSync(path.join(root,'preserved-records/index.html'),secureHtml(read('preserved-records/index.html').replace(/href="tables\.css(?:\?v=[^"]+)?"/,'href="tables.css?v='+hash(read('preserved-records/tables.css'))+'"')));
 for(const file of ['preserved-records/index.html','preserved-records/tables.html']){
-  fs.writeFileSync(path.join(root,file),read(file).replace(/src="\.\.\/theme\.js(?:\?v=[^"]+)?"/,'src="../theme.js?v='+hash(read('theme.js'))+'"'));
+  const html=read(file).replace(/src="\.\.\/theme\.js(?:\?v=[^"]+)?"/,'src="../theme.js?v='+hash(read('theme.js'))+'"');
+  fs.writeFileSync(path.join(root,file),html.replace(/<p data-site-updated>[^<]*<\/p>/,'<p data-site-updated>Site updated: '+get('formatDate(reviewDates.siteUpdated)')+'</p>'));
 }
 const paperPages=require('./build-paper.cjs').buildPaper();
 // Chapters are the search editions. Keep the continuous reading option crawlable,

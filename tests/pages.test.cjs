@@ -64,7 +64,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Page revised: October 5, 2026'));
+assert(overview.includes('Site updated: October 5, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -170,10 +170,15 @@ assert(read('timeline/index.html').includes('printed p. 203 · PDF p. 207'));
 assert(read('timeline/index.html').includes('CRPT-119hrpt686.pdf#page=207'));
 assert(read('about/index.html').includes('I run and fund the site myself and don’t represent the City or an organization involved in the project.'));
 for(const file of ['preserved-records/index.html','preserved-records/tables.html']){
-  const html=read(file),nav=html.match(/<nav class="guide-nav"[\s\S]*?<\/nav>/)[0];
+  const html=read(file),nav=html.match(/<nav aria-label="Guide sections"[\s\S]*?<\/nav>/)[0];
   assert(nav.includes('href="../paper/">Read the paper'));
-  assert(nav.includes('href="../search/">Search'));
-  assert(html.includes('Page navigation updated October 5, 2026'));
+  assert(!nav.includes('href="../search/"'));
+  assert(!nav.includes('href="../about/"'));
+  assert(html.includes('<p class="guide-search"><a href="../search/">Search this site</a></p>'));
+  const links=(markup,base)=>[...markup.matchAll(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].map(([,href,label])=>[new URL(href,base).pathname,label.replace(/<svg[\s\S]*?<\/svg>/g,'').replace(/<[^>]*>/g,'')]);
+  const mainNav=read('index.html').match(/<nav class="view-nav" aria-label="Guide sections">[\s\S]*?<\/nav>/)[0];
+  assert.deepEqual(links(nav,'https://coloradostreetbridgeproject.com/preserved-records/'),links(mainNav,'https://coloradostreetbridgeproject.com/'),'Archive primary links must match the main guide in order, text, and destination');
+  assert(html.includes('Site updated: October 5, 2026'));
 }
 const continuousEditorial=read('paper/all/index.html');
 assert(continuousEditorial.includes('<meta name="robots" content="noindex, follow">'));
@@ -284,9 +289,9 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 assert(!/\.route-anchor\s*\{[^}]*(?:display:\s*none|visibility:\s*hidden)/.test(read('styles.css')));
 // The metadata describes the whole collection, independently of active filters.
 metadataApp.run('speakerDirectory.wilson.remarks.push({...speakerDirectory.wilson.remarks[0],id:"count-only-test"})');
-assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 76 selected exchanges'));
+assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 76 selected entries'));
 metadataApp.run('speakerDirectory.wilson.remarks.pop()');
-assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 75 selected exchanges'));
+assert(metadataApp.run('pageMetadata({view:"speakers",arg:"jones"}).description').startsWith('Read 75 selected entries'));
 const chronology=read('timeline/index.html');
 for(const entry of chronology.matchAll(/<article class="timeline-item"[^>]*>([\s\S]*?)<\/article>/g)){
  assert(entry[1].includes('<h3>'),'Chronology entries belong beneath the chronology H2');
@@ -301,6 +306,17 @@ for(const list of directory.matchAll(/<ul class="directory-links">([\s\S]*?)<\/u
 for(const [,id] of directory.matchAll(/aria-describedby="([^"]+-link-note-\d+)"/g))assert(directory.includes('<small id="'+id+'">'),'Each link note must stay programmatically associated');
 for(const page of ['preserved-records/index.html','preserved-records/tables.html'])assert(read(page).includes('<nav aria-label="About and contact">'));
 assert(read('preserved-records/tables.html').includes('Prepared September 13, 2026'));
+assert(read('preserved-records/tables.html').includes('Added September 15, 2026'));
+for(const route of pages){
+  const html=read(route+'index.html');
+  assert(html.includes('Site updated: October 5, 2026'));
+  assert(!html.includes('Page revised:'));
+}
+const collectionHtml=read('who-said-what/index.html');
+const collectionDescription='Read 75 selected entries about the Colorado Street Bridge project, with earlier work, responses, source notes, and recording timestamps.';
+for(const attribute of ['name="description"','property="og:description"','name="twitter:description"'])assert(collectionHtml.includes('<meta '+attribute+' content="'+collectionDescription+'">'),'Keep all three collection descriptions synchronized');
+assert.equal(sitemapDates['who-said-what/'],'2026-10-02');
+assert.equal(sitemapDates['news-and-commentary/'],'2026-10-03');
 console.log('Section targets, native fallbacks, dynamic counts, heading relationships, and link-note checks passed');
 
 assert(directory.includes('aria-describedby="meeting-2023-02-22-link-note-0"'));

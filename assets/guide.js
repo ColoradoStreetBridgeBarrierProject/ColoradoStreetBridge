@@ -382,7 +382,7 @@ function pageMetadata({view,arg}) {
   const isTopic=view==='alternatives'&&Object.hasOwn(topics,arg);
   const person=view==='speakers'&&(arg==='other'||Object.hasOwn(speakerDirectory,arg))?arg:'all';
   const label=isTopic?topics[arg].name:person!=='all'?(person==='other'?'Other speakers':speakerDirectory[person].name):sectionLabels[view];
-  const description=view==='speakers'?`Read ${speakerEntries().length} selected exchanges about the Colorado Street Bridge project, with earlier work, responses, source notes, and recording timestamps.`:isTopic?topicDescriptions[arg]:descriptions[view];
+  const description=view==='speakers'?`Read ${speakerEntries().length} selected entries about the Colorado Street Bridge project, with earlier work, responses, source notes, and recording timestamps.`:isTopic?topicDescriptions[arg]:descriptions[view];
   return {title:view==='overview'?'Colorado Street Bridge Suicide Prevention Barrier | Project Guide':label+' | Colorado Street Bridge Project Guide',description,canonical:'https://coloradostreetbridgeproject.com/'+(sectionPaths[view]?sectionPaths[view]+'/':'')+(isTopic?arg+'/':''),robots:view==='search'?'noindex, follow':'index, follow'};
 }
 function updateMetadata(route) {
