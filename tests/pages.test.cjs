@@ -113,6 +113,15 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
  historical.run('render()');
  assert.equal(historical.run('readRoute().anchor'),'bridge-history-heading','History destination survives route reload');
  assert(read('timeline/index.html').includes('id="bridge-history-heading" class="scroll-focus" tabindex="-1"'),'The same target is available without JavaScript');
+ for(const [route,page,id] of [['alternatives/gallery','alternatives-studied','design-gallery-title'],['about/corrections','about','corrections']]){
+  const destination=load(base+'search/',read('search/index.html'));
+  destination.run('navigate('+JSON.stringify(route)+')');
+  assert.equal(destination.context.location.href,base+page+'/#'+id);
+  assert(destination.nodes[id].focused&&destination.nodes[id].scrolled,route+': search focuses the destination heading');
+  const direct=load(base+page+'/#'+id,read(page+'/index.html'));
+  assert(direct.nodes[id].focused&&direct.nodes[id].scrolled,route+': direct link survives reload');
+  assert(read(page+'/index.html').includes('id="'+id+'" class="scroll-focus" tabindex="-1"'),route+': static heading remains available without scripts');
+ }
 }
 assert(read('preserved-records/tables.html').includes('href="../meetings-and-documents/#source-folder"'));
 assert(read('index.template.html').includes('class="skip" href="#content"'),'Native skip fallback must remain available');
