@@ -993,14 +993,8 @@ function aboutView() {
       <p>${aboutIdentity}</p>
       <p>I have followed and researched the project since 2021. I wanted to understand why it was taking so long, so I began reading public comments, watching presentations, and going back through earlier meetings. As I continued following the project, I grew frustrated hearing the same questions come up repeatedly, sometimes from people who had participated in the earlier discussions. I wanted to understand what had already been considered, what remained unresolved, and how the decisions fit together.</p>
       <p>${aboutIntro}</p>
-      <h2>Research and source checks</h2>
-      <p>Main research cutoff: September 1, 2026. Later checks and additions are dated where they appear.</p>
-      <p>I selected exchanges that bear on a decision, an alternative, or the schedule, whether they support or challenge my reading of the record. Background and later developments appear where they help explain an exchange.</p>
-      <h2 id="sources" tabindex="-1">How I use the sources</h2>
-      <p>Each exchange links to its supporting records. Its label tells you where the wording comes from. Additional notes identify a specific recording check, an unavailable recording, or a remaining uncertainty.</p>
-      <dl class="source-method"><dt>Quotation</dt><dd>Selected quoted words. “Checked against the recording” identifies wording checked in the audio.</dd><dt>Caption excerpt</dt><dd>Words from City-hosted video captions, with punctuation and capitalization adjusted for reading.</dd><dt>Working-transcript excerpt</dt><dd>Words from a working transcript. A separate audio check is stated where completed.</dd><dt>Discussion or written-record summary</dt><dd>A paraphrase of the linked recording or written record.</dd></dl>
-      <p>“Speaker and passage checked” identifies a check of who was speaking and where the exchange appears. A word-for-word audio check is identified separately. Checks apply to the selected passages and details stated in each entry.</p>
-      <p>Times locate approximately where a passage begins. Open the recording and move to the displayed time. Minutes and other written City records supply the account where recordings were unavailable.</p>
+      <h2 id="sources" tabindex="-1">Sources and checks</h2>
+      <p>I include passages that support or challenge my reading of the record. Each entry links to its sources and labels quotations, caption or transcript excerpts, and summaries. Notes state when wording was checked against the recording and flag gaps or uncertainty. Recording times are approximate.</p>
       <h2 id="corrections" class="scroll-focus" tabindex="-1">Questions and corrections</h2>
       <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>.</p>
     </div>`;
