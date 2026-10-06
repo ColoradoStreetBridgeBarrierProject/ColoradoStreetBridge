@@ -36,10 +36,11 @@ assert.equal(run('Object.keys(speakers).length'),8);
 // October 4: reviewed directory wording and the full September agenda-packet review.
 // October 5: clarify the August 2021 meeting title without changing its sources.
 // October 5 follow-up: retag the two broad alternatives entries and verify eight direct document links.
+// October 5 editorial cleanup: label the May finance packet's Bridge row accurately.
 const preserved={
  'speakers.js':'385efa10cdd8aaa1d08a86aac8eaa7d9b0c017eb62a30e3bddecf8d3ec3a149a',
  'other-speakers.js':'38a5a15a64975e6d4d14c304f9c483438fa0f99a473cfa0f79b5c1636783a668',
- 'resources.js':'fcdbca69e931e3d586b52a4dbacbf829d8af5cc45bd7797f82af9d2d85609504'
+ 'resources.js':'0a62ea0db8d8e7295aad5ddba00a1e25038714cfe2b10e59ab316388175eb347'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -323,7 +324,7 @@ assert(run('overview()').includes('What alternatives were studied?'));
 assert(run('forecastComparison()').includes('August 2020, if the City approved the funding'));
 assert(run('forecastComparison()').includes('Construction funding remained unidentified.'));
 assert.equal((run('forecastComparison()').match(/scope="row"/g)||[]).length,3);
-assert(run('speakerView()').includes('whether they support or challenge'));
+assert(run('speakerView()').includes('including those that support or challenge my conclusions'));
 assert(!run('timeline.find(t=>t.date==="Nov 2023").result').includes('meeting that timing milestone'));
 assert.notEqual(run('reviewDates.baseline'),run('reviewDates.siteUpdated'));
 assert.equal(run('reviewDates.baseline'),'2026-09-01','A scoped agenda review must not advance the main research cutoff');
@@ -538,8 +539,8 @@ assert(styleBlock('[hidden]').includes('display: none !important'),'Responsive d
 assert(run('speakerView()').includes('All 23 speakers'));
 assert(run('speakerView("other")').includes('35 entries from 15 people'));
 assert(!run('speakerView("madison")').includes('class="chronology-note"'));
-assert(!run('speakerView("other")').includes('I selected exchanges that bear on'));
-assert(run('speakerView()').includes('I selected exchanges that bear on'));
+assert(!run('speakerView("other")').includes('I chose passages about decisions'));
+assert(run('speakerView()').includes('I chose passages about decisions, alternatives, and timing, including those that support or challenge my conclusions.'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
 assert(run('overview()').includes('continuing design work, with no approved permanent design.'));
@@ -628,6 +629,37 @@ assert(run('meetingsView()').includes('Automatically recognized text may contain
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
 assert(tablePage.includes('after outstanding commitments is unresolved'));
 console.log('Plain-language copy and preservation checks passed');
+
+// The bounded October 5 cleanup is shared by the rendered entries and search.
+const cleanupCopy = {
+ 'jones-public-health':['title','Public Health’s role and whether deaths would move elsewhere'],
+ 'hampton-mesh':['response','He also asked staff to return sooner and suggested cameras and motion detectors.'],
+ 'jones-design':['response','He proposed using the feedback to refine components and variations and return with a plan.']
+};
+for(const [id,[field,text]] of Object.entries(cleanupCopy)){
+ const original=json('speakerEntries().find(x=>x.remark.id==='+JSON.stringify(id)+').remark');
+ const revised=json('readableRemark('+JSON.stringify(original)+')');
+ assert.equal(revised[field],text);
+ for(const key of ['quote','time','kind','basis','links','outcome','refs'])assert.deepEqual(revised[key],original[key],id+': evidence is preserved');
+ assert(run('speakerView()').includes(text),id+': visible cleanup');
+ assert(index.some(x=>x.route.endsWith('/'+id)&&(x.title+' '+x.text).includes(text)),id+': searchable cleanup');
+}
+for(const id of ['hampton-cushion','augustin-cushion']){
+ const entry=json('speakerEntries().find(x=>x.remark.id==='+JSON.stringify(id)+')');
+ const card=run('remarkCard('+JSON.stringify(entry.id)+','+JSON.stringify(entry.person)+','+JSON.stringify(entry.remark)+')');
+ assert.equal((card.match(/May 2026/g)||[]).length,id==='augustin-cushion'?2:1,id+': one narrative limitation, plus any link label');
+ assert(!card.includes('class="source-note"'),id+': redundant source-note sentence removed');
+ assert(card.includes(run('outcomeParts('+JSON.stringify(entry.remark)+').event')),id+': dated limitation remains');
+ assert(card.includes(entry.remark.response),id+': unanswered question remains');
+ assert(card.includes(run('remarkLinks('+JSON.stringify(entry.remark)+')')),id+': supporting links remain');
+ assert.equal((index.find(x=>x.route.endsWith('/'+id)).text.match(/May 2026/g)||[]).length,id==='augustin-cushion'?2:1,id+': one narrative limitation, plus any link label');
+}
+const mayFinance=json('meetingRecords.find(m=>m.id==="meeting-2026-05-11")');
+assert.equal(mayFinance.links[0].label,'Agenda packet · Bridge row, p. 12');
+assert.equal(mayFinance.links[0].url,'https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-05-11-Finance-Committee-Agenda.pdf#page=12');
+assert(run('meetingsView()').includes('Agenda packet · Bridge row, p. 12'));
+assert(!run('speakerView()').includes('His request for refinement accompanied support for proceeding.'));
+console.log('October 5 bounded editorial cleanup checks passed');
 
 // Remove repeated editorial labels without losing the underlying explanations.
 for(const key of json('Object.keys(topics)')){

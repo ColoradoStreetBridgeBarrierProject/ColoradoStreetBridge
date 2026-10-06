@@ -648,7 +648,7 @@ const meetingRecords = [
     "title": "FY2026 third-quarter project report",
     "links": [
       {
-        "label": "Agenda packet · report starts p. 12",
+        "label": "Agenda packet · Bridge row, p. 12",
         "url": "https://www.cityofpasadena.net/commissions/wp-content/uploads/sites/31/2026-05-11-Finance-Committee-Agenda.pdf#page=12"
       }
     ],
