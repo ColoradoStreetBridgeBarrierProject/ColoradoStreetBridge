@@ -696,7 +696,7 @@ const otherSpeakers = {
         "title": "Responding when below-bridge alternatives returned",
         "meeting": "v2024",
         "time": "01:06:45",
-        "topic": "landscaping",
+        "topic": "design",
         "quote": "we have truly exhausted various mitigation measures",
         "context": "Madison asked at 01:06:35 whether the City had exhausted all the feasible options. Markarian’s answer began at 01:06:45. She described more than seven years on the project and experts from different backgrounds and perspectives, then discussed the Golden Gate comparison.",
         "earlier": "The earlier task-force report had assessed landscaping. The current presentation had also returned to netting, rescue, staffing, and technology.",
