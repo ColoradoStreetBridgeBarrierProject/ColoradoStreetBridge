@@ -443,6 +443,9 @@ const remarkCopyEdits=Object.freeze({
     "earlier": "",
     "response": "Olmos’s closing proposal also included responses to the committee’s questions and health expertise."
   },
+  "jones-public-health": {
+    "title": "Public Health’s role and whether deaths would move elsewhere"
+  },
   "olmos-health": {
     "response": "Staff agreed to include health professionals when the project returned."
   },
@@ -463,6 +466,9 @@ const remarkCopyEdits=Object.freeze({
   },
   "hampton-netting": {
     "response": "He also said the project needed to move forward. The higher-capacity rescue-cushion question remained unanswered."
+  },
+  "hampton-mesh": {
+    "response": "He also asked staff to return sooner and suggested cameras and motion detectors."
   },
   "hawkesworth-bridge-funds": {
     "response": "Public Works Director Greg de Vinck responded that redirecting the remaining money would leave the City without the matching funds needed for the shortlisted application."
@@ -521,7 +527,8 @@ const remarkCopyEdits=Object.freeze({
     "response": ""
   },
   "jones-design": {
-    "earlier": ""
+    "earlier": "",
+    "response": "He proposed using the feedback to refine components and variations and return with a plan."
   },
   "augustin-cushion": {
     "earlier": ""
@@ -565,7 +572,7 @@ const publicSourceNotes=Object.freeze({
   "hampton-2018-action": "Council minutes, page 5, document the request and second. The recording time locates the motion and approval. Hampton’s temporary-fencing request is documented in the minutes.",
   "hampton-right": "",
   "hampton-urgency": "The minutes also document the 90-day request.",
-  "hampton-cushion": "The May 2026 equipment list names the department’s cushion without giving its height rating.",
+  "hampton-cushion": "",
   "jones-continue": "The recording check located the speaker and passage. Caption times differ slightly.",
   "jones-design": "Checked against the recording at 01:18:55–01:19:30.",
   "delgado-cacti": "",
@@ -583,7 +590,7 @@ const publicSourceNotes=Object.freeze({
   "olmos-next-steps": "Speaker and passage at 01:02:09 checked against the recording.",
   "olmos-pause": "Speaker and passage checked against the recording.",
   "olmos-health": "Speaker and passage checked against the recording.",
-  "augustin-cushion": "The May 2026 equipment list names the department’s cushion without giving its height rating.",
+  "augustin-cushion": "",
   "kramer-education": "Quoted phrase checked in City-hosted captions.",
   "mossman-preservation": "June 18, 2018 Los Angeles magazine interview. The August 2021 minutes and Winter 2026 column provide later context.",
   "madison-ground-cover": "Question wording and exchange times manually checked September 22, 2026: leadership prelude at 01:06:24, question at 01:06:35, and the start of Markarian’s answer at 01:06:45.",
@@ -669,7 +676,7 @@ function speakerView(key='all', topic='all', year='all') {
     <p class="locator-note">Roles are given as of each meeting.</p>${sourceLegend()}
     <div class="speaker-heading"><h2>${esc(name)}</h2><p role="status">${countLabel(entries.length)} · oldest first</p></div>
     ${key==='other'?'<p class="locator-note">35 entries from 15 people in the former “Other speakers” group.</p>':''}
-    ${key==='all'?'<p class="locator-note">I selected exchanges that bear on a decision, an alternative, or the schedule, whether they support or challenge my reading of the record.</p>':''}
+    ${key==='all'?'<p class="locator-note">I chose passages about decisions, alternatives, and timing, including those that support or challenge my conclusions.</p>':''}
     ${groups.length?groups.map(g=>`<section class="meeting-group" aria-label="${esc(g.date+' '+g.body)}"><div class="meeting-heading"><h3>${esc(g.date)}</h3><p>${esc(g.body)}</p>${meetingDocumentsLink(g.items[0].remark)}</div><div class="remarks">${g.items.map(({id,person,remark})=>remarkCard(id,person,remark)).join('')}</div><nav class="meeting-tools" aria-label="Continue after ${esc(g.date+' '+g.body)}"><a href="${esc(routeHref('speakers'))}#speaker-controls" data-scroll-target="speaker-controls">↑ Back to filters</a>${groups.length>1?`<a href="${esc(routeHref('speakers'))}#meeting-index" data-scroll-target="meeting-index">Choose another date</a>`:''}</nav></section>`).join(''):'<p class="search-empty">No selected entries for these filters. Choose another speaker, topic, or year.</p>'}`;
 }
 
