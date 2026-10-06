@@ -620,7 +620,7 @@ for(const phrase of ['Agreeing to a barrier was only the first step','Planned da
 for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after outstanding commitments is unresolved','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
 assert(run('overview()').includes('What the 2028 date means'));
 assert(run('alternatives("netting")').includes('Engineers had not designed the connections'));
-assert(run('aboutView()').includes('Notes state when wording was checked against the recording and flag gaps or uncertainty.'));
+assert(run('aboutView()').includes('Notes say when I checked the words against a recording and point out anything missing or unclear.'));
 assert(!run('speakerView()').includes('official-player passage locator'));
 assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whether deaths move elsewhere');
 assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('Speaker and passage at 01:02:09 checked against the recording.')),'Search uses the displayed source-note wording');
@@ -644,7 +644,7 @@ assert(!run('evidence()').includes('READING THE MONEY AND DATES'));
 assert(run('speakerView()').includes('Read selected exchanges in date order, with their background, responses, and supporting records.'));
 assert(!run('aboutView()').includes('Source notes explain whether the words are'));
 assert(run('aboutView()').includes('<h2 id="sources" tabindex="-1">Sources and checks</h2>'));
-assert(run('aboutView()').includes('I include passages that support or challenge my reading of the record. Each entry links to its sources and labels quotations, caption or transcript excerpts, and summaries. Notes state when wording was checked against the recording and flag gaps or uncertainty. Recording times are approximate.'));
+assert(run('aboutView()').includes('I include information that supports my conclusions and information that challenges them. Each entry links to its sources and explains where the wording came from. Notes say when I checked the words against a recording and point out anything missing or unclear. Recording times help you find the discussion but may not be exact.'));
 assert(!/Research and source checks|Main research cutoff|How I use the sources|<dl class="source-method">/.test(run('aboutView()')),'Keep the About source note short, without the removed cutoff or glossary');
 assert(!/The guide and the paper|The fence everyone can see|the author’s/.test(run('aboutView()')),'About identifies ownership in the first person and explains the guide on its own');
 console.log('Focused repetition and qualification-preservation checks passed');

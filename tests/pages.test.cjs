@@ -135,7 +135,7 @@ console.log('Skip-link route/filter preservation and decision-process destinatio
 const about=read('about/index.html');
 assert(!about.includes('Updating the website does not mean every claim has been checked again.'));
 assert(!about.includes('Please identify the passage and include a supporting source when available.'));
-assert(about.includes('I include passages that support or challenge my reading of the record.'));
+assert(about.includes('I include information that supports my conclusions and information that challenges them.'));
 assert(!fs.existsSync(path.join(root,'changes/index.html')),'The Changes page must not be published');
 assert(!read('assets/guide.js').includes('Changes to this guide'),'Removed page content must not remain in the bundle');
 assert(!read('sitemap.xml').includes('/changes/'),'Removed page must not remain in the sitemap');
@@ -254,7 +254,7 @@ assert(who.includes('Earlier landscaping findings did not evaluate this exact la
 assert(who.includes('Hampton had proposed continuous staffing, and Gordo had suggested a host or guide model.'),'Use staffing background for Kennedy’s staffing entry');
 assert(about.includes('id="sources"'),'Shared source method has a stable destination');
 assert(about.includes('Sources and checks</h2>'));
-assert(about.includes('Recording times are approximate.'));
+assert(about.includes('Recording times help you find the discussion but may not be exact.'));
 assert(!/Research and source checks|Main research cutoff|How I use the sources|<dl class="source-method">/.test(about),'Static About page uses the approved short source note');
 assert(who.includes('Jump to a date'));
 assert(!who.includes('for this website update'),'Routine update history belongs in the internal handoff');

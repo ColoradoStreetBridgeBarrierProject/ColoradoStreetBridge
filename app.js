@@ -911,7 +911,7 @@ function aboutView() {
       <p>I have followed and researched the project since 2021. I wanted to understand why it was taking so long, so I began reading public comments, watching presentations, and going back through earlier meetings. As I continued following the project, I grew frustrated hearing the same questions come up repeatedly, sometimes from people who had participated in the earlier discussions. I wanted to understand what had already been considered, what remained unresolved, and how the decisions fit together.</p>
       <p>${aboutIntro}</p>
       <h2 id="sources" tabindex="-1">Sources and checks</h2>
-      <p>I include passages that support or challenge my reading of the record. Each entry links to its sources and labels quotations, caption or transcript excerpts, and summaries. Notes state when wording was checked against the recording and flag gaps or uncertainty. Recording times are approximate.</p>
+      <p>I include information that supports my conclusions and information that challenges them. Each entry links to its sources and explains where the wording came from. Notes say when I checked the words against a recording and point out anything missing or unclear. Recording times help you find the discussion but may not be exact.</p>
       <h2 id="corrections" class="scroll-focus" tabindex="-1">Questions and corrections</h2>
       <p>Email <a href="mailto:contact@coloradostreetbridgeproject.com">contact@coloradostreetbridgeproject.com</a>.</p>
     </div>`;
