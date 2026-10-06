@@ -10,6 +10,11 @@ const ids = html => [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const decode = text => text.replaceAll('&amp;', '&');
 assert.equal(routes.length, 13);
 assert.equal((rendered.get('paper/sources/index.html').match(/class="csb-source"/g) || []).length, 50);
+for(const text of ['I checked these passages and timestamps against the official recording','I checked Markarian’s wording against the official recording']){
+ assert(paper.sources.includes(text));
+ assert(rendered.get('paper/sources/index.html').includes(text));
+}
+assert(!/Manually checked (?:these passages|Markarian’s wording)/.test(paper.sources));
 assert.equal((paper.sources.match(/data-docx-paragraph=/g) || []).length,
   (rendered.get('paper/sources/index.html').match(/data-docx-paragraph=/g) || []).length);
 let citations = 0, checked = 0, images = 0;
