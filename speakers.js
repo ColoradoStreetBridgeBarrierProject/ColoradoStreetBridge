@@ -424,7 +424,7 @@ const speakers = {
         "title": "Have all the options been exhausted?",
         "meeting": "v2024",
         "time": "01:06:35",
-        "topic": "landscaping",
+        "topic": "design",
         "quote": "Do you feel like we’ve really done our level best to exhaust all the feasible options?",
         "context": "At 01:06:24, Madison said leadership sometimes requires proceeding without a great option. At 01:06:35, he asked Markarian whether the City had exhausted the feasible options. The broader discussion included ground cover, combined measures, and consultation with Caltech.",
         "earlier": "Landscaping had been addressed by the 2018 task force and again in November 2023. The July meeting returned with the requested wider engineering and rescue review.",

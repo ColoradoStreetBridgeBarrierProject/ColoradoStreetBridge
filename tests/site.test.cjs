@@ -35,10 +35,11 @@ assert.equal(run('Object.keys(speakers).length'),8);
 // Quotations and the September 22 author-audio-checked exchange remain unchanged.
 // October 4: reviewed directory wording and the full September agenda-packet review.
 // October 5: clarify the August 2021 meeting title without changing its sources.
+// October 5 follow-up: retag the two broad alternatives entries and verify eight direct document links.
 const preserved={
- 'speakers.js':'c7fe204f77282ce0d92b6db28bc812815f1fb7909ff8412cb2c2c813c615ec49',
- 'other-speakers.js':'964b30f9679e1a573bea6fc8c598b27475f6e618b888cbbaab7056c40b84a712',
- 'resources.js':'bf0db93b0bd29858ba2aadac580b08acccc1837ccf22438d8caf9821e008bf29'
+ 'speakers.js':'385efa10cdd8aaa1d08a86aac8eaa7d9b0c017eb62a30e3bddecf8d3ec3a149a',
+ 'other-speakers.js':'38a5a15a64975e6d4d14c304f9c483438fa0f99a473cfa0f79b5c1636783a668',
+ 'resources.js':'fcdbca69e931e3d586b52a4dbacbf829d8af5cc45bd7797f82af9d2d85609504'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -342,8 +343,28 @@ for(const id of ['meeting-2017-07-19','meeting-2018-04-18','meeting-2019-04-17',
 }
 assert(run('meetingRecords.find(m=>m.id==="meeting-2020-02-03").note').includes('The Clerk reported having no recording.'),'Retain the Clerk’s specific recording response');
 const projectGatewayLinks=json('meetingRecords.flatMap(m=>m.links).filter(l=>l.url===urls.project&&l.note)');
-assert.equal(projectGatewayLinks.length,8);
-assert(projectGatewayLinks.every(l=>l.note==='This link opens the City project page, where the document is listed.'),'Store the plain-language destination note directly');
+assert.equal(projectGatewayLinks.length,0,'Verified documents now open directly');
+const verifiedMeetingPdfs={
+ '2019-10-29':['2019-10-29-%E2%80%93-Colorado-Street-Bridge-%E2%80%93-Community-Meeting-Presentation.pdf'],
+ '2019-11-26':['2019-11-26-Design-Commission-Memo.pdf','2019-11-26-Design-Commission-Presentation.pdf'],
+ '2021-04-20':['2021-04-20-Historic-Preservation-Commission-Presentation.pdf'],
+ '2023-08-29':['2023-08-29-Community-Engagement-Presentation.pdf'],
+ '2023-10-26':['2023-10-26-Community-Meeting.pdf'],
+ '2023-12-05':['2023-12-05-Historic-Preservation-Commission-Presentation.pdf'],
+ '2024-01-09':['2024-01-09-Design-Commission-Presentation.pdf']
+};
+for(const [date,files] of Object.entries(verifiedMeetingPdfs))for(const file of files){
+ const record=json('meetingRecords.find(m=>m.date==='+JSON.stringify(date)+')');
+ const url='https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/'+file;
+ assert(record.links.some(l=>l.url===url&&!l.note&&!l.label.includes('via City')),'Direct verified PDF: '+file);
+ assert(run('meetingsView()').includes('href="'+url+'"'),'Rendered direct PDF: '+file);
+}
+assert(run('meetingsView()').includes('City project page and meeting list'),'Retain the directory fallback');
+assert(!run('meetingsView()').includes('Some presentations are linked through'));
+for(const id of ['madison-ground-cover','markarian-exhausted']){
+ assert(json('speakerEntries("all","design")').some(e=>e.remark.id===id),'Broad alternatives exchange belongs in Design and direction');
+ assert(!json('speakerEntries("all","landscaping")').some(e=>e.remark.id===id),'Do not retain the misleading landscaping filter');
+}
 const tablePage=fs.readFileSync(path.join(dir,'preserved-records/tables.html'),'utf8');
 for(const id of ['survey-2021','police-2021','fiscal-2021','schedule-2022','finance-2026'])assert(tablePage.includes('id="'+id+'"'));
 for(const item of JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/manifest.json'),'utf8'))){

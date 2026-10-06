@@ -318,7 +318,7 @@ for(const route of pages){
 const collectionHtml=read('who-said-what/index.html');
 const collectionDescription='Read 75 selected entries about the Colorado Street Bridge project, with earlier work, responses, source notes, and recording timestamps.';
 for(const attribute of ['name="description"','property="og:description"','name="twitter:description"'])assert(collectionHtml.includes('<meta '+attribute+' content="'+collectionDescription+'">'),'Keep all three collection descriptions synchronized');
-assert.equal(sitemapDates['who-said-what/'],'2026-10-02');
+assert.equal(sitemapDates['who-said-what/'],'2026-10-05');
 assert.equal(sitemapDates['news-and-commentary/'],'2026-10-03');
 console.log('Section targets, native fallbacks, dynamic counts, heading relationships, and link-note checks passed');
 

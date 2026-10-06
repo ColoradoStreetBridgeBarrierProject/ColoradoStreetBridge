@@ -223,9 +223,8 @@ const meetingRecords = [
     "title": "Further community design review",
     "links": [
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2019-10-29-%E2%80%93-Colorado-Street-Bridge-%E2%80%93-Community-Meeting-Presentation.pdf"
       },
       {
         "label": "Meeting notice",
@@ -260,14 +259,12 @@ const meetingRecords = [
     "title": "Barrier concept review",
     "links": [
       {
-        "label": "Staff memo via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Staff memo",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2019-11-26-Design-Commission-Memo.pdf"
       },
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2019-11-26-Design-Commission-Presentation.pdf"
       }
     ],
     "note": "",
@@ -328,9 +325,8 @@ const meetingRecords = [
     "title": "Review following design development",
     "links": [
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-04-20-Historic-Preservation-Commission-Presentation.pdf"
       },
       {
         "label": "Staff memo",
@@ -456,9 +452,8 @@ const meetingRecords = [
         "url": "https://vimeo.com/859416891"
       },
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2023-08-29-Community-Engagement-Presentation.pdf"
       },
       {
         "label": "Meeting postcard",
@@ -479,9 +474,8 @@ const meetingRecords = [
         "url": "https://vimeo.com/878820144/1a78d5b55e"
       },
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2023-10-26-Community-Meeting.pdf"
       }
     ],
     "note": "The linked meeting and recording are dated October 26. An introductory paragraph on the City page instead says October 27.",
@@ -516,9 +510,8 @@ const meetingRecords = [
     "title": "Review of the three new designs",
     "links": [
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2023-12-05-Historic-Preservation-Commission-Presentation.pdf"
       },
       {
         "label": "Minutes",
@@ -547,9 +540,8 @@ const meetingRecords = [
         "source": "jan24memo"
       },
       {
-        "label": "Presentation via City project page",
-        "url": "https://www.cityofpasadena.net/public-works/engineering-and-construction/construction/colorado-street-bridge/",
-        "note": "This link opens the City project page, where the document is listed."
+        "label": "Presentation",
+        "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2024-01-09-Design-Commission-Presentation.pdf"
       },
       {
         "label": "Minutes",
