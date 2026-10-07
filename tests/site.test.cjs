@@ -482,13 +482,20 @@ for(const html of [page,run('overview()')]){
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
  assert(html.includes('The City’s target for finishing the design is June 30, 2028. Building the barrier still requires construction funding and contract authorization.'),'Keep the design-versus-construction distinction');
  assert.equal((html.match(/City project page checked: October 5, 2026/g)||[]).length,1,'State the source-check date only once');
- const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/details><\/div>/)[1];
- assert(sourceArea.includes('<summary>Financial reporting period</summary>'),'Keep the report period beside the source links');
+ const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/div>/)[1];
+ assert(!html.includes('Financial reporting period'),'Remove the standalone reporting-period dropdown');
+ assert(!sourceArea.includes('<details'),'Do not retain an empty source disclosure');
+ assert(sourceArea.includes('August 24, 2026 Finance/Audit packet, project row on p. 184'),'Keep the dated report locator');
+ for(const label of ['City project page','April 2018 Council minutes','Page excerpt','Full packet'])assert(sourceArea.includes(label),'Keep the supporting record link: '+label);
  assert(!html.includes('Later checks are dated with their sources.'),'Keep the removed research-cutoff sentence out of the homepage summary');
- assert(sourceArea.includes('covers activity through June 30, 2026'),'Retain the report period');
+ assert(!sourceArea.includes('The Finance/Audit report covers activity through'),'Remove the dropdown body with its label');
  assert(html.includes('construction funding as unidentified'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
+}
+for(const html of [run('evidence()'),fs.readFileSync(path.join(dir,'evidence-and-limits/index.html'),'utf8')]){
+ assert(html.includes('Total spending recorded for project 73324 through June 30, 2026'),'Retain the reporting date with the financial figure');
+ assert(html.includes('Financial activity through June 30, 2026. Source row checked September 13, 2026.'),'Preserve the report period and source-check date in the funding detail');
 }
 const overviewColumns=styleBlocks.filter(block=>block.selectors.includes('.overview-grid')&&block.body.includes('grid-template-columns')).map(block=>block.body.match(/grid-template-columns:\s*([^;]+)/)[1].trim());
 assert(overviewColumns.length>0&&overviewColumns.every(value=>value==='minmax(0,1fr)'),'Overview must use one column at every breakpoint');
