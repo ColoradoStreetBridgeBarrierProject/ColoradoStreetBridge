@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-05',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-06',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -215,7 +215,7 @@ function overview(){return head('01','Why is the fence still there?','')+`
   <section class="paper-feature"><p class="eyebrow">THE FULL HISTORY</p><h3><a href="${esc(siteBase)}paper/">The fence everyone can see</a></h3><p>How Pasadena arrived at the temporary fence, what happened to the permanent project, and what the record shows about the years in between.</p><a href="${esc(siteBase)}paper/">Read from the beginning →</a></section>
   <nav class="next-cards" aria-label="Explore the project"><a class="next-card" href="${esc(routeHref('timeline'))}" data-go="timeline"><strong>How did the schedule change?</strong><span>In May 2019, construction was expected in August 2020 if the City approved the funding. See what happened next.</span><span class="action">The timeline →</span></a><a class="next-card" href="${esc(routeHref('alternatives'))}" data-go="alternatives"><strong>What alternatives were studied?</strong><span>See the upright barrier designs and the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="${esc(routeHref('evidence'))}" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read what prevention research tells us and what it does not answer.</span><span class="action">The evidence →</span></a></nav>
   <p class="quick-links"><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">The local surveys</a></p>
-  <div class="overview-sources"><p>Supporting records</p>${link('City project page',urls.project)} ${link('April 2018 Council minutes · PDF pp. 4–5',urls.m2018+'#page=4')}<p>August 24, 2026 Finance/Audit packet, project row on p. 184: ${link('Page excerpt',urls.financeExcerpt)} ${link('Full packet',urls.q426)}</p><details class="source-detail"><summary>Financial reporting period</summary><p>The Finance/Audit report covers activity through June 30, 2026.</p></details></div>
+  <div class="overview-sources"><p>Supporting records</p>${link('City project page',urls.project)} ${link('April 2018 Council minutes · PDF pp. 4–5',urls.m2018+'#page=4')}<p>August 24, 2026 Finance/Audit packet, project row on p. 184: ${link('Page excerpt',urls.financeExcerpt)} ${link('Full packet',urls.q426)}</p></div>
   `;}
 
 const designStatuses = Object.freeze({
