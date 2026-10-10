@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-06',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-10',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
