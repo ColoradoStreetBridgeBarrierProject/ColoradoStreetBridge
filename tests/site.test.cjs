@@ -485,6 +485,8 @@ for(const html of [page,run('overview()')]){
  assert(html.includes('June 30, 2028, is the City’s target date for finishing the design phase. Construction will still need funding and approval of a contract.'),'Use the author-approved design-phase explanation');
  assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
  assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
+ assert(!html.includes('The local surveys'),'Remove the standalone homepage survey shortcut');
+ assert(html.includes('The evidence →'),'Keep the homepage card leading to the evidence and survey material');
  assert(html.includes('See the funding record')&&html.includes('See each body’s role'),'Keep direct paths from the summary to the supporting explanations');
  assert(!html.includes('Financial reporting period'),'Remove the standalone reporting-period dropdown');
  assert(!html.includes('Later checks are dated with their sources.'),'Keep the removed research-cutoff sentence out of the homepage summary');
@@ -494,6 +496,7 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
 for(const html of [run('evidence()'),fs.readFileSync(path.join(dir,'evidence-and-limits/index.html'),'utf8')]){
+ assert(html.includes('id="surveys"')&&html.includes('What the local surveys show'),'Retain the survey section and stable destination');
  const funding=html.match(/<section class="evidence-section" id="funding"[\s\S]*?<\/section>/)[0];
  assert(funding.includes('City project page')&&funding.includes('Checked October 5, 2026.'),'Preserve the project-page link and its actual check date in the funding evidence');
  for(const key of ['project','q426','financeExcerpt'])assert(funding.includes(run('urls.'+key)),'Keep the funding source destination: '+key);
