@@ -37,10 +37,11 @@ assert.equal(run('Object.keys(speakers).length'),8);
 // October 5: clarify the August 2021 meeting title without changing its sources.
 // October 5 follow-up: retag the two broad alternatives entries and verify eight direct document links.
 // October 5 editorial cleanup: label the May finance packet's Bridge row accurately.
+// October 10: remove Hand-checked from three directory labels, preserving the linked records.
 const preserved={
  'speakers.js':'385efa10cdd8aaa1d08a86aac8eaa7d9b0c017eb62a30e3bddecf8d3ec3a149a',
  'other-speakers.js':'38a5a15a64975e6d4d14c304f9c483438fa0f99a473cfa0f79b5c1636783a668',
- 'resources.js':'0a62ea0db8d8e7295aad5ddba00a1e25038714cfe2b10e59ab316388175eb347'
+ 'resources.js':'24333bd01782daa075521f660d4ebd0a19daaa15739f921af8637361367d66fd'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -367,6 +368,15 @@ for(const id of ['madison-ground-cover','markarian-exhausted']){
  assert(!json('speakerEntries("all","landscaping")').some(e=>e.remark.id===id),'Do not retain the misleading landscaping filter');
 }
 const tablePage=fs.readFileSync(path.join(dir,'preserved-records/tables.html'),'utf8');
+for(const html of [tablePage,run('evidence()'),run('meetingsView()')])assert(!/hand[\s-]checked/i.test(html),'Remove the redundant checked-by-hand wording');
+for(const suffix of ['', '#schedule-2022', '#finance-2026'])assert(run('meetingsView()').includes(run('urls.transcriptions')+suffix),'Retain the provided table destination: '+suffix);
+for(const label of ['Survey, police, and fiscal tables','Schedule and fiscal transcription','Project 73324 row']){
+ const record=json('meetingRecords.find(m=>m.links.some(l=>l.label==='+JSON.stringify(label)+'))');
+ assert(record,'Keep the source link with its shortened label: '+label);
+ assert(run('meetingSearchMetadata('+JSON.stringify(record)+').join(" ")').includes('Transcribed tables'),'Retain the search record type after shortening '+label);
+}
+assert(tablePage.includes('This paragraph is a summary, not a verbatim transcription.')&&tablePage.includes('This is a summary.'),'Retain the summary/transcription distinction');
+assert(tablePage.includes('September 13, 2026'),'Retain the preparation date');
 for(const id of ['survey-2021','police-2021','fiscal-2021','schedule-2022','finance-2026'])assert(tablePage.includes('id="'+id+'"'));
 for(const item of JSON.parse(fs.readFileSync(path.join(dir,'preserved-records/manifest.json'),'utf8'))){
  const file=path.join(dir,'preserved-records',item.file);
@@ -561,7 +571,10 @@ assert(run('overview()').includes('The project page says funding is available fo
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
-assert(run('newsView()').includes('Links open the original publisher sites. Some require a subscription.'));
+assert(!run('newsView()').includes('Some require a subscription.'),'Remove the generic subscription warning');
+assert(!run('newsView()').includes('Links open the original publisher sites.'),'Remove the introductory publisher-access note');
+assert(!run('evidence()').includes('Missing recordings and unnamed speakers'),'Remove only the duplicate unresolved-recordings summary');
+assert(run('speakerView()').includes('The off-camera speaker remains unidentified.'),'Retain the individual speaker qualification');
 assert(!run('newsView()').includes('San Gabriel Valley Tribune · publisher homepage'));
 for(const view of ['timeline','alternatives','speakers']){
  assert(!run('viewMarkup('+JSON.stringify({view})+')').includes('Record note'),view+': record-note blocks removed');
