@@ -740,6 +740,7 @@ assert(run('forecastComparison()').includes('role="table"'));
 assert(!fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('class="utility-nav"'));
 assert(fs.readFileSync(path.join(dir,'index.template.html'),'utf8').includes('href="__ROOT__about/" data-route="about">About</a>'));
 assert(run('viewMarkup({view:"overview"})').includes('Read from the beginning →'));
+assert(run('viewMarkup({view:"overview"})').indexOf('class="paper-feature"') > run('viewMarkup({view:"overview"})').indexOf('Why would a barrier help?'));
 console.log('Search refinement, visible meeting navigation, PDF labels, and narrow comparison checks passed');
 
 // Search keeps metadata and readable source-labeled prose separate.
