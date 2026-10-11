@@ -385,7 +385,7 @@ const meetingRecords = [
         "source": "ocr2021"
       },
       {
-        "label": "Hand-checked survey, police, and fiscal tables",
+        "label": "Survey, police, and fiscal tables",
         "source": "transcriptions"
       },
       {
@@ -415,7 +415,7 @@ const meetingRecords = [
         "source": "ocr2022"
       },
       {
-        "label": "Hand-checked schedule and fiscal transcription",
+        "label": "Schedule and fiscal transcription",
         "url": "https://coloradostreetbridgeproject.com/preserved-records/tables.html#schedule-2022"
       }
     ],
@@ -684,7 +684,7 @@ const meetingRecords = [
         "source": "financeExcerpt"
       },
       {
-        "label": "Hand-checked project 73324 row",
+        "label": "Project 73324 row",
         "url": "https://coloradostreetbridgeproject.com/preserved-records/tables.html#finance-2026"
       }
     ],
