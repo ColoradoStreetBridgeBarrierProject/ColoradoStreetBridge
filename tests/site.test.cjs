@@ -319,7 +319,7 @@ assert(index.some(x=>x.title==='Height depends on the measurement point'),'Heigh
 assert(index.some(x=>x.title==='Curved-curved mesh (Option B) led among respondents who ranked the mockups'));
 assert(run('evidence()').includes('73324'));
 assert(!run('evidence()').includes('Of 678 respondents'));
-assert(run('overview()').includes('Page excerpt'));
+assert(run('evidence()').includes('PDF p. 184 excerpt'));
 assert(run('overview()').includes('What alternatives were studied?'));
 assert(run('forecastComparison()').includes('August 2020, if the City approved the funding'));
 assert(run('forecastComparison()').includes('Construction funding remained unidentified.'));
@@ -480,20 +480,23 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('The records reviewed for this guide do not show that a final design has been approved.'),'Do not repeat the design status');
  assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
- assert(html.includes('The City’s target for finishing the design is June 30, 2028. Building the barrier still requires construction funding and contract authorization.'),'Keep the design-versus-construction distinction');
- assert.equal((html.match(/City project page checked: October 5, 2026/g)||[]).length,1,'State the source-check date only once');
- const sourceArea=html.match(/<div class="overview-sources">([\s\S]*?)<\/div>/)[1];
+ assert(html.includes('Work on a permanent barrier is continuing, but the City has not approved a design. The project page says funding is available for this work, but funding for construction has not been identified.'),'Use the author-approved status paragraph');
+ assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No date has been set for the next Bridge decision.'),'Use the author-approved decision paragraph');
+ assert(html.includes('June 30, 2028, is the City’s target date for finishing the design phase. Construction will still need funding and approval of a contract.'),'Use the author-approved design-phase explanation');
+ assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
+ assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
+ assert(html.includes('See the funding record')&&html.includes('See each body’s role'),'Keep direct paths from the summary to the supporting explanations');
  assert(!html.includes('Financial reporting period'),'Remove the standalone reporting-period dropdown');
- assert(!sourceArea.includes('<details'),'Do not retain an empty source disclosure');
- assert(sourceArea.includes('August 24, 2026 Finance/Audit packet, project row on p. 184'),'Keep the dated report locator');
- for(const label of ['City project page','April 2018 Council minutes','Page excerpt','Full packet'])assert(sourceArea.includes(label),'Keep the supporting record link: '+label);
  assert(!html.includes('Later checks are dated with their sources.'),'Keep the removed research-cutoff sentence out of the homepage summary');
- assert(!sourceArea.includes('The Finance/Audit report covers activity through'),'Remove the dropdown body with its label');
- assert(html.includes('construction funding as unidentified'),'Keep construction funding status in the main summary');
+ assert(!html.includes('The Finance/Audit report covers activity through'),'Remove the dropdown body with its label');
+ assert(html.includes('funding for construction has not been identified'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
 for(const html of [run('evidence()'),fs.readFileSync(path.join(dir,'evidence-and-limits/index.html'),'utf8')]){
+ const funding=html.match(/<section class="evidence-section" id="funding"[\s\S]*?<\/section>/)[0];
+ assert(funding.includes('City project page')&&funding.includes('Checked October 5, 2026.'),'Preserve the project-page link and its actual check date in the funding evidence');
+ for(const key of ['project','q426','financeExcerpt'])assert(funding.includes(run('urls.'+key)),'Keep the funding source destination: '+key);
  assert(html.includes('Total spending recorded for project 73324 through June 30, 2026'),'Retain the reporting date with the financial figure');
  assert(html.includes('Financial activity through June 30, 2026. Source row checked September 13, 2026.'),'Preserve the report period and source-check date in the funding detail');
 }
@@ -550,8 +553,8 @@ assert(!run('speakerView("other")').includes('I chose passages about decisions')
 assert(run('speakerView()').includes('I chose passages about decisions, alternatives, and timing, including those that support or challenge my conclusions.'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
-assert(run('overview()').includes('continuing design work, with no approved permanent design.'));
-assert(run('overview()').includes('design funding as secured and construction funding as unidentified.'));
+assert(run('overview()').includes('Work on a permanent barrier is continuing, but the City has not approved a design.'));
+assert(run('overview()').includes('The project page says funding is available for this work, but funding for construction has not been identified.'));
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
@@ -588,7 +591,9 @@ assert(run('link("Test",urls.project)').includes('↗'));
 assert(!run('overview()').includes('More supporting records'),'A single extra source stays visible');
 assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('In 2018, Pasadena decided to pursue'));
-assert(run('overview()').includes('records reviewed for this guide'));
+assert(!run('overview()').includes('records reviewed for this guide'));
+for(const view of ['timelineView()','meetingsView()'])assert(run(view).includes(run('urls.m2018')),'Retain Council minutes with the chronology and meeting records');
+for(const key of ['q426','financeExcerpt'])assert(run('meetingsView()').includes(run('urls.'+key)),'Retain the finance records in the meeting directory');
 console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:23,entries:75,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:(html.match(/data-copy-entry=/g)||[]).length,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
 const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
@@ -691,7 +696,7 @@ console.log('Focused repetition and qualification-preservation checks passed');
 const fundingSearch=index.find(item=>item.route==='evidence/6');
 assert(fundingSearch.text.includes('$1.48 million Total spending'));
 assert(fundingSearch.text.includes('June 2028 The target'));
-assert(index.find(item=>item.route==='overview/0').text.includes('date means The City'));
+assert(index.find(item=>item.route==='overview/0').text.includes('date means June 30, 2028'));
 assert(index.find(item=>item.route==='meetings/meeting-2018-05-07').summary.includes('funding. Funding record.'));
 assert.equal(run('SearchText.excerpt("One two three four five",[],12)'),'One two…');
 assert(run('SearchText.snippet(searchIndex().find(i=>i.route==="evidence/6"),["funding"])').startsWith('The project has recorded'));
