@@ -353,3 +353,9 @@ assert(overview.includes('href="./evidence-and-limits/#research" data-route="evi
 assert(read('who-said-what/index.html').match(/id="tornek-consensus"[\s\S]*?class="remark-kind">Working-transcript excerpt<\/p>/));
 assert(!read('news-and-commentary/index.html').includes('Read at the publisher'));
 console.log('Native section targets, reading-area focus, transcript label, and direct call/text actions passed');
+for(const page of [...pages.map(p=>p+'index.html'),'preserved-records/index.html','preserved-records/tables.html']){
+  const html=read(page);
+  assert(html.includes('property="og:image" content="https://coloradostreetbridgeproject.com/bridge.jpeg"'),page+': use the larger original for sharing');
+  assert(html.includes('property="og:image:width" content="969"'));
+  assert(html.includes('property="og:image:height" content="390"'));
+}
