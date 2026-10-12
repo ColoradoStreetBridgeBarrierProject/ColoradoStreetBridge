@@ -24,6 +24,7 @@ for (const [file, html] of rendered) {
   assert(!/\bhidden(?:="")?[^>]*data-csb-chapter|data-csb-chapter|guide\.js/.test(html), file + ': no embedded chapter switching');
   assert(!/sandbox:|\/workspace\/|libfile_|file_000000|data:image|private preview/.test(html), file + ': no internal references');
   assert(html.includes('href="tel:988"'));
+  assert(html.includes('href="sms:988"'));
   assert(html.includes('Main research cutoff: September 1, 2026. Later checks and additions are dated where they appear.'));
   assert(html.includes('not an official City website'));
   assert(html.includes('property="og:site_name"'));
@@ -40,7 +41,7 @@ for (const [file, html] of rendered) {
   for (const base of ['https://coloradostreetbridgeproject.com/', 'https://example.org/ColoradoStreetBridge/']) {
     for (const [, attribute, encoded] of html.matchAll(/\b(href|src)="([^"]+)"/g)) {
       const value = decode(encoded);
-      if (/^(?:https?:|mailto:|tel:|data:)/.test(value)) continue;
+      if (/^(?:https?:|mailto:|tel:|sms:|data:)/.test(value)) continue;
       const url = new URL(value, base + file.replace('index.html', ''));
       assert(url.pathname.startsWith(new URL(base).pathname), 'Escaped deployment base: ' + value);
       let target = url.pathname.slice(new URL(base).pathname.length);

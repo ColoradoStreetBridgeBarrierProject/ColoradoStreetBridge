@@ -1,7 +1,7 @@
 'use strict';
 
 // An editorial update does not advance the verification date of older evidence.
-const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-10',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
+const reviewDates = Object.freeze({baseline:'2026-09-01',siteUpdated:'2026-10-11',projectPage:'2026-10-05',heightFAQ:'2026-10-05',scannedReports:'2026-09-13',financeRow:'2026-09-13'});
 const financePeriod = '2026-06-30';
 
 // Summaries and locators follow the authenticated sent baseline and preserved City records.
@@ -210,9 +210,9 @@ function overview(){return head('01','Why is the fence still there?','')+`
   <article class="feature-card lead overview-summary"><p class="eyebrow">THE SHORT VERSION</p><p class="large">In 2018, Pasadena decided to pursue a permanent suicide prevention barrier on the Colorado Street Bridge. More than eight years later, the temporary fence remains.</p>
   <p>The project has gone through successive design rounds without reaching agreement on a permanent concept. The record also documents pandemic delays in obtaining materials and building mockups, a consultant search that drew no proposals, and changes to planned funding. <a href="${esc(routeHref('timeline'))}" data-go="timeline">Follow the chronology</a> and <a href="${esc(siteBase+'paper/delays/')}">read about the documented delays</a>.</p>
   <p><strong>Where it stands</strong> Work on a permanent barrier is continuing, but the City has not approved a design. The project page says funding is available for this work, but funding for construction has not been identified. <a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">See the funding record</a>.</p>
-  <p><strong>Who decides next</strong> Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No date has been set for the next Bridge decision. <a href="${esc(routeHref('timeline/who-decides'))}" data-route="timeline/who-decides">See each body’s role</a>.</p>
+  <p><strong>Who decides next</strong> Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No confirmed date for the next Bridge decision has been found. <a href="${esc(routeHref('timeline/who-decides'))}" data-route="timeline/who-decides">See each body’s role</a>.</p>
   <p class="overview-schedule"><strong>What the 2028 date means</strong> June 30, 2028, is the City’s target date for finishing the design phase. Construction will still need funding and approval of a contract.</p></article>
-  <nav class="next-cards" aria-label="Explore the project"><a class="next-card" href="${esc(routeHref('timeline'))}" data-go="timeline"><strong>How did the schedule change?</strong><span>In May 2019, construction was expected in August 2020 if the City approved the funding. See what happened next.</span><span class="action">The timeline →</span></a><a class="next-card" href="${esc(routeHref('alternatives'))}" data-go="alternatives"><strong>What alternatives were studied?</strong><span>See the upright barrier designs and the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="${esc(routeHref('evidence'))}" data-go="evidence"><strong>Why would a barrier help?</strong><span>Read what prevention research tells us and what it does not answer.</span><span class="action">The evidence →</span></a></nav>
+  <nav class="next-cards" aria-label="Explore the project"><a class="next-card" href="${esc(routeHref('timeline'))}" data-go="timeline"><strong>How did the schedule change?</strong><span>In May 2019, construction was expected in August 2020 if the City approved the funding. See what happened next.</span><span class="action">The timeline →</span></a><a class="next-card" href="${esc(routeHref('alternatives'))}" data-go="alternatives"><strong>What alternatives were studied?</strong><span>See the upright barrier designs and the reviews of netting, trees, patrols, and cameras.</span><span class="action">The alternatives →</span></a><a class="next-card" href="${esc(routeHref('evidence/research'))}" data-route="evidence/research"><strong>Why would a barrier help?</strong><span>Read what prevention research tells us and what it does not answer.</span><span class="action">The evidence →</span></a></nav>
   <section class="paper-feature"><p class="eyebrow">THE FULL HISTORY</p><h3><a href="${esc(siteBase)}paper/">The fence everyone can see</a></h3><p>How Pasadena arrived at the temporary fence, what happened to the permanent project, and what the record shows about the years in between.</p><a href="${esc(siteBase)}paper/">Read from the beginning →</a></section>
   `;}
 
@@ -275,7 +275,7 @@ function localCounts(){return `<section class="evidence-section" id="local-count
 <p class="quiet">The oral figures and approximate times were previously checked against the official recording. They are not a reconciled annual dataset. The reviewed records include only partial counts for 2021 and 2023 and do not supply counts for 2024–2026. Do not combine these fragments into a complete “since the fence” total, treat missing years as zero, or use the table alone to measure the fence’s effect. Death counts and the report’s separate incident categories should not be added together.</p></article></section>`;}
 
 function evidence(){return head('04','What does the evidence tell us?','Read the prevention studies, local surveys, and financial records, with the limits of each.')+`
-  <nav class="section-jumps" aria-label="On this page"><a href="${esc(routeHref('evidence/local-counts'))}" data-route="evidence/local-counts">Local death counts</a><a href="${esc(routeHref('evidence/research'))}" data-route="evidence/research">Research findings</a><a href="${esc(routeHref('evidence/design-criteria'))}" data-route="evidence/design-criteria">Design questions</a><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">Local surveys</a><a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">Funding and schedule</a><a href="${esc(routeHref('evidence/unresolved'))}" data-route="evidence/unresolved">Unresolved questions</a><a href="${esc(routeHref('evidence/sources'))}" data-route="evidence/sources">Using the sources</a></nav>${localCounts()}
+  <nav class="section-jumps" aria-label="On this page"><a href="${esc(routeHref('evidence/local-counts'))}" data-route="evidence/local-counts">Local death counts</a><a href="${esc(routeHref('evidence/research'))}" data-route="evidence/research">Research findings</a><a href="${esc(routeHref('evidence/design-criteria'))}" data-route="evidence/design-criteria">Design questions</a><a href="${esc(routeHref('evidence/surveys'))}" data-route="evidence/surveys">Local surveys</a><a href="${esc(routeHref('evidence/funding'))}" data-route="evidence/funding">Funding and schedule</a><a href="${esc(routeHref('evidence/unresolved'))}" data-route="evidence/unresolved">Unresolved questions</a><a href="${esc(routeHref('evidence/sources'))}" data-route="evidence/sources">Using the sources</a></nav><p class="crisis-resource quiet">For support, contact the 988 Suicide &amp; Crisis Lifeline: <a href="tel:988">call 988</a> or <a href="sms:988">text 988</a>.</p>${localCounts()}
   <div class="evidence-copy"><section class="evidence-section" id="research" tabindex="-1"><h2>What prevention research supports</h2><article data-evidence-id="1" class="feature-card lead"><span class="pill">Why a barrier can help</span><h3>A barrier can create time</h3><p>The research describes how interrupting access can allow an immediate crisis to ease or create an opportunity for intervention. The Clifton Suspension Bridge study reported fewer deaths and staff accounts of more time to intervene, even without fewer incidents.</p><p class="quiet">Clifton also used cameras and patrols, so the study cannot show that extra time alone explained the results. Research on how long a crisis lasts also does not give one timeline that applies to everyone.</p>${citations(18,'19, 29',[['Bennewith, Nowers & Gunnell · 2011 · European Journal of Public Health',urls.clifton],['2024 presentation · p. 43',urls.p2024+'#page=43']])}</article>
 <article data-evidence-id="2" class="feature-card"><span class="pill">Would deaths move elsewhere?</span><h3>Deaths do not necessarily move to another site</h3><p>The research summarized here challenges the assumption that restricting one site simply moves every death elsewhere. Longer follow-up can also change an initial finding, as it did at Toronto’s Bloor Viaduct.</p><p class="quiet">The 2025 review combined results from several studies. It found no clear increase at other sites and fewer deaths using the same method overall. It did not detect a reduction across all suicide methods combined, and some comparison-site data were limited.</p>${citations(32,'30',[['2025 review',urls.too]])}</article></section>
 <section class="evidence-section" id="design-criteria" tabindex="-1"><h2>What the research does not decide about Pasadena’s design</h2><article data-evidence-id="3" class="feature-card"><span class="pill">Local design choice</span><h3>Research does not identify one best design for every bridge</h3><p>The Swiss study cited in the early City presentations grouped complete vertical barriers and nets together. It did not establish that one type was more effective than the other.</p><p class="quiet">Pasadena’s preference also reflected its own assessment of architecture, engineering, and emergency-services concerns. The 2024 netting assessment still had unfinished engineering work.</p>${citations(26,'5, 16–17',[['Swiss study',urls.hemmer],['Preliminary assessment · p. 37',urls.p2024+'#page=37']])}</article>
@@ -322,6 +322,7 @@ function routeHref(route) {
   const view=Object.hasOwn(sectionPaths,raw)?raw:'overview';
   const base=siteBase+(sectionPaths[view]?sectionPaths[view]+'/':'');
   if(view==='alternatives' && Object.hasOwn(topics,arg))return base+arg+'/';
+  if(view==='timeline' && arg==='who-decides' && !query)return base+'#who-decides';
   if(view==='timeline' && arg==='history' && !query)return base+'#bridge-history-heading';
   if(view==='alternatives' && arg==='gallery' && !query)return base+'#design-gallery-title';
   if(view==='about' && arg==='corrections' && !query)return base+'#corrections';
@@ -536,6 +537,7 @@ const remarkCopyEdits=Object.freeze({
     "response": ""
   },
   "tornek-consensus": {
+    "kind": "Working-transcript excerpt",
     "response": ""
   },
   "gordo-more-options": {
@@ -603,7 +605,7 @@ function readableSourceNote(note,remark={}) {
   if(/^(Excerpt read in the preserved City-hosted captions|Wording from the preserved working transcript|Summary of the recorded discussion retained|Discussion summary carried)/.test(note))return '';
   return note;
 }
-function sourceLegend(){return `<p class="source-legend">Times locate the start of a passage. <a href="${esc(routeHref('about'))}#sources">How I use recordings, captions, and written records</a></p>`;}
+function sourceLegend(){return `<p class="source-legend">Roles are given as of each meeting. Times locate the start of a passage. <a href="${esc(routeHref('about'))}#sources">How I use recordings, captions, and written records</a></p>`;}
 
 function remarkExcerpt(remark) {
   if(!remark.quote)return '';
@@ -645,13 +647,13 @@ function meetingDocumentsLink(remark){
   const record=meetingRecordFor(remark);
   if(!record)return '';
   const route='meetings/'+record.id;
-  return `<a class="meeting-record-link" href="${esc(routeHref(route))}" data-route="${esc(route)}" aria-label="Meeting documents for ${esc(formatDate(record.date)+' · '+record.body)}">Meeting documents →</a>`;
+  return `<a class="meeting-record-link" href="${esc(routeHref('meetings')+'#'+record.id)}" data-route="${esc(route)}" aria-label="Meeting documents for ${esc(formatDate(record.date)+' · '+record.body)}">Meeting documents →</a>`;
 }
 function meetingExchangesLink(record){
   const entries=speakerEntries().filter(({remark})=>meetingRecordFor(remark)?.id===record.id);
   if(!entries.length)return '';
   const route='speakers/all/'+entries[0].remark.id;
-  return `<p class="record-related"><a href="${esc(routeHref(route))}" data-route="${esc(route)}">Jump to ${countLabel(entries.length,'selected exchange','selected exchanges')} from this meeting →</a></p>`;
+  return `<p class="record-related"><a href="${esc(routeHref('speakers')+'#'+entries[0].remark.id)}" data-route="${esc(route)}">Jump to ${countLabel(entries.length,'selected exchange','selected exchanges')} from this meeting →</a></p>`;
 }
 function speakerView(key='all', topic='all', year='all') {
   const entries=speakerEntries(key,topic,year);
@@ -670,8 +672,8 @@ function speakerView(key='all', topic='all', year='all') {
     <div class="speaker-filter speaker-filter-topic"><label for="speaker-topic">Follow a topic</label><select id="speaker-topic">${Object.keys(speakerTopics).map(id=>`<option value="${id}" ${id===topic?'selected':''}>${esc(speakerTopicLabel(id))}</option>`).join('')}</select></div>
     <div class="speaker-filter speaker-filter-year"><label for="speaker-year">Choose a year</label><select id="speaker-year"><option value="all">All years</option>${years.map(y=>`<option value="${y}" ${year===y?'selected':''}>${y}</option>`).join('')}</select></div></div>
     <p class="filter-actions">${activeFilters.length?`<span class="active-filter-summary">Showing: ${esc(activeFilters.join(' · '))}</span><a href="${esc(routeHref('speakers'))}" data-route="speakers">Clear filters</a>`:''}${Object.hasOwn(topics,topic)?`<a href="${esc(routeHref('alternatives/'+topic))}" data-route="alternatives/${esc(topic)}">Read the ${esc(topics[topic].name.toLowerCase())} overview →</a>`:''}</p>
-    ${groups.length>1?`<section class="meeting-jumps scroll-focus" id="meeting-index" tabindex="-1" aria-labelledby="meeting-index-heading"><h2 id="meeting-index-heading">Jump to a date (${groups.length})</h2><nav aria-label="Selected dates">${groups.map(g=>{const entry=g.items[0];const params=new URLSearchParams();if(topic!=='all')params.set('topic',topic);if(year!=='all')params.set('year',year);const route='speakers/'+key+'/'+entry.remark.id+(params.toString()?'?'+params:'');return `<a href="${esc(routeHref(route))}" data-route="${esc(route)}">${esc(g.date)} · ${esc(g.body)} (${g.items.length})</a>`;}).join('')}</nav></section>`:''}
-    <p class="locator-note">Roles are given as of each meeting.</p>${sourceLegend()}
+    ${groups.length>1?`<details class="meeting-jumps scroll-focus" id="meeting-index" tabindex="-1"><summary>Jump to a date (${groups.length})</summary><nav aria-label="Selected dates">${groups.map(g=>{const entry=g.items[0];const params=new URLSearchParams();if(topic!=='all')params.set('topic',topic);if(year!=='all')params.set('year',year);const route='speakers/'+key+'/'+entry.remark.id+(params.toString()?'?'+params:'');return `<a href="${esc(routeHref('speakers')+'#'+entry.remark.id)}" data-route="${esc(route)}">${esc(g.date)} · ${esc(g.body)} (${g.items.length})</a>`;}).join('')}</nav></details>`:''}
+    ${sourceLegend()}
     <div class="speaker-heading"><h2>${esc(name)}</h2><p role="status">${countLabel(entries.length)} · oldest first</p></div>
     ${key==='other'?'<p class="locator-note">35 entries from 15 people in the former “Other speakers” group.</p>':''}
     ${key==='all'?'<p class="locator-note">I chose passages about decisions, alternatives, and timing, including those that support or challenge my conclusions.</p>':''}
@@ -757,7 +759,7 @@ function newsView(year='all',order='oldest'){
     groups.map(([id,title,records])=>`<section class="news-section scroll-focus" id="${id}" tabindex="-1"><h2>${title}</h2><div class="directory-grid">${records.map(n=>{
       let description=esc(newsRelevance[n.id]||'');
       if(n.id==='pnow-2020-budget')description=description.replace('Source 47',`<a href="${esc(siteBase+'paper/sources/#csb-source-47')}">Source 47</a>`);
-      return `<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${esc(n.title)}</h3>${description?'<p>'+description+'</p>':''}<p>${link('Read at the publisher',n.url)}</p>${n.note?'<details class="source-detail"><summary>Source and access note</summary><p>'+esc(n.note)+'</p></details>':''}</article>`;
+      return `<article class="directory-card news-card" id="${esc(n.id)}" tabindex="-1"><p class="eyebrow">${esc(n.publisher)}</p><p class="directory-date">${esc(formatDate(n.date))} · ${esc(n.kind)}</p><h3>${link(n.title,n.url)}</h3>${description?'<p>'+description+'</p>':''}${n.note?'<details class="source-detail"><summary>Source and access note</summary><p>'+esc(n.note)+'</p></details>':''}</article>`;
     }).join('')}</div></section>`).join('');
 }
 
@@ -1001,8 +1003,8 @@ document.addEventListener('click',e=>{
   const milestone=e.target.closest('[data-milestone]');
   if(milestone){selectMilestone(milestone.dataset.milestone);return;}
   const scrollLink=e.target.closest('[data-scroll-target]');
-  if(scrollLink){const target=document.getElementById(scrollLink.dataset.scrollTarget);if(target){e.preventDefault();target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}return;}
-  const tab=e.target.closest('[data-view]');if(tab){e.preventDefault();const wasOpen=menuOpen;navigate(tab.dataset.view,true);if(!wasOpen)tab.focus({preventScroll:true});return;}
+  if(scrollLink){const target=document.getElementById(scrollLink.dataset.scrollTarget);if(target){e.preventDefault();if(target.tagName==='DETAILS')target.open=true;target.focus({preventScroll:true});target.scrollIntoView({block:'start'});}return;}
+  const tab=e.target.closest('[data-view]');if(tab){e.preventDefault();navigate(tab.dataset.view,true);return;}
   const go=e.target.closest('[data-go]');if(go){e.preventDefault();navigate(go.dataset.go);return;}
   const topic=e.target.closest('[data-topic]');if(topic){e.preventDefault();navigate('alternatives/'+topic.dataset.topic);return;}
   const routeLink=e.target.closest('[data-route]');if(routeLink){e.preventDefault();navigate(routeLink.dataset.route);return;}
