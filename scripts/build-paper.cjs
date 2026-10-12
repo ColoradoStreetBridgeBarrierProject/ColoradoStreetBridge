@@ -71,14 +71,14 @@ function pageHtml({route, current, title, content, table = false, continuous=fal
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="https://coloradostreetbridgeproject.com/bridge-preview.webp">
-  <meta property="og:image:width" content="620">
-  <meta property="og:image:height" content="250">
+  <meta property="og:image" content="https://coloradostreetbridgeproject.com/bridge.jpeg">
+  <meta property="og:image:width" content="969">
+  <meta property="og:image:height" content="390">
   <meta property="og:image:alt" content="Colorado Street Bridge after its 1993 restoration, BCA Associates.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
-  <meta name="twitter:image" content="https://coloradostreetbridgeproject.com/bridge-preview.webp">
+  <meta name="twitter:image" content="https://coloradostreetbridgeproject.com/bridge.jpeg">
   <meta name="twitter:image:alt" content="Colorado Street Bridge after its 1993 restoration, BCA Associates.">
   <script src="${prefix}theme.js?v=${version('theme.js')}"></script>
   <link rel="stylesheet" href="${prefix}paper/reader.css?v=${version('paper/reader.css')}">
@@ -86,7 +86,7 @@ function pageHtml({route, current, title, content, table = false, continuous=fal
 </head>
 <body id="paper-top">
   <a class="skip" href="#reading">Skip to reading</a>
-  <header class="site-head"><a href="${prefix}">Colorado Street Bridge <span>Project guide</span></a><button type="button" class="theme-toggle" data-theme-toggle aria-label="Light reading mode" aria-pressed="false" hidden>Light reading mode</button></header>
+  <header class="site-head"><a href="${prefix}">Colorado Street Bridge <span>Project guide</span></a><button type="button" class="theme-toggle" data-theme-toggle aria-label="Light mode" aria-pressed="false" hidden>Light mode</button></header>
   <div class="paper-shell${table ? ' table-page' : ''}${continuous?' continuous-paper':''}">
     <div class="paper-orientation"><a href="${prefix}paper/#paper-top">${esc(paper.title)}</a><span>${continuous?'Continuous edition':current ? 'Section ' + current + ' of ' + paper.sections.length : 'Sources'}</span></div>
     ${contents(current, prefix, continuous)}
@@ -99,7 +99,7 @@ function pageHtml({route, current, title, content, table = false, continuous=fal
       ${previous ? `<a rel="prev" href="${prefix}${sectionPath(previous)}#paper-top"><span>← Previous</span><small>${esc(previous.title)}</small></a>` : `<a href="${continuous?'#paper-top':prefix+'paper/#paper-top'}"><span>↑ Beginning</span><small>${esc(paper.title)}</small></a>`}
       ${next ? `<a rel="next" href="${prefix}${sectionPath(next)}#paper-top"><span>Next →</span><small>${esc(next.title)}</small></a>` : current || continuous ? `<a rel="next" href="${prefix}paper/sources/#paper-top"><span>Next →</span><small>Sources</small></a>` : `<a rel="prev" href="${prefix}paper/in-memory/#paper-top"><span>← Previous</span><small>In memory</small></a>`}
     </nav>
-    <footer class="paper-footer"><p>${current ? 'Section ' + current + ' of ' + paper.sections.length + ' · ' : ''}<a href="${prefix}paper/sources/">Sources</a> · <a href="#paper-top">Back to top</a></p><p>Reading edition · ${paper.edition}. Main research cutoff: ${paper.evidenceCutoff}. Later checks and additions are dated where they appear.</p><p>This is an independent research project, not an official City website.</p><p><a href="${prefix}about/">About the guide</a> · <a href="mailto:contact@coloradostreetbridgeproject.com">Questions or corrections</a></p><p>If you or someone you know is struggling or in crisis, call or text <a href="tel:988">988</a>.</p></footer>
+    <footer class="paper-footer"><p>${current ? 'Section ' + current + ' of ' + paper.sections.length + ' · ' : ''}<a href="${prefix}paper/sources/">Sources</a> · <a href="#paper-top">Back to top</a></p><p>Reading edition · ${paper.edition}. Main research cutoff: ${paper.evidenceCutoff}. Later checks and additions are dated where they appear.</p><p>This is an independent research project, not an official City website.</p><p><a href="${prefix}about/">About the guide</a> · <a href="mailto:contact@coloradostreetbridgeproject.com">Questions or corrections</a></p><p>If you or someone you know is struggling or in crisis, contact the 988 Suicide &amp; Crisis Lifeline: <a href="tel:988">call 988</a> or <a href="sms:988">text 988</a>.</p></footer>
   </div>
 </body>
 </html>
