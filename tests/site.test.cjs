@@ -491,7 +491,7 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
  assert(html.includes('Work on a permanent barrier is continuing, but the City has not approved a design. The project page says funding is available for this work, but funding for construction has not been identified.'),'Use the author-approved status paragraph');
- assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No date has been set for the next Bridge decision.'),'Use the author-approved decision paragraph');
+ assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No confirmed date for the next Bridge decision has been found.'),'Use the author-approved decision paragraph');
  assert(html.includes('June 30, 2028, is the City’s target date for finishing the design phase. Construction will still need funding and approval of a contract.'),'Use the author-approved design-phase explanation');
  assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
  assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
@@ -522,7 +522,7 @@ for(const [name,file] of [['SCRIPT','assets/guide.js'],['STYLE','styles.css'],['
 const base='https://example.org/ColoradoStreetBridge/';
 for(const match of page.matchAll(/(?:src|href)="([^"]+)"/g)){
  const value=match[1];
- if(value.startsWith('#')||/^(https:|data:|tel:|mailto:)/.test(value))continue;
+ if(value.startsWith('#')||/^(https:|data:|tel:|sms:|mailto:)/.test(value))continue;
  assert(!value.startsWith('/'),'Asset must work under the project path: '+value);
  assert(new URL(value,base).pathname.startsWith('/ColoradoStreetBridge/'));
  assert(fs.existsSync(path.join(dir,value.split(/[?#]/)[0])),value);
@@ -725,8 +725,8 @@ let submitPrevented=false;
 listeners['document:submit']({target:{id:'results-search-form'},preventDefault(){submitPrevented=true;}});
 assert(submitPrevented);assert.equal(run('readRoute().query'),'netting & design');
 const visibleMeetings=run('speakerView()');
-assert(visibleMeetings.includes('<section class="meeting-jumps scroll-focus"'));
-assert(!visibleMeetings.includes('<details class="meeting-jumps"'));
+assert(visibleMeetings.includes('<details class="meeting-jumps scroll-focus"'));
+assert(visibleMeetings.includes('<summary>Jump to a date (10)</summary>'));
 assert.equal((visibleMeetings.match(/data-scroll-target="speaker-controls"/g)||[]).length,(visibleMeetings.match(/class="meeting-group"/g)||[]).length);
 run('navigate("speakers/all?topic=netting&year=2024")');
 const beforeScroll=context.location.href;
