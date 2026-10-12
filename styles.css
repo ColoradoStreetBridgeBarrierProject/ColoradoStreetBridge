@@ -138,6 +138,7 @@ main { min-width: 0; padding-bottom: 40px; scroll-margin-top: 24px; }
 .feature-card strong { color: var(--ink); font-weight: 600; }
 .note { margin-top: 24px; padding: 20px 23px; border: 1px solid var(--line); border-left: 3px solid #7fa4cb; border-radius: 0 10px 10px 0; color: var(--muted); background: var(--surface); font-size: .875rem; }
 .note strong { color: var(--ink); font-weight: 600; }
+.note .note-heading { margin: 0 0 16px; color: var(--ink); font: inherit; font-weight: 600; letter-spacing: normal; }
 .quiet { font-size: .875rem; }
 .evidence-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: .8125rem; line-height: 1.7; }
 .evidence-links .source-link { justify-content: center; }
