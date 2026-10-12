@@ -3,6 +3,7 @@ const fs = require('node:fs'), path = require('node:path'), crypto = require('no
 const {secureHtml} = require('./security.cjs');
 const root = path.resolve(__dirname, '..');
 const {paper, readingMinutes} = require('./paper-data.cjs');
+const descriptions = require('./paper-descriptions.json');
 const esc = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 const version = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex').slice(0, 12);
 const sectionPath = section => 'paper/' + (section.slug ? section.slug + '/' : '');
@@ -52,7 +53,8 @@ function contents(current, prefix, continuous=false) {
 function pageHtml({route, current, title, content, table = false, continuous=false}) {
   const prefix = '../'.repeat(route.split('/').filter(Boolean).length);
   const canonical = 'https://coloradostreetbridgeproject.com/' + route;
-  const description = current === 1 || continuous ? 'An analytical history of Pasadena’s Colorado Street Bridge barrier project, by Christopher Clark, with linked sources.' : title + ' · The fence everyone can see, an analytical history of the Colorado Street Bridge barrier project.';
+  const description = continuous ? 'An analytical history of Pasadena’s Colorado Street Bridge barrier project, by Christopher Clark, with linked sources.' : descriptions[route];
+  if (typeof description !== 'string' || !description.trim()) throw new Error('Missing paper description: ' + route);
   const previous = current > 1 ? paper.sections[current - 2] : null;
   const next = current && current < paper.sections.length ? paper.sections[current] : null;
   return secureHtml(`<!doctype html>
