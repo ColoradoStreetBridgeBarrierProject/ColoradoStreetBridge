@@ -6,6 +6,17 @@ const paper = JSON.parse(read('paper/content.json'));
 const routes = paper.sections.map(s => 'paper/' + (s.slug ? s.slug + '/' : ''));
 const files = [...routes, 'paper/all/', 'paper/sources/'].map(route => route + 'index.html');
 const rendered = new Map(files.map(file => [file, read(file)]));
+const descriptions = JSON.parse(read('scripts/paper-descriptions.json'));
+assert.deepEqual(Object.keys(descriptions).sort(), [...routes, 'paper/sources/'].sort(), 'Every chapter and Sources has a maintained description');
+assert.equal(new Set(Object.values(descriptions)).size, routes.length + 1, 'Paper descriptions are page-specific');
+const escapeDescription = text => text.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+for (const [route, description] of Object.entries(descriptions)) {
+  assert(description.trim(), route + ': nonempty description');
+  assert(!description.includes(' · The fence everyone can see, an analytical history'), route + ': no title-template description');
+  for (const attribute of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    assert(rendered.get(route + 'index.html').includes('<meta ' + attribute + ' content="' + escapeDescription(description) + '">'), route + ': synchronized ' + attribute);
+  }
+}
 const ids = html => [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const decode = text => text.replaceAll('&amp;', '&');
 assert.equal(routes.length, 13);
@@ -69,6 +80,9 @@ for (const [index, route] of routes.entries()) {
   assert(read('sitemap.xml').includes('/' + route + '</loc>'));
 }
 assert.equal(images, 20,'The same ten images appear in both reading formats');
+for (const number of [14,16,18]) {
+  assert(rendered.get('paper/delays/index.html').includes('id="citation-delays-returned-'+number+'" href="../../paper/sources/#csb-source-'+number+'"'), 'Returned-work summary cites Source '+number);
+}
 const continuous=rendered.get('paper/all/index.html');
 assert.equal((continuous.match(/class="csb-cite"/g)||[]).length,citations/2,'Every chapter citation appears in the continuous edition');
 assert.equal((continuous.match(/class="continuous-section"/g)||[]).length,13);
