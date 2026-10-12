@@ -115,7 +115,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: roun
 .search-controls button { min-height: 48px; padding: 10px 23px; border: 1px solid var(--accent); border-radius: 8px; background: var(--accent); color: var(--button-ink); font-size: .875rem; font-weight: 700; }
 .search-controls button:hover { background: var(--button-hover); }
 .sidebar-search { margin: 0 0 16px; padding: 0; border:0; background: transparent; }
-.sidebar-search .search-controls { flex-direction: row; gap: 6px; }
+.sidebar-search .search-controls { flex-direction: column; gap: 6px; }
 .sidebar-search .search-controls input { width: 100%; padding: 10px; }
 .sidebar-search .search-controls button { padding:10px; }
 .status-dates { font-size:.875rem; color:var(--dim); }
@@ -254,7 +254,7 @@ details[open] > summary { margin-bottom: 7px; }
 .remark-topic { margin-left: auto; padding: 3px 8px; border-radius: 5px; background: var(--raised); color: var(--muted); font-size: .6875rem; }
 .remark-card h4 { font-size: 1.1875rem; margin-bottom: 12px; }
 .remark-kind { font-size: .75rem; color: var(--dim); margin-bottom: 12px; }
-.source-legend { margin: 16px 0 24px; }
+.source-legend { margin: 8px 0 12px; font-size: .9375rem; color: var(--muted); }
 .source-legend a { display: inline-block; padding: 10px 0; min-height: 44px; }
 .source-method { margin: 16px 0; }
 .source-method dt { font-weight: 600; color: var(--ink); }
@@ -555,7 +555,7 @@ h1, h2, h3, h4 { overflow-wrap: anywhere; }
 .related-reading a, .meeting-record-link, .record-related a { display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; font-size: .875rem; line-height: 1.6; }
 .record-related { margin: 16px 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
 .meeting-jumps { border-bottom: 1px solid var(--line); margin-bottom: 20px; padding-bottom: 12px; }
-.meeting-jumps h2 { font-size: 1.2rem; }
+.meeting-jumps summary { min-height: 44px; padding: 10px 0; cursor: pointer; font-weight: 600; }
 .meeting-jumps nav { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px 24px; }
 .meeting-jumps a { font-size: .9375rem; line-height: 1.6; padding: 6px 0; }
 .earlier-work { margin: 18px 0; color: var(--muted); font-size: .9375rem; }
