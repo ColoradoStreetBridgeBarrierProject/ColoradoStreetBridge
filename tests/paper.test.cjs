@@ -97,13 +97,13 @@ for(const section of paper.sections){
  for(const [,id] of section.html.matchAll(/\bid="([^"]+)"/g))assert(continuous.includes('id="all-'+key+'-'+id+'"'),'Continuous reading preserves a unique form of each passage/citation ID');
 }
 assert(citations > 380);
-// Author-approved October 4 style edits keep evidence, stable links, and the
+// Author-approved October 12 style edits keep evidence, stable links, and the
 // selected closing lines while reducing repeated corrective formulations.
 const approvedText = new Map([
- ['questions', 'A suicide-prevention specialist explained how restricting access can give an immediate crisis time to ease or create an opportunity for intervention.'],
+ ['questions', 'A suicide-prevention specialist explained how restricting access can give an immediate crisis time to ease or give someone a chance to intervene.'],
  ['2024', 'Gordo asked about cameras and real-time remote communication with a person on the bridge during a crisis. Staff considered these tools possible additions to a physical barrier.'],
  ['2017-2018', 'The full-length fence changed the bridge’s appearance and restricted access. Lower death counts followed its installation. The temporary fence remained in place as Pasadena continued reviewing permanent designs.'],
- ['delays', 'Staff repeatedly returned with work intended to narrow the choices. Some questions led to additional engineering, cost, and rescue analysis. Other discussions revisited alternatives the City had already studied.'],
+ ['delays', 'Staff kept bringing back work intended to narrow the choices. Some questions led to more analysis of engineering, cost, and rescue needs. Other discussions revisited alternatives the City had already studied.'],
  ['where-that-leaves-pasadena', 'Its effect on the bridge is visible every day. The deaths it may prevent are not.']
 ]);
 for (const [slug, text] of approvedText) {

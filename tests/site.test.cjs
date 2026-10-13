@@ -258,7 +258,7 @@ assert(!recovery.includes('class="search-results"'),'Browse links are not presen
 for(const [route,label] of [['evidence/funding','Funding'],['overview/0','Project status'],['alternatives/gallery','Designs'],['evidence/local-counts','Death counts'],['meetings','Meeting records']])assert(recovery.includes(`data-route="${route}">${label}</a>`),label+': recovery link');
 assert(!run('searchView("money spent")').includes('Browse topics after an unsuccessful search'));
 const delayExplanation=json('rankedSearchResults("why so long")')[1].item;
-assert(json(`SearchText.preview(${JSON.stringify(delayExplanation)},["why","so","long"])`).text.startsWith('Not all of the time'),'A mapped chapter uses its opening explanation, not an incidental word match');
+assert(json(`SearchText.preview(${JSON.stringify(delayExplanation)},["why","so","long"])`).text.startsWith('Revisiting old questions wasn’t the only reason'),'A mapped chapter uses its opening explanation, not an incidental word match');
 const filmSearch=run('searchView("La La Land")');
 assert.equal(filmSearch.match(/<h3><a [^>]*href="([^"]+)"/)[1],'/paper/#passage-7','Exact film phrase ranks above landscaping fragments');
 for(const query of ['The fence everyone can see','  THE fence  everyone can SEE  ']){
