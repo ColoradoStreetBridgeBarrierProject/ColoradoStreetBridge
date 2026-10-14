@@ -103,7 +103,7 @@ const approvedText = new Map([
  ['questions', 'A suicide-prevention specialist explained how restricting access can give an immediate crisis time to ease or give someone a chance to intervene.'],
  ['2024', 'Gordo asked about cameras and real-time remote communication with a person on the bridge during a crisis. Staff considered these tools possible additions to a physical barrier.'],
  ['2017-2018', 'The full-length fence changed the bridge’s appearance and restricted access. Lower death counts followed its installation. The temporary fence remained in place as Pasadena continued reviewing permanent designs.'],
- ['delays', 'Staff kept bringing back work intended to narrow the choices. Some questions led to more analysis of engineering, cost, and rescue needs. Other discussions revisited alternatives the City had already studied.'],
+ ['delays', 'After the Council chose a physical barrier, staff returned with more detailed engineering, cost, and rescue analysis. Some discussions continued to revisit alternatives the City had already studied.'],
  ['where-that-leaves-pasadena', 'Its effect on the bridge is visible every day. The deaths it may prevent are not.']
 ]);
 for (const [slug, text] of approvedText) {
@@ -119,7 +119,7 @@ assert(rendered.get('paper/where-that-leaves-pasadena/index.html').includes('id=
 const budgetQualification = 'The cited records establish the approved project budget. The amount remaining after outstanding commitments is unresolved, as is the project’s federal ARPA accounting.';
 for (const file of ['app.js','evidence-and-limits/index.html','preserved-records/tables.html']) assert(read(file).includes(budgetQualification), 'Shared approved funding qualification: '+file);
 assert(rendered.get('paper/2018-2019/index.html').includes('provided the City approved additional construction funding'));
-assert(rendered.get('paper/forecasts/index.html').includes('October – December 2025, then January – March 2026, and then April – June 2026'));
+assert(rendered.get('paper/forecasts/index.html').includes('The fiscal year 2026 reports repeatedly moved the expected committee return, then omitted a return date in the year-end report.'));
 assert(routes.indexOf('paper/questions/') === routes.indexOf('paper/2024/') + 1);
 assert(routes.indexOf('paper/forecasts/') === routes.indexOf('paper/2025-2026/') + 1);
 assert(!rendered.get('paper/questions/index.html').includes('rescue cushion'));
