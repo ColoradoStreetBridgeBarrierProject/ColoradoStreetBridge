@@ -67,7 +67,7 @@ for(const base of ['https://coloradostreetbridgeproject.com/','https://example.o
 const overview=read('index.html');
 assert(!overview.includes('Research baseline:'));
 assert(!overview.includes('Later source checks are identified with the material they support.'));
-assert(overview.includes('Site updated: October 12, 2026'));
+assert(overview.includes('Site updated: October 13, 2026'));
 for(const [legacy,view,id] of [['#timeline/2020-02-03','timeline'],['#speakers/delgado/delgado-cacti','speakers','delgado-cacti'],['#meetings/meeting-2024-01-09','meetings','meeting-2024-01-09'],['#news/lat-1989','news','lat-1989'],['#alternatives/landscaping','alternatives']]){
  const app=load('https://coloradostreetbridgeproject.com/'+legacy,overview);
  assert.equal(app.run('readRoute().view'),view,'Legacy route '+legacy);
@@ -181,7 +181,7 @@ for(const file of ['preserved-records/index.html','preserved-records/tables.html
   const links=(markup,base)=>[...markup.matchAll(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].map(([,href,label])=>[new URL(href,base).pathname,label.replace(/<svg[\s\S]*?<\/svg>/g,'').replace(/<[^>]*>/g,'')]);
   const mainNav=read('index.html').match(/<nav class="view-nav" aria-label="Guide sections">[\s\S]*?<\/nav>/)[0];
   assert.deepEqual(links(nav,'https://coloradostreetbridgeproject.com/preserved-records/'),links(mainNav,'https://coloradostreetbridgeproject.com/'),'Archive primary links must match the main guide in order, text, and destination');
-  assert(html.includes('Site updated: October 12, 2026'));
+  assert(html.includes('Site updated: October 13, 2026'));
 }
 const continuousEditorial=read('paper/all/index.html');
 assert(continuousEditorial.includes('<meta name="robots" content="noindex, follow">'));
@@ -197,7 +197,7 @@ for(const entry of read('sitemap.xml').matchAll(/<url><loc>https:\/\/coloradostr
 }
 assert.equal((read('sitemap.xml').match(/<lastmod>/g)||[]).length,28);
 assert.equal(sitemapDates['paper/in-memory/'],'2026-10-02','Unchanged chapters retain their content dates');
-assert.equal(sitemapDates['paper/forecasts/'],'2026-10-05');
+assert.equal(sitemapDates['paper/forecasts/'],'2026-10-13');
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
 
 for(const page of pages){
@@ -333,7 +333,7 @@ assert(read('preserved-records/tables.html').includes('Prepared September 13, 20
 assert(read('preserved-records/tables.html').includes('Added September 15, 2026'));
 for(const route of pages){
   const html=read(route+'index.html');
-  assert(html.includes('Site updated: October 12, 2026'));
+  assert(html.includes('Site updated: October 13, 2026'));
   assert(!html.includes('Page revised:'));
 }
 const collectionHtml=read('who-said-what/index.html');
