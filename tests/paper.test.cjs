@@ -125,6 +125,18 @@ assert(routes.indexOf('paper/forecasts/') === routes.indexOf('paper/2025-2026/')
 assert(!rendered.get('paper/questions/index.html').includes('rescue cushion'));
 assert.equal(paper.sections.filter(s => s.table).length, 2);
 assert(read('paper/reader.css').includes('.csb-table { font:inherit;'));
+// Retain the three author-approved October 14 wording changes.
+for (const [slug, oldText, newText] of [
+  ['2024', 'The public survey brought a different kind of answer. It drew 678 responses overall.', 'The public survey drew 678 responses overall.'],
+  ['2024', 'Staff saw those results partly as an education problem.', 'Markarian, then acting director of Public Works, said they pointed to a need for “additional education.”'],
+  ['delays', 'By the later meetings, the differences were increasingly about what officials did after they got an answer.', 'By July 2024, officials differed over what to do with the answers staff had provided.']
+]) {
+  const section = paper.sections.find(s => s.slug === slug);
+  assert(!section.html.includes(oldText), 'Superseded wording removed from ' + slug);
+  assert(section.html.includes(newText), 'Approved wording present in ' + slug);
+  assert(rendered.get('paper/' + slug + '/index.html').includes(newText));
+  assert(continuous.includes(newText), 'Continuous edition uses the same approved wording');
+}
 // Exercise citation return behavior with real generated links, including storage
 // failures, prior shared URLs, hash navigation, and back/forward restoration.
 const sampleHref = 'https://example.org/ColoradoStreetBridge/paper/2024/#citation-2';
