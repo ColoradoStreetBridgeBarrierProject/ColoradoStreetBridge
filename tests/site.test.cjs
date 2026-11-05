@@ -490,9 +490,9 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('The records reviewed for this guide do not show that a final design has been approved.'),'Do not repeat the design status');
  assert(!html.includes('funding to build the barrier still had to be found'),'Do not repeat the funding status');
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
- assert(html.includes('Work on a permanent barrier is continuing, but the City has not approved a design. The project page says funding is available for this work, but funding for construction has not been identified.'),'Use the author-approved status paragraph');
+ assert(html.includes('carries forward the existing $2.874 million budget for the design phase'),'Use the author-approved status paragraph');
  assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No confirmed date for the next Bridge decision has been found.'),'Use the author-approved decision paragraph');
- assert(html.includes('June 30, 2028, is the City’s target date for finishing the design phase. Construction will still need funding and approval of a contract.'),'Use the author-approved design-phase explanation');
+ assert(html.includes('gives June 30, 2028 as the target for finishing design'),'Use the author-approved design-phase explanation');
  assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
  assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
  assert(!html.includes('The local surveys'),'Remove the standalone homepage survey shortcut');
@@ -501,7 +501,7 @@ for(const html of [page,run('overview()')]){
  assert(!html.includes('Financial reporting period'),'Remove the standalone reporting-period dropdown');
  assert(!html.includes('Later checks are dated with their sources.'),'Keep the removed research-cutoff sentence out of the homepage summary');
  assert(!html.includes('The Finance/Audit report covers activity through'),'Remove the dropdown body with its label');
- assert(html.includes('funding for construction has not been identified'),'Keep construction funding status in the main summary');
+ assert(html.includes('I found no final design approval, confirmed funding to build the barrier, or construction date.'),'Keep construction funding status in the main summary');
  assert(!html.includes('A useful distinction'),'Removed note must not appear in either overview');
  assert(!html.includes('Repeated questions are documented.'),'Removed note body must not remain');
 }
@@ -566,8 +566,8 @@ assert(!run('speakerView("other")').includes('I chose passages about decisions')
 assert(run('speakerView()').includes('I chose passages about decisions, alternatives, and timing, including those that support or challenge my conclusions.'));
 assert(!run('speakerView()').includes('A recurring question does not establish'));
 assert(!run('overview()').includes('The record contains both practical delays'));
-assert(run('overview()').includes('Work on a permanent barrier is continuing, but the City has not approved a design.'));
-assert(run('overview()').includes('The project page says funding is available for this work, but funding for construction has not been identified.'));
+assert(run('overview()').includes('I found no final design approval, confirmed funding to build the barrier, or construction date.'));
+assert(run('overview()').includes('says design and environmental work will continue in fiscal year 2027.'));
 assert(!run('viewMarkup({view:"timeline"})').includes('This describes the reviewed records.'));
 assert(!run('newsView()').includes('Reports and columns reflect their publication dates.'));
 assert(!run('newsView()').includes('A specific Tribune article link has not been established'));
@@ -712,7 +712,7 @@ console.log('Focused repetition and qualification-preservation checks passed');
 const fundingSearch=index.find(item=>item.route==='evidence/6');
 assert(fundingSearch.text.includes('$1.48 million Total spending'));
 assert(fundingSearch.text.includes('June 2028 The target'));
-assert(index.find(item=>item.route==='overview/0').text.includes('date means June 30, 2028'));
+assert(index.find(item=>item.route==='overview/0').text.includes('June 30, 2028 as the target for finishing design'));
 assert(index.find(item=>item.route==='meetings/meeting-2018-05-07').summary.includes('funding. Funding record.'));
 assert.equal(run('SearchText.excerpt("One two three four five",[],12)'),'One two…');
 assert(run('SearchText.snippet(searchIndex().find(i=>i.route==="evidence/6"),["funding"])').startsWith('The project has recorded'));
