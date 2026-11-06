@@ -14,7 +14,7 @@ for(const file of process.argv.includes('--bundle')?['assets/guide.js']:['search
 const run=code=>vm.runInContext(code,context);
 const entries=JSON.parse(run('JSON.stringify(timeline)'));
 assert.deepEqual(entries.filter(e=>e.milestone).map(e=>e.id),ids);
-assert.equal(entries.length,11,'Keep all original chronology entries');
+assert.equal(entries.length,12,'Keep the chronology complete');
 assert.equal(nodes['milestone-controls'].hidden,false,'Controls become available after enhancement');
 for(const button of buttons){
   const entry=entries.find(e=>e.id===button.dataset.milestone);
@@ -40,7 +40,7 @@ assert.equal(buttons.find(b=>b.dataset.milestone==='7').attributes['aria-pressed
 const html=read('timeline/index.html');
 assert(html.includes('aria-label="Choose a project milestone" hidden'),'No dead controls before JavaScript runs');
 assert.equal((html.match(/data-milestone="/g)||[]).length,7);
-assert.equal((html.match(/class="timeline-item"/g)||[]).length,11,'Static chronology remains complete');
+assert.equal((html.match(/class="timeline-item"/g)||[]).length,12,'Static chronology remains complete');
 assert(html.includes('aria-live="polite" aria-atomic="true"'));
 assert(html.includes('<h3 class="milestone-title">'),'Static and dynamic heading levels match');
 assert(html.includes('href="../timeline/#chronology"'));
@@ -60,4 +60,4 @@ assert(/\.milestone-controls\s*\{[^}]*flex-wrap:\s*wrap/.test(css));
 assert(/\.milestone-button\s*\{[^}]*min-height:\s*48px/.test(css));
 assert(/@media \(max-width: 600px\)\s*\{[^]*?\.milestone-tracks\s*\{\s*grid-template-columns:\s*minmax\(0,1fr\)/.test(css));
 assert(/@media print\s*\{\s*\.milestone-explorer\s*\{\s*display:\s*none/.test(css));
-console.log(JSON.stringify({mode:process.argv.includes('--bundle')?'bundle':'source',milestones:7,chronologyEntries:11,checks:'selection, no navigation, source linkage, stable headings, deep links, invalid IDs, full static chronology, responsive CSS guards, and print fallback passed'}));
+console.log(JSON.stringify({mode:process.argv.includes('--bundle')?'bundle':'source',milestones:7,chronologyEntries:12,checks:'selection, no navigation, source linkage, stable headings, deep links, invalid IDs, full static chronology, responsive CSS guards, and print fallback passed'}));

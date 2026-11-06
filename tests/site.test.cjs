@@ -161,7 +161,7 @@ const sourceSnippet=index.find(x=>x.route==='evidence/7').text;
 assert(sourceSnippet.includes('shown. Selected remarks'),'Adjacent paragraphs must stay separated in the actual index');
 assert(!sourceSnippet.includes('shown.Selected'));
 assert(run('searchView("How to use the sources")').replace(/<[^>]*>/g,'').includes('shown. Selected'),'Rendered search excerpt must preserve the paragraph boundary, including around search highlights');
-assert.equal(index.length,183,'Retain earlier search entries and add the gallery, directory, About, and corrections destinations');
+assert.equal(index.length,184,'Retain earlier search entries and add the gallery, directory, About, and corrections destinations');
 assert.equal(index.filter(x=>x.type==='Paper').length,13);
 const historyResult=index.find(item=>item.route==='timeline/history');
 assert(historyResult&&historyResult.text.includes('Scoville'));
@@ -492,7 +492,8 @@ for(const html of [page,run('overview()')]){
  assert.equal((html.match(/class="overview-schedule"/g)||[]).length,1,'Keep one compact schedule note');
  assert(html.includes('carries forward the existing $2.874 million budget for the design phase'),'Use the author-approved status paragraph');
  assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No confirmed date for the next Bridge decision has been found.'),'Use the author-approved decision paragraph');
- assert(html.includes('gives June 30, 2028 as the target for finishing design'),'Use the author-approved design-phase explanation');
+ assert(html.includes('gave June 30, 2028 as the target for finishing design'),'Retain the earlier design target');
+ assert(html.includes('lists a December 31, 2027 target and puts the project in planning'),'Distinguish the new target from the earlier design target');
  assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
  assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
  assert(!html.includes('The local surveys'),'Remove the standalone homepage survey shortcut');
@@ -509,7 +510,7 @@ for(const html of [run('evidence()'),fs.readFileSync(path.join(dir,'evidence-and
  assert(html.includes('id="surveys"')&&html.includes('What the local surveys show'),'Retain the survey section and stable destination');
  const funding=html.match(/<section class="evidence-section" id="funding"[\s\S]*?<\/section>/)[0];
  assert(funding.includes('City project page')&&funding.includes('Checked October 5, 2026.'),'Preserve the project-page link and its actual check date in the funding evidence');
- for(const key of ['project','q426','financeExcerpt'])assert(funding.includes(run('urls.'+key)),'Keep the funding source destination: '+key);
+ for(const key of ['project','q426','q127','financeExcerpt'])assert(funding.includes(run('urls.'+key)),'Keep the funding source destination: '+key);
  assert(html.includes('Total spending recorded for project 73324 through June 30, 2026'),'Retain the reporting date with the financial figure');
  assert(html.includes('Financial activity through June 30, 2026. Source row checked September 13, 2026.'),'Preserve the report period and source-check date in the funding detail');
 }
@@ -609,7 +610,7 @@ assert(!run('overview()').includes('stands in the record'));
 assert(run('overview()').includes('In 2018, Pasadena decided to pursue'));
 assert(!run('overview()').includes('records reviewed for this guide'));
 for(const view of ['timelineView()','meetingsView()'])assert(run(view).includes(run('urls.m2018')),'Retain Council minutes with the chronology and meeting records');
-for(const key of ['q426','financeExcerpt'])assert(run('meetingsView()').includes(run('urls.'+key)),'Retain the finance records in the meeting directory');
+for(const key of ['q426','q127','financeExcerpt'])assert(run('meetingsView()').includes(run('urls.'+key)),'Retain the finance records in the meeting directory');
 console.log(JSON.stringify({mode:bundled?'production bundle':'source files',resizeObserver:!!context.ResizeObserver,speakers:23,entries:75,newEntries:35,quotes:metadata.filter(x=>x.quote).length,writtenEntries:written.length,meetings:34,articles:news.length,filters,indexRecords:index.length,shareControls:(html.match(/data-copy-entry=/g)||[]).length,checks:'preserved data, publisher exclusion, chronology, filters, source-note search, routes, static overview, hero visibility, count units, excerpt verification labels, dated follow-ups, link locators, cache versions, and enlarged-header offsets passed'}));
 
 const personOptions=run('speakerView()').match(/<select id="speaker-person">([\s\S]*?)<\/select>/)[1];
@@ -647,7 +648,7 @@ console.log('September 17 audit regression checks passed');
 const plainTimeline=run('viewMarkup({view:"timeline"})');
 for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
 for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after outstanding commitments is unresolved','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
-assert(run('overview()').includes('What the 2028 date means'));
+assert(run('overview()').includes('What the new target means'));
 assert(run('alternatives("netting")').includes('Engineers had not designed the connections'));
 assert(run('aboutView()').includes('Notes say when I checked the words against a recording and point out anything missing or unclear.'));
 assert(!run('speakerView()').includes('official-player passage locator'));
@@ -711,7 +712,7 @@ console.log('Focused repetition and qualification-preservation checks passed');
 
 const fundingSearch=index.find(item=>item.route==='evidence/6');
 assert(fundingSearch.text.includes('$1.48 million Total spending'));
-assert(fundingSearch.text.includes('June 2028 The target'));
+assert(fundingSearch.text.includes('December 2027 The target'));
 assert(index.find(item=>item.route==='overview/0').text.includes('June 30, 2028 as the target for finishing design'));
 assert(index.find(item=>item.route==='meetings/meeting-2018-05-07').summary.includes('funding. Funding record.'));
 assert.equal(run('SearchText.excerpt("One two three four five",[],12)'),'One two…');
