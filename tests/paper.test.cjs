@@ -20,7 +20,7 @@ for (const [route, description] of Object.entries(descriptions)) {
 const ids = html => [...html.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
 const decode = text => text.replaceAll('&amp;', '&');
 assert.equal(routes.length, 13);
-assert.equal((rendered.get('paper/sources/index.html').match(/class="csb-source"/g) || []).length, 50);
+assert.equal((rendered.get('paper/sources/index.html').match(/class="csb-source"/g) || []).length, 51);
 for(const text of ['I checked these passages and timestamps against the official recording','I checked Markarian’s wording against the official recording']){
  assert(paper.sources.includes(text));
  assert(rendered.get('paper/sources/index.html').includes(text));
@@ -162,4 +162,4 @@ const continuousId=continuous.match(/id="([^"]+)" href="\.\.\/\.\.\/paper\/sourc
 const fullTarget='https://example.org/ColoradoStreetBridge/paper/all/#'+continuousId;
 const full=returnContext({url:fullTarget,target:fullTarget,citeId:continuousId});full.citation.click();
 const fullReturn=returnContext({stored:full.storage.get('csb-paper-return:csb-source-21'),target:fullTarget});assert(!fullReturn.back.hidden);assert.equal(fullReturn.back.href,fullTarget,'Return stays in the continuous edition at the exact citation');
-console.log(JSON.stringify({readingSections: 13, sourceEntries: 50, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));
+console.log(JSON.stringify({readingSections: 13, sourceEntries: 51, images, citations, checkedLocalLinks: checked, result: 'Reader navigation, citations, source returns, deployment roots, and retained qualifications passed'}));

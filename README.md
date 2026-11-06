@@ -17,6 +17,8 @@ The reading edition of **The fence everyone can see** is available at `/paper/`,
 
 ## Reading edition
 
+The November 6 update adds the fiscal year 2027 first-quarter capital report posted for Finance. It preserves the earlier design target and identifies the later planning target, the concept review, and the milestones still open. The main research cutoff remains September 1, 2026.
+
 The November 5 update cites the adopted FY 2027–2031 capital plan, adds a dated check of recent City records, and identifies the July 2024 patrol estimates as minimums before training and mental health support costs. The chapter and continuous reading edition share the revised wording. The main research cutoff remains September 1, 2026.
 
 The October 22 editorial update clarifies the brief return from the August 2021 discussion to Kennedy's February 2020 enclosure proposal. The cost-estimate request moves into the transition, retaining its timing before Council consideration, and its later repetition is removed. The chapter, continuous edition, and search are generated from the same revised passage. Citations, passage IDs, source notes, verification labels, all other paper prose, and the September 1 research cutoff are unchanged. Only the reading-edition/site-edit dates and the affected chapter's substantive-change date advance.
