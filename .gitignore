@@ -1,0 +1,16 @@
+# Personal agent settings and authentication files.
+**/.claude/settings.local.json
+**/.claude/.credentials.json
+**/.codex/auth.json
+
+# Local environment credentials. Keep credential-free examples shareable.
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# Git and package-manager credential files.
+.git-credentials
+.netrc
+.npmrc

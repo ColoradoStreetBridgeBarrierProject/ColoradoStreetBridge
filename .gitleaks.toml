@@ -1,0 +1,17 @@
+title = "Colorado Street Bridge secret scanning"
+
+[extend]
+useDefault = true
+
+# These four public PDF record IDs were reviewed in the November 10 audit.
+# Require both the exact manifest path and an exact known value. All other
+# values and all other detection rules still apply to this file.
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Reviewed public meeting-record identifiers"
+condition = "AND"
+paths = ['''^preserved-records/city-records-manifest\.json$''']
+regexTarget = "secret"
+regexes = ['''^(minutes20170719|minutes20180418|minutes20190417|minutes20190515)$''']
