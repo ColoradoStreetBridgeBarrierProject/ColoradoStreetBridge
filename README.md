@@ -17,6 +17,8 @@ The reading edition of **The fence everyone can see** is available at `/paper/`,
 
 ## Reading edition
 
+The November 12 update adds the longer-term Bloor Viaduct study to the guide and reading edition, with the estimate and study limits in Source 30. The main research cutoff remains September 1, 2026.
+
 The November 6 update adds the fiscal year 2027 first-quarter capital report posted for Finance. It preserves the earlier design target and identifies the later planning target, the concept review, and the milestones still open. The main research cutoff remains September 1, 2026.
 
 The November 5 update cites the adopted FY 2027–2031 capital plan, adds a dated check of recent City records, and identifies the July 2024 patrol estimates as minimums before training and mental health support costs. The chapter and continuous reading edition share the revised wording. The main research cutoff remains September 1, 2026.
