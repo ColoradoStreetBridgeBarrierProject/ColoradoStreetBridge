@@ -697,7 +697,7 @@ const otherSpeakers = {
         "meeting": "v2024",
         "time": "01:06:45",
         "topic": "design",
-        "quote": "we have truly exhausted various mitigation measures",
+        "quote": "we have truly exhausted looking at various mitigation measures",
         "context": "Madison asked at 01:06:35 whether the City had exhausted all the feasible options. Markarian’s answer began at 01:06:45. She described more than seven years on the project and experts from different backgrounds and perspectives, then discussed the Golden Gate comparison.",
         "earlier": "The earlier task-force report had assessed landscaping. The current presentation had also returned to netting, rescue, staffing, and technology.",
         "response": "Her answer emphasized the work already performed. The continuing discussion still included questions about particular below-bridge arrangements.",
@@ -725,7 +725,7 @@ const otherSpeakers = {
         ],
         "refs": "5, 18",
         "kind": "Author-checked quotation",
-        "basis": "The author manually checked the official recording on September 22, 2026, confirming the quoted wording and the exchange locators. The displayed 01:06:45 marks the start of Markarian’s answer, not the exact instant of the quoted phrase. Her introductory account and the Golden Gate discussion are summarized. This check does not cover the whole meeting.",
+        "basis": "The author checked the exchange locators on September 22, 2026 and confirmed the corrected wording on November 12, 2026. The City captions include “looking at” at 01:07:06–01:07:12. The displayed 01:06:45 marks the start of Markarian’s answer. Her introductory account and the Golden Gate discussion are summarized. This check does not cover the whole meeting.",
         "sortDate": "2024-07-17",
         "date": "July 17, 2024",
         "body": "Public Safety Committee"

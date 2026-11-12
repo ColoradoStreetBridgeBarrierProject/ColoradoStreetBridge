@@ -600,7 +600,7 @@ const publicSourceNotes=Object.freeze({
   "kramer-education": "Quoted phrase checked in City-hosted captions.",
   "mossman-preservation": "June 18, 2018 Los Angeles magazine interview. The August 2021 minutes and Winter 2026 column provide later context.",
   "madison-ground-cover": "Question wording and exchange times manually checked September 22, 2026: leadership prelude at 01:06:24, question at 01:06:35, and the start of Markarian’s answer at 01:06:45.",
-  "markarian-exhausted": "Quoted wording and exchange times manually checked September 22, 2026. The displayed 01:06:45 locates the start of Markarian’s answer. Her introductory account and the Golden Gate discussion are summarized.",
+  "markarian-exhausted": "Exchange times checked September 22, 2026. Wording corrected November 12, 2026. The City captions include “looking at” at 01:07:06–01:07:12. The displayed 01:06:45 locates the start of Markarian’s answer. Her introductory account and the Golden Gate discussion are summarized.",
   "hawkesworth-bridge-funds": "Speaker and passage at approximately 00:08:10 checked against the recording.",
   "devinck-matching-funds": "Speaker and passage at approximately 00:09:15 checked against the recording. The project row in the April 20 supplemental sheet, page 2, was checked September 21, 2026.",
   "cole-spending-and-completion": "Speaker and passage at approximately 01:59:13 checked against the recording. Spending and balance figures in this exchange are rounded oral estimates.",
@@ -618,6 +618,7 @@ function remarkExcerpt(remark) {
   const verified=['Author-confirmed excerpt','Author-checked quotation'].includes(remark.kind);
   let verification=verified?'Checked against the recording.':'';
   if(remark.id==='jones-continue')verification='Caption wording. Speaker and passage checked against the recording.';
+  if(remark.id==='markarian-exhausted')verification='Wording confirmed by the author and supported by City captions.';
   if(['madison-response','gordo-staffing'].includes(remark.id))verification='Speaker and passage checked against the recording.';
   const text=`“${esc(remark.quote)}”`;
   return (verified?`<blockquote><p>${text}</p></blockquote>`:`<p class="remark-excerpt">${text}</p>`)+(verification?`<p class="excerpt-verification">${esc(verification)}</p>`:'');

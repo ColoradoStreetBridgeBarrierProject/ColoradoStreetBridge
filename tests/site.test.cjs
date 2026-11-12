@@ -39,8 +39,8 @@ assert.equal(run('Object.keys(speakers).length'),8);
 // October 5 editorial cleanup: label the May finance packet's Bridge row accurately.
 // October 10: remove Hand-checked from three directory labels, preserving the linked records.
 const preserved={
- 'speakers.js':'385efa10cdd8aaa1d08a86aac8eaa7d9b0c017eb62a30e3bddecf8d3ec3a149a',
- 'other-speakers.js':'38a5a15a64975e6d4d14c304f9c483438fa0f99a473cfa0f79b5c1636783a668',
+ 'speakers.js':'02b6bc0b5c5a2195a95d4f101ef3bc6014d57c999ef07e25e82e3f3bdc75be3e',
+ 'other-speakers.js':'c00f1550537f05aebaebadbcfbc9f9cfb8447a7c880cc357687bd88fcd664ce9',
  'resources.js':'a0c9130af8fd0caf1830640e9c259bd35ae1c172930ebfd63c584e7eb6e51ff0'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
