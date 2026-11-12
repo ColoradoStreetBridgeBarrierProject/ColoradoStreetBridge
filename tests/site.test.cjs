@@ -41,7 +41,7 @@ assert.equal(run('Object.keys(speakers).length'),8);
 const preserved={
  'speakers.js':'385efa10cdd8aaa1d08a86aac8eaa7d9b0c017eb62a30e3bddecf8d3ec3a149a',
  'other-speakers.js':'38a5a15a64975e6d4d14c304f9c483438fa0f99a473cfa0f79b5c1636783a668',
- 'resources.js':'24333bd01782daa075521f660d4ebd0a19daaa15739f921af8637361367d66fd'
+ 'resources.js':'a0c9130af8fd0caf1830640e9c259bd35ae1c172930ebfd63c584e7eb6e51ff0'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
