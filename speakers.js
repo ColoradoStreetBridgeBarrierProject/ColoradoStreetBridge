@@ -428,7 +428,7 @@ const speakers = {
         "quote": "Do you feel like we’ve really done our level best to exhaust all the feasible options?",
         "context": "At 01:06:24, Madison said leadership sometimes requires proceeding without a great option. At 01:06:35, he asked Markarian whether the City had exhausted the feasible options. The broader discussion included ground cover, combined measures, and consultation with Caltech.",
         "earlier": "Landscaping had been addressed by the 2018 task force and again in November 2023. The July meeting returned with the requested wider engineering and rescue review.",
-        "response": "Beginning at 01:06:45, Markarian described more than seven years on the project and experts with different perspectives. She said, “we have truly exhausted various mitigation measures,” then discussed the Golden Gate comparison. In the later ground-cover exchange, she explained why the fall distance limited measures at ground level.",
+        "response": "Beginning at 01:06:45, Markarian described more than seven years on the project and experts with different perspectives. She said, “we have truly exhausted looking at various mitigation measures,” then discussed the Golden Gate comparison. In the later ground-cover exchange, she explained why the fall distance limited measures at ground level.",
         "outcome": "Madison continued to ask about combined measures and then a layered-net concept. The proposals were related to earlier questions but were not identical.",
         "links": [
           {
