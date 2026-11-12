@@ -307,6 +307,10 @@ const meetingRecords = [
         "url": "https://vimeo.com/530523714"
       },
       {
+        "label": "City captions · WebVTT",
+        "url": "https://pasadena.granicus.com/videos/5480/captions.vtt"
+      },
+      {
         "label": "Presentation",
         "url": "https://www.cityofpasadena.net/public-works/wp-content/uploads/sites/29/2021-03-25-Virtual-Open-House-Presentation.pdf"
       },
@@ -472,6 +476,10 @@ const meetingRecords = [
       {
         "label": "Recording",
         "url": "https://vimeo.com/878820144/1a78d5b55e"
+      },
+      {
+        "label": "Alternate recording · City archive",
+        "url": "https://pasadena.granicus.com/player/clip/6994?view_id=31"
       },
       {
         "label": "Presentation",
