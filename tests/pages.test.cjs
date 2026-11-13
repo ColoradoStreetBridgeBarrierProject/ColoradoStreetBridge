@@ -197,7 +197,7 @@ for(const entry of read('sitemap.xml').matchAll(/<url><loc>https:\/\/coloradostr
 }
 assert.equal((read('sitemap.xml').match(/<lastmod>/g)||[]).length,28);
 assert.equal(sitemapDates['paper/in-memory/'],'2026-10-02','Unchanged chapters retain their content dates');
-assert.equal(sitemapDates['paper/forecasts/'],'2026-11-06');
+assert.equal(sitemapDates['paper/forecasts/'],'2026-11-12');
 console.log(JSON.stringify({staticPages:pages.length,deploymentBases:2,checkedLinks,legacyRoutes:5,checks:'shared static content, relative assets and navigation, direct loads, alternatives, back/forward, modified clicks, full record counts, email, 988, canonical URLs, and sitemap passed'}));
 
 for(const page of pages){
