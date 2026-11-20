@@ -41,7 +41,7 @@ assert.equal(run('Object.keys(speakers).length'),8);
 const preserved={
  'speakers.js':'02b6bc0b5c5a2195a95d4f101ef3bc6014d57c999ef07e25e82e3f3bdc75be3e',
  'other-speakers.js':'c00f1550537f05aebaebadbcfbc9f9cfb8447a7c880cc357687bd88fcd664ce9',
- 'resources.js':'a0c9130af8fd0caf1830640e9c259bd35ae1c172930ebfd63c584e7eb6e51ff0'
+ 'resources.js':'573177a9052b8a5dbbf85460769e1137cffd80507c3a5829ffad50bbde4476d3'
 };
 for(const [name,sha] of Object.entries(preserved))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,name))).digest('hex'),sha,name+': reviewed data changed');
 const folderCases=[
@@ -314,7 +314,10 @@ assert(run('steps(timeline,true)').includes('data-timeline-id="2020-02-03"'));
 assert(run('steps(timeline,true)').includes('committee received and filed'));
 assert(run('evidence()').includes('$130,000 on June 9 and $46,000 on July 21'));
 assert(run('evidence()').includes('Staff said enough remained to finish design'));
-assert(run('evidence()').includes('The amount remaining after outstanding commitments is unresolved, as is the project’s federal ARPA accounting.'));
+const regionalAnswer='barriers could reduce suicide deaths across that region';
+assert(run('speakerView()').includes(regionalAnswer));
+assert(index.some(item=>item.route.endsWith('/wilson-substitution')&&item.text.includes(regionalAnswer)));
+assert(run('evidence()').includes('They don’t show how much remained available after outstanding commitments. They also don’t show how the City accounted for the bridge’s ARPA funding at the federal level.'));
 assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert(index.some(x=>x.title==='Curved-curved mesh (Option B) led among respondents who ranked the mockups'));
@@ -493,7 +496,7 @@ for(const html of [page,run('overview()')]){
  assert(html.includes('carries forward the existing $2.874 million budget for the design phase'),'Use the author-approved status paragraph');
  assert(html.includes('Public Works and the project team develop options. The commissions and Public Safety Committee review them. The City Council then decides whether to approve the concepts. No confirmed date for the next Bridge decision has been found.'),'Use the author-approved decision paragraph');
  assert(html.includes('listed June 30, 2028 for the same project'),'Retain the earlier design-phase project target');
- assert(html.includes('lists December 31, 2027 as the target completion date for the design-phase project and puts it in planning'),'Identify the latest project target and phase');
+ assert(html.includes('lists the phase as “Planning” and gives December 31, 2027, as the target completion date'),'Identify the latest project target and phase');
  assert(!html.includes('City project page checked:'),'Keep the dated project-page reference with the funding evidence');
  assert(!html.includes('overview-sources'),'Remove the separate homepage source block');
  assert(!html.includes('The local surveys'),'Remove the standalone homepage survey shortcut');
@@ -648,7 +651,7 @@ console.log('September 17 audit regression checks passed');
 // The approved plain-language pass changes explanations, not evidence or quotations.
 const plainTimeline=run('viewMarkup({view:"timeline"})');
 for(const phrase of ['Agreeing to a barrier was only the first step','Planned dates and what happened next','Finishing the design is one step. Building the barrier is another.','if the City approved the funding'])assert(plainTimeline.includes(phrase),phrase);
-for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','after outstanding commitments is unresolved','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
+for(const phrase of ['What does the evidence tell us?','Would deaths move elsewhere?','Research does not identify one best design for every bridge','People chose whether to take part.','using different totals','available after outstanding commitments','federal American Rescue Plan Act','approximately where each discussion begins'])assert(run('evidence()').includes(phrase),phrase);
 assert(run('overview()').includes('What the new target means'));
 assert(run('alternatives("netting")').includes('Engineers had not designed the connections'));
 assert(run('aboutView()').includes('Notes say when I checked the words against a recording and point out anything missing or unclear.'));
@@ -657,7 +660,7 @@ assert.equal(run('speakerTopicLabel("effectiveness")'),'Effectiveness and whethe
 assert(index.some(x=>x.type==='Selected remark'&&x.text.includes('Speaker and passage at 01:02:09 checked against the recording.')),'Search uses the displayed source-note wording');
 assert(run('meetingsView()').includes('Automatically recognized text may contain errors.'));
 assert(tablePage.includes('Original documents, searchable copies, and how the copies were made'));
-assert(tablePage.includes('after outstanding commitments is unresolved'));
+assert(tablePage.includes('available after outstanding commitments'));
 console.log('Plain-language copy and preservation checks passed');
 
 // The bounded October 5 cleanup is shared by the rendered entries and search.
@@ -713,7 +716,7 @@ console.log('Focused repetition and qualification-preservation checks passed');
 
 const fundingSearch=index.find(item=>item.route==='evidence/6');
 assert(fundingSearch.text.includes('$1.48 million Total spending'));
-assert(fundingSearch.text.includes('December 2027 The target'));
+assert(fundingSearch.text.includes('December 2027 The first-quarter report lists the phase as “Planning”'));
 assert(index.find(item=>item.route==='overview/0').text.includes('listed June 30, 2028 for the same project'));
 assert(index.find(item=>item.route==='meetings/meeting-2018-05-07').summary.includes('funding. Funding record.'));
 assert.equal(run('SearchText.excerpt("One two three four five",[],12)'),'One two…');
@@ -763,7 +766,7 @@ assert.equal(json('SearchText.preview('+JSON.stringify(previewSample)+',["2024"]
 const previews=run('searchView("netting")');
 assert(previews.includes('class="result-meta"'));
 assert(previews.includes('class="result-excerpt-label"'));
-assert.equal(index.filter(item=>item.type!=='Paper'&&run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,30,'Guide matching includes the three additional reviewed netting sources');
+assert.equal(index.filter(item=>item.type!=='Paper'&&run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,31,'Guide matches include the technology discussion in the horizontal netting review');
 assert.equal(index.filter(item=>item.type==='Paper'&&run('SearchText.score('+JSON.stringify(item)+',["netting"])')>0).length,7,'Paper matches include the added 2021 community position on netting');
 
 // All gallery links retain a no-JavaScript image destination; native dialogs

@@ -116,7 +116,7 @@ assert(continuous.includes('alt="'+conceptAlt+'"'));
 assert(!continuous.includes('This is a proposal, not a photograph of an installed barrier.'));
 assert(continuous.includes('The years that followed were not a rush.'));
 assert(rendered.get('paper/where-that-leaves-pasadena/index.html').includes('id="passage-143"><span id="passage-144"></span>'));
-const budgetQualification = 'The cited records establish the approved project budget. The amount remaining after outstanding commitments is unresolved, as is the project’s federal ARPA accounting.';
+const budgetQualification = 'These records show the approved budget. They don’t show how much remained available after outstanding commitments. They also don’t show how the City accounted for the bridge’s ARPA funding at the federal level.';
 for (const file of ['app.js','evidence-and-limits/index.html','preserved-records/tables.html']) assert(read(file).includes(budgetQualification), 'Shared approved funding qualification: '+file);
 assert(rendered.get('paper/2018-2019/index.html').includes('provided the City approved additional construction funding'));
 assert(rendered.get('paper/forecasts/index.html').includes('The fiscal year 2026 reports repeatedly moved the expected committee return, then omitted a return date in the year-end report.'));
@@ -125,10 +125,11 @@ assert(routes.indexOf('paper/forecasts/') === routes.indexOf('paper/2025-2026/')
 assert(!rendered.get('paper/questions/index.html').includes('rescue cushion'));
 assert.equal(paper.sections.filter(s => s.table).length, 2);
 assert(read('paper/reader.css').includes('.csb-table { font:inherit;'));
-// Retain the three author-approved October 14 wording changes.
+// Check approved revisions in the chapter and the continuous edition.
 for (const [slug, oldText, newText] of [
+  ['delays', 'shortened the design schedule by 10 months', 'In May 2019, Public Works moved its target for completing design from February 2021 to April 2020, ten months earlier.'],
   ['2024', 'The public survey brought a different kind of answer. It drew 678 responses overall.', 'The public survey drew 678 responses overall.'],
-  ['2024', 'Staff saw those results partly as an education problem.', 'Markarian, then acting director of Public Works, said they pointed to a need for “additional education.”'],
+  ['2024', 'Staff saw those results partly as an education problem.', 'Markarian, then acting director of Public Works, said respondents’ doubts about whether a barrier would work suggested a need for “additional education.”'],
   ['delays', 'By the later meetings, the differences were increasingly about what officials did after they got an answer.', 'By July 2024, officials differed over what to do with the answers staff had provided.']
 ]) {
   const section = paper.sections.find(s => s.slug === slug);
