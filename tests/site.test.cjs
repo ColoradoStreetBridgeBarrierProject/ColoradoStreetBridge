@@ -317,7 +317,7 @@ assert(run('evidence()').includes('Staff said enough remained to finish design')
 const regionalAnswer='barriers could reduce suicide deaths across that region';
 assert(run('speakerView()').includes(regionalAnswer));
 assert(index.some(item=>item.route.endsWith('/wilson-substitution')&&item.text.includes(regionalAnswer)));
-assert(run('evidence()').includes('They don’t show how much remained available after outstanding commitments. They also don’t show how the City accounted for the bridge’s ARPA funding at the federal level.'));
+assert(run('evidence()').includes('In May 2023, Council assigned the General Fund to cover unpaid ARPA commitments. The federal reports give no spending figure for this bridge. The City’s records do not establish how much is currently available after outstanding commitments.'));
 assert(!run('evidence()').includes('A complete appropriation history has not been reconciled'));
 assert(index.some(x=>x.title==='Height depends on the measurement point'),'Height comparison must be searchable');
 assert(index.some(x=>x.title==='Curved-curved mesh (Option B) led among respondents who ranked the mockups'));

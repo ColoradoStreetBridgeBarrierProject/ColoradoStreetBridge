@@ -116,7 +116,7 @@ assert(continuous.includes('alt="'+conceptAlt+'"'));
 assert(!continuous.includes('This is a proposal, not a photograph of an installed barrier.'));
 assert(continuous.includes('The years that followed were not a rush.'));
 assert(rendered.get('paper/where-that-leaves-pasadena/index.html').includes('id="passage-143"><span id="passage-144"></span>'));
-const budgetQualification = 'These records show the approved budget. They don’t show how much remained available after outstanding commitments. They also don’t show how the City accounted for the bridge’s ARPA funding at the federal level.';
+const budgetQualification = 'In May 2023, Council assigned the General Fund to cover unpaid ARPA commitments. The federal reports give no spending figure for this bridge. The City’s records do not establish how much is currently available after outstanding commitments.';
 for (const file of ['app.js','evidence-and-limits/index.html','preserved-records/tables.html']) assert(read(file).includes(budgetQualification), 'Shared approved funding qualification: '+file);
 assert(rendered.get('paper/2018-2019/index.html').includes('provided the City approved additional construction funding'));
 assert(rendered.get('paper/forecasts/index.html').includes('The fiscal year 2026 reports repeatedly moved the expected committee return, then omitted a return date in the year-end report.'));
