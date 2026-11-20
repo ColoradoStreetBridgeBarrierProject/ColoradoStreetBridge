@@ -884,7 +884,7 @@ const newsRecords = [
     "title": "City Committee Wants Further Review of Recommended Suicide Prevention Barriers for Colorado Street Bridge",
     "url": "https://pasadenanow.com/main/city-committee-wants-further-review-of-recommended-suicide-prevention-barriers-for-colorado-street-bridge",
     "kind": "Committee report",
-    "note": "The article’s survey-ranking description and spending typography contain errors. The City report and the paper’s 2021 table provide the figures used in this guide."
+    "note": "The article says options A and B received the most votes. Among the 1,038 people who ranked the designs, the order was B, C, then A. The article also adds an extra “million” after $1,050,000. The City report and the paper’s 2021 table provide the figures used in this guide."
   },
   {
     "id": "pnow-2022-delay",
