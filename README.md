@@ -17,6 +17,8 @@ The reading edition of **The fence everyone can see** is available at `/paper/`,
 
 ## Reading edition
 
+The November 20 update to Source 41 documents the 2021 bridge appropriation, the 2023 General Fund decision, and Pasadena’s citywide Treasury reporting. The guide’s funding summary and budget table link to the source note.
+
 The November 19 editorial revision clarifies the 2019 design forecast and the reported planning phase, attributes the earlier spending categories, and identifies the survey responses Markarian was discussing. The public guide adds Johnson’s regional answer to Wilson’s entry, explains Gordo’s host proposal, and identifies the errors in the August 2021 news account.
 
 The November 12 update adds the longer-term Bloor Viaduct study to the guide and reading edition, with the estimate and study limits in Source 30. The main research cutoff remains September 1, 2026.
